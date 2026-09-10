@@ -23,6 +23,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/agencia", priority: 0.8 },
     { path: "/comunidade", priority: 0.7 },
     { path: "/diagnostico", priority: 0.8 },
+    { path: "/aulao-ugc", priority: 0.7 },
     { path: "/conteudo", priority: 0.7 },
     { path: "/contato", priority: 0.6 },
     { path: "/politica-de-privacidade", priority: 0.2 },

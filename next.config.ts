@@ -33,6 +33,13 @@ const nextConfig: NextConfig = {
      * PNGs da marca antes de publicar.
      */
     unoptimized: true,
+
+    /**
+     * Miniatura dos vídeos do portfólio (`YouTubeLite`), usada só quando o case
+     * não tem capa própria em `public/`. Mesmo com `unoptimized`, o `next/image`
+     * recusa host externo que não esteja declarado aqui.
+     */
+    remotePatterns: [{ protocol: "https", hostname: "i.ytimg.com" }],
   },
 
   /**

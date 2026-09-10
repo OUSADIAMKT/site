@@ -36,6 +36,21 @@ export function waDiagnostico(texto: string) {
   return `https://wa.me/${WHATSAPP_DIAGNOSTICO}?text=${encodeURIComponent(texto)}`;
 }
 
+/**
+ * Número da Juliana Araújo, que conduz o Aulão Mapa do UGC Creator.
+ * A landing `/aulao-ugc` fala direto com ela, não com o atendimento geral —
+ * por isso o número é próprio (confirmado no rodapé da página antiga,
+ * `legado/social-ugc-ppc/ugc/aulao_ugc.html`).
+ */
+export const WHATSAPP_UGC = "5593992282674";
+
+/** Link de WhatsApp do aulão de UGC, com a mensagem já preenchida. */
+export function waAulaoUgc(
+  texto = "Oi! Quero garantir minha vaga no Aulão Mapa do UGC Creator.",
+) {
+  return `https://wa.me/${WHATSAPP_UGC}?text=${encodeURIComponent(texto)}`;
+}
+
 /** Mensagens pré-preenchidas por contexto (PRD 6.6). */
 const WA_MESSAGES = {
   home: "Oi! Vim pelo site e quero entrar pra Ousadia.",
