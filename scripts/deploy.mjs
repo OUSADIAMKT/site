@@ -57,9 +57,12 @@ const branchAtual = gitOut(["rev-parse", "--abbrev-ref", "HEAD"]);
 
 // --- 2. Build --------------------------------------------------------------
 passo("Gerando o site (next build)");
-// `npm.cmd` no Windows em vez de `shell: true`: com shell os argumentos sao
-// concatenados sem escape, o que o Node avisa como risco (DEP0190).
-run(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "build"]);
+// Chama o binario do Next direto, em vez de `npm run build`. No Windows o npm
+// e um `.cmd`, e o Node 24 se recusa a spawnar `.cmd` sem `shell: true` (EINVAL)
+// — e com shell os argumentos vao sem escape, o que o Node avisa (DEP0190).
+// Rodar o proprio arquivo com `node` evita os dois problemas e nao depende de
+// como o npm esta instalado.
+run(process.execPath, [path.join(raiz, "node_modules", "next", "dist", "bin", "next"), "build"]);
 
 if (!existsSync(path.join(saida, "index.html"))) {
   console.error("\n\x1b[31mout/index.html nao foi gerado. Build falhou?\x1b[0m");
