@@ -1,0 +1,347 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* =====================================================================
+   OUSADIA — Sistema de Design "Ousadia Amazônia"
+   Dark contemporâneo · roxo profundo + carvão · acentos amarelo Ousadia,
+   verde-floresta e azul-rio · grafismos orgânicos · alto contraste.
+   Amazônia como linguagem de marca — não estética folclórica.
+===================================================================== */
+
+@theme inline {
+  /* Tipografia */
+  --font-sans: var(--font-manrope);
+  --font-body: var(--font-manrope);
+  --font-display: var(--font-chakra);
+  --font-heading: var(--font-chakra);
+  --font-mono: var(--font-jetbrains);
+
+  /* Tokens de marca (utilitários Tailwind: bg-ink, text-amarelo, ...) */
+  --color-ink: var(--ink);
+  --color-ink-deep: var(--ink-deep);
+  --color-ink-void: var(--ink-void);
+  --color-roxo: var(--roxo);
+  --color-roxo-700: var(--roxo-700);
+  --color-roxo-600: var(--roxo-600);
+  --color-amarelo: var(--amarelo);
+  --color-amarelo-soft: var(--amarelo-soft);
+  --color-floresta: var(--floresta);
+  --color-floresta-deep: var(--floresta-deep);
+  --color-rio: var(--rio);
+  --color-rio-soft: var(--rio-soft);
+  --color-paper: var(--paper);
+  --color-cinza-ink: var(--cinza-ink);
+
+  /* Mapeamento semântico shadcn */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+}
+
+:root {
+  /* ---- Paleta bruta Ousadia Amazônia ---- */
+  --ink-void: #0b0713; /* carvão arroxeado mais profundo */
+  --ink-deep: #100a1c; /* fundo base */
+  --ink: #16102a; /* superfície elevada */
+  --roxo: #241044; /* roxo profundo (seções) */
+  --roxo-600: #32155c;
+  --roxo-700: #1d0c39;
+
+  --amarelo: #ffc61a; /* amarelo Ousadia — acento primário / CTA */
+  --amarelo-soft: #ffdd66;
+  --floresta: #23b26f; /* verde-floresta */
+  --floresta-deep: #128a52;
+  --rio: #18a5c9; /* azul-rio */
+  --rio-soft: #58d3ec;
+
+  --paper: #f4f1ea; /* claro / texto forte */
+  --cinza-ink: #a89fbc; /* texto secundário (roxo-acinzentado) */
+
+  /* ---- Semântico (tema escuro é o padrão do site) ---- */
+  --background: var(--ink-deep);
+  --foreground: #f2eef8;
+  --card: #1a1230;
+  --card-foreground: #f2eef8;
+  --popover: #1a1230;
+  --popover-foreground: #f2eef8;
+  --primary: var(--amarelo);
+  --primary-foreground: #1a0b2e;
+  --secondary: var(--floresta);
+  --secondary-foreground: #04140c;
+  --muted: #241b3a;
+  --muted-foreground: var(--cinza-ink);
+  --accent: var(--rio);
+  --accent-foreground: #041418;
+  --destructive: #ff3b5c;
+  --border: color-mix(in oklab, #ffffff 12%, transparent);
+  --input: color-mix(in oklab, #ffffff 16%, transparent);
+  --ring: var(--amarelo);
+  --radius: 0.75rem;
+}
+
+/* Mantém .dark alinhado (para componentes shadcn que exigem o escopo) */
+.dark {
+  --background: var(--ink-deep);
+  --foreground: #f2eef8;
+  --card: #1a1230;
+  --card-foreground: #f2eef8;
+  --popover: #1a1230;
+  --popover-foreground: #f2eef8;
+  --primary: var(--amarelo);
+  --primary-foreground: #1a0b2e;
+  --secondary: var(--floresta);
+  --secondary-foreground: #04140c;
+  --muted: #241b3a;
+  --muted-foreground: var(--cinza-ink);
+  --accent: var(--rio);
+  --accent-foreground: #041418;
+  --border: color-mix(in oklab, #ffffff 12%, transparent);
+  --input: color-mix(in oklab, #ffffff 16%, transparent);
+  --ring: var(--amarelo);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html {
+    @apply font-sans;
+    scroll-behavior: smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+    background-image:
+      radial-gradient(60rem 40rem at 80% -10%, color-mix(in oklab, var(--roxo-600) 55%, transparent), transparent 60%),
+      radial-gradient(50rem 40rem at -10% 20%, color-mix(in oklab, var(--rio) 12%, transparent), transparent 55%);
+    background-attachment: fixed;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+  ::selection {
+    background: var(--amarelo);
+    color: #1a0b2e;
+  }
+}
+
+@layer components {
+  /* Layout */
+  .container-site {
+    width: 100%;
+    max-width: 80rem; /* 1280px */
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+  @media (min-width: 768px) {
+    .container-site { padding-inline: 2rem; }
+  }
+  .section-padding {
+    padding-block: clamp(3.5rem, 8vw, 7rem);
+  }
+
+  /* Tipografia utilitária */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--amarelo);
+  }
+  /* O mínimo é baixo de propósito: o PRD exige que a headline do hero caiba
+     em uma tela vertical de celular sem scroll. */
+  .headline-hero {
+    font-family: var(--font-display);
+    font-size: clamp(1.95rem, 6.4vw, 5.5rem);
+    line-height: 1;
+  }
+  .headline-section {
+    font-family: var(--font-display);
+    font-size: clamp(1.9rem, 4.5vw, 3.25rem);
+  }
+  .text-body {
+    color: var(--cinza-ink);
+    font-size: 1.0625rem;
+    line-height: 1.7;
+  }
+
+  /* Botões */
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-weight: 600;
+    font-size: 0.8125rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 0.9rem 1.5rem;
+    border-radius: var(--radius);
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease;
+  }
+  .btn:hover { transform: translateY(-2px); }
+  .btn-primary {
+    background: var(--amarelo);
+    color: #1a0b2e;
+    box-shadow: 0 0 0 rgba(255,198,26,0);
+  }
+  .btn-primary:hover { box-shadow: 0 12px 30px -8px color-mix(in oklab, var(--amarelo) 70%, transparent); }
+  .btn-secondary {
+    background: transparent;
+    color: var(--foreground);
+    border: 1px solid var(--border);
+  }
+  .btn-secondary:hover { border-color: var(--floresta); color: var(--floresta); }
+  .btn-ghost { background: transparent; color: var(--cinza-ink); }
+
+  /* Efeitos / grafismos */
+  .glow-amarelo { box-shadow: 0 0 60px -20px color-mix(in oklab, var(--amarelo) 60%, transparent); }
+  .glow-rio { box-shadow: 0 0 60px -20px color-mix(in oklab, var(--rio) 60%, transparent); }
+  .text-amarelo { color: var(--amarelo); }
+  .text-floresta { color: var(--floresta); }
+  .text-rio { color: var(--rio); }
+  .card-surface {
+    background: color-mix(in oklab, var(--card) 85%, transparent);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    backdrop-filter: blur(8px);
+  }
+  .grid-lines {
+    background-image:
+      linear-gradient(color-mix(in oklab, #ffffff 4%, transparent) 1px, transparent 1px),
+      linear-gradient(90deg, color-mix(in oklab, #ffffff 4%, transparent) 1px, transparent 1px);
+    background-size: 3rem 3rem;
+  }
+
+  /* ---- Dobras claras (contraste tipo landing page) ---- */
+  .fold-light {
+    background: var(--paper);
+    color: #241044;
+    position: relative;
+  }
+  .fold-light .eyebrow { color: var(--floresta-deep); }
+  .fold-light h1, .fold-light h2, .fold-light h3, .fold-light h4 { color: #1a0b2e; }
+  .fold-light .text-body { color: #5b5168; }
+  .fold-light .text-amarelo { color: var(--floresta-deep); } /* amarelo não contrasta no claro */
+  .fold-light .text-rio { color: #0f7c99; }
+  .fold-light .card-surface {
+    background: #ffffff;
+    border-color: rgba(26, 11, 46, 0.08);
+    box-shadow: 0 14px 40px -22px rgba(26, 11, 46, 0.35);
+    backdrop-filter: none;
+  }
+  .fold-light .btn-secondary { color: #241044; border-color: rgba(26, 11, 46, 0.22); }
+  .fold-light .btn-secondary:hover { border-color: var(--floresta); color: var(--floresta-deep); }
+  .fold-light .btn-ghost { color: #6b6178; }
+
+  /* ---- Slots de pendência (mídia/texto que o cliente ainda vai fornecer) ----
+     Aparecem em dobras escuras e claras: o MediaSlot tem fundo escuro próprio,
+     então mantém a paleta escura mesmo dentro de `.fold-light`; o ContentSlot
+     acompanha o fundo da dobra. */
+  .media-slot {
+    border-color: var(--border);
+  }
+  .media-slot .slot-key { color: var(--amarelo); }
+  .media-slot .slot-text { color: var(--cinza-ink); }
+
+  .content-slot {
+    border-color: var(--border);
+    color: var(--cinza-ink);
+  }
+  .content-slot .slot-key { color: var(--amarelo); }
+
+  .fold-light .media-slot { border-color: rgba(255, 255, 255, 0.18); }
+  .fold-light .content-slot {
+    border-color: rgba(26, 11, 46, 0.22);
+    color: #5b5168;
+  }
+  .fold-light .content-slot .slot-key { color: var(--floresta-deep); }
+
+  /* ---- Vídeo de fundo translúcido (hero) ----
+     Duas camadas: o vídeo com opacidade reduzida + um scrim na cor do fundo,
+     mais denso à esquerda (onde mora o texto) e embaixo (emenda com a próxima
+     dobra). Ver components/ui/HeroVideo.tsx. */
+  .hero-video {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .hero-video__media,
+  .hero-video__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    background-position: center;
+    background-size: cover;
+    opacity: var(--hero-video-opacity, 0.28);
+    filter: saturate(0.9) contrast(1.05);
+  }
+  .hero-video__scrim {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(
+        to right,
+        var(--ink-deep) 0%,
+        color-mix(in oklab, var(--ink-deep) 72%, transparent) 45%,
+        color-mix(in oklab, var(--ink-deep) 25%, transparent) 100%
+      ),
+      linear-gradient(to top, var(--ink-deep) 0%, transparent 55%);
+  }
+  /* Sem poster o vídeo já basta; com poster, ele assume quando o usuário
+     pede menos movimento. */
+  .hero-video__poster { display: none; }
+  @media (prefers-reduced-motion: reduce) {
+    .hero-video__media { display: none; }
+    .hero-video__poster { display: block; }
+  }
+
+  /* Motivos decorativos (natureza / grafismo) posicionados */
+  .motif {
+    position: absolute;
+    pointer-events: none;
+    opacity: 0.9;
+  }
+  .motif-soft { opacity: 0.10; }
+}

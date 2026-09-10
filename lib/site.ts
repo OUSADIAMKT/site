@@ -1,0 +1,180 @@
+/**
+ * Fonte única de dados do site — extraída do PRD (`legado/copy-e-arquitetura/PRD-site-ousadia.md`)
+ * e do config do site estático (`legado/site-estatico-jackson/assets/js/config.js`).
+ *
+ * Regra de ouro do PRD: toda CTA termina em WhatsApp ou em formulário de aplicação.
+ * Onde falta dado real do cliente, usar TODO_ / MediaSlot — nunca inventar prova social.
+ */
+
+export const SITE = {
+  name: "Ousadia Marketing",
+  tagline: "Por um marketing maior.",
+  claim: "Propósito que move. Estratégia que transforma.",
+  descriptor: "Plataforma de Creators da Amazônia",
+  url: "https://ousadiamarketing.com.br",
+  email: "", // TODO: e-mail comercial
+  cidadeBase: "", // TODO: cidade-base (região Norte)
+  cnpj: "", // TODO: CNPJ
+} as const;
+
+/**
+ * Número de atendimento da Ousadia. Alimenta todos os links de WhatsApp do
+ * site (botão flutuante, CTAs, fallback dos formulários), então trocar aqui
+ * troca em todas as páginas de uma vez.
+ */
+export const WHATSAPP_NUMBER = "5593991356894";
+
+/**
+ * Número que recebe os leads do Diagnóstico de Maturidade Digital.
+ * Hoje é o mesmo do atendimento geral; fica separado porque o diagnóstico
+ * pode voltar a ter um canal próprio sem mexer no resto do site.
+ */
+export const WHATSAPP_DIAGNOSTICO = "5593991356894";
+
+/** Link de WhatsApp do diagnóstico, com a leitura do lead já no texto. */
+export function waDiagnostico(texto: string) {
+  return `https://wa.me/${WHATSAPP_DIAGNOSTICO}?text=${encodeURIComponent(texto)}`;
+}
+
+/** Mensagens pré-preenchidas por contexto (PRD 6.6). */
+const WA_MESSAGES = {
+  home: "Oi! Vim pelo site e quero entrar pra Ousadia.",
+  escola: "Oi! Quero saber sobre os cursos da Escola Ousadia.",
+  mentoria: "Oi! Quero aplicar pra próxima turma da mentoria.",
+  agencia: "Oi! Represento uma marca e quero uma proposta.",
+  comunidade: "Oi! Quero entrar pra comunidade Creators da Amazônia.",
+  contato: "Oi! Vim pelo site e quero falar com o time da Ousadia.",
+  sobre: "Oi! Vi a história da Ousadia no site e quero conversar.",
+} as const;
+
+export type WaContext = keyof typeof WA_MESSAGES;
+
+/** Monta o link wa.me. Passe `curso` para a mensagem contextual de curso. */
+export function wa(context: WaContext = "home", curso?: string) {
+  const text = curso
+    ? `Oi! Quero saber sobre o curso ${curso}.`
+    : WA_MESSAGES[context];
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`;
+}
+
+/**
+ * Endpoints de formulário. Enquanto ficarem vazios, os formulários do site
+ * caem no WhatsApp com os dados preenchidos — nenhum lead se perde em silêncio.
+ */
+export const FORM_ENDPOINT = ""; // TODO: endpoint de aplicação/contato
+
+/**
+ * Web App do Google Apps Script que grava cada diagnóstico na planilha
+ * `1XFqT2WISjwiU2lyoNAqIj7vpZgw_Grz9Tr0OcEnRzBg` e avisa por e-mail.
+ * Código do backend: `legado/site-estatico-crm/docs/system-design/integracao-google-sheets.gs`.
+ * As colunas são fixas — ver `payloadPlanilha()` em `lib/diagnostico.ts`.
+ */
+export const SHEET_ENDPOINT_DIAGNOSTICO =
+  "https://script.google.com/macros/s/AKfycbyLOpwYZOl3OtqYFn6GM0IW0awtE4pXIsULNtTRMyVouGUqS37nBLVqj_vomFU6Wgc3eQ/exec";
+export const NEWSLETTER_ENDPOINT = ""; // TODO: endpoint da newsletter
+
+export const SOCIAL = {
+  instagram: "https://instagram.com/ousadiamkt",
+  tiktok: "", // TODO
+  youtube: "", // TODO
+  spotify: "", // TODO
+};
+
+/** Barra de campanha (PRD 6.2). Fora de janela de lançamento, manter `false`. */
+export const CAMPAIGN = {
+  active: false,
+  text: "Próxima turma começa em {{DATA}}. Vagas limitadas.",
+  ctaLabel: "Quero minha vaga",
+};
+
+/* ------------------------------------------------------------------ *
+ * Prova social — PRD 8.2. Só números confirmados pelo cliente.
+ * ------------------------------------------------------------------ */
+export const STATS = [
+  { n: "22+", l: "turmas presenciais formadas" },
+  { n: "2x", l: "edições do Amazon Marketing Day" },
+  { n: "+500", l: "alunos formados" },
+  { n: "#1", l: "agência escola de marketing do Norte" },
+];
+
+/* ------------------------------------------------------------------ *
+ * Cursos da Escola (PRD 9.2)
+ * ------------------------------------------------------------------ */
+export type Curso = {
+  slug: string;
+  nome: string;
+  emoji: string;
+  promessa: string;
+  resumo: string;
+  /** Conteúdo detalhado existe só para os cursos já validados com o time. */
+  detalhado: boolean;
+};
+
+export const CURSOS: Curso[] = [
+  {
+    slug: "abc-do-marketing",
+    nome: "ABC do Marketing",
+    emoji: "🔤",
+    promessa:
+      "Fundamentos pra quem começa do zero: posicionamento, público, oferta e conteúdo. A planta antes do tijolo.",
+    resumo:
+      "Fundamentos pra quem começa do zero. Posicionamento, público, oferta e conteúdo: a planta da casa antes do tijolo. Sem marketês, sem enrolação.",
+    detalhado: false,
+  },
+  {
+    slug: "destrave",
+    nome: "Destrave",
+    emoji: "🎥",
+    promessa:
+      "O treinamento anti-vergonha de gravar. Técnica, não motivação.",
+    resumo:
+      "O treinamento anti-vergonha de gravar. Técnica, não motivação: a câmera trava no técnico e destrava no humano. Você sai gravando, de verdade.",
+    detalhado: true,
+  },
+  {
+    slug: "social-media-na-pratica",
+    nome: "Social Media na Prática",
+    emoji: "📱",
+    promessa:
+      "Do “posto quando dá” pro “entrego resultado e cobro por isso”.",
+    resumo:
+      "Pra profissionalizar a gestão de redes: estratégia, calendário, copy e relatório. Do “posto quando dá” pro “entrego resultado e cobro por isso”.",
+    detalhado: false,
+  },
+  {
+    slug: "video-maker-e-edicao",
+    nome: "Vídeo Maker e Edição",
+    emoji: "🎬",
+    promessa: "Vídeo que parece você, não template.",
+    resumo:
+      "Gravar e editar com a própria cara: enquadramento, luz, som e edição no celular ou no computador. Vídeo que parece você, não template.",
+    detalhado: false,
+  },
+];
+
+export function getCurso(slug: string) {
+  return CURSOS.find((c) => c.slug === slug);
+}
+
+/* ------------------------------------------------------------------ *
+ * Conteúdo (PRD 9.6) — posts do MVP
+ * ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------ *
+ * Posts do blog
+ * ------------------------------------------------------------------ *
+ * Migraram para arquivos MDX em `content/posts/`, validados pelo Velite.
+ * A API pública é `lib/posts.ts` (POSTS, getPost, relacionados, formatarData).
+ * ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------ *
+ * Navegação (PRD 6.3 / 6.4)
+ * ------------------------------------------------------------------ */
+export const NAV_LINKS = [
+  { label: "Sobre", href: "/sobre" },
+  { label: "Escola", href: "/escola" },
+  { label: "Mentoria", href: "/mentoria" },
+  { label: "Agência", href: "/agencia" },
+  { label: "Comunidade", href: "/comunidade" },
+  { label: "Conteúdo", href: "/conteudo" },
+  { label: "Contato", href: "/contato" },
+] as const;

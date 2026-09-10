@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <!-- Variação ÍCONE / APP do guia da marca: quadrado roxo, "C" amarelo,
+       triângulo branco. Cores fixas: favicon não enxerga as CSS vars do site. -->
+  <rect width="100" height="100" rx="22" fill="#241044"/>
+  <g transform="translate(11,10)">
+    <circle cx="36" cy="40" r="24" fill="none" stroke="#ffc61a" stroke-width="12"
+            stroke-dasharray="122.312 28.484" transform="rotate(-8 36 40)"/>
+    <path d="M58 17.9 71.7 43.6H44.4Z" fill="#f4f1ea"/>
+  </g>
+</svg>

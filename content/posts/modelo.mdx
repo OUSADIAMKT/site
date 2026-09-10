@@ -1,0 +1,70 @@
+---
+titulo: "Modelo de post: como escrever no blog da Ousadia"
+tipo: Artigo
+resumo: "Rascunho permanente. Copie este arquivo pra criar um post novo: ele mostra todo elemento disponível e como cada um fica no tema."
+data: 2026-09-06
+tags: ["interno"]
+rascunho: true
+---
+
+Este arquivo é um **rascunho** (`rascunho: true`): aparece em `npm run dev` para
+você conferir o visual, e some do build de produção. Copie ele para criar um post
+novo, troque o frontmatter e apague o que não usar.
+
+## Frontmatter
+
+Só `titulo`, `tipo` e `resumo` são obrigatórios. `tipo` aceita `Artigo`,
+`Podcast` ou `Case`. Sem `data`, o post aparece como "data pendente" e vai para o
+fim da lista. Preencha assim que a data de publicação estiver definida.
+
+| Campo        | Obrigatório | Observação                                  |
+| ------------ | ----------- | ------------------------------------------- |
+| `titulo`     | sim         | até 160 caracteres                          |
+| `tipo`       | sim         | `Artigo` \| `Podcast` \| `Case`             |
+| `resumo`     | sim         | vai na lista, no `<meta description>` e no OG |
+| `data`       | não         | `AAAA-MM-DD`                                |
+| `capa`       | não         | caminho relativo ao `.mdx`; sem stock photo |
+| `destaque`   | não         | fixa o post no topo da lista                |
+| `rascunho`   | não         | esconde em produção                         |
+
+## Texto
+
+Parágrafo normal, com **negrito**, _itálico_, `código inline` e
+[link interno](/escola). Links externos abrem em nova aba sozinhos.
+
+- Item de lista
+- Outro item
+  - Item aninhado
+
+1. Lista numerada
+2. Segundo passo
+
+> Citação: bom para falas de aluno ou trechos de entrevista.
+
+### Subtítulo nível 3
+
+Uma linha divisória:
+
+---
+
+```ts
+// Blocos de código saem com a fonte mono do tema.
+const ousadia = { proposito: "move", estrategia: "transforma" };
+```
+
+## Componentes
+
+Além do markdown, dá pra usar estes blocos:
+
+<Destaque titulo="Ideia-chave">
+  Use para o ponto que o leitor precisa levar embora, mesmo que leia só isso.
+</Destaque>
+
+<Pendente>
+  Marca um trecho que depende de material real do cliente: foto, número, case.
+  Aparece rotulado no site em vez de virar texto inventado.
+</Pendente>
+
+<CtaBloco contexto="escola" label="Conhecer a Escola Ousadia">
+  Fecha o post levando para o WhatsApp, como manda a regra de ouro do PRD.
+</CtaBloco>
