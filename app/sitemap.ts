@@ -5,9 +5,16 @@ import { POSTS } from "@/lib/posts";
 /** Exigido pelo `output: "export"`: sem isto o build falha ao coletar a rota. */
 export const dynamic = "force-static";
 
+/**
+ * Só os posts levam `lastModified`, porque só eles têm uma data real.
+ *
+ * Antes as páginas fixas e os cursos usavam a data do build, o que dizia ao
+ * Google que o site inteiro mudou a cada publicação — o sinal perde valor
+ * justamente quando um post novo precisaria dele. Post sem data continua sem
+ * `lastModified`, pela mesma razão que já vale no resto do projeto: inventar
+ * data é pior do que omitir (ver `velite.config.ts` e PENDENCIAS #16).
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date();
-
   const estaticas = [
     { path: "", priority: 1 },
     { path: "/sobre", priority: 0.8 },
@@ -25,17 +32,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   return [
     ...estaticas.map((p) => ({
       url: `${SITE.url}${p.path}`,
-      lastModified: now,
       priority: p.priority,
     })),
     ...CURSOS.map((c) => ({
       url: `${SITE.url}/escola/${c.slug}`,
-      lastModified: now,
       priority: 0.8,
     })),
     ...POSTS.map((p) => ({
       url: `${SITE.url}/conteudo/${p.slug}`,
-      lastModified: p.atualizado ?? p.data ?? now,
+      lastModified: p.atualizado ?? p.data,
       priority: 0.6,
     })),
   ];
