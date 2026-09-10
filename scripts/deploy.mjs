@@ -4,8 +4,12 @@
  *
  * A `main` guarda o codigo-fonte; a `deploy` guarda apenas o resultado do
  * `next build` (o conteudo de `out/`) na raiz. As duas nao compartilham
- * historico — `deploy` e uma branch orfa, recriada a cada publicacao — para
- * o repositorio nao inchar com uma copia inteira do site a cada deploy.
+ * historico: a `deploy` nasce orfa, criada uma unica vez.
+ *
+ * A cada publicacao um commit novo e somado a `deploy` (ela nao e recriada),
+ * o que da um historico de deploys e permite voltar a versao anterior. Isso
+ * nao incha o repositorio: o git so guarda os arquivos que mudaram de um
+ * deploy para o outro — os iguais sao reaproveitados.
  *
  * Uso:  npm run deploy
  *
