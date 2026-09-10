@@ -57,7 +57,9 @@ const branchAtual = gitOut(["rev-parse", "--abbrev-ref", "HEAD"]);
 
 // --- 2. Build --------------------------------------------------------------
 passo("Gerando o site (next build)");
-run("npm", ["run", "build"], { shell: process.platform === "win32" });
+// `npm.cmd` no Windows em vez de `shell: true`: com shell os argumentos sao
+// concatenados sem escape, o que o Node avisa como risco (DEP0190).
+run(process.platform === "win32" ? "npm.cmd" : "npm", ["run", "build"]);
 
 if (!existsSync(path.join(saida, "index.html"))) {
   console.error("\n\x1b[31mout/index.html nao foi gerado. Build falhou?\x1b[0m");
