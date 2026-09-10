@@ -5,4 +5,4 @@
 :HL["/_next/static/media/70bc3e132a0a741e-s.p.3t6q91iet4nsy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/dc0c65e819e3bb6c-s.p.1d4mg4yt567i3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"escola","param":null,"prefetchHints":4160,"slots":{"children":{"name":"curso","param":{"type":"d","key":"abc-do-marketing","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"KD0BEjNqidluvR7Vw2mCV"}
+0:{"tree":{"name":"","param":null,"prefetchHints":4112,"slots":{"children":{"name":"escola","param":null,"prefetchHints":4160,"slots":{"children":{"name":"curso","param":{"type":"d","key":"abc-do-marketing","siblings":[]},"prefetchHints":4192,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}}}}}},"staleTime":300,"buildId":"3CqtbCTs_e0qofFdom5zJ"}
