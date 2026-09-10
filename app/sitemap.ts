@@ -2,6 +2,9 @@ import type { MetadataRoute } from "next";
 import { CURSOS, SITE } from "@/lib/site";
 import { POSTS } from "@/lib/posts";
 
+/** Exigido pelo `output: "export"`: sem isto o build falha ao coletar a rota. */
+export const dynamic = "force-static";
+
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();
 

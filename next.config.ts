@@ -11,7 +11,29 @@ import type { NextConfig } from "next";
  * `require()`, que quebra com TLA (`ERR_REQUIRE_ASYNC_MODULE`).
  */
 const nextConfig: NextConfig = {
-  /* config options here */
+  /**
+   * Exportação estática: `next build` gera HTML/CSS/JS puro em `out/`, sem
+   * precisar de servidor Node. É o que a Hostinger consegue servir.
+   */
+  output: "export",
+
+  /**
+   * Faz cada rota virar uma pasta com `index.html` (`/agencia/index.html`) em
+   * vez de um arquivo solto (`/agencia.html`). Sem isso, o servidor da
+   * Hostinger recebe `/agencia`, não acha um diretório com índice e devolve
+   * 404 — só a home funcionaria.
+   */
+  trailingSlash: true,
+
+  images: {
+    /**
+     * O otimizador de imagens do `next/image` roda em servidor, que não existe
+     * na exportação estática. Sem isto o build falha. As imagens passam a ser
+     * servidas como estão em `public/` — por isso vale conferir o peso dos
+     * PNGs da marca antes de publicar.
+     */
+    unoptimized: true,
+  },
 };
 
 export default async function config(phase: string): Promise<NextConfig> {
