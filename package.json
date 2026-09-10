@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "content": "velite build",
-    "content:watch": "velite build --watch"
+    "content:watch": "velite build --watch",
+    "deploy": "node scripts/deploy.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.8.0",

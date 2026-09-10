@@ -46,3 +46,6 @@ next-env.d.ts
 
 # legado (materiais das versoes antigas do site - nao versionar)
 /legado/
+
+# worktree temporario usado pelo scripts/deploy.mjs
+/.deploy-out/
