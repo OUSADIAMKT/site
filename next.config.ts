@@ -34,6 +34,27 @@ const nextConfig: NextConfig = {
      */
     unoptimized: true,
   },
+
+  /**
+   * Por padrão o Next sorteia um `buildId` novo a cada build e o embute em
+   * todo HTML gerado. Como o site publicado é versionado na branch `deploy`,
+   * isso fazia os ~130 arquivos aparecerem como alterados a cada publicação,
+   * mesmo sem nenhuma mudança real — escondendo o diff de verdade.
+   *
+   * Amarrando o id ao commit do código, dois builds do mesmo commit produzem
+   * exatamente os mesmos arquivos. Fora de um repositório git (ou se o git não
+   * estiver disponível), cai para um valor fixo.
+   */
+  generateBuildId: async () => {
+    try {
+      const { execFileSync } = await import("node:child_process");
+      return execFileSync("git", ["rev-parse", "HEAD"], {
+        encoding: "utf8",
+      }).trim();
+    } catch {
+      return "ousadia-static";
+    }
+  },
 };
 
 export default async function config(phase: string): Promise<NextConfig> {
