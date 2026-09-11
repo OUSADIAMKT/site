@@ -26,7 +26,7 @@ const CAPITULOS = [
   {
     t: "O salto",
     p: [
-      "Largar 18 anos de estabilidade não foi um ato de coragem cinematográfica. Foi um ato de medo administrado. Sem investidor, sem equipe, sem mentor famoso, sem palco em São Paulo. Só um notebook, madrugadas e a Ousadia Marketing nascendo enquanto os números da tela ainda não mostravam resultado nenhum.",
+      "Começar do zero não foi um ato de coragem cinematográfica. Foi um ato de medo administrado. Sem investidor, sem equipe, sem mentor famoso, sem palco em São Paulo. Só um notebook, madrugadas e a Ousadia Marketing nascendo enquanto os números da tela ainda não mostravam resultado nenhum.",
       "Foi nessa fase que ele aprendeu, na pele, a tese que hoje sustenta tudo que a Ousadia ensina: ousadia não é ausência de medo. É ação apesar dele. E o perfeccionismo, aquele que manda regravar quinze vezes e adiar o lançamento “só mais uma semana”, não é padrão de qualidade. É medo de gente arrumada.",
     ],
   },
@@ -47,11 +47,6 @@ const CAPITULOS = [
 ];
 
 const MARCOS = [
-  {
-    ano: "{{ANO}}",
-    t: "A ruptura",
-    d: "Jackson deixa 18 anos de serviço público e funda a Ousadia Marketing.",
-  },
   {
     ano: "{{ANO}}",
     t: "Primeiras turmas",

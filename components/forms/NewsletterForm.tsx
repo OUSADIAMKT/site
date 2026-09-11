@@ -3,36 +3,28 @@
 import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { NEWSLETTER_ENDPOINT } from "@/lib/site";
+import { inscreverNewsletter } from "@/lib/newsletter";
 
 /** Captura de e-mail do rodapé (PRD 6.5). */
 export function NewsletterForm({ className = "" }: { className?: string }) {
   const [estado, setEstado] = useState<"idle" | "ok" | "erro">("idle");
   const [email, setEmail] = useState("");
 
-  async function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
+  function onSubmit(ev: React.FormEvent<HTMLFormElement>) {
     ev.preventDefault();
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       setEstado("erro");
       return;
     }
 
-    if (!NEWSLETTER_ENDPOINT) {
-      // Sem provedor configurado ainda: não fingimos sucesso.
+    // Sem provedor configurado ainda: não fingimos sucesso.
+    if (!inscreverNewsletter(email)) {
       setEstado("erro");
       return;
     }
 
-    try {
-      await fetch(NEWSLETTER_ENDPOINT, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      });
-      setEstado("ok");
-      setEmail("");
-    } catch {
-      setEstado("erro");
-    }
+    setEstado("ok");
+    setEmail("");
   }
 
   if (estado === "ok") {

@@ -54,7 +54,7 @@ export default function EscolaPage() {
             </h2>
           </Reveal>
           <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {CURSOS.map((c, i) => (
+            {CURSOS.filter((c) => c.visivel).map((c, i) => (
               <Reveal key={c.slug} delay={i * 0.06}>
                 <Link
                   href={`/escola/${c.slug}`}

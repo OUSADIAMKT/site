@@ -26,7 +26,7 @@ conforme a regra do PRD 7.3.
 | 6 | Links de **TikTok, YouTube e Spotify** | `lib/site.ts` → `SOCIAL` |
 | 7 | **E-mail comercial** e **cidade-base** | `lib/site.ts` → `SITE.email`, `SITE.cidadeBase` |
 | 8 | **Endpoint de formulário** (aplicação, contato, proposta) | `lib/site.ts` → `FORM_ENDPOINT` |
-| 9 | **Endpoint da newsletter** | `lib/site.ts` → `NEWSLETTER_ENDPOINT` |
+| 9 | **Endpoint da newsletter** — script do Apps Script pronto em `docs/apps-script/newsletter-google-sheets.gs`, falta só implantar e colar a URL | `lib/site.ts` → `NEWSLETTER_ENDPOINT` |
 | 10 | **GA4 + Meta Pixel** e banner de consentimento LGPD (PRD 10) — ainda não implementados | — |
 
 > Enquanto 8 e 9 estiverem vazios: os formulários de aplicação, contato e

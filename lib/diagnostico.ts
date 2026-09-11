@@ -592,28 +592,28 @@ export const ROUTING: Record<ProfileKey, Route> = {
     intro:
       "Você chegou como quem quer virar profissional do digital. Seu caminho não começa em tráfego ou equipamento: começa em posicionamento, perder a vergonha de aparecer e método de execução — nessa ordem.",
     products: {
-      semente: ["ABC do Marketing", "Destrave"],
-      igarape: ["Destrave", "Social Media na Prática"],
-      travessia: ["Social Media na Prática", "Audiovisual"],
-      floresta: ["Audiovisual", "Mentoria Ousadia"],
+      semente: ["Posicionamento", "Destrave"],
+      igarape: ["Destrave", "Social Media Ousado"],
+      travessia: ["Social Media Ousado", "UGC Creator", "Audiovisual"],
+      floresta: ["UGC Creator", "Mentoria Ousadia"],
     },
-    lead: "ABC do Marketing",
+    lead: "Posicionamento",
     ladder:
-      "Trilha da Escola: ABC do Marketing → Destrave → Social Media na Prática → Audiovisual",
+      "Trilha da Escola: Posicionamento → Destrave → Social Media Ousado → UGC Creator",
   },
   creator_pro: {
     label: "Profissionalização de quem já cria conteúdo",
     intro:
       "Você já produz, agora precisa de método, portfólio e diferenciação para cobrar melhor e atender com consistência. A Ousadia te leva de executor a creator com voz e sistema.",
     products: {
-      semente: ["ABC do Marketing", "Destrave"],
-      igarape: ["Social Media na Prática", "Audiovisual"],
-      travessia: ["Social Media na Prática", "Audiovisual", "Destrave"],
-      floresta: ["Audiovisual", "Mentoria Ousadia"],
+      semente: ["Posicionamento", "Destrave"],
+      igarape: ["Social Media Ousado", "Audiovisual"],
+      travessia: ["UGC Creator", "IA para iniciantes", "Audiovisual"],
+      floresta: ["UGC Creator", "Mentoria Ousadia"],
     },
-    lead: "Social Media na Prática",
+    lead: "Social Media Ousado",
     ladder:
-      "Trilha da Escola: Social Media na Prática → Audiovisual → Mentoria Ousadia",
+      "Trilha da Escola: Social Media Ousado → Audiovisual → UGC Creator → Mentoria Ousadia",
   },
   empreendedor: {
     label: "Posicionamento e gestão para vender além do boca a boca",
@@ -709,13 +709,13 @@ export const ROUTING: Record<ProfileKey, Route> = {
     intro:
       "Você ainda está descobrindo seu caminho, e tudo bem. O erro seria gastar dinheiro antes de ter clareza. Comece pelos fundamentos e deixe o próprio movimento revelar sua direção.",
     products: {
-      semente: ["ABC do Marketing", "Destrave"],
-      igarape: ["Social Media na Prática", "Audiovisual"],
-      travessia: ["Social Media na Prática", "Mentoria Ousadia"],
+      semente: ["Posicionamento", "Destrave"],
+      igarape: ["Social Media Ousado", "Audiovisual"],
+      travessia: ["Social Media Ousado", "Mentoria Ousadia"],
       floresta: ["Mentoria Ousadia"],
     },
-    lead: "ABC do Marketing",
-    ladder: "Comece na base: ABC do Marketing → Destrave → Social Media na Prática",
+    lead: "Posicionamento",
+    ladder: "Comece na base: Posicionamento → Destrave → Social Media Ousado",
   },
 };
 

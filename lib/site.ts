@@ -87,7 +87,17 @@ export const FORM_ENDPOINT = ""; // TODO: endpoint de aplicação/contato
  */
 export const SHEET_ENDPOINT_DIAGNOSTICO =
   "https://script.google.com/macros/s/AKfycbyLOpwYZOl3OtqYFn6GM0IW0awtE4pXIsULNtTRMyVouGUqS37nBLVqj_vomFU6Wgc3eQ/exec";
-export const NEWSLETTER_ENDPOINT = ""; // TODO: endpoint da newsletter
+
+/**
+ * Web App do Google Apps Script que grava cada inscrição da newsletter na
+ * planilha `198NdIbJ413MZlK3RgkX-NRtjpJpK9yjuiv1A5Xq7MzM` (própria, separada
+ * da do Diagnóstico). Script pronto em
+ * `docs/apps-script/newsletter-google-sheets.gs` — falta implantar (Extensões
+ * > Apps Script > Implantar > App da Web > "Qualquer pessoa") e colar aqui a
+ * URL terminada em `/exec`. Testar com GET antes: deve responder
+ * "Newsletter Ousadia online" — se pedir login, a implantação não é pública.
+ */
+export const NEWSLETTER_ENDPOINT = ""; // TODO: colar a URL /exec depois de implantar
 
 export const SOCIAL = {
   instagram: "https://instagram.com/ousadiamkt",
@@ -124,18 +134,66 @@ export type Curso = {
   resumo: string;
   /** Conteúdo detalhado existe só para os cursos já validados com o time. */
   detalhado: boolean;
+  /** false = página continua no ar (SEO, diagnóstico, WhatsApp), mas some do grid de /escola. */
+  visivel: boolean;
 };
 
 export const CURSOS: Curso[] = [
   {
-    slug: "abc-do-marketing",
-    nome: "ABC do Marketing",
+    slug: "posicionamento",
+    nome: "Posicionamento",
     emoji: "🔤",
     promessa:
-      "Fundamentos pra quem começa do zero: posicionamento, público, oferta e conteúdo. A planta antes do tijolo.",
+      "Antes de aparecer mais, descubra o que só você pode dizer: seu Sinal e o público que você quer transformar.",
     resumo:
-      "Fundamentos pra quem começa do zero. Posicionamento, público, oferta e conteúdo: a planta da casa antes do tijolo. Sem marketês, sem enrolação.",
+      "Fundamentos de posicionamento pra quem ainda soa igual ao concorrente. Seu Sinal, seu público (Travessia) e a mensagem que sustenta tudo o que você publica depois.",
     detalhado: false,
+    /** Fora do grid da Escola — as 4 portas atuais são Social Media, Audiovisual, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
+    visivel: false,
+  },
+  {
+    slug: "social-media-ousado",
+    nome: "Social Media Ousado",
+    emoji: "📱",
+    promessa:
+      "Pare de postar por obrigação: posicionamento, conteúdo, calendário e métricas, com plano estratégico pronto no fim.",
+    resumo:
+      "Pra profissionalizar a gestão de redes: estratégia, calendário, copy e relatório. Do “posto quando dá” pro “entrego resultado e cobro por isso”.",
+    detalhado: false,
+    visivel: true,
+  },
+  {
+    slug: "ugc-creator",
+    nome: "UGC Creator",
+    emoji: "🤝",
+    promessa:
+      "Crie o conteúdo que marcas pagam pra ter, sem precisar de milhões de seguidores.",
+    resumo:
+      "O caminho pra virar creator de marcas mesmo sem audiência gigante: portfólio, precificação e as primeiras parcerias, do zero ao primeiro contrato.",
+    detalhado: false,
+    visivel: true,
+  },
+  {
+    slug: "video-maker-e-edicao",
+    nome: "Audiovisual",
+    emoji: "🎬",
+    promessa: "Vídeo que parece você, não template.",
+    resumo:
+      "Gravar e editar com a própria cara: enquadramento, luz, som e edição no celular ou no computador. Vídeo que parece você, não template.",
+    detalhado: false,
+    visivel: true,
+  },
+  {
+    slug: "ia-para-iniciantes",
+    nome: "IA para iniciantes",
+    emoji: "🤖",
+    promessa:
+      "Produza mais rápido com IA sem virar perfil genérico: roteiro, copy, imagem e vídeo a serviço da sua voz.",
+    resumo:
+      "Pra quem nunca usou IA pra criar conteúdo: roteiro, copy, imagem, vídeo e automação, direto ao ponto, sem perder a sua voz no meio do processo.",
+    detalhado: false,
+    /** Fora do grid da Escola — as 4 portas atuais são Social Media, Audiovisual, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
+    visivel: false,
   },
   {
     slug: "destrave",
@@ -146,25 +204,7 @@ export const CURSOS: Curso[] = [
     resumo:
       "O treinamento anti-vergonha de gravar. Técnica, não motivação: a câmera trava no técnico e destrava no humano. Você sai gravando, de verdade.",
     detalhado: true,
-  },
-  {
-    slug: "social-media-na-pratica",
-    nome: "Social Media na Prática",
-    emoji: "📱",
-    promessa:
-      "Do “posto quando dá” pro “entrego resultado e cobro por isso”.",
-    resumo:
-      "Pra profissionalizar a gestão de redes: estratégia, calendário, copy e relatório. Do “posto quando dá” pro “entrego resultado e cobro por isso”.",
-    detalhado: false,
-  },
-  {
-    slug: "video-maker-e-edicao",
-    nome: "Audiovisual",
-    emoji: "🎬",
-    promessa: "Vídeo que parece você, não template.",
-    resumo:
-      "Gravar e editar com a própria cara: enquadramento, luz, som e edição no celular ou no computador. Vídeo que parece você, não template.",
-    detalhado: false,
+    visivel: true,
   },
 ];
 
@@ -206,10 +246,10 @@ export const NAV_LINKS: NavLink[] = [
     label: "Escola",
     href: "/escola",
     children: [
-      { label: "Destrave", href: "/escola/destrave" },
+      { label: "Social Media Ousado", href: "/escola/social-media-ousado" },
       { label: "Audiovisual", href: "/escola/video-maker-e-edicao" },
-      { label: "Social Media", href: "/escola/social-media-na-pratica" },
-      { label: "UGC", href: "/aulao-ugc" },
+      { label: "UGC Creator", href: "/escola/ugc-creator" },
+      { label: "Destrave", href: "/escola/destrave" },
     ],
   },
   {

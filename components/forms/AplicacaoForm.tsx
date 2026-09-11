@@ -87,7 +87,6 @@ export function AplicacaoForm() {
           <Input
             id="perfil"
             name="perfil"
-            type="url"
             required
             placeholder="https://instagram.com/seuperfil"
           />
