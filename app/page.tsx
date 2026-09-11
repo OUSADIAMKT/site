@@ -6,15 +6,21 @@ import { WaveDivider } from "@/components/ui/WaveDivider";
 import { MediaSlot, ContentSlot } from "@/components/ui/MediaSlot";
 import { HeroVideo } from "@/components/ui/HeroVideo";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
+import { CasesVitrine } from "@/components/sections/Cases";
 import {
   Leaf,
   Paddle,
   Canoe,
   Tree,
   RiverLines,
-  GrafismoBand,
-  GrafismoDiamonds,
 } from "@/components/ui/Motifs";
+import {
+  KeneBullet,
+  KeneField,
+  KeneRule,
+  KeneStrip,
+  SectionDivider,
+} from "@/components/ui/graphics/Kene";
 import { STATS, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -75,7 +81,7 @@ const ECOSSISTEMA = [
       "ABC do Marketing",
       "Destrave (vergonha de gravar? a gente quebra isso)",
       "Social Media na Prática",
-      "Vídeo Maker e Edição",
+      "Audiovisual",
     ],
     nota: "Você aprende executando, não anotando. Sai com projeto real, não com PDF salvo no celular.",
     cta: "Ver cursos",
@@ -237,24 +243,27 @@ export default function HomePage() {
             />
           </Reveal>
         </div>
-        <GrafismoBand color="#ffc61a" height={22} className="opacity-80" />
+        <KeneStrip motif="iso" height={22} className="text-amarelo opacity-80" />
       </section>
 
       {/* ============ 2 · PROVA SOCIAL RÁPIDA (roxo) ============ */}
       <section className="relative overflow-hidden bg-roxo">
-        <GrafismoDiamonds
-          color="#ffffff"
-          className="absolute inset-0 opacity-[0.04]"
-        />
+        <KeneField motif="yapa" scale={92} opacity={0.045} className="text-white" />
         <div className="container-site relative section-padding !py-14">
           <Reveal>
             <p className="font-display text-xl sm:text-2xl leading-snug max-w-3xl">
-              Mais de 22 turmas formadas. Centenas de creators destravados. Uma
+              Mais de 30 turmas formadas. Mais de mil creators destravados. Uma
               região inteira sendo{" "}
               <span className="text-amarelo">reposicionada no digital</span>.
             </p>
           </Reveal>
-          <div className="mt-10 grid grid-cols-2 gap-6 md:grid-cols-4">
+          <KeneRule
+            motif="pushu"
+            height={12}
+            opacity={0.28}
+            className="mt-9 max-w-sm text-amarelo"
+          />
+          <div className="mt-8 grid grid-cols-2 gap-6 md:grid-cols-4">
             {STATS.map((s, i) => (
               <Reveal key={s.l} delay={i * 0.06}>
                 <div>
@@ -360,10 +369,10 @@ export default function HomePage() {
       {/* ============ 5 · MANIFESTO (escuro profundo) ============ */}
       <section className="relative overflow-hidden bg-ink-void section-padding">
         <RiverLines className="motif text-rio inset-0 h-full w-full opacity-[0.07]" />
-        <GrafismoBand
-          color="#23b26f"
+        <KeneStrip
+          motif="pushu"
           height={20}
-          className="absolute inset-x-0 top-0 opacity-70"
+          className="absolute inset-x-0 top-0 text-floresta opacity-70"
         />
         <div className="container-site relative max-w-3xl">
           <Reveal>
@@ -450,7 +459,11 @@ export default function HomePage() {
                           key={it}
                           className="text-body flex items-start gap-2 text-sm"
                         >
-                          <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-floresta" />
+                          <KeneBullet
+                            mark="quadrado"
+                            size={9}
+                            className="mt-[0.42rem] text-floresta"
+                          />
                           {it}
                         </li>
                       ))}
@@ -472,6 +485,11 @@ export default function HomePage() {
 
       {/* ============ 7 · JACKSON (escuro) ============ */}
       <section className="relative overflow-hidden bg-ink section-padding">
+        <KeneStrip
+          motif="ronoa"
+          height={18}
+          className="absolute inset-x-0 top-0 text-amarelo opacity-25"
+        />
         <Paddle className="motif motif-soft text-amarelo right-[6%] top-10 hidden w-20 rotate-6 lg:block" />
         <div className="container-site relative grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-center">
           <Reveal>
@@ -508,7 +526,7 @@ export default function HomePage() {
                   Errei muito. Acertei o suficiente.
                 </p>
                 <p>
-                  Hoje, depois de <strong>22 turmas formadas</strong>, duas
+                  Hoje, depois de <strong>30 turmas formadas</strong>, duas
                   edições do <strong>Amazon Marketing Day</strong> e do
                   reconhecimento de uma comunidade que cresce todo dia, eu
                   entendi uma coisa:
@@ -582,16 +600,12 @@ export default function HomePage() {
               <h3 className="font-mono text-xs uppercase tracking-widest text-floresta-deep">
                 Cases destrinchados
               </h3>
-              <div className="mt-5 grid gap-5 md:grid-cols-3">
-                {[1, 2, 3].map((i) => (
-                  <Reveal key={i} delay={i * 0.05}>
-                    <div className="card-surface h-full p-6">
-                      <ContentSlot
-                        label={`Case ${i}: Nome e cidade · Antes · Depois · O que mudou (1 frase).`}
-                      />
-                    </div>
-                  </Reveal>
-                ))}
+              <div className="mt-5">
+                <CasesVitrine
+                  slotLabel={(i) =>
+                    `Case ${i}: Nome e cidade · Antes · Depois · O que mudou (1 frase).`
+                  }
+                />
               </div>
             </div>
           </div>
@@ -611,6 +625,7 @@ export default function HomePage() {
 
       {/* ============ 9 · PRA QUEM É (escuro profundo) ============ */}
       <section className="relative overflow-hidden bg-ink-void section-padding">
+        <KeneField motif="shahuu" scale={104} opacity={0.04} className="text-white" />
         <Leaf className="motif motif-soft text-floresta right-[3%] top-16 hidden w-40 rotate-12 md:block" />
         <div className="container-site relative">
           <Reveal>
@@ -712,7 +727,13 @@ export default function HomePage() {
               Você é redirecionado(a) pro WhatsApp. Falamos com você em até 1h
               útil.
             </p>
-            <ul className="relative mt-8 flex flex-wrap justify-center gap-x-7 gap-y-2 font-mono text-xs text-cinza-ink">
+            <SectionDivider
+              motif="faba"
+              height={13}
+              opacity={0.32}
+              className="relative mx-auto max-w-lg text-amarelo"
+            />
+            <ul className="relative flex flex-wrap justify-center gap-x-7 gap-y-2 font-mono text-xs text-cinza-ink">
               <li>🛡️ Garantia de 7 dias. Sem letra miúda.</li>
               <li>💬 Atendimento humano (não é bot).</li>
               <li>🔥 Vagas limitadas por turma.</li>

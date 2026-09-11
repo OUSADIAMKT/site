@@ -2,7 +2,8 @@ import Link from "next/link";
 import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
-import { Canoe, GrafismoBand, RiverLines } from "@/components/ui/Motifs";
+import { Canoe, RiverLines } from "@/components/ui/Motifs";
+import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { wa } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -46,10 +47,10 @@ export default function ObrigadoPage() {
           </div>
         </Reveal>
       </div>
-      <GrafismoBand
-        color="#23b26f"
+      <KeneStrip
+        motif="pushu"
         height={20}
-        className="absolute inset-x-0 bottom-0 opacity-70"
+        className="absolute inset-x-0 bottom-0 text-floresta opacity-70"
       />
     </section>
   );

@@ -1,6 +1,6 @@
 import { Reveal } from "@/components/ui/Reveal";
 import { ContentSlot } from "@/components/ui/MediaSlot";
-import { GrafismoBand } from "@/components/ui/Motifs";
+import { KeneStrip } from "@/components/ui/graphics/Kene";
 
 /** Casca das páginas legais. O texto jurídico é responsabilidade do cliente. */
 export function LegalPage({
@@ -26,7 +26,7 @@ export function LegalPage({
             </p>
           </Reveal>
         </div>
-        <GrafismoBand color="#ffc61a" height={18} className="opacity-70" />
+        <KeneStrip motif="iso" height={18} className="text-amarelo opacity-70" />
       </section>
 
       <section className="relative overflow-hidden bg-ink section-padding">

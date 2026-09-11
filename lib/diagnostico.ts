@@ -1,4 +1,4 @@
-import { SHEET_ENDPOINT_DIAGNOSTICO } from "@/lib/site";
+import { CURSOS, SHEET_ENDPOINT_DIAGNOSTICO } from "@/lib/site";
 
 /**
  * Motor do Diagnóstico de Maturidade Digital.
@@ -575,65 +575,45 @@ export type Route = {
   ladder: string;
 };
 
+/**
+ * Nome exibido → rota real, pra transformar as pílulas de produto do
+ * resultado em links de verdade. Cursos vêm de `CURSOS` (fonte única,
+ * `lib/site.ts`) pra não duplicar nome/slug em dois lugares; Mentoria é
+ * a única oferta fora da Escola que hoje tem página própria.
+ */
+export const PRODUTO_LINKS: Record<string, string> = Object.fromEntries(
+  CURSOS.map((c) => [c.nome, `/escola/${c.slug}`]),
+);
+PRODUTO_LINKS["Mentoria Ousadia"] = "/mentoria";
+
 export const ROUTING: Record<ProfileKey, Route> = {
   creator_ini: {
-    label: "Formação e comunidade para você viver do digital",
+    label: "Formação prática para você viver do digital",
     intro:
-      "Você chegou como quem quer virar profissional do digital. Seu caminho não começa em tráfego ou equipamento: começa em método, prática guiada e uma comunidade que te leve pela mão até o primeiro cliente.",
+      "Você chegou como quem quer virar profissional do digital. Seu caminho não começa em tráfego ou equipamento: começa em posicionamento, perder a vergonha de aparecer e método de execução — nessa ordem.",
     products: {
-      semente: [
-        "Igarapé (newsletter + comunidade grátis)",
-        "Aulão de abertura",
-        "Manifesto de posicionamento",
-      ],
-      igarape: [
-        "Social Media Ousado",
-        "Tambatajá (workshop Big Idea)",
-        "Comunidade de assinatura",
-      ],
-      travessia: [
-        "STORYSELL Raiz: Trilha Curumim",
-        "Mentoria Ousadia Iniciante",
-        "Formação de social media",
-      ],
-      floresta: [
-        "Sumaúma (cohort avançado)",
-        "Mentoria Ousadia Iniciante premium",
-        "Vaga como creator sênior da agência-escola",
-      ],
+      semente: ["ABC do Marketing", "Destrave"],
+      igarape: ["Destrave", "Social Media na Prática"],
+      travessia: ["Social Media na Prática", "Audiovisual"],
+      floresta: ["Audiovisual", "Mentoria Ousadia"],
     },
-    lead: "STORYSELL Raiz: Trilha Curumim",
+    lead: "ABC do Marketing",
     ladder:
-      "Escada Amazônica: Igarapé → Tambatajá → STORYSELL Raiz (Curumim) → Sumaúma",
+      "Trilha da Escola: ABC do Marketing → Destrave → Social Media na Prática → Audiovisual",
   },
   creator_pro: {
     label: "Profissionalização de quem já cria conteúdo",
     intro:
       "Você já produz, agora precisa de método, portfólio e diferenciação para cobrar melhor e atender com consistência. A Ousadia te leva de executor a creator com voz e sistema.",
     products: {
-      semente: [
-        "Igarapé (comunidade)",
-        "Tambatajá (workshop Big Idea)",
-        "Aulão de posicionamento",
-      ],
-      igarape: [
-        "Social Media Ousado",
-        "Audiovisual Ousado",
-        "Criação de Conteúdo com IA",
-      ],
-      travessia: [
-        "STORYSELL Raiz: Trilha Curumim",
-        "Sumaúma (cohort 12 semanas)",
-        "Mentoria de conteúdo",
-      ],
-      floresta: [
-        "Sumaúma + Muiraquitã (imersão)",
-        "Vaga como creator sênior da agência-escola",
-      ],
+      semente: ["ABC do Marketing", "Destrave"],
+      igarape: ["Social Media na Prática", "Audiovisual"],
+      travessia: ["Social Media na Prática", "Audiovisual", "Destrave"],
+      floresta: ["Audiovisual", "Mentoria Ousadia"],
     },
-    lead: "STORYSELL Raiz: Trilha Curumim",
+    lead: "Social Media na Prática",
     ladder:
-      "Escada Amazônica: Tambatajá → STORYSELL Raiz (Curumim) → Sumaúma + Muiraquitã",
+      "Trilha da Escola: Social Media na Prática → Audiovisual → Mentoria Ousadia",
   },
   empreendedor: {
     label: "Posicionamento e gestão para vender além do boca a boca",
@@ -727,27 +707,15 @@ export const ROUTING: Record<ProfileKey, Route> = {
   explorando: {
     label: "Um primeiro passo claro para começar do jeito certo",
     intro:
-      "Você ainda está descobrindo seu caminho, e tudo bem. O erro seria gastar dinheiro antes de ter clareza. Comece pela base gratuita da Ousadia e deixe o próprio movimento revelar sua direção.",
+      "Você ainda está descobrindo seu caminho, e tudo bem. O erro seria gastar dinheiro antes de ter clareza. Comece pelos fundamentos e deixe o próprio movimento revelar sua direção.",
     products: {
-      semente: [
-        "Igarapé (newsletter + comunidade grátis)",
-        "Aulão de abertura",
-        "Manifesto de posicionamento",
-      ],
-      igarape: [
-        "Tambatajá (workshop Big Idea)",
-        "Social Media Ousado",
-        "Comunidade de assinatura",
-      ],
-      travessia: [
-        "STORYSELL Raiz",
-        "Mentoria de posicionamento",
-        "Formação prática",
-      ],
-      floresta: ["Sumaúma (cohort)", "Mentoria estratégica"],
+      semente: ["ABC do Marketing", "Destrave"],
+      igarape: ["Social Media na Prática", "Audiovisual"],
+      travessia: ["Social Media na Prática", "Mentoria Ousadia"],
+      floresta: ["Mentoria Ousadia"],
     },
-    lead: "Igarapé + Aulão de abertura",
-    ladder: "Comece na base: Igarapé (grátis) → Tambatajá → STORYSELL Raiz",
+    lead: "ABC do Marketing",
+    ladder: "Comece na base: ABC do Marketing → Destrave → Social Media na Prática",
   },
 };
 
@@ -904,9 +872,7 @@ export function compute(answers: Answers): Resultado {
   const goal = answers.objetivo?.tag ?? null;
   const route = ROUTING[profile];
   const produtos = route.products[stage.key] ?? route.products.travessia;
-  const storysell =
-    STORYSELL_FIT.has(profile) &&
-    produtos.some((p) => /STORYSELL|Marca Pessoal|Sumaúma/i.test(p));
+  const storysell = STORYSELL_FIT.has(profile);
 
   return {
     total,

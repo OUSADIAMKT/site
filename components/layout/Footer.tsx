@@ -17,6 +17,7 @@ const COLUMNS = [
     title: "Ousadia",
     links: [
       { label: "Sobre", href: "/sobre" as const },
+      { label: "Portfólio", href: "/portfolio" as const },
       { label: "Diagnóstico", href: "/diagnostico" as const },
       { label: "Conteúdo", href: "/conteudo" as const },
       { label: "Contato", href: "/contato" as const },

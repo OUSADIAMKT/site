@@ -21,6 +21,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/escola", priority: 0.9 },
     { path: "/mentoria", priority: 0.9 },
     { path: "/agencia", priority: 0.8 },
+    { path: "/portfolio", priority: 0.8 },
     { path: "/comunidade", priority: 0.7 },
     { path: "/diagnostico", priority: 0.8 },
     { path: "/aulao-ugc", priority: 0.7 },

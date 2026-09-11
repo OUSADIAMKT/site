@@ -7,7 +7,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { CtaFinal } from "@/components/sections/CtaFinal";
 import { MediaSlot } from "@/components/ui/MediaSlot";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
-import { GrafismoBand } from "@/components/ui/Motifs";
+import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { MdxContent } from "@/components/mdx/MdxContent";
 import { wa, SITE } from "@/lib/site";
 import { POSTS, getPost, relacionados, formatarData } from "@/lib/posts";
@@ -98,7 +98,7 @@ export default async function PostPage({
               ) : null}
             </Reveal>
           </div>
-          <GrafismoBand color="#ffc61a" height={18} className="opacity-70" />
+          <KeneStrip motif="iso" height={18} className="text-amarelo opacity-70" />
         </header>
 
         {/* Corpo */}

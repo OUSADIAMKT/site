@@ -4,6 +4,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
 import { ContentSlot } from "@/components/ui/MediaSlot";
+import { CasesVitrine } from "@/components/sections/Cases";
 import { PropostaForm } from "@/components/forms/PropostaForm";
 import { GrafismoDiamonds, RiverLines } from "@/components/ui/Motifs";
 import { wa } from "@/lib/site";
@@ -128,21 +129,21 @@ export default function AgenciaPage() {
       </section>
 
       {/* Portfólio */}
-      <section className="relative overflow-hidden bg-ink-void section-padding">
+      <section
+        id="cases"
+        className="relative overflow-hidden bg-ink-void section-padding scroll-mt-24"
+      >
         <RiverLines className="motif motif-soft text-rio inset-x-0 top-1/2 h-32 w-full" />
         <div className="container-site relative">
           <Reveal>
             <p className="eyebrow mb-4">Portfólio</p>
             <h2 className="headline-section">Marcas que confiaram</h2>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div className="card-surface h-full p-6">
-                  <ContentSlot label={`Case de marca ${i}: logo, desafio e resultado.`} />
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-10">
+            <CasesVitrine
+              frente="agencia"
+              slotLabel={(i) => `Case de marca ${i}: logo, desafio e resultado.`}
+            />
           </div>
         </div>
       </section>

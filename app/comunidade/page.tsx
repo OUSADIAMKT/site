@@ -4,7 +4,8 @@ import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaFinal } from "@/components/sections/CtaFinal";
 import { ContentSlot } from "@/components/ui/MediaSlot";
-import { Canoe, GrafismoBand, RiverLines } from "@/components/ui/Motifs";
+import { Canoe, RiverLines } from "@/components/ui/Motifs";
+import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { wa } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 
@@ -80,10 +81,10 @@ export default function ComunidadePage() {
 
       {/* Pertencimento */}
       <section className="relative overflow-hidden bg-ink-void section-padding">
-        <GrafismoBand
-          color="#23b26f"
+        <KeneStrip
+          motif="pushu"
           height={20}
-          className="absolute inset-x-0 top-0 opacity-70"
+          className="absolute inset-x-0 top-0 text-floresta opacity-70"
         />
         <RiverLines className="motif text-rio inset-0 h-full w-full opacity-[0.07]" />
         <Canoe className="motif motif-soft text-amarelo left-1/2 bottom-8 w-72 -translate-x-1/2" />

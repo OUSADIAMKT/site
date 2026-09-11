@@ -4,13 +4,14 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { ArrowRight, Check, MessageCircle, TriangleAlert } from "lucide-react";
 import { RadarMaturidade } from "./RadarMaturidade";
-import { GrafismoBand } from "@/components/ui/Motifs";
+import { KeneStrip } from "@/components/ui/graphics/Kene";
 import {
   DIM_MAX,
   DIM_TEXT,
   DIMS,
   MAX_SCORE,
   PLAN30,
+  PRODUTO_LINKS,
   PROFILES,
   STAGES,
   type Resultado,
@@ -298,18 +299,25 @@ export function ResultadoDiagnostico({
             )}
 
             <ul className="mt-6 flex flex-wrap gap-2">
-              {r.produtos.map((p, i) => (
-                <li
-                  key={p}
-                  className={`rounded-full px-4 py-2 font-mono text-xs ${
-                    i === 0
-                      ? "bg-amarelo font-semibold text-[#1a0b2e]"
-                      : "border border-amarelo/30 bg-white/5 text-foreground/85"
-                  }`}
-                >
-                  {p}
-                </li>
-              ))}
+              {r.produtos.map((p, i) => {
+                const classe = `rounded-full px-4 py-2 font-mono text-xs transition-colors ${
+                  i === 0
+                    ? "bg-amarelo font-semibold text-[#1a0b2e]"
+                    : "border border-amarelo/30 bg-white/5 text-foreground/85"
+                }`;
+                const href = PRODUTO_LINKS[p];
+                return (
+                  <li key={p}>
+                    {href ? (
+                      <Link href={href} className={`${classe} hover:border-amarelo`}>
+                        {p}
+                      </Link>
+                    ) : (
+                      <span className={classe}>{p}</span>
+                    )}
+                  </li>
+                );
+              })}
             </ul>
 
             <p className="mt-5 font-mono text-xs text-cinza-ink">
@@ -348,7 +356,7 @@ export function ResultadoDiagnostico({
         </button>
       </div>
 
-      <GrafismoBand color="#ffc61a" height={18} className="opacity-60" />
+      <KeneStrip motif="iso" height={18} className="text-amarelo opacity-60" />
     </article>
   );
 }

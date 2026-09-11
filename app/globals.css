@@ -82,6 +82,24 @@
   --paper: #f4f1ea; /* claro / texto forte */
   --cinza-ink: #a89fbc; /* texto secundário (roxo-acinzentado) */
 
+  /* ---- Fundo das dobras de case (/portfolio) ----
+     Cada serviço pinta a própria dobra, na família do acento que já o
+     identifica no resto do site: roxo pra redes, azul-rio pro audiovisual,
+     verde pra escola. São versões escurecidas — o acento puro como fundo de
+     dobra inteira não sustenta texto claro em cima.
+
+     Valores fixos em hex, e não `color-mix`, de propósito: o Lightning CSS
+     gera um fallback `@supports` usando a **primeira cor da mistura**, o que
+     deixaria a dobra inteira num ciano ou verde berrante em navegador sem
+     `color-mix`. Num detalhe (borda, brilho) isso passa; num fundo de dobra,
+     não.
+
+     Ficam como token, e não soltos na classe, porque o WaveDivider da dobra
+     clara seguinte precisa pintar a onda exatamente na cor da dobra anterior. */
+  --fundo-redes: #241044;
+  --fundo-audiovisual: #08303f;
+  --fundo-escola: #0b2c1c;
+
   /* ---- Semântico (tema escuro é o padrão do site) ---- */
   --background: var(--ink-deep);
   --foreground: #f2eef8;
@@ -250,6 +268,27 @@
     background-size: 3rem 3rem;
   }
 
+  /* ---- Dobras de case (/portfolio) ----
+     Redefinir `--card` e `--border` aqui é o truque: `.card-surface` lê essas
+     variáveis, então o cartão acompanha a cor da dobra sozinho, sem precisar
+     de uma variante por serviço. Sem isso, o cartão roxo padrão ficaria
+     boiando em cima do verde e do azul. */
+  .fold-case { position: relative; }
+  .fold-redes {
+    background: var(--fundo-redes);
+    --card: #2e1554;
+  }
+  .fold-audiovisual {
+    background: var(--fundo-audiovisual);
+    --card: #0e3d50;
+    --border: rgba(88, 211, 236, 0.22);
+  }
+  .fold-escola {
+    background: var(--fundo-escola);
+    --card: #103a26;
+    --border: rgba(35, 178, 111, 0.26);
+  }
+
   /* ---- Dobras claras (contraste tipo landing page) ---- */
   .fold-light {
     background: var(--paper);
@@ -344,4 +383,72 @@
     opacity: 0.9;
   }
   .motif-soft { opacity: 0.10; }
+
+  /* ---- Grafismos kené (components/ui/graphics) ----
+     A figura entra como `mask-image` e a cor vem de `background-color:
+     currentColor`. É o que permite tingir com `text-amarelo` / `text-rio` e
+     ainda assim deixar o motivo repetir sozinho — um <svg> inline repetiria
+     esticando, e um background-image exigiria a cor fixa em hex dentro da URI.
+
+     O bloco `@supports` no fim é o seguro: sem suporte a máscara o elemento
+     viraria um retângulo chapado de amarelo atravessado na página. Melhor ele
+     sumir. */
+  .kene {
+    background-color: currentColor;
+    -webkit-mask-position: center;
+    mask-position: center;
+  }
+  /* Faixa: repete só na horizontal e escala pela altura do elemento. */
+  .kene-x {
+    display: block;
+    width: 100%;
+    -webkit-mask-repeat: repeat-x;
+    mask-repeat: repeat-x;
+    -webkit-mask-size: auto 100%;
+    mask-size: auto 100%;
+  }
+  /* Malha de fundo: repete nos dois eixos. Ancorada no canto pra que o
+     recorte da seção não corte losango pela metade no meio da tela. */
+  .kene-tile {
+    -webkit-mask-repeat: repeat;
+    mask-repeat: repeat;
+    -webkit-mask-position: top left;
+    mask-position: top left;
+  }
+  /* Marcador: um desenho só, sem repetir. */
+  .kene-one {
+    display: inline-block;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+  }
+
+  .kene-divider {
+    width: 100%;
+    padding-block: clamp(1.25rem, 3vw, 2.25rem);
+  }
+  /* Dissolve as pontas da faixa no fundo da seção. */
+  .kene-fade {
+    -webkit-mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 18%,
+      #000 82%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      90deg,
+      transparent,
+      #000 18%,
+      #000 82%,
+      transparent
+    );
+  }
+
+  @supports not ((-webkit-mask-image: none) or (mask-image: none)) {
+    .kene {
+      background-color: transparent;
+    }
+  }
 }

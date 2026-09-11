@@ -16,7 +16,7 @@ conforme a regra do PRD 7.3.
 | 1 | **Fotos e vídeos reais do Jackson** (contexto regional: beira do Tapajós, palco do Amazon Marketing Day). Zero stock. | Home (hero + dobra 7), `/sobre` — **+ loop de fundo da hero:** `public/video/hero.mp4` e `hero-poster.jpg` (ver `public/video/README.md`) |
 | 2 | **3 vídeos de aluno** (15–30s): nome, cidade, antes/depois em uma frase | Home (dobra 8), `/escola`, `/escola/[curso]` |
 | 3 | **Prints reais de feedback** (DM, comentário, WhatsApp) | Home (dobra 8) |
-| 4 | **3 cases destrinchados**: Nome — Cidade / Antes / Depois / O que mudou | Home (dobra 8) |
+| 4 | **Antes/depois e números** dos 8 cases publicados. O portfólio em PDF conta o que foi entregue, mas não traz resultado medido — hoje esses cases mostram o slot de pendência no lugar. | `lib/portfolio.ts` → `antes`, `depois`, `numeros` |
 | 5 | **Textos jurídicos** (Privacidade e Termos) validados por profissional + **CNPJ** | `/politica-de-privacidade`, `/termos`, rodapé |
 
 ## 2. Dados de contato e integrações
@@ -38,14 +38,18 @@ conforme a regra do PRD 7.3.
 
 | # | Pendência | Onde aparece |
 |---|---|---|
-| 11 | **Módulos, formato, pra-quem-é e FAQ** dos cursos ABC do Marketing, Social Media na Prática e Vídeo Maker e Edição (o Destrave já está completo) | `lib/cursos-conteudo.ts` |
+| 11 | **Módulos, formato, pra-quem-é e FAQ** dos cursos ABC do Marketing, Social Media na Prática e Audiovisual (o Destrave já está completo) | `lib/cursos-conteudo.ts` |
 | 12 | **Investimento, formato e garantia da mentoria** | `/mentoria` (FAQ) |
-| 13 | **Cases de mentorados** com números reais | `/mentoria` |
-| 14 | **Cases de marca** (logo, desafio, resultado) e processo/prazos da agência | `/agencia` |
+| 13 | **Cases de mentorados** com números reais — nenhum case de mentoria veio no portfólio em PDF, então `/mentoria` segue com slot | `lib/portfolio.ts` (`frente: "mentoria"`) |
+| 14 | **Processo e prazos da agência** (os cases de marca já entraram pelo portfólio) | `/agencia` |
+| 14b | **Cidade de cada case** — o PDF não informa; enquanto for `null`, a etiqueta de cidade não aparece no cartão | `lib/portfolio.ts` → `cidade` |
+| 14c | **Autorização de imagem** para os screenshots de Instagram dos embaixadores do Gênese (perfis de terceiros) e para os nomes das 5 embaixadoras EKL. Ficaram **fora** do site até o ok. | `/portfolio` |
 | 15 | **Regras de entrada da comunidade** (preço, critério, formato) | `/comunidade` |
 | 16 | **Corpo dos 4 posts** + capas + datas de publicação | `content/posts/*.mdx` — escrever no lugar do bloco `<Pendente>`, preencher `data:` e `capa:`. Ver `content/README.md` |
 | 17 | **Anos dos marcos** da linha do tempo | `/sobre` |
 | 18 | **Logos** de marcas atendidas, eventos e mídia | Home (dobra 2) |
+| 19 | **Data, horário e valor da próxima turma do aulão de UGC** — a página antiga era amarrada ao dia 1º/08/2026 e ao checkout da HeroSpark; a nova é evergreen e manda pro WhatsApp | `/aulao-ugc` (FAQ) |
+| 20 | **Autorização de uso** dos 6 prints de campanha aprovada do aulão (conversas de alunas, com nome de marca à vista: DIY, Samsung, Oral-B, Dove, Lux, Pantene). Estavam publicados na página antiga e vieram junto — mesma ressalva do item 14c | `/aulao-ugc`, `public/aulao-ugc/` |
 
 ## 4. Decisões do cliente
 
@@ -54,9 +58,13 @@ conforme a regra do PRD 7.3.
   cravar; as variantes B e C estão no PRD (seção 8.1).
 - **Barra de campanha:** desligada (`CAMPAIGN.active = false` em `lib/site.ts`).
   Ligar só em janela de lançamento, preenchendo a data.
-- **Números de prova social:** hoje o site publica 22+ turmas, 2x Amazon
-  Marketing Day, +500 alunos e #1 do Norte, conforme o PRD. Confirmar antes do
-  ar — número fraco ou não verificável deve sair.
+- **Números de prova social:** hoje o site publica 30+ turmas, 2x Amazon
+  Marketing Day, +500 alunos e #1 do Norte. Confirmar o restante antes do ar —
+  número fraco ou não verificável deve sair.
+- ~~**Divergência no número de turmas.**~~ Resolvido em 10/09/2026: o cliente
+  confirmou **mais de 30 turmas** (o PRD dizia 22+, desatualizado). Alinhado em
+  `lib/site.ts` (`STATS`), Home (2 menções), `/sobre` (história e linha do
+  tempo) e no case de turmas presenciais em `lib/portfolio.ts`.
 
 ---
 

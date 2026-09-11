@@ -4,7 +4,8 @@ import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaFinal } from "@/components/sections/CtaFinal";
 import { MediaSlot, ContentSlot } from "@/components/ui/MediaSlot";
-import { GrafismoBand, Leaf, RiverLines } from "@/components/ui/Motifs";
+import { Leaf, RiverLines } from "@/components/ui/Motifs";
+import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { wa } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 
@@ -32,7 +33,7 @@ const CAPITULOS = [
   {
     t: "A prova",
     p: [
-      "O método foi testado em sala, não em tese. Foram mais de 22 turmas presenciais, centenas de alunos formados: a mãe que gravava escondida no quarto e hoje aparece todo dia, o lojista que achava que “isso de internet” não era pra ele, a creator que postava no escuro e aprendeu a ligar a luz.",
+      "O método foi testado em sala, não em tese. Foram mais de 30 turmas presenciais, mais de mil alunos formados: a mãe que gravava escondida no quarto e hoje aparece todo dia, o lojista que achava que “isso de internet” não era pra ele, a creator que postava no escuro e aprendeu a ligar a luz.",
       "No meio do caminho, o Amazon Marketing Day, em duas edições, provou que dava pra encher um evento de marketing na Amazônia sem importar guru: o palco era nosso, o sotaque era nosso, e as cadeiras lotaram.",
     ],
   },
@@ -68,7 +69,7 @@ const MARCOS = [
   },
   {
     ano: "Hoje",
-    t: "22+ turmas, +500 alunos",
+    t: "30+ turmas, +1000 alunos",
     d: "A primeira Agência Escola de Marketing do Norte vira plataforma: cursos, mentoria, agência e a comunidade Creators da Amazônia.",
   },
 ];
@@ -147,10 +148,10 @@ export default function SobrePage() {
 
       {/* Manifesto */}
       <section className="relative overflow-hidden bg-ink-void section-padding">
-        <GrafismoBand
-          color="#23b26f"
+        <KeneStrip
+          motif="pushu"
           height={20}
-          className="absolute inset-x-0 top-0 opacity-70"
+          className="absolute inset-x-0 top-0 text-floresta opacity-70"
         />
         <Leaf className="motif motif-soft text-floresta -left-10 bottom-10 hidden w-64 -rotate-12 lg:block" />
         <div className="container-site relative max-w-3xl">
@@ -200,7 +201,10 @@ export default function SobrePage() {
       </section>
 
       {/* Linha do tempo */}
-      <section className="relative overflow-hidden bg-roxo section-padding">
+      <section
+        id="historico"
+        className="relative overflow-hidden bg-roxo section-padding scroll-mt-24"
+      >
         <div className="container-site relative">
           <Reveal>
             <p className="eyebrow mb-4">Linha do tempo</p>

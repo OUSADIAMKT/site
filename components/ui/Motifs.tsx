@@ -87,43 +87,6 @@ export function RiverLines({ className = "", style }: MotifProps) {
 }
 
 /**
- * Grafismo indígena — faixa geométrica (greca/meandro marajoara) que se repete
- * horizontalmente. Cor via prop `color` (hex, pois vai em data URI).
- */
-export function GrafismoBand({
-  className = "",
-  color = "#ffc61a",
-  height = 26,
-  style,
-}: MotifProps & { color?: string; height?: number }) {
-  const svg = encodeURIComponent(
-    `<svg xmlns='http://www.w3.org/2000/svg' width='64' height='26' viewBox='0 0 64 26'>` +
-      `<g fill='none' stroke='${color}' stroke-width='2'>` +
-      `<path d='M0 13h6V5h8v8h8V5h8v8h8V5h8v8h4'/>` +
-      `</g>` +
-      `<g fill='${color}'>` +
-      `<rect x='11' y='18' width='4' height='4'/>` +
-      `<rect x='35' y='18' width='4' height='4'/>` +
-      `<rect x='59' y='18' width='4' height='4'/>` +
-      `</g></svg>`
-  );
-  return (
-    <div
-      aria-hidden
-      className={className}
-      style={{
-        height,
-        backgroundImage: `url("data:image/svg+xml,${svg}")`,
-        backgroundRepeat: "repeat-x",
-        backgroundPosition: "center",
-        backgroundSize: "auto 100%",
-        ...style,
-      }}
-    />
-  );
-}
-
-/**
  * Grafismo indígena — losangos encadeados (padrão de cestaria).
  * Fundo de seção sutil; cor via prop.
  */

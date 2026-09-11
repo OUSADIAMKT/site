@@ -60,6 +60,7 @@ const WA_MESSAGES = {
   comunidade: "Oi! Quero entrar pra comunidade Creators da Amazônia.",
   contato: "Oi! Vim pelo site e quero falar com o time da Ousadia.",
   sobre: "Oi! Vi a história da Ousadia no site e quero conversar.",
+  portfolio: "Oi! Vi os cases no site e quero um resultado desses.",
 } as const;
 
 export type WaContext = keyof typeof WA_MESSAGES;
@@ -106,10 +107,10 @@ export const CAMPAIGN = {
  * Prova social — PRD 8.2. Só números confirmados pelo cliente.
  * ------------------------------------------------------------------ */
 export const STATS = [
-  { n: "22+", l: "turmas presenciais formadas" },
-  { n: "2x", l: "edições do Amazon Marketing Day" },
-  { n: "+500", l: "alunos formados" },
-  { n: "#1", l: "agência escola de marketing do Norte" },
+  { n: "30+", l: "turmas presenciais formadas" },
+  { n: "+1000", l: "alunos formados" },
+  { n: "2x", l: "congressos Amazon Marketing Day" },
+  { n: "1x", l: "liderança do WCD, Dia Mundial da Criatividade" },
 ];
 
 /* ------------------------------------------------------------------ *
@@ -158,7 +159,7 @@ export const CURSOS: Curso[] = [
   },
   {
     slug: "video-maker-e-edicao",
-    nome: "Vídeo Maker e Edição",
+    nome: "Audiovisual",
     emoji: "🎬",
     promessa: "Vídeo que parece você, não template.",
     resumo:
@@ -184,12 +185,49 @@ export function getCurso(slug: string) {
 /* ------------------------------------------------------------------ *
  * Navegação (PRD 6.3 / 6.4)
  * ------------------------------------------------------------------ */
-export const NAV_LINKS = [
-  { label: "Sobre", href: "/sobre" },
-  { label: "Escola", href: "/escola" },
-  { label: "Mentoria", href: "/mentoria" },
-  { label: "Agência", href: "/agencia" },
+export type NavLink = {
+  label: string;
+  href: string;
+  /** Itens de submenu — quando ausente, o link não abre dropdown. */
+  children?: { label: string; href: string }[];
+};
+
+export const NAV_LINKS: NavLink[] = [
+  {
+    label: "Sobre",
+    href: "/sobre",
+    children: [
+      { label: "Quem Somos", href: "/sobre" },
+      { label: "Portfólio", href: "/portfolio" },
+      { label: "Histórico", href: "/sobre#historico" },
+    ],
+  },
+  {
+    label: "Escola",
+    href: "/escola",
+    children: [
+      { label: "Destrave", href: "/escola/destrave" },
+      { label: "Audiovisual", href: "/escola/video-maker-e-edicao" },
+      { label: "Social Media", href: "/escola/social-media-na-pratica" },
+      { label: "UGC", href: "/aulao-ugc" },
+    ],
+  },
+  {
+    label: "Agência",
+    href: "/agencia",
+    children: [
+      { label: "Serviços", href: "/agencia" },
+      { label: "Cases", href: "/agencia#cases" },
+    ],
+  },
   { label: "Comunidade", href: "/comunidade" },
-  { label: "Conteúdo", href: "/conteudo" },
-  { label: "Contato", href: "/contato" },
-] as const;
+  {
+    label: "Conteúdo",
+    href: "/conteudo",
+    children: [
+      { label: "Blog", href: "/conteudo" },
+      { label: "Diagnóstico", href: "/diagnostico" },
+      { label: "Aulão UGC", href: "/aulao-ugc" },
+    ],
+  },
+];

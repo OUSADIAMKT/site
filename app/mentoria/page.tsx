@@ -5,6 +5,7 @@ import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
 import { FaqList } from "@/components/sections/Faq";
 import { ContentSlot } from "@/components/ui/MediaSlot";
+import { CasesVitrine } from "@/components/sections/Cases";
 import { AplicacaoForm } from "@/components/forms/AplicacaoForm";
 import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
 import { wa } from "@/lib/site";
@@ -219,16 +220,13 @@ export default function MentoriaPage() {
             <p className="eyebrow mb-4">Resultados</p>
             <h2 className="headline-section">Quem acelerou, conta</h2>
           </Reveal>
-          <div className="mt-10 grid gap-5 md:grid-cols-3">
-            {[1, 2, 3].map((i) => (
-              <Reveal key={i} delay={i * 0.05}>
-                <div className="card-surface h-full p-6">
-                  <ContentSlot
-                    label={`Case de mentorado ${i}: aceleração com números reais. Nome, cidade e nicho.`}
-                  />
-                </div>
-              </Reveal>
-            ))}
+          <div className="mt-10">
+            <CasesVitrine
+              frente="mentoria"
+              slotLabel={(i) =>
+                `Case de mentorado ${i}: aceleração com números reais. Nome, cidade e nicho.`
+              }
+            />
           </div>
         </div>
       </section>

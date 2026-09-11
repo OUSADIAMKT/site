@@ -1,6 +1,7 @@
 import type { ReactNode } from "react";
 import { Reveal } from "@/components/ui/Reveal";
-import { GrafismoBand, Leaf, RiverLines } from "@/components/ui/Motifs";
+import { Leaf, RiverLines } from "@/components/ui/Motifs";
+import { KeneStrip } from "@/components/ui/graphics/Kene";
 
 /** Hero padrão das páginas internas — mesmo ritmo escuro da dobra 1 da Home. */
 export function PageHero({
@@ -50,7 +51,7 @@ export function PageHero({
           </Reveal>
         )}
       </div>
-      <GrafismoBand color="#ffc61a" height={20} className="opacity-70" />
+      <KeneStrip motif="iso" height={20} className="text-amarelo opacity-70" />
     </section>
   );
 }
