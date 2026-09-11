@@ -43,7 +43,7 @@ conforme a regra do PRD 7.3.
 | 13 | **Cases de mentorados** com números reais — nenhum case de mentoria veio no portfólio em PDF, então `/mentoria` segue com slot | `lib/portfolio.ts` (`frente: "mentoria"`) |
 | 14 | **Processo e prazos da agência** (os cases de marca já entraram pelo portfólio) | `/agencia` |
 | 14b | **Cidade de cada case** — o PDF não informa; enquanto for `null`, a etiqueta de cidade não aparece no cartão | `lib/portfolio.ts` → `cidade` |
-| 14c | **Autorização de imagem** para os screenshots de Instagram dos embaixadores do Gênese (perfis de terceiros) e para os nomes das 5 embaixadoras EKL. Ficaram **fora** do site até o ok. | `/portfolio` |
+| 14c | ~~**Autorização de imagem** para os screenshots de Instagram dos embaixadores do Gênese (perfis de terceiros) e para os nomes das 5 embaixadoras EKL. Ficaram **fora** do site até o ok.~~ **Resolvido em 10/09/2026:** cliente confirmou a autorização das duas frentes — `/portfolio` liberado pro deploy. | `/portfolio` |
 | 15 | **Regras de entrada da comunidade** (preço, critério, formato) | `/comunidade` |
 | 16 | **Corpo dos 4 posts** + capas + datas de publicação | `content/posts/*.mdx` — escrever no lugar do bloco `<Pendente>`, preencher `data:` e `capa:`. Ver `content/README.md` |
 | 17 | **Anos dos marcos** da linha do tempo | `/sobre` |
@@ -58,9 +58,11 @@ conforme a regra do PRD 7.3.
   cravar; as variantes B e C estão no PRD (seção 8.1).
 - **Barra de campanha:** desligada (`CAMPAIGN.active = false` em `lib/site.ts`).
   Ligar só em janela de lançamento, preenchendo a data.
-- **Números de prova social:** hoje o site publica 30+ turmas, 2x Amazon
-  Marketing Day, +500 alunos e #1 do Norte. Confirmar o restante antes do ar —
-  número fraco ou não verificável deve sair.
+- **Números de prova social:** hoje o site publica 30+ turmas, +1000 alunos,
+  2x congressos Amazon Marketing Day e 1x liderança do WCD (Dia Mundial da
+  Criatividade) — conforme o PRD, ainda sem validação final do cliente.
+  Confirmar antes do ar: número fraco ou incorreto exposto é risco de
+  credibilidade, não só de precisão.
 - ~~**Divergência no número de turmas.**~~ Resolvido em 10/09/2026: o cliente
   confirmou **mais de 30 turmas** (o PRD dizia 22+, desatualizado). Alinhado em
   `lib/site.ts` (`STATS`), Home (2 menções), `/sobre` (história e linha do
