@@ -8,7 +8,7 @@ export function AnnouncementBar() {
   if (!CAMPAIGN.active) return null;
 
   return (
-    <div className="bg-amarelo text-[#1a0b2e]">
+    <div data-no-print className="bg-amarelo text-[#1a0b2e]">
       <div className="container-site flex items-center justify-center gap-2 py-2 text-center">
         <span className="font-mono text-[0.7rem] font-semibold uppercase tracking-wider sm:text-xs">
           🌱 {CAMPAIGN.text}{" "}

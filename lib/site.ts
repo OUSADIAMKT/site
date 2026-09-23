@@ -99,6 +99,38 @@ export const SHEET_ENDPOINT_DIAGNOSTICO =
  */
 export const NEWSLETTER_ENDPOINT = ""; // TODO: colar a URL /exec depois de implantar
 
+/**
+ * Web App do Google Apps Script que grava cada diagnóstico do "Ouse Ser
+ * Você" (método Satoyiro, `/metodo-satoyiro`) numa planilha própria, separada
+ * da do Diagnóstico de Maturidade. Script pronto em
+ * `docs/apps-script/metodo-satoyiro-google-sheets.gs` — falta implantar
+ * (Extensões > Apps Script > Implantar > App da Web > "Qualquer pessoa") e
+ * colar aqui a URL terminada em `/exec`. Testar com GET antes: deve responder
+ * "Ouse Ser Você online".
+ */
+export const SHEET_ENDPOINT_SATOYIRO =
+  "https://script.google.com/macros/s/AKfycbyaPiYzKqNDUE3DMSOheELvUvDQNRnEPV1aG4Seos3Kf9wk28IytLqtYgUym7FcFMxt/exec";
+
+/**
+ * URL de leitura pública da mesma planilha, em CSV — usada só pelo Painel do
+ * Educador (`/metodo-satoyiro/educador`) pra listar os alunos, já que o site
+ * é 100% estático e não tem um banco de dados pra consultar.
+ *
+ * Como gerar: na planilha, Arquivo > Compartilhar > Publicar na Web > escolha
+ * a aba de respostas > formato CSV > Publicar. Cole aqui a URL gerada
+ * (termina em `output=csv`).
+ */
+export const SHEET_CSV_SATOYIRO = ""; // TODO: colar a URL de publicação CSV
+
+/**
+ * Senha do Painel do Educador. **Isto não é segurança de verdade**: o site é
+ * estático (sem servidor), então qualquer valor aqui fica visível pra quem
+ * inspecionar o código-fonte da página. Serve só pra afastar curiosos —
+ * os dados de verdade (planilha do Google) têm o controle de acesso do
+ * Google Drive, que é o que realmente protege as respostas dos alunos.
+ */
+export const SENHA_PAINEL_EDUCADOR = ""; // TODO: defina uma senha simples
+
 export const SOCIAL = {
   instagram: "https://instagram.com/ousadiamkt",
   tiktok: "", // TODO

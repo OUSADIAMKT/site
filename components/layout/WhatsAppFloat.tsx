@@ -9,6 +9,7 @@ export function WhatsAppFloat() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Falar no WhatsApp"
+      data-no-print
       className="group fixed bottom-5 right-5 z-50 flex items-center gap-3"
     >
       <span className="pointer-events-none hidden translate-x-2 rounded-full border border-border bg-ink px-4 py-2 font-mono text-xs text-foreground opacity-0 shadow-lg transition-all group-hover:translate-x-0 group-hover:opacity-100 md:block">

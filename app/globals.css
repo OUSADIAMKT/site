@@ -143,6 +143,25 @@
   --ring: var(--amarelo);
 }
 
+/* "Baixar meu mapa (PDF)" (ver /metodo-satoyiro) usa window.print() — sem
+   biblioteca extra, a pessoa escolhe "Salvar como PDF" no diálogo do
+   navegador. Isto some com navegação, CTAs flutuantes e botões de ação, que
+   não fazem sentido numa página impressa. */
+@media print {
+  header,
+  footer,
+  [data-no-print] {
+    display: none !important;
+  }
+  /* Sem isto, boa parte dos navegadores descarta fundo escuro e cor de
+     destaque ao imprimir — e o texto amarelo/verde vira ilegível em cima do
+     branco padrão da página impressa. */
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+}
+
 @layer base {
   * {
     @apply border-border outline-ring/50;
