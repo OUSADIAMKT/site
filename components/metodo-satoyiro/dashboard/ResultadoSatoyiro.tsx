@@ -9,6 +9,7 @@ import { RadarPolos } from "./RadarPolos";
 import { Matriz2x2 } from "./Matriz2x2";
 import { Rosca } from "./Rosca";
 import { Recomendacoes } from "./Recomendacoes";
+import { DesafioConfianca } from "./DesafioConfianca";
 import {
   CAP1_MATRIZ,
   CAP1_TEXTO,
@@ -17,6 +18,7 @@ import {
   CAP3_MATRIZ,
   CAP3_TEXTO,
 } from "@/lib/metodo-satoyiro/textos";
+import { CAP1_CONFIANCA } from "@/lib/metodo-satoyiro/confianca";
 import { recomendacoesPara } from "@/lib/metodo-satoyiro/recomendacoes";
 import { compartilharOuBaixarImagem, gerarImagemStories } from "@/lib/metodo-satoyiro/compartilhar";
 import type { LeadAluno, Resultado } from "@/lib/metodo-satoyiro/tipos";
@@ -197,6 +199,17 @@ export function ResultadoSatoyiro({
         </div>
       </Secao>
 
+      {/* Autoconfiança e autoestima */}
+      <Secao>
+        <h3 className="font-display text-2xl">Construindo sua autoconfiança</h3>
+        <p className="text-body mt-2 text-sm">
+          Autoestima não se resolve num dia. Mas um passo pequeno, repetido por 21 dias, muda como você se enxerga.
+        </p>
+        <div className="mt-6">
+          <DesafioConfianca bloco={CAP1_CONFIANCA[r.cap1.principal]} />
+        </div>
+      </Secao>
+
       {/* Suas palavras */}
       {r.abertas.length > 0 && (
         <Secao>
@@ -224,7 +237,7 @@ export function ResultadoSatoyiro({
       <Secao>
         <h3 className="font-display text-2xl">Para te inspirar</h3>
         <p className="text-body mt-2 text-sm">
-          Filmes e séries que conversam com o seu resultado de hoje.
+          Livros, filmes e séries que conversam com o seu resultado de hoje.
         </p>
         <div className="mt-6">
           <Recomendacoes itens={recomendacoes} />
