@@ -40,8 +40,8 @@ export function TelaBoasVindas({
         <span>
           Ferramenta pedagógica de reflexão, do método Satoyiro. Não é um
           teste psicológico. No fim, vamos pedir seu nome completo, e-mail,
-          contato, rede social e seu consentimento, para liberar o mapa
-          completo.
+          contato, rede social, data de nascimento e seu consentimento, para
+          liberar o mapa completo.
         </span>
       </p>
 

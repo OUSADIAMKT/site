@@ -43,6 +43,8 @@ var COLUNAS = [
   "email",
   "contato",
   "rede_social",
+  "data_nascimento",
+  "numero_missao",
   "tipo_mbti",
   "apelido_mbti",
   "grupo",
@@ -91,6 +93,7 @@ function doPost(e) {
         "E-mail: " + (dados.email || "não informado") + "\n" +
         "Contato: " + (dados.contato || "não informado") + "\n" +
         "Rede social: " + (dados.rede_social || "não informado") + "\n" +
+        "Número de missão: " + (dados.numero_missao || "não calculado") + "\n" +
         "Tipo: " + (dados.tipo_mbti || "") + " (" + (dados.apelido_mbti || "") + ")\n" +
         "Como me vejo: " + (dados.como_me_vejo || "") + "\n" +
         "Meu caminho: " + (dados.meu_caminho || "") + "\n" +

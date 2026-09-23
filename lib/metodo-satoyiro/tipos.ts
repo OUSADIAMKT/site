@@ -116,6 +116,8 @@ export type LeadAluno = {
   email: string;
   contato: string;
   redeSocial: string;
+  /** Formato ISO (yyyy-mm-dd), como vem de um <input type="date">. */
+  dataNascimento: string;
 };
 
 export const LEAD_ALUNO_VAZIO: LeadAluno = {
@@ -125,4 +127,5 @@ export const LEAD_ALUNO_VAZIO: LeadAluno = {
   email: "",
   contato: "",
   redeSocial: "",
+  dataNascimento: "",
 };

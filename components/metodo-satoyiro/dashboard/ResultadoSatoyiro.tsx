@@ -10,6 +10,7 @@ import { Matriz2x2 } from "./Matriz2x2";
 import { Rosca } from "./Rosca";
 import { Recomendacoes } from "./Recomendacoes";
 import { DesafioConfianca } from "./DesafioConfianca";
+import { NumeroMissao } from "./NumeroMissao";
 import {
   CAP1_MATRIZ,
   CAP1_TEXTO,
@@ -19,6 +20,7 @@ import {
   CAP3_TEXTO,
 } from "@/lib/metodo-satoyiro/textos";
 import { CAP1_CONFIANCA } from "@/lib/metodo-satoyiro/confianca";
+import { calcularNumeroMissao, NUMERO_MISSAO_TEXTO } from "@/lib/metodo-satoyiro/numerologia";
 import { recomendacoesPara } from "@/lib/metodo-satoyiro/recomendacoes";
 import { compartilharOuBaixarImagem, gerarImagemStories } from "@/lib/metodo-satoyiro/compartilhar";
 import type { LeadAluno, Resultado } from "@/lib/metodo-satoyiro/tipos";
@@ -52,6 +54,7 @@ export function ResultadoSatoyiro({
   const primeiroNome = lead.primeiroNome || lead.nomeCompleto.split(" ")[0] || "";
   const hoje = new Intl.DateTimeFormat("pt-BR", { dateStyle: "long" }).format(new Date());
   const recomendacoes = recomendacoesPara(r);
+  const numeroMissao = calcularNumeroMissao(lead.dataNascimento);
 
   const roscaCap1 = Object.entries(r.cap1.contagem).map(([cat, valor], idx) => ({
     rotulo: CAP1_TEXTO[cat as keyof typeof CAP1_TEXTO].titulo,
@@ -104,6 +107,19 @@ export function ResultadoSatoyiro({
       <Secao>
         <KpiCards resultado={r} />
       </Secao>
+
+      {/* Número de missão (numerologia pitagórica) */}
+      {numeroMissao !== null && (
+        <Secao>
+          <h3 className="font-display text-2xl">Seu número de missão de vida</h3>
+          <p className="text-body mt-2 text-sm">
+            Numerologia pitagórica, calculada a partir da sua data de nascimento.
+          </p>
+          <div className="mt-6">
+            <NumeroMissao numero={numeroMissao} bloco={NUMERO_MISSAO_TEXTO[numeroMissao]} />
+          </div>
+        </Secao>
+      )}
 
       {/* Barras divergentes + radar */}
       <Secao>

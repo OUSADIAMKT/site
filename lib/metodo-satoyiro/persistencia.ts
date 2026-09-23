@@ -1,4 +1,5 @@
 import { SHEET_ENDPOINT_SATOYIRO } from "@/lib/site";
+import { calcularNumeroMissao } from "./numerologia";
 import type { LeadAluno, Resultado } from "./tipos";
 
 /**
@@ -14,6 +15,8 @@ export function payloadPlanilha(r: Resultado, lead: LeadAluno) {
     email: lead.email,
     contato: lead.contato,
     rede_social: lead.redeSocial,
+    data_nascimento: lead.dataNascimento,
+    numero_missao: calcularNumeroMissao(lead.dataNascimento) ?? "",
     tipo_mbti: r.mbti.tipo,
     apelido_mbti: r.mbti.apelido,
     grupo: r.mbti.grupo,

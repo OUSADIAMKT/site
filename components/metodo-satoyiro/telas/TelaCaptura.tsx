@@ -24,12 +24,14 @@ export function TelaCaptura({
       email: String(dados.get("email") ?? "").trim(),
       contato: String(dados.get("contato") ?? "").trim(),
       redeSocial: String(dados.get("redeSocial") ?? "").trim(),
+      dataNascimento: String(dados.get("dataNascimento") ?? "").trim(),
     };
 
     const invalidos: string[] = [];
     if (valores.nomeCompleto.length < 2) invalidos.push("nomeCompleto");
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(valores.email)) invalidos.push("email");
     if (valores.contato.replace(/\D/g, "").length < 8) invalidos.push("contato");
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(valores.dataNascimento)) invalidos.push("dataNascimento");
     if (!dados.get("consent")) invalidos.push("consent");
 
     form.querySelectorAll<HTMLInputElement>("input[name]").forEach((f) => {
@@ -51,6 +53,7 @@ export function TelaCaptura({
       email: valores.email,
       contato: valores.contato,
       redeSocial: valores.redeSocial,
+      dataNascimento: valores.dataNascimento,
     });
   }
 
@@ -99,6 +102,14 @@ export function TelaCaptura({
               id="os_redeSocial"
               name="redeSocial"
               placeholder="@seuperfil"
+            />
+          </Field>
+          <Field id="os_dataNascimento" label="Data de nascimento" required full>
+            <Input
+              id="os_dataNascimento"
+              name="dataNascimento"
+              type="date"
+              autoComplete="bday"
             />
           </Field>
         </div>
