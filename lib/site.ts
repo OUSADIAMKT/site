@@ -51,6 +51,16 @@ export function waAulaoUgc(
   return `https://wa.me/${WHATSAPP_UGC}?text=${encodeURIComponent(texto)}`;
 }
 
+/**
+ * Link de WhatsApp da Mentoria Viver do Digital — também cai na Juh.
+ * Enquanto não houver checkout, a inscrição fecha na conversa (blueprint).
+ */
+export function waMentoriaUgc(
+  texto = "Oi, Juh! Quero minha vaga na Mentoria Viver do Digital (Turma 1).",
+) {
+  return waAulaoUgc(texto);
+}
+
 /** Mensagens pré-preenchidas por contexto (PRD 6.6). */
 const WA_MESSAGES = {
   home: "Oi! Vim pelo site e quero entrar pra Ousadia.",

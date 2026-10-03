@@ -50,6 +50,7 @@ conforme a regra do PRD 7.3.
 | 18 | **Logos** de marcas atendidas, eventos e mídia | Home (dobra 2) |
 | 19 | **Data, horário e valor da próxima turma do aulão de UGC** — a página antiga era amarrada ao dia 1º/08/2026 e ao checkout da HeroSpark; a nova é evergreen e manda pro WhatsApp | `/aulao-ugc` (FAQ) |
 | 20 | **Autorização de uso** dos 6 prints de campanha aprovada do aulão (conversas de alunas, com nome de marca à vista: DIY, Samsung, Oral-B, Dove, Lux, Pantene). Estavam publicados na página antiga e vieram junto — mesma ressalva do item 14c | `/aulao-ugc`, `public/aulao-ugc/` |
+| 21 | **Mentoria Viver do Digital** — validar com a Juh os temas dos 8 encontros e os 3 bônus; definir a **data-limite** das inscrições (sugestão: 20/nov), o **valor da parcela em 12x** e se a venda é por checkout ou pelo WhatsApp (hoje: WhatsApp da Juh); trocar a mídia temporária do aulão pela **foto do cocar** e pelos **depoimentos da turma de 7/nov**; conferir os números (70+ marcas, 16 mil seguidores, 76 mil views) na semana da publicação. Página fora do menu (lançamento previsto pra 10/nov) | `/mentoria-viver-do-digital` |
 
 ## 4. Decisões do cliente
 
