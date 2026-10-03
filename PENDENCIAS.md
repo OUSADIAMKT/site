@@ -48,7 +48,7 @@ conforme a regra do PRD 7.3.
 | 16 | **Corpo dos 4 posts** + capas + datas de publicação | `content/posts/*.mdx` — escrever no lugar do bloco `<Pendente>`, preencher `data:` e `capa:`. Ver `content/README.md` |
 | 17 | **Anos dos marcos** da linha do tempo | `/sobre` |
 | 18 | **Logos** de marcas atendidas, eventos e mídia | Home (dobra 2) |
-| 19 | **Data, horário e valor da próxima turma do aulão de UGC** — a página antiga era amarrada ao dia 1º/08/2026 e ao checkout da HeroSpark; a nova é evergreen e manda pro WhatsApp | `/aulao-ugc` (FAQ) |
+| 19 | ~~Data, horário e valor da próxima turma do aulão~~ **Datas e lotes definidos em 03/10/2026** (blueprint): sábado 7/nov, 15h–20h; lote 1 R$37 (26–30/out), lote 2 R$47 (1º–6/nov). As CTAs caem no grupo do Mapa do UGC. **Falta:** plataforma de checkout (Hotmart ou Kiwify), plataforma da transmissão e se haverá gravação | `/aulao-ugc` (FAQ) |
 | 20 | **Autorização de uso** dos 6 prints de campanha aprovada do aulão (conversas de alunas, com nome de marca à vista: DIY, Samsung, Oral-B, Dove, Lux, Pantene). Estavam publicados na página antiga e vieram junto — mesma ressalva do item 14c | `/aulao-ugc`, `public/aulao-ugc/` |
 | 21 | **Mentoria Viver do Digital** — validar com a Juh os temas dos 8 encontros e os 3 bônus; definir a **data-limite** das inscrições (sugestão: 20/nov), o **valor da parcela em 12x** e se a venda é por checkout ou pelo WhatsApp (hoje: WhatsApp da Juh); trocar a mídia temporária do aulão pela **foto do cocar** e pelos **depoimentos da turma de 7/nov**; conferir os números (70+ marcas, 16 mil seguidores, 76 mil views) na semana da publicação. Página fora do menu (lançamento previsto pra 10/nov) | `/mentoria-viver-do-digital` |
 

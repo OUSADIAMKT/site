@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, MessageCircle } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
@@ -9,64 +9,80 @@ import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { ContentSlot } from "@/components/ui/MediaSlot";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
-import { SITE, waAulaoUgc } from "@/lib/site";
+import { GRUPO_MAPA_UGC, SITE, waAulaoUgc } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Aulão Mapa do UGC Creator | Do zero ao primeiro portfólio",
+  title: "Aulão Mapa do UGC | Sábado, 7/nov, ao vivo com a Juh Araújo",
   description:
-    "Imersão ao vivo com Juliana Araújo pra sair do celular na mão e chegar ao primeiro portfólio de UGC: mercado, apresentação, portfólio e abordagem. Sem precisar ser influenciadora.",
+    "Cinco horas ao vivo com Juliana Araújo, creator de Altamira com 70+ marcas atendidas: saia com perfil de UGC arrumado, portfólio no Canva e as primeiras mensagens enviadas para marcas. Sábado, 7/nov, das 15h às 20h. Lote 1 a R$37.",
   alternates: { canonical: `${SITE.url}/aulao-ugc` },
 };
 
 /**
- * Landing de captura do aulão. A página antiga
- * (`legado/social-ugc-ppc/ugc/aulao_ugc.html`) era amarrada a uma data única —
- * 1º de agosto de 2026, com contagem regressiva e checkout da HeroSpark.
- * Aqui a copy vira evergreen: quem chega fora de janela de turma cai no
- * WhatsApp da Juh em vez de num checkout morto. Data e valor da próxima turma
- * ficam em ContentSlot até o time confirmar — PRD 8.2, nunca inventar dado.
+ * Landing do Aulão Mapa do UGC, turma de 7/nov/2026. Datas, lotes e as
+ * 4 rotas vêm do "Blueprint de Lançamento — Mapa do UGC" (03/10/2026).
+ * A página antiga (`legado/social-ugc-ppc/ugc/aulao_ugc.html`) era da turma
+ * de 1º/08 e usava o Método MAPA por letras — o blueprint trocou pelas
+ * 4 rotas (Perfil, Portfólio, Prospecção, Plataformas).
+ *
+ * Toda CTA principal cai no grupo de WhatsApp: o checkout ainda não foi
+ * escolhido (Hotmart ou Kiwify) e o link do lote sai primeiro no grupo.
+ * O pitch do curso de R$197 e a mentoria **não** aparecem aqui de propósito —
+ * regra do blueprint: o aulão termina com uma única oferta, feita ao vivo.
  */
 
-const CONTEUDO = [
+const LOTES = [
   {
-    t: "Como funciona o UGC",
-    d: "O papel da creator, o que as marcas contratam e como esse serviço se diferencia da influência digital.",
+    nome: "Lote 1",
+    preco: "R$ 37",
+    quando: "De 26 a 30/out",
+    nota: "Abre na segunda, 26/out. O link sai primeiro no grupo.",
   },
   {
-    t: "Perfil e apresentação",
-    d: "O que organizar para comunicar com clareza quem você é, o que produz e como pode ajudar uma marca.",
-  },
-  {
-    t: "Primeiro portfólio",
-    d: "Como planejar conteúdos demonstrativos usando produtos que você já tem, mesmo antes do primeiro cliente.",
-  },
-  {
-    t: "Abordagem profissional",
-    d: "Como buscar marcas, iniciar conversas e apresentar seu trabalho sem depender de ser descoberta por acaso.",
+    nome: "Lote 2",
+    preco: "R$ 47",
+    quando: "De 1º a 6/nov",
+    nota: "A virada de lote deixa o ingresso R$10 mais caro.",
   },
 ];
 
-const MAPA = [
+const ROTAS = [
   {
-    letra: "M",
-    t: "Mercado e direção",
-    d: "Entenda o que é UGC, como as marcas usam esse conteúdo e quais habilidades você precisa desenvolver.",
+    n: "01",
+    t: "Perfil",
+    d: "O que é UGC, nicho, bio, foto, destaques e link. Um perfil de aluna é arrumado ao vivo.",
+    leva: "Modelo de bio + roteiro de destaques",
   },
   {
-    letra: "A",
-    t: "Apresentação profissional",
-    d: "Organize seu posicionamento e seu perfil para apresentar seu trabalho com mais clareza e profissionalismo.",
+    n: "02",
+    t: "Portfólio",
+    d: "Canva passo a passo e o que colocar mesmo sem marca, gravando UGC com produto que você tem em casa.",
+    leva: "Templates de portfólio",
   },
   {
-    letra: "P",
-    t: "Portfólio e produção",
-    d: "Planeje conteúdos demonstrativos e estruture um portfólio inicial, mesmo sem trabalhos anteriores para marcas.",
+    n: "03",
+    t: "Prospecção",
+    d: "Como achar marcas, como abordar e a diferença entre permuta e cachê. Todo mundo manda uma mensagem ao vivo.",
+    leva: "Prompts de abordagem",
   },
   {
-    letra: "A",
-    t: "Abordagem e acordos",
-    d: "Os fundamentos para encontrar empresas, iniciar conversas e alinhar proposta, prazo, entrega e uso do conteúdo.",
+    n: "04",
+    t: "Plataformas",
+    d: "Cadastro nas plataformas de UGC e nos marketplaces de creators, pra você ser encontrada também.",
+    leva: "Lista de plataformas",
   },
+];
+
+/** Grade do dia. O pitch das 18h45 fica de fora — é condição só ao vivo. */
+const AGENDA = [
+  { h: "15h00", t: "Abertura: de Altamira para 70 marcas, e as regras da tarde" },
+  { h: "15h20", t: "Rota 1 · Perfil" },
+  { h: "16h10", t: "Pausa e desafio: story “tô no Mapa do UGC”" },
+  { h: "16h20", t: "Rota 2 · Portfólio" },
+  { h: "17h10", t: "Rota 3 · Prospecção, com a primeira mensagem enviada" },
+  { h: "17h55", t: "Rota 4 · Plataformas" },
+  { h: "18h20", t: "Jackson Satoyiro: UGC como negócio" },
+  { h: "18h45", t: "Perguntas, novidades e encerramento às 20h" },
 ];
 
 const PUBLICO = [
@@ -76,7 +92,7 @@ const PUBLICO = [
   },
   {
     t: "Quem tem poucos seguidores",
-    d: "Pra quem quer criar para marcas e ainda não construiu uma audiência grande nas redes.",
+    d: "No UGC, a marca compra o seu vídeo, não o seu alcance. Dá pra fechar com marca grande tendo poucos seguidores.",
   },
   {
     t: "Quem gosta de gravar vídeos",
@@ -84,7 +100,7 @@ const PUBLICO = [
   },
   {
     t: "Quem mora longe dos grandes centros",
-    d: "O trabalho é produzido e entregue digitalmente. Você grava da sua casa e envia os arquivos pela internet.",
+    d: "O trabalho é produzido e entregue digitalmente. E se você é do Norte, seu cenário é diferencial, não obstáculo.",
   },
 ];
 
@@ -135,57 +151,96 @@ const DEPOIMENTOS = [
 /** Respostas em texto puro — as únicas que entram no JSON-LD (PRD 11). */
 const FAQ_TEXTO = [
   {
+    q: "Quando é o aulão?",
+    a: "Sábado, 7 de novembro de 2026, das 15h às 20h (horário de Brasília), ao vivo e online. São cinco horas em ritmo de oficina, com pausa e uma entrega a cada bloco.",
+  },
+  {
+    q: "Quanto custa?",
+    a: "Lote 1: R$37, de 26 a 30 de outubro. Lote 2: R$47, de 1º a 6 de novembro. As vendas fecham no dia 6 ou quando a sala lotar. O link de cada lote sai primeiro no grupo do Mapa do UGC.",
+  },
+  {
     q: "Preciso ser influenciadora pra participar?",
-    a: "Não. Marca contrata capacidade de criar vídeo natural, claro e alinhado ao produto, não tamanho de audiência. Dá pra começar sem milhares de seguidores e sem transformar a vida pessoal em conteúdo.",
+    a: "Não. No UGC, a marca usa o conteúdo no perfil e nos anúncios dela, não no seu. Ela compra o seu vídeo, não o seu alcance. Dá pra começar sem milhares de seguidores e sem transformar a vida pessoal em conteúdo.",
   },
   {
     q: "Não moro em São Paulo. Consigo aplicar o que for ensinado?",
-    a: "Sim. A própria Juh é creator na Amazônia e atende marcas de todo lugar. O mercado de UGC é digital e remoto: você grava da sua casa e envia os arquivos pela internet.",
+    a: "Sim. A Juh mora em Altamira, no Pará, e já atendeu mais de 70 marcas sem sair da Amazônia. O mercado de UGC é digital e remoto: você grava da sua casa e envia os arquivos pela internet.",
   },
   {
     q: "Não tenho câmera profissional, posso participar?",
     a: "Pode. O aulão foi pensado pra quem vai começar usando o celular. A qualidade final depende também de iluminação, áudio, roteiro e prática, e esses pontos fazem parte da aula.",
   },
   {
-    q: "O aulão fica gravado?",
-    a: "O diferencial é a interação ao vivo e a entrega do Método MAPA em tempo real. Não conte com gravação posterior: reserve o dia na agenda quando a sua turma for confirmada.",
-  },
-  {
     q: "UGC é promessa de dinheiro rápido?",
-    a: "Não. UGC é uma habilidade que pode virar serviço quando existe preparo, prática e prospecção. A gente não promete contrato, aprovação nem faturamento.",
+    a: "Não. Permuta é a porta de entrada e cachê é o próximo passo. UGC é uma habilidade que pode virar serviço quando existe preparo, prática e prospecção. A gente não promete contrato, aprovação nem faturamento.",
   },
 ];
 
 const FAQ: FaqItem[] = [
+  ...FAQ_TEXTO.slice(0, 2),
   {
-    q: "Quando é a próxima turma e quanto custa?",
+    q: "Onde vai ser a transmissão? Fica gravado?",
     a: (
       <>
-        <ContentSlot label="Data, horário e valor da próxima turma do aulão. Confirmar com a Juh antes de publicar." />
+        <p>
+          É online. O link da sala chega pra quem garantir o ingresso, junto com
+          os lembretes do dia.
+        </p>
+        <ContentSlot
+          className="mt-3"
+          label="Plataforma da transmissão (Zoom, YouTube fechado ou própria) e se haverá gravação — decisões em aberto no blueprint."
+        />
         <p className="mt-3">
-          Chama no WhatsApp que a gente te avisa assim que a próxima data abrir,
-          com o valor e a forma de pagamento.
+          O aulão é feito pra você fazer junto, ao vivo: reserve a tarde de 7/11
+          na agenda.
         </p>
       </>
     ),
   },
-  ...FAQ_TEXTO,
+  ...FAQ_TEXTO.slice(2),
 ];
 
 export default function AulaoUgcPage() {
-  const waHref = waAulaoUgc();
+  const grupoHref = GRUPO_MAPA_UGC;
+  const juhHref = waAulaoUgc(
+    "Oi, Juh! Tenho uma dúvida sobre o Aulão Mapa do UGC de 7/11.",
+  );
 
-  const cursoJsonLd = {
+  const eventoJsonLd = {
     "@context": "https://schema.org",
-    "@type": "Course",
-    name: "Aulão Mapa do UGC Creator",
+    "@type": "Event",
+    name: "Aulão Mapa do UGC",
     description:
-      "Imersão introdutória e prática sobre o mercado de UGC: mercado e direção, apresentação profissional, portfólio e produção, abordagem e acordos.",
-    provider: {
+      "Aulão ao vivo de UGC com Juliana Araújo: as 4 rotas do Mapa do UGC — perfil, portfólio, prospecção e plataformas.",
+    startDate: "2026-11-07T15:00:00-03:00",
+    endDate: "2026-11-07T20:00:00-03:00",
+    eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
+    eventStatus: "https://schema.org/EventScheduled",
+    location: { "@type": "VirtualLocation", url: `${SITE.url}/aulao-ugc` },
+    performer: { "@type": "Person", name: "Juliana Araújo" },
+    organizer: {
       "@type": "Organization",
       name: "Ousadia Marketing",
-      sameAs: "https://instagram.com/ousadiamkt",
+      url: SITE.url,
     },
+    offers: [
+      {
+        "@type": "Offer",
+        name: "Lote 1",
+        price: "37",
+        priceCurrency: "BRL",
+        validFrom: "2026-10-26T00:00:00-03:00",
+        validThrough: "2026-10-30T23:59:59-03:00",
+      },
+      {
+        "@type": "Offer",
+        name: "Lote 2",
+        price: "47",
+        priceCurrency: "BRL",
+        validFrom: "2026-11-01T00:00:00-03:00",
+        validThrough: "2026-11-06T23:59:59-03:00",
+      },
+    ],
     inLanguage: "pt-BR",
   };
 
@@ -193,12 +248,12 @@ export default function AulaoUgcPage() {
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(cursoJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(eventoJsonLd) }}
       />
       <FaqJsonLd items={FAQ_TEXTO} />
 
       <PageHero
-        eyebrow="Aulão ao vivo · Mapa do UGC Creator"
+        eyebrow="Aulão ao vivo · Sábado, 7/nov · 15h às 20h"
         motif="river"
         title={
           <>
@@ -209,20 +264,20 @@ export default function AulaoUgcPage() {
             .
           </>
         }
-        lead="Numa tarde ao vivo, você entende como funciona o mercado de UGC, organiza sua apresentação, planeja seu primeiro portfólio e aprende a iniciar conversas com marcas — mesmo sem milhares de seguidores."
+        lead="Cinco horas ao vivo com a Juh pra você sair com o perfil de UGC arrumado, o portfólio pronto no Canva e as primeiras mensagens enviadas para marcas — mesmo sem milhares de seguidores e morando longe do Sudeste."
       >
         <div className="max-w-3xl overflow-hidden rounded-2xl border-2 border-amarelo shadow-[0_28px_70px_rgba(0,0,0,.45)]">
           <YouTubeLite
             id="2Y27xKkvnJE"
-            titulo="Vídeo de apresentação do Aulão Mapa do UGC Creator"
+            titulo="Vídeo de apresentação do Aulão Mapa do UGC"
           />
         </div>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <a href={waHref} className="btn btn-primary">
-            Quero minha vaga no aulão <ArrowRight size={16} />
+          <a href={grupoHref} className="btn btn-primary">
+            Entrar no grupo do Mapa do UGC <ArrowRight size={16} />
           </a>
           <span className="font-mono text-xs text-cinza-ink">
-            Você fala direto com a Juh no WhatsApp · Vagas limitadas pela sala
+            Lote 1 a R$37 abre em 26/out · o link sai primeiro no grupo
           </span>
         </div>
       </PageHero>
@@ -234,16 +289,16 @@ export default function AulaoUgcPage() {
           <Reveal>
             <p className="eyebrow mb-4">Uma nova possibilidade profissional</p>
             <h2 className="headline-section max-w-2xl">
-              Você não precisa ser influenciadora para criar conteúdo para
-              marcas
+              Você não precisa estar no Sudeste nem ter 100 mil seguidores pra
+              marca nacional te pagar
             </h2>
           </Reveal>
           <Reveal delay={0.06}>
             <div className="text-body mt-8 space-y-5 text-lg">
               <p>
-                Se você acompanha creators recebendo produtos, produzindo
-                campanhas e transformando vídeos em trabalho, talvez já tenha se
-                perguntado:{" "}
+                Precisa de um perfil arrumado, um portfólio e coragem de mandar a
+                primeira mensagem. Se você acompanha creators recebendo produtos
+                e fechando campanhas, talvez já tenha se perguntado:{" "}
                 <em>“por que uma marca escolheria justamente eu?”</em>
               </p>
               <p>
@@ -252,14 +307,17 @@ export default function AulaoUgcPage() {
                 <strong className="font-semibold text-foreground">
                   UGC Creator
                 </strong>{" "}
-                (criadora de conteúdo gerado pelo usuário), ela avalia
-                principalmente a capacidade de criar vídeos naturais, claros e
-                alinhados ao produto — não o tamanho da audiência.
+                (criadora de conteúdo gerado pelo usuário), ela usa o vídeo no
+                perfil e nos anúncios dela. Ela avalia a sua capacidade de criar
+                vídeos naturais, claros e alinhados ao produto — não o tamanho da
+                sua audiência.
               </p>
               <p>
-                Esse conteúdo vai pras redes sociais, pras páginas de venda e
-                pros anúncios. Por isso existe espaço pra creator que entende
-                briefing, produção, entrega e relacionamento profissional.
+                E pra quem é do Norte, tem mais: nenhuma creator de São Paulo tem
+                o seu cenário.{" "}
+                <strong className="font-semibold text-foreground">
+                  A gente não é cenário, a gente é creator.
+                </strong>
               </p>
               <p className="text-base">
                 UGC não é promessa de dinheiro fácil. É uma habilidade que pode
@@ -270,7 +328,7 @@ export default function AulaoUgcPage() {
         </div>
       </section>
 
-      {/* O que você vai aprender */}
+      {/* As 4 rotas */}
       <section className="fold-light relative overflow-hidden">
         <WaveDivider
           className="absolute inset-x-0 top-0 rotate-180"
@@ -278,25 +336,27 @@ export default function AulaoUgcPage() {
         />
         <div className="container-site relative section-padding">
           <Reveal>
-            <p className="eyebrow mb-4">O evento</p>
+            <p className="eyebrow mb-4">O método</p>
             <h2 className="headline-section max-w-2xl">
-              O que é o Aulão Mapa do UGC Creator
+              O Mapa do UGC: 4 rotas numa tarde
             </h2>
             <p className="text-body mt-5 max-w-2xl">
-              Uma imersão introdutória e prática pra você percorrer o caminho
-              entre gostar de criar vídeos e se apresentar ao mercado como UGC
-              Creator.
+              Cada rota termina com uma entrega na hora. Você não sai com
+              anotação, sai com o trabalho feito.
             </p>
           </Reveal>
           <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {CONTEUDO.map((c, i) => (
-              <Reveal key={c.t} delay={i * 0.06}>
-                <li className="card-surface h-full p-6">
+            {ROTAS.map((r, i) => (
+              <Reveal key={r.t} delay={i * 0.06}>
+                <li className="card-surface flex h-full flex-col p-6">
                   <span className="font-display text-3xl text-amarelo">
-                    {String(i + 1).padStart(2, "0")}
+                    {r.n}
                   </span>
-                  <h3 className="font-display text-lg mt-2">{c.t}</h3>
-                  <p className="text-body mt-2 text-sm">{c.d}</p>
+                  <h3 className="font-display text-lg mt-2">Rota {r.t}</h3>
+                  <p className="text-body mt-2 text-sm">{r.d}</p>
+                  <p className="mt-auto pt-4 font-mono text-[11px] uppercase tracking-wide text-floresta-deep">
+                    Você leva · {r.leva}
+                  </p>
                 </li>
               </Reveal>
             ))}
@@ -304,35 +364,38 @@ export default function AulaoUgcPage() {
         </div>
       </section>
 
-      {/* Método MAPA */}
+      {/* Grade do dia */}
       <section className="relative overflow-hidden bg-roxo section-padding">
         <GrafismoDiamonds
           color="#ffffff"
           className="absolute inset-0 opacity-[0.04]"
         />
         <div className="container-site relative">
-          <Reveal>
-            <p className="eyebrow mb-4">O método</p>
-            <h2 className="headline-section">
-              O Método <span className="text-amarelo">MAPA</span>
-            </h2>
-            <p className="text-body mt-5 max-w-2xl">
-              Quatro pilares pra transformar uma ideia solta num plano de
-              entrada no mercado de UGC.
-            </p>
-          </Reveal>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {MAPA.map((m, i) => (
-              <Reveal key={m.t} delay={i * 0.06}>
-                <div className="card-surface h-full p-6">
-                  <span className="font-display text-4xl leading-none text-amarelo">
-                    {m.letra}
-                  </span>
-                  <h3 className="font-display text-lg mt-3">{m.t}</h3>
-                  <p className="text-body mt-2 text-sm">{m.d}</p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr]">
+            <Reveal>
+              <p className="eyebrow mb-4">O dia</p>
+              <h2 className="headline-section">
+                Sábado, 7/nov,{" "}
+                <span className="text-amarelo">das 15h às 20h</span>
+              </h2>
+              <p className="text-body mt-5 max-w-md">
+                Cinco horas em ritmo de oficina: mão na massa, pausa e uma
+                entrega a cada bloco. Na abertura, você recebe o checklist do
+                Mapa. No fim, já mandou sua primeira mensagem para uma marca.
+              </p>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <ol className="card-surface divide-y divide-white/10 p-2">
+                {AGENDA.map((a) => (
+                  <li key={a.h} className="flex gap-5 px-4 py-3.5">
+                    <span className="w-14 shrink-0 font-mono text-sm text-amarelo">
+                      {a.h}
+                    </span>
+                    <span className="text-sm text-foreground">{a.t}</span>
+                  </li>
+                ))}
+              </ol>
+            </Reveal>
           </div>
         </div>
       </section>
@@ -358,29 +421,39 @@ export default function AulaoUgcPage() {
                   quem vai conduzir o aulão
                 </h2>
                 <div className="mt-6 flex flex-wrap gap-2">
-                  <span className="rounded-full border border-amarelo/50 bg-amarelo/10 px-4 py-1.5 font-mono text-xs text-amarelo">
-                    UGC Creator da Amazônia
-                  </span>
-                  <span className="rounded-full border border-amarelo/50 bg-amarelo/10 px-4 py-1.5 font-mono text-xs text-amarelo">
-                    +50 marcas atendidas
-                  </span>
+                  {[
+                    "UGC Creator da Amazônia",
+                    "70+ marcas atendidas",
+                    "COP30 e Expo Xingu",
+                  ].map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full border border-amarelo/50 bg-amarelo/10 px-4 py-1.5 font-mono text-xs text-amarelo"
+                    >
+                      {t}
+                    </span>
+                  ))}
                 </div>
                 <div className="text-body mt-6 space-y-4">
                   <p>
-                    UGC Creator da Amazônia, a Juh já produziu conteúdo pra mais
-                    de 50 marcas e construiu sua atuação longe dos grandes
-                    centros do mercado publicitário.
+                    A Juh tem 24 anos, é atriz, creator e estrategista de
+                    conteúdo, e mora em Altamira, no Pará — o terceiro maior
+                    município do mundo, longe de agência, de contato e de evento
+                    de marca. Mesmo assim, já atendeu mais de 70 marcas.
                   </p>
                   <p>
-                    Ela também começou com dúvida sobre portfólio,
-                    posicionamento e abordagem. Foi transformando cada etapa num
-                    processo — e é esse processo que ela ensina pra quem tá
+                    Não foi sorte nem número de seguidores. Foi perfil arrumado,
+                    portfólio e coragem de mandar mensagem. Ela transformou cada
+                    etapa num processo — e é esse processo que ensina pra quem tá
                     começando.
                   </p>
                   <p>
-                    No aulão, ela compartilha o que aprendeu na prática pra você
-                    enxergar o UGC como trabalho: com criatividade, sim, mas
-                    também com método, responsabilidade e visão de mercado.
+                    Na rota de negócio, o aulão recebe{" "}
+                    <strong className="font-semibold text-foreground">
+                      Jackson Satoyiro
+                    </strong>
+                    , da Ousadia Marketing, pra falar de UGC como negócio: quanto
+                    cobrar depois da permuta e como virar renda recorrente.
                   </p>
                 </div>
               </div>
@@ -465,11 +538,59 @@ export default function AulaoUgcPage() {
         </div>
       </section>
 
+      {/* Lotes */}
+      <section className="relative overflow-hidden bg-roxo section-padding">
+        <GrafismoDiamonds
+          color="#ffffff"
+          className="absolute inset-0 opacity-[0.04]"
+        />
+        <div className="container-site relative">
+          <Reveal>
+            <p className="eyebrow mb-4 text-center">Ingressos</p>
+            <h2 className="headline-section mx-auto max-w-2xl text-center">
+              Quanto antes, <span className="text-amarelo">mais barato</span>
+            </h2>
+            <p className="text-body mx-auto mt-5 max-w-xl text-center">
+              Cinco horas com a Juh, com templates, prompts e a lista de
+              plataformas inclusos. As vendas fecham em 6/nov ou quando a sala
+              lotar.
+            </p>
+          </Reveal>
+          <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-2">
+            {LOTES.map((l, i) => (
+              <Reveal key={l.nome} delay={i * 0.08}>
+                <div
+                  className={`card-surface h-full p-8 text-center ${i === 0 ? "border-2 border-amarelo" : ""}`}
+                >
+                  <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
+                    {l.nome} · {l.quando}
+                  </p>
+                  <p className="font-display mt-4 text-5xl leading-none">
+                    {l.preco}
+                  </p>
+                  <p className="text-body mt-4 text-sm">{l.nota}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.12}>
+            <div className="mt-10 flex flex-col items-center gap-3">
+              <a href={grupoHref} className="btn btn-primary">
+                Entrar no grupo e receber o link <ArrowRight size={16} />
+              </a>
+              <span className="font-mono text-xs text-cinza-ink">
+                Grupo gratuito no WhatsApp · sem spam, só o Mapa do UGC
+              </span>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       {/* FAQ */}
       <section className="fold-light relative overflow-hidden">
         <WaveDivider
           className="absolute inset-x-0 top-0 rotate-180"
-          color="var(--ink)"
+          color="var(--roxo)"
         />
         <div className="container-site relative section-padding max-w-3xl">
           <Reveal>
@@ -483,15 +604,20 @@ export default function AulaoUgcPage() {
       <CtaFinal
         title={
           <>
-            Sua vaga tá a <span className="text-amarelo">uma mensagem</span> de
-            distância
+            Sábado, 7/nov, a gente{" "}
+            <span className="text-amarelo">abre o mapa inteiro</span>
           </>
         }
-        lead="Chama a Juh no WhatsApp pra saber a data da próxima turma e garantir seu lugar na sala. As vagas da transmissão são limitadas pelo suporte."
-        ctaLabel="Quero minha vaga no aulão"
-        href={waHref}
+        lead="Entra no grupo do Mapa do UGC: é lá que o link do lote 1 sai primeiro, em 26/out, junto com os avisos e os conteúdos de aquecimento da Juh."
+        ctaLabel="Entrar no grupo do Mapa do UGC"
+        href={grupoHref}
         waveColor="var(--paper)"
-        microcopy="Você é redirecionada(o) pro WhatsApp da Juliana Araújo, que conduz o aulão."
+        secondary={
+          <a href={juhHref} className="btn btn-secondary">
+            <MessageCircle size={16} /> Tirar dúvida com a Juh
+          </a>
+        }
+        microcopy="O botão principal abre o grupo no WhatsApp. O segundo fala direto com a Juliana Araújo."
       />
     </>
   );

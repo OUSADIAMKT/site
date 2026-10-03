@@ -52,6 +52,14 @@ export function waAulaoUgc(
 }
 
 /**
+ * Grupo de WhatsApp "Mapa do UGC" da Juh — sala de espera do aulão de 7/nov.
+ * É ali que o link de cada lote sai primeiro (blueprint de lançamento,
+ * 03/10/2026), por isso as CTAs de `/aulao-ugc` caem no grupo e não no
+ * número dela. Parâmetros de compartilhamento (`?s=cl&p=i…`) tirados.
+ */
+export const GRUPO_MAPA_UGC = "https://chat.whatsapp.com/IFS158jFoeEEXqltGJMLCG";
+
+/**
  * Link de WhatsApp da Mentoria Viver do Digital — também cai na Juh.
  * Enquanto não houver checkout, a inscrição fecha na conversa (blueprint).
  */
