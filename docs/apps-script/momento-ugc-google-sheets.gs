@@ -61,8 +61,9 @@ var COLUNAS = [
   "instagram",
   "faixa_idade",
   "menor_de_idade",
-  "ddd",
   "uf",
+  "cidade",
+  "ddd",
   "momento",
   "frase_momento",
   "perfil_clt",
@@ -72,7 +73,13 @@ var COLUNAS = [
   "perfil_mae",
   "perfil_mae_solo",
   "perfil_cuida_casa",
-  "desejo",
+  "desejo_principal",
+  "desejo_proprio_dinheiro",
+  "desejo_filhos",
+  "desejo_horarios",
+  "desejo_respirar",
+  "desejo_sonho",
+  "desejo_viver_disso",
   "desejo_outro",
   "meta",
   "crenca",
@@ -405,14 +412,15 @@ function montarPainel() {
   // Contagem de cada pergunta, lado a lado (linha 4 em diante).
   var blocos = [
     ["momento", "Momento"],
-    ["desejo", "Desejo"],
+    ["desejo_principal", "Desejo principal"],
     ["meta", "Primeira vitória"],
     ["crenca", "Crença"],
     ["bloqueio", "Bloqueio"],
     ["medo", "Medo"],
     ["ajuda", "Tipo de ajuda"],
     ["faixa_idade", "Idade"],
-    ["uf", "Estado (pelo DDD)"],
+    ["uf", "Estado"],
+    ["cidade", "Cidade"],
   ];
   blocos.forEach(function (b, i) {
     var col = i * 3 + 1, L = letra(b[0]);
@@ -452,6 +460,21 @@ function montarPainel() {
       '=IFERROR(QUERY(' + faixa + ',"select ' + A + ", count(" + A + ") where " + A + " <> '' group by " + A +
       " pivot " + B + "\",1),\"\")"
     );
+  });
+
+  // Desejo (múltipla escolha): quantas marcaram cada um.
+  var desejos = [
+    ["desejo_proprio_dinheiro", "Próprio dinheiro, sem depender de ninguém"],
+    ["desejo_filhos", "Trabalhar de casa, sem abrir mão dos filhos"],
+    ["desejo_horarios", "Horários que cabem na vida"],
+    ["desejo_respirar", "Respirar no fim do mês"],
+    ["desejo_sonho", "Comprar algo que quer muito"],
+    ["desejo_viver_disso", "Viver só disso um dia"],
+  ];
+  p.getRange(31, 1).setValue("Desejos (todas as marcações)").setFontWeight("bold");
+  desejos.forEach(function (x, i) {
+    p.getRange(32 + i, 1).setValue(x[1]);
+    p.getRange(32 + i, 2).setFormula('=COUNTIF(' + R + letra(x[0]) + ':' + letra(x[0]) + ',"sim")');
   });
 
   p.setFrozenRows(2);

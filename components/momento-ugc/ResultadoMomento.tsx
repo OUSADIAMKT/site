@@ -227,7 +227,7 @@ export function ResultadoMomento({
           ))}
         </ol>
 
-        {lead.idade === "menos_18" && (
+        {r.menor && (
           <p className="mt-8 flex gap-3 rounded-xl border border-rio/40 bg-rio/10 p-5 text-sm">
             <CircleAlert size={18} className="mt-0.5 shrink-0 text-rio" aria-hidden />
             <span>{AVISO_MENOR}</span>

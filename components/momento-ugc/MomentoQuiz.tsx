@@ -2,10 +2,15 @@
 
 import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
-import { Field, FormError, Input, Select, Textarea } from "@/components/forms/fields";
+import {
+  Field,
+  FormError,
+  Input,
+  Select,
+  Textarea,
+} from "@/components/forms/fields";
 import { ResultadoMomento } from "./ResultadoMomento";
 import {
-  FAIXAS_IDADE,
   OUTRO,
   PERGUNTAS,
   calcular,
@@ -18,12 +23,30 @@ import {
 
 type Tela = "intro" | "quiz" | "aberta" | "captura" | "resultado";
 
-const LEAD_VAZIO: Lead = { nome: "", wpp: "", email: "", instagram: "", idade: "", pergunta: "" };
+const LEAD_VAZIO: Lead = {
+  nome: "",
+  wpp: "",
+  email: "",
+  instagram: "",
+  pergunta: "",
+};
 
 const COMO_FUNCIONA = [
-  { k: "01", t: "8 perguntas rápidas", d: "Sobre a sua vida, o seu momento e o que te trava. Leva uns 3 minutos." },
-  { k: "02", t: "Seu Momento UGC", d: "Você descobre em qual dos 5 momentos está e o que está te segurando." },
-  { k: "03", t: "Seu próximo passo", d: "O que fazer agora, o que estudar, o que assistir e as suas próximas vitórias." },
+  {
+    k: "01",
+    t: "10 perguntas rápidas",
+    d: "Sobre a sua vida, o seu momento e o que te trava. Leva uns 4 minutos.",
+  },
+  {
+    k: "02",
+    t: "Seu Momento UGC",
+    d: "Você descobre em qual dos 5 momentos está e o que está te segurando.",
+  },
+  {
+    k: "03",
+    t: "Seu próximo passo",
+    d: "O que fazer agora, o que estudar, o que assistir e as suas próximas vitórias.",
+  },
 ];
 
 function embaralhar(n: number) {
@@ -53,7 +76,8 @@ export function MomentoQuiz() {
   function irParaTopo() {
     const el = topo.current;
     if (!el) return;
-    const suave = !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const suave = !window.matchMedia("(prefers-reduced-motion: reduce)")
+      .matches;
     const y = el.getBoundingClientRect().top + window.scrollY - 88;
     window.scrollTo({ top: y, behavior: suave ? "smooth" : "auto" });
   }
@@ -61,9 +85,13 @@ export function MomentoQuiz() {
   const q = PERGUNTAS[i];
   const atual: Resposta = respostas[q.key] ?? { ids: [], outro: "" };
   const respondida =
-    atual.ids.length > 0 && (!atual.ids.includes(OUTRO) || atual.outro.trim().length > 0);
+    q.key === "local"
+      ? atual.ids.length > 0 && atual.outro.trim().length >= 2
+      : atual.ids.length > 0 &&
+        (!atual.ids.includes(OUTRO) || atual.outro.trim().length > 0);
   const total = PERGUNTAS.length + 1; // + o campo aberto
-  const passo = tela === "quiz" ? i : tela === "aberta" ? PERGUNTAS.length : total;
+  const passo =
+    tela === "quiz" ? i : tela === "aberta" ? PERGUNTAS.length : total;
   const progresso = Math.round((passo / total) * 100);
 
   function alternar(id: string) {
@@ -78,10 +106,20 @@ export function MomentoQuiz() {
     });
   }
 
+  function escolherUf(uf: string) {
+    setRespostas((prev) => ({
+      ...prev,
+      [q.key]: { ids: uf ? [uf] : [], outro: prev[q.key]?.outro ?? "" },
+    }));
+  }
+
   function escreverOutro(texto: string) {
     setRespostas((prev) => ({
       ...prev,
-      [q.key]: { ids: prev[q.key]?.ids ?? [OUTRO], outro: texto },
+      [q.key]: {
+        ids: prev[q.key]?.ids ?? (q.key === "local" ? [] : [OUTRO]),
+        outro: texto,
+      },
     }));
   }
 
@@ -117,20 +155,21 @@ export function MomentoQuiz() {
       wpp: String(dados.get("wpp") ?? "").trim(),
       email: String(dados.get("email") ?? "").trim(),
       instagram: String(dados.get("instagram") ?? "").trim(),
-      idade: String(dados.get("idade") ?? ""),
       pergunta: pergunta.trim(),
     };
 
     const invalidos: string[] = [];
     if (valores.nome.length < 2) invalidos.push("nome");
     if (valores.wpp.replace(/\D/g, "").length < 10) invalidos.push("wpp");
-    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(valores.email)) invalidos.push("email");
-    if (!valores.idade) invalidos.push("idade");
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(valores.email))
+      invalidos.push("email");
     if (!dados.get("consent")) invalidos.push("consent");
 
-    form.querySelectorAll<HTMLInputElement | HTMLSelectElement>("[name]").forEach((f) => {
-      f.setAttribute("aria-invalid", String(invalidos.includes(f.name)));
-    });
+    form
+      .querySelectorAll<HTMLInputElement | HTMLSelectElement>("[name]")
+      .forEach((f) => {
+        f.setAttribute("aria-invalid", String(invalidos.includes(f.name)));
+      });
     setConsentErro(invalidos.includes("consent"));
 
     if (invalidos.length) {
@@ -166,7 +205,13 @@ export function MomentoQuiz() {
             />
           </div>
           <div className="mt-2 flex justify-between font-mono text-[10px] uppercase tracking-widest text-cinza-ink">
-            <span>{tela === "quiz" ? q.tema : tela === "aberta" ? "Sua voz" : "Quase lá"}</span>
+            <span>
+              {tela === "quiz"
+                ? q.tema
+                : tela === "aberta"
+                  ? "Sua voz"
+                  : "Quase lá"}
+            </span>
             <span>
               {tela === "quiz"
                 ? `Pergunta ${i + 1} de ${PERGUNTAS.length}`
@@ -180,11 +225,14 @@ export function MomentoQuiz() {
 
       {tela === "intro" && (
         <section className="card-surface p-7 sm:p-10">
-          <p className="eyebrow">Me ajuda a criar o próximo passo pra você? 💛</p>
+          <p className="eyebrow">
+            Me ajuda a criar o próximo passo pra você? 💛
+          </p>
           <p className="text-body mt-4 max-w-2xl">
-            Responda 8 perguntas rápidas e receba na hora o seu diagnóstico: em que
-            momento você está, o que está te travando e o que fazer agora. Suas
-            respostas também vão guiar os próximos conteúdos e cursos da Ousadia.
+            Responda 10 perguntas rápidas e receba na hora o seu diagnóstico: em
+            que momento você está, o que está te travando e o que fazer agora.
+            Suas respostas também vão guiar os próximos conteúdos e cursos da
+            Ousadia.
           </p>
 
           <ul className="mt-8 grid gap-4 sm:grid-cols-3">
@@ -193,7 +241,9 @@ export function MomentoQuiz() {
                 key={e.k}
                 className="rounded-xl border border-border border-t-4 border-t-amarelo bg-white/[0.03] p-5"
               >
-                <span className="font-mono text-[10px] uppercase tracking-widest text-rio">{e.k}</span>
+                <span className="font-mono text-[10px] uppercase tracking-widest text-rio">
+                  {e.k}
+                </span>
                 <p className="font-display mt-2 text-lg">{e.t}</p>
                 <p className="text-body mt-1 text-sm">{e.d}</p>
               </li>
@@ -201,7 +251,7 @@ export function MomentoQuiz() {
           </ul>
 
           <ul className="mt-7 flex flex-wrap gap-2">
-            {["Gratuito", "~3 minutos", "Sem certo ou errado"].map((s) => (
+            {["Gratuito", "~4 minutos", "Sem certo ou errado"].map((s) => (
               <li
                 key={s}
                 className="rounded-full border border-border bg-white/5 px-4 py-2 font-mono text-xs text-cinza-ink"
@@ -218,7 +268,9 @@ export function MomentoQuiz() {
               onClick={() => {
                 setOrdens(
                   PERGUNTAS.map((p) =>
-                    p.embaralhar ? embaralhar(p.opcoes.length) : p.opcoes.map((_, k) => k),
+                    p.embaralhar
+                      ? embaralhar(p.opcoes.length)
+                      : p.opcoes.map((_, k) => k),
                   ),
                 );
                 setTela("quiz");
@@ -237,17 +289,52 @@ export function MomentoQuiz() {
             {q.tema}
           </p>
           <h2 className="font-display mt-6 text-[clamp(1.35rem,3.4vw,1.85rem)] leading-tight">
-            <span className="text-amarelo">{String(i + 1).padStart(2, "0")}.</span> {q.titulo}
+            <span className="text-amarelo">
+              {String(i + 1).padStart(2, "0")}.
+            </span>{" "}
+            {q.titulo}
           </h2>
           <p className="text-body mt-3 text-sm italic">{q.dica}</p>
 
-          <div
-            className="mt-7 space-y-3"
-            role={q.multipla ? "group" : "radiogroup"}
-            aria-label={q.titulo}
-          >
-            {[...ordens[i].map((k) => q.opcoes[k]), ...(q.outro ? [{ id: OUTRO, lab: "Outro" }] : [])].map(
-              (o) => {
+          {q.key === "local" ? (
+            <div className="mt-7 grid gap-5 sm:grid-cols-2">
+              <Field id="m_uf" label="Estado">
+                <Select
+                  id="m_uf"
+                  value={atual.ids[0] ?? ""}
+                  onChange={(e) => escolherUf(e.target.value)}
+                >
+                  <option value="" disabled>
+                    Escolha o estado
+                  </option>
+                  {q.opcoes.map((o) => (
+                    <option key={o.id} value={o.id}>
+                      {o.lab}
+                    </option>
+                  ))}
+                </Select>
+              </Field>
+              <Field id="m_cidade" label="Cidade">
+                <Input
+                  id="m_cidade"
+                  maxLength={80}
+                  autoComplete="address-level2"
+                  value={atual.outro}
+                  onChange={(e) => escreverOutro(e.target.value)}
+                  placeholder="Ex.: Altamira"
+                />
+              </Field>
+            </div>
+          ) : (
+            <div
+              className="mt-7 space-y-3"
+              role={q.multipla ? "group" : "radiogroup"}
+              aria-label={q.titulo}
+            >
+              {[
+                ...ordens[i].map((k) => q.opcoes[k]),
+                ...(q.outro ? [{ id: OUTRO, lab: "Outro" }] : []),
+              ].map((o) => {
                 const sel = atual.ids.includes(o.id);
                 return (
                   <button
@@ -264,13 +351,17 @@ export function MomentoQuiz() {
                   >
                     <span
                       className={`mt-0.5 flex size-5 shrink-0 items-center justify-center border-2 ${
-                        q.multipla ? "rounded-md" : "rounded-full"
+                        q.multipla ? "rounded-[4px]" : "rounded-full"
                       } ${sel ? "border-amarelo bg-amarelo" : "border-input"}`}
                       aria-hidden
                     >
                       {sel &&
                         (q.multipla ? (
-                          <Check size={14} className="text-[#1a0b2e]" strokeWidth={3} />
+                          <Check
+                            size={14}
+                            className="text-[#1a0b2e]"
+                            strokeWidth={3}
+                          />
                         ) : (
                           <span className="size-2 rounded-full bg-[#1a0b2e]" />
                         ))}
@@ -278,11 +369,11 @@ export function MomentoQuiz() {
                     <span className="text-sm leading-relaxed">{o.lab}</span>
                   </button>
                 );
-              },
-            )}
-          </div>
+              })}
+            </div>
+          )}
 
-          {atual.ids.includes(OUTRO) && (
+          {q.key !== "local" && atual.ids.includes(OUTRO) && (
             <div className="mt-4">
               <label htmlFor={`outro_${q.key}`} className="sr-only">
                 Escreva com as suas palavras
@@ -331,7 +422,8 @@ export function MomentoQuiz() {
             Se pudesse perguntar uma coisa para a Juh sobre UGC, o que seria?
           </h2>
           <p className="text-body mt-3 text-sm italic">
-            Pode escrever do seu jeito. As perguntas mais repetidas viram conteúdo.
+            Pode escrever do seu jeito. As perguntas mais repetidas viram
+            conteúdo.
           </p>
           <div className="mt-7">
             <label htmlFor="m_pergunta" className="sr-only">
@@ -366,7 +458,9 @@ export function MomentoQuiz() {
       {tela === "captura" && (
         <section className="card-surface p-7 sm:p-10">
           <p className="eyebrow">Seu diagnóstico está pronto ✨</p>
-          <h2 className="headline-section mt-4">Pra onde a gente manda o seu Momento UGC?</h2>
+          <h2 className="headline-section mt-4">
+            Pra onde a gente manda o seu Momento UGC?
+          </h2>
           <p className="text-body mt-4 max-w-2xl">
             Você vê o resultado aqui na hora, e a gente também manda uma cópia
             completa pro seu e-mail, pra você consultar quando quiser.
@@ -375,7 +469,12 @@ export function MomentoQuiz() {
           <form onSubmit={enviarCaptura} noValidate className="mt-8 space-y-5">
             <div className="grid gap-5 sm:grid-cols-2">
               <Field id="m_nome" label="Nome" required>
-                <Input id="m_nome" name="nome" autoComplete="name" placeholder="Como podemos te chamar" />
+                <Input
+                  id="m_nome"
+                  name="nome"
+                  autoComplete="name"
+                  placeholder="Como podemos te chamar"
+                />
               </Field>
               <Field id="m_wpp" label="WhatsApp" required>
                 <Input
@@ -396,19 +495,11 @@ export function MomentoQuiz() {
                 />
               </Field>
               <Field id="m_instagram" label="Instagram">
-                <Input id="m_instagram" name="instagram" placeholder="@seuperfil" />
-              </Field>
-              <Field id="m_idade" label="Idade" required full>
-                <Select id="m_idade" name="idade" defaultValue="">
-                  <option value="" disabled>
-                    Escolha a sua faixa de idade
-                  </option>
-                  {FAIXAS_IDADE.map((f) => (
-                    <option key={f.id} value={f.id}>
-                      {f.lab}
-                    </option>
-                  ))}
-                </Select>
+                <Input
+                  id="m_instagram"
+                  name="instagram"
+                  placeholder="@seuperfil"
+                />
               </Field>
             </div>
 
@@ -427,10 +518,10 @@ export function MomentoQuiz() {
                 }`}
               />
               <span>
-                Autorizo a Ousadia e a Juh a guardar minhas respostas e me enviar o
-                diagnóstico e conteúdos sobre UGC pelo e-mail e WhatsApp informados.
-                Meus dados não são repassados a ninguém, e posso pedir para sair
-                quando quiser.
+                Autorizo a Ousadia e a Juh a guardar minhas respostas e me
+                enviar o diagnóstico e conteúdos sobre UGC pelo e-mail e
+                WhatsApp informados. Meus dados não são repassados a ninguém, e
+                posso pedir para sair quando quiser.
               </span>
             </label>
 
@@ -444,7 +535,11 @@ export function MomentoQuiz() {
       )}
 
       {tela === "resultado" && (
-        <ResultadoMomento resultado={calcular(respostas)} lead={lead} onRefazer={reiniciar} />
+        <ResultadoMomento
+          resultado={calcular(respostas)}
+          lead={lead}
+          onRefazer={reiniciar}
+        />
       )}
     </div>
   );

@@ -22,12 +22,26 @@ import { GRUPO_MAPA_UGC, SHEET_ENDPOINT_MOMENTO_UGC, waAulaoUgc } from "@/lib/si
 export type Opcao = { id: string; lab: string };
 
 export type Pergunta = {
-  key: "perfil" | "momento" | "desejo" | "meta" | "crenca" | "bloqueio" | "medo" | "ajuda";
+  key:
+    | "idade"
+    | "local"
+    | "perfil"
+    | "momento"
+    | "desejo"
+    | "meta"
+    | "crenca"
+    | "bloqueio"
+    | "medo"
+    | "ajuda";
   /** O que a pergunta mede — aparece como etiqueta acima do título. */
   tema: string;
   titulo: string;
   dica: string;
-  /** Várias respostas permitidas (só a pergunta 1). */
+  /**
+   * Várias respostas permitidas (perfil e desejo). Crença, bloqueio e medo
+   * ficam com uma só de propósito: é "o principal" que personaliza o
+   * resultado e faz o ranking da pesquisa sair limpo.
+   */
   multipla?: boolean;
   /** Embaralhar as opções para a ordem não distorcer o ranking da pesquisa. */
   embaralhar?: boolean;
@@ -39,7 +53,61 @@ export type Pergunta = {
 /** Id reservado para a opção "Outro". */
 export const OUTRO = "outro";
 
+/** Estados para a pergunta "Onde você mora?" — Norte primeiro, que é o público. */
+export const UFS: Opcao[] = [
+  ["PA", "Pará"],
+  ["AM", "Amazonas"],
+  ["AP", "Amapá"],
+  ["RR", "Roraima"],
+  ["RO", "Rondônia"],
+  ["AC", "Acre"],
+  ["TO", "Tocantins"],
+  ["MA", "Maranhão"],
+  ["AL", "Alagoas"],
+  ["BA", "Bahia"],
+  ["CE", "Ceará"],
+  ["DF", "Distrito Federal"],
+  ["ES", "Espírito Santo"],
+  ["GO", "Goiás"],
+  ["MT", "Mato Grosso"],
+  ["MS", "Mato Grosso do Sul"],
+  ["MG", "Minas Gerais"],
+  ["PB", "Paraíba"],
+  ["PR", "Paraná"],
+  ["PE", "Pernambuco"],
+  ["PI", "Piauí"],
+  ["RJ", "Rio de Janeiro"],
+  ["RN", "Rio Grande do Norte"],
+  ["RS", "Rio Grande do Sul"],
+  ["SC", "Santa Catarina"],
+  ["SP", "São Paulo"],
+  ["SE", "Sergipe"],
+  ["EX", "Moro fora do Brasil"],
+].map(([id, lab]) => ({ id, lab }));
+
 export const PERGUNTAS: Pergunta[] = [
+  {
+    key: "idade",
+    tema: "Sobre você",
+    titulo: "Qual é a sua idade?",
+    dica: "Escolha a sua faixa.",
+    opcoes: [
+      { id: "menos_18", lab: "Menos de 18" },
+      { id: "18_24", lab: "18 a 24" },
+      { id: "25_30", lab: "25 a 30" },
+      { id: "31_35", lab: "31 a 35" },
+      { id: "36_mais", lab: "36 ou mais" },
+    ],
+  },
+  {
+    // Pergunta especial: estado (lista) + cidade (texto). A tela trata à parte;
+    // a resposta fica em `ids[0]` (UF) e `outro` (cidade).
+    key: "local",
+    tema: "Sobre você",
+    titulo: "Onde você mora?",
+    dica: "Escolha o estado e escreva o nome da cidade.",
+    opcoes: UFS,
+  },
   {
     key: "perfil",
     tema: "Sua vida hoje",
@@ -74,7 +142,8 @@ export const PERGUNTAS: Pergunta[] = [
     key: "desejo",
     tema: "Seu sonho",
     titulo: "Se você ganhasse dinheiro criando vídeos, o que mudaria na sua vida?",
-    dica: "Escolha o que mais pesa no seu coração.",
+    dica: "Pode marcar mais de uma. Marque primeiro o que mais pesa no seu coração.",
+    multipla: true,
     outro: true,
     opcoes: [
       { id: "proprio_dinheiro", lab: "Ter meu próprio dinheiro, sem depender de ninguém" },
@@ -163,14 +232,6 @@ export const PERGUNTAS: Pergunta[] = [
     ],
   },
 ];
-
-export const FAIXAS_IDADE = [
-  { id: "menos_18", lab: "Menos de 18" },
-  { id: "18_24", lab: "18 a 24" },
-  { id: "25_30", lab: "25 a 30" },
-  { id: "31_35", lab: "31 a 35" },
-  { id: "36_mais", lab: "36 ou mais" },
-] as const;
 
 export type Resposta = { ids: string[]; outro: string };
 export type Respostas = Partial<Record<Pergunta["key"], Resposta>>;
@@ -437,7 +498,7 @@ export const INDICACAO_MAES: Indicacao = {
 };
 
 /* ------------------------------------------------------------------ *
- * Textos personalizados (perguntas 3, 5, 6 e 7)
+ * Textos personalizados (desejo, crença, bloqueio e medo)
  * ------------------------------------------------------------------ */
 
 /** Completa "{Nome}, você quer ___." */
@@ -516,7 +577,6 @@ export type Lead = {
   wpp: string;
   email: string;
   instagram: string;
-  idade: string;
   /** Resposta do campo aberto: "se pudesse perguntar uma coisa pra Juh". */
   pergunta: string;
 };
@@ -530,6 +590,7 @@ export type Resultado = {
   /** Complemento da frase de abertura; vazio quando ela marcou "Outro". */
   desejo: string;
   mae: boolean;
+  menor: boolean;
 };
 
 function primeira(r: Respostas, k: Pergunta["key"]) {
@@ -550,7 +611,7 @@ export function rotulo(k: Pergunta["key"], resp?: Resposta) {
 }
 
 /**
- * Regra de roteamento (spec, seção "Roteamento"): a pergunta 2 decide quase
+ * Regra de roteamento (spec, seção "Roteamento"): a pergunta do momento decide quase
  * tudo. Quem "já entendeu mas não gravou" vai para Play se o que trava é
  * câmera ou celular, e para "Será?" nos demais casos.
  */
@@ -582,8 +643,10 @@ export function calcular(r: Respostas): Resultado {
     crenca: cbm("crenca", CRENCA_TEXTO),
     bloqueio: cbm("bloqueio", BLOQUEIO_TEXTO),
     medo: cbm("medo", MEDO_TEXTO),
+    // Com várias respostas, a abertura usa a primeira que ela marcou.
     desejo: DESEJO_TEXTO[primeira(r, "desejo")] ?? "",
     mae: perfil.includes("mae") || perfil.includes("mae_solo"),
+    menor: primeira(r, "idade") === "menos_18",
   };
 }
 
@@ -607,41 +670,20 @@ export function youtubeUrl(m: Momento) {
 }
 
 /* ------------------------------------------------------------------ *
- * Região pelo DDD — a pesquisa não pergunta onde ela mora
+ * Local
  * ------------------------------------------------------------------ */
 
-const DDD_UF: Record<string, string> = {};
-(
-  [
-    ["SP", "11 12 13 14 15 16 17 18 19"],
-    ["RJ", "21 22 24"],
-    ["ES", "27 28"],
-    ["MG", "31 32 33 34 35 37 38"],
-    ["PR", "41 42 43 44 45 46"],
-    ["SC", "47 48 49"],
-    ["RS", "51 53 54 55"],
-    ["DF", "61"],
-    ["GO", "62 64"],
-    ["TO", "63"],
-    ["MT", "65 66"],
-    ["MS", "67"],
-    ["AC", "68"],
-    ["RO", "69"],
-    ["BA", "71 73 74 75 77"],
-    ["SE", "79"],
-    ["PE", "81 87"],
-    ["AL", "82"],
-    ["PB", "83"],
-    ["RN", "84"],
-    ["CE", "85 88"],
-    ["PI", "86 89"],
-    ["PA", "91 93 94"],
-    ["AM", "92 97"],
-    ["RR", "95"],
-    ["AP", "96"],
-    ["MA", "98 99"],
-  ] as const
-).forEach(([uf, ddds]) => ddds.split(" ").forEach((d) => (DDD_UF[d] = uf)));
+/** "  altamira " → "Altamira"; de/do/da ficam minúsculos. Pra contar cidade igual. */
+export function normalizarCidade(c: string) {
+  const minusculas = new Set(["de", "do", "da", "dos", "das", "e"]);
+  return c
+    .trim()
+    .replace(/\s+/g, " ")
+    .toLowerCase()
+    .split(" ")
+    .map((p, i) => (i > 0 && minusculas.has(p) ? p : p.charAt(0).toUpperCase() + p.slice(1)))
+    .join(" ");
+}
 
 /** DDD do WhatsApp digitado, aceitando com ou sem o 55 na frente. */
 export function dddDe(wpp: string) {
@@ -680,7 +722,7 @@ export function conteudoEmail(res: Resultado, lead: Lead) {
     vitorias: m.vitorias,
     video_tema: m.video.tema,
     video_url: youtubeUrl(m),
-    aviso_menor: lead.idade === "menos_18" ? AVISO_MENOR : "",
+    aviso_menor: res.menor ? AVISO_MENOR : "",
     grupo_url: GRUPO_MAPA_UGC,
     whatsapp_url: waAulaoUgc(mensagemWhatsapp(res, lead)),
   };
@@ -706,9 +748,10 @@ export function payloadPlanilha(r: Respostas, res: Resultado, lead: Lead) {
     const id = resp.ids[0];
     return id === OUTRO
       ? { valor: "Outro", outro: resp.outro.trim() }
-      : { valor: rotulo(k, resp), outro: "" };
+      : { valor: rotulo(k, { ids: [id], outro: "" }), outro: "" };
   };
-  const desejo = escolha("desejo");
+  const desejos = r.desejo?.ids ?? [];
+  const desejou = (id: string) => (desejos.includes(id) ? "sim" : "");
   const crenca = escolha("crenca");
   const bloqueio = escolha("bloqueio");
   const medo = escolha("medo");
@@ -718,10 +761,11 @@ export function payloadPlanilha(r: Respostas, res: Resultado, lead: Lead) {
     whatsapp: lead.wpp,
     email: lead.email,
     instagram: lead.instagram,
-    faixa_idade: FAIXAS_IDADE.find((f) => f.id === lead.idade)?.lab ?? "",
-    menor_de_idade: lead.idade === "menos_18" ? "sim" : "",
+    faixa_idade: rotulo("idade", r.idade),
+    menor_de_idade: res.menor ? "sim" : "",
+    uf: r.local?.ids[0] ?? "",
+    cidade: normalizarCidade(r.local?.outro ?? ""),
     ddd,
-    uf: DDD_UF[ddd] ?? "",
     momento: res.momento.nome.replace(/[“”]/g, ""),
     frase_momento: rotulo("momento", r.momento),
     perfil_clt: marcado("clt"),
@@ -731,8 +775,15 @@ export function payloadPlanilha(r: Respostas, res: Resultado, lead: Lead) {
     perfil_mae: marcado("mae"),
     perfil_mae_solo: marcado("mae_solo"),
     perfil_cuida_casa: marcado("casa"),
-    desejo: desejo.valor,
-    desejo_outro: desejo.outro,
+    // Desejo aceita várias: uma coluna por opção (pra contar) + a principal.
+    desejo_principal: escolha("desejo").valor,
+    desejo_proprio_dinheiro: desejou("proprio_dinheiro"),
+    desejo_filhos: desejou("filhos"),
+    desejo_horarios: desejou("horarios"),
+    desejo_respirar: desejou("respirar"),
+    desejo_sonho: desejou("sonho"),
+    desejo_viver_disso: desejou("viver_disso"),
+    desejo_outro: desejos.includes(OUTRO) ? (r.desejo?.outro.trim() ?? "") : "",
     meta: rotulo("meta", r.meta),
     crenca: crenca.valor,
     crenca_outro: crenca.outro,
