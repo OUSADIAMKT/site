@@ -144,12 +144,12 @@ export const SHEET_CSV_SATOYIRO = ""; // TODO: colar a URL de publicação CSV
  * Web App do Google Apps Script do "Qual é o seu Momento UGC?" (`/momento-ugc`):
  * grava cada resposta numa planilha própria no Drive e manda o diagnóstico
  * completo pro e-mail da menina. Script pronto em
- * `docs/apps-script/momento-ugc-google-sheets.gs` — falta implantar e colar
- * aqui a URL terminada em `/exec`. Testar com GET antes: deve responder
- * "Momento UGC online". **Enquanto ficar vazio, nada é gravado** (a página
- * funciona, mas as respostas se perdem) — não divulgar antes de preencher.
+ * `docs/apps-script/momento-ugc-google-sheets.gs`, implantado na planilha
+ * "Leads UGC Diagnóstico" (07/10/2026). Testar com GET: deve responder
+ * "Momento UGC online". Se esta constante ficar vazia, nada é gravado.
  */
-export const SHEET_ENDPOINT_MOMENTO_UGC = ""; // TODO: colar a URL /exec depois de implantar
+export const SHEET_ENDPOINT_MOMENTO_UGC =
+  "https://script.google.com/macros/s/AKfycbxG9Zm7zJK5AVEQqmzFRU8909PM9QV1jfHmUD79THNl68slQxvKhqig8uVX6BUlaXV_/exec";
 
 /**
  * Senha do Painel do Educador. **Isto não é segurança de verdade**: o site é
