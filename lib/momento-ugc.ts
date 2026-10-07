@@ -306,7 +306,7 @@ export const MOMENTOS: Momento[] = [
     ],
     video: {
       tema: "UGC explicado do zero: o que é, como as marcas contratam e como começar",
-      youtubeId: "",
+      youtubeId: "rNkRbpJMglY",
     },
   },
   {
