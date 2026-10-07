@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/comunidade", priority: 0.7 },
     { path: "/diagnostico", priority: 0.8 },
     { path: "/aulao-ugc", priority: 0.7 },
+    { path: "/momento-ugc", priority: 0.7 },
     { path: "/mentoria-viver-do-digital", priority: 0.7 },
     { path: "/conteudo", priority: 0.7 },
     { path: "/contato", priority: 0.6 },
