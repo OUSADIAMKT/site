@@ -17,7 +17,7 @@ conforme a regra do PRD 7.3.
 | 2 | **3 vídeos de aluno** (15–30s): nome, cidade, antes/depois em uma frase | Home (dobra 8), `/escola`, `/escola/[curso]` |
 | 3 | **Prints reais de feedback** (DM, comentário, WhatsApp) | Home (dobra 8) |
 | 4 | **Antes/depois e números** dos 8 cases publicados. O portfólio em PDF conta o que foi entregue, mas não traz resultado medido — hoje esses cases mostram o slot de pendência no lugar. | `lib/portfolio.ts` → `antes`, `depois`, `numeros` |
-| 5 | ~~CNPJ~~ ✅ (13/10/2026). **Textos jurídicos:** Privacidade e Termos escritos em 13/10/2026 a partir do que o site coleta de verdade; falta **revisão de um advogado** e confirmar o prazo de guarda (2 anos) e o trecho sobre menores no Ouse Ser Você | `/politica-de-privacidade`, `/termos` |
+| 5 | ~~Textos jurídicos e CNPJ~~ ✅ (13/10/2026): Privacidade e Termos revisados e aprovados, prazo de guarda de 2 anos e trecho do Ouse Ser Você confirmados | `/politica-de-privacidade`, `/termos` |
 
 ## 2. Dados de contato e integrações
 
