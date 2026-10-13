@@ -10,7 +10,12 @@
  * Backend (planilha + e-mail para a lead): `docs/apps-script/momento-ugc-google-sheets.gs`.
  *
  * Este arquivo é a fonte única dos textos: a página e o e-mail que a menina
- * recebe usam o mesmo conteúdo (o e-mail vai montado em `conteudoEmail()`).
+ * recebe usam o mesmo conteúdo. O e-mail é montado **no Apps Script**, a partir
+ * de uma cópia destes textos gerada por `npm run gs:momento-ugc`
+ * (`scripts/gerar-momento-ugc-gs.mjs`): mudou um texto aqui, rode o comando e
+ * cole o `.gs` de novo. O navegador manda só as escolhas (`email_chaves`),
+ * nunca o texto nem os links do e-mail — senão qualquer pessoa poderia usar o
+ * script para mandar e-mail com conteúdo próprio em nome da Juh.
  */
 
 import { GRUPO_MAPA_UGC, SHEET_ENDPOINT_MOMENTO_UGC, waAulaoUgc } from "@/lib/site";
@@ -701,7 +706,11 @@ function utm(chave: string) {
   return new URLSearchParams(window.location.search).get(chave) ?? "";
 }
 
-/** O que vai no e-mail da lead — o Apps Script só monta o HTML. */
+/**
+ * O conteúdo do e-mail da lead. **Não é enviado pelo navegador**: o gerador
+ * (`scripts/gerar-momento-ugc-gs.mjs`) chama esta função para copiar os
+ * textos para dentro do Apps Script, que monta o e-mail sozinho.
+ */
 export function conteudoEmail(res: Resultado, lead: Lead) {
   const m = res.momento;
   return {
@@ -735,8 +744,9 @@ export function mensagemWhatsapp(res: Resultado, lead: Lead) {
 
 /**
  * Linha da planilha. As chaves têm que bater com `COLUNAS` no Apps Script —
- * qualquer nome diferente vira célula vazia. `email_conteudo` não vira coluna
- * visível: o script usa para montar o e-mail da lead.
+ * qualquer nome diferente vira célula vazia. `email_chaves` não vira coluna
+ * visível: são só os ids das escolhas, que o script usa para montar o e-mail
+ * com os textos dele (ver `conteudoEmail()`).
  */
 export function payloadPlanilha(r: Respostas, res: Resultado, lead: Lead) {
   const perfil = r.perfil?.ids ?? [];
@@ -796,7 +806,15 @@ export function payloadPlanilha(r: Respostas, res: Resultado, lead: Lead) {
     utm_source: utm("utm_source"),
     utm_medium: utm("utm_medium"),
     utm_campaign: utm("utm_campaign"),
-    email_conteudo: conteudoEmail(res, lead),
+    email_chaves: {
+      momento: res.momento.key,
+      desejo: r.desejo?.ids[0] ?? "",
+      crenca: res.crenca.id,
+      bloqueio: res.bloqueio.id,
+      medo: res.medo.id,
+      mae: res.mae,
+      menor: res.menor,
+    },
   };
 }
 
