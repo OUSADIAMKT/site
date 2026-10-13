@@ -50,12 +50,10 @@ const lead = { nome: NOME, wpp: "", email: "", instagram: "", pergunta: "" };
 const momentos = {};
 let titulosTravas = [];
 for (const momento of m.MOMENTOS) {
-  const { abertura, travas, aviso_menor, primeiro_nome, ...base } = m.conteudoEmail(
-    resultado(momento),
-    lead,
-  );
+  const base = m.conteudoEmail(resultado(momento), lead);
+  titulosTravas = base.travas.map((t) => t.titulo);
+  for (const chave of ["abertura", "travas", "aviso_menor", "primeiro_nome"]) delete base[chave];
   momentos[momento.key] = base;
-  titulosTravas = travas.map((t) => t.titulo);
 }
 
 const aberturas = { "": m.fraseAbertura(resultado(m.MOMENTOS[0]), NOME) };
