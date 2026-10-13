@@ -144,16 +144,16 @@ export const CASES: Case[] = [
       "Mentoria de creators",
     ],
     depoimento: null,
-    capa: "/portfolio/ekilibre.jpg",
+    capa: "/portfolio/ekilibre.webp",
     video: null,
     duracao: null,
     galeria: [
       {
-        src: "/portfolio/ekilibre-ugc.jpg",
+        src: "/portfolio/ekilibre-ugc.webp",
         alt: "Grade de reels educativos produzidos para a Ekilibre Amazônia",
       },
       {
-        src: "/portfolio/ekilibre-perfil.jpg",
+        src: "/portfolio/ekilibre-perfil.webp",
         alt: "Perfil da Ekilibre Amazônia no Instagram depois da campanha",
       },
     ],
@@ -174,16 +174,16 @@ export const CASES: Case[] = [
     numeros: null,
     entregas: ["Vídeo institucional", "Captação em campo", "Edição"],
     depoimento: null,
-    capa: "/portfolio/biorama.jpg",
+    capa: "/portfolio/biorama.webp",
     video: "MJgwQzeWcQI",
     duracao: "11 min 24 s",
     galeria: [
       {
-        src: "/portfolio/biorama-1.jpg",
+        src: "/portfolio/biorama-1.webp",
         alt: "Escoamento da produção pelo rio, em canoa",
       },
       {
-        src: "/portfolio/biorama-2.jpg",
+        src: "/portfolio/biorama-2.webp",
         alt: "Produtor segurando cacho colhido na floresta",
       },
     ],
@@ -204,12 +204,12 @@ export const CASES: Case[] = [
     numeros: null,
     entregas: ["Vídeo institucional", "Captação em campo", "Edição"],
     depoimento: null,
-    capa: "/portfolio/genese.jpg",
+    capa: "/portfolio/genese.webp",
     video: "i2igPsPmMis",
     duracao: "8 min 31 s",
     galeria: [
       {
-        src: "/portfolio/genese-1.jpg",
+        src: "/portfolio/genese-1.webp",
         alt: "Estudantes em atividade da Jornada Amazônia",
       },
     ],
@@ -230,16 +230,16 @@ export const CASES: Case[] = [
     numeros: null,
     entregas: ["Vídeo institucional", "Captação em campo", "Edição"],
     depoimento: null,
-    capa: "/portfolio/creax.jpg",
+    capa: "/portfolio/creax.webp",
     video: "kdUsL-Z-9qs",
     duracao: "21 min 38 s",
     galeria: [
       {
-        src: "/portfolio/creax-1.jpg",
+        src: "/portfolio/creax-1.webp",
         alt: "Menina fotografando com o celular durante a oficina",
       },
       {
-        src: "/portfolio/creax-2.jpg",
+        src: "/portfolio/creax-2.webp",
         alt: "Produtora entre os cacaueiros, na comunidade",
       },
     ],
@@ -260,12 +260,12 @@ export const CASES: Case[] = [
     numeros: null,
     entregas: ["Vídeo institucional", "Cobertura de evento", "Captação aérea"],
     depoimento: null,
-    capa: "/portfolio/caratinga.jpg",
+    capa: "/portfolio/caratinga.webp",
     video: "ZTfc5G5WBzU",
     duracao: "4 min 31 s",
     galeria: [
       {
-        src: "/portfolio/caratinga-1.jpg",
+        src: "/portfolio/caratinga-1.webp",
         alt: "Público lotando a praia durante o Festival do Caratinga 2025",
       },
     ],
@@ -298,7 +298,7 @@ export const CASES: Case[] = [
       "Conteúdo em colab",
     ],
     depoimento: null,
-    capa: "/portfolio/ekilibre-perfil.jpg",
+    capa: "/portfolio/ekilibre-perfil.webp",
     video: null,
     duracao: null,
     galeria: null,
@@ -355,16 +355,16 @@ export const CASES: Case[] = [
       "Formação presencial",
     ],
     depoimento: null,
-    capa: "/portfolio/turmas.jpg",
+    capa: "/portfolio/turmas.webp",
     video: null,
     duracao: null,
     galeria: [
       {
-        src: "/portfolio/turmas-1.jpg",
+        src: "/portfolio/turmas-1.webp",
         alt: "Turma presencial na entrega dos certificados",
       },
       {
-        src: "/portfolio/turmas-2.jpg",
+        src: "/portfolio/turmas-2.webp",
         alt: "Alunos e equipe da Ousadia ao fim de uma turma",
       },
     ],

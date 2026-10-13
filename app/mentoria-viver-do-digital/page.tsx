@@ -148,32 +148,32 @@ const PROVAS = [
 /** Mesmos prints do aulão (mídia temporária — PENDENCIAS #20 vale aqui também). */
 const PRINTS = [
   {
-    src: "depoimento-diy.jpg",
+    src: "depoimento-diy.webp",
     w: 1041,
     alt: "Print de WhatsApp: terceira campanha de UGC aprovada com a marca de cosméticos DIY",
   },
   {
-    src: "depoimento-samsung.jpg",
+    src: "depoimento-samsung.webp",
     w: 1012,
     alt: "Print de notificação: candidatura aprovada em campanha da Samsung Galaxy",
   },
   {
-    src: "depoimento-oralb.jpg",
+    src: "depoimento-oralb.webp",
     w: 1306,
     alt: "Print de aluna aprovada na campanha Iconic da Oral-B no Instagram",
   },
   {
-    src: "depoimento-aquarela.jpg",
+    src: "depoimento-aquarela.webp",
     w: 1733,
     alt: "Print de aluna aprovada em campanha e convidada para parceria com loja de enxoval infantil",
   },
   {
-    src: "depoimento-jakeline.jpg",
+    src: "depoimento-jakeline.webp",
     w: 1733,
     alt: "Print de conversa: aluna comemorando parceria recebida no Instagram",
   },
   {
-    src: "depoimento-grupo.jpg",
+    src: "depoimento-grupo.webp",
     w: 1357,
     alt: "Print do grupo exclusivo de oportunidades com campanhas de Dove, Lux e Pantene",
   },
@@ -323,7 +323,7 @@ export default function MentoriaViverDoDigitalPage() {
             </div>
             <Reveal delay={0.1}>
               <Image
-                src="/aulao-ugc/juh-perfil.jpg"
+                src="/aulao-ugc/juh-perfil.webp"
                 alt="Juliana Araújo, a Juh, UGC Creator da Amazônia"
                 width={1498}
                 height={1000}
@@ -615,7 +615,7 @@ export default function MentoriaViverDoDigitalPage() {
           <div className="grid items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
             <Reveal>
               <Image
-                src="/aulao-ugc/juh-perfil.jpg"
+                src="/aulao-ugc/juh-perfil.webp"
                 alt="Juliana Araújo, UGC Creator da Amazônia"
                 width={1498}
                 height={1000}
