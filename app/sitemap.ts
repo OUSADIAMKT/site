@@ -1,5 +1,5 @@
 import type { MetadataRoute } from "next";
-import { CURSOS, SITE } from "@/lib/site";
+import { CURSOS, MENTORIA_UGC_NO_GOOGLE, SITE } from "@/lib/site";
 import { POSTS } from "@/lib/posts";
 
 /** Exigido pelo `output: "export"`: sem isto o build falha ao coletar a rota. */
@@ -14,6 +14,11 @@ export const dynamic = "force-static";
  * `lastModified`, pela mesma razão que já vale no resto do projeto: inventar
  * data é pior do que omitir (ver `velite.config.ts` e PENDENCIAS #16).
  */
+/**
+ * As URLs terminam em `/` porque o site é exportado com `trailingSlash: true`
+ * (ver next.config.ts): sem a barra, cada endereço do sitemap passava por um
+ * redirecionamento antes de abrir.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
   const estaticas = [
     { path: "", priority: 1 },
@@ -26,7 +31,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/diagnostico", priority: 0.8 },
     { path: "/aulao-ugc", priority: 0.7 },
     { path: "/momento-ugc", priority: 0.7 },
-    { path: "/mentoria-viver-do-digital", priority: 0.7 },
+    ...(MENTORIA_UGC_NO_GOOGLE
+      ? [{ path: "/mentoria-viver-do-digital", priority: 0.7 }]
+      : []),
     { path: "/conteudo", priority: 0.7 },
     { path: "/contato", priority: 0.6 },
     { path: "/politica-de-privacidade", priority: 0.2 },
@@ -35,15 +42,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     ...estaticas.map((p) => ({
-      url: `${SITE.url}${p.path}`,
+      url: `${SITE.url}${p.path}/`,
       priority: p.priority,
     })),
     ...CURSOS.map((c) => ({
-      url: `${SITE.url}/escola/${c.slug}`,
+      url: `${SITE.url}/escola/${c.slug}/`,
       priority: 0.8,
     })),
-    ...POSTS.map((p) => ({
-      url: `${SITE.url}/conteudo/${p.slug}`,
+    // Post sem texto ainda (`pendente`, ver velite.config.ts) não entra.
+    ...POSTS.filter((p) => !p.pendente).map((p) => ({
+      url: `${SITE.url}/conteudo/${p.slug}/`,
       lastModified: p.atualizado ?? p.data,
       priority: 0.6,
     })),

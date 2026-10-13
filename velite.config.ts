@@ -42,10 +42,18 @@ const posts = defineCollection({
       code: s.mdx(),
       toc: s.toc(),
       metadata: s.metadata(),
+      corpo: s.raw(),
     })
-    .transform((post) => {
+    .transform(({ corpo, ...post }) => {
       const slug = post.slug.replace(/^posts\//, "");
-      return { ...post, slug, url: `/conteudo/${slug}` };
+      /**
+       * Post cujo corpo é só o bloco `<Pendente>` ainda não tem texto: fica no
+       * blog, mas fora do sitemap e com `noindex` (ver `app/conteudo/[slug]`),
+       * para o Google não indexar página vazia. Escreveu o texto, volta sozinho.
+       */
+      const pendente =
+        corpo.replace(/<Pendente>[\s\S]*?<\/Pendente>/g, "").trim().length === 0;
+      return { ...post, slug, url: `/conteudo/${slug}`, pendente };
     }),
 });
 

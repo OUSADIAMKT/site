@@ -69,6 +69,13 @@ export function waMentoriaUgc(
   return waAulaoUgc(texto);
 }
 
+/**
+ * A página `/mentoria-viver-do-digital` está no ar para quem recebe o link, mas
+ * fica fora do Google (sem sitemap e com `noindex`) até o lançamento da Turma 1,
+ * previsto para 10/nov. No lançamento, troque para `true`.
+ */
+export const MENTORIA_UGC_NO_GOOGLE = false;
+
 /** Mensagens pré-preenchidas por contexto (PRD 6.6). */
 const WA_MESSAGES = {
   home: "Oi! Vim pelo site e quero entrar pra Ousadia.",

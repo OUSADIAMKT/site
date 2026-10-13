@@ -9,13 +9,14 @@ import { ContentSlot } from "@/components/ui/MediaSlot";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { GrafismoDiamonds, Paddle, RiverLines } from "@/components/ui/Motifs";
 import { KeneStrip } from "@/components/ui/graphics/Kene";
-import { SITE, waMentoriaUgc } from "@/lib/site";
+import { MENTORIA_UGC_NO_GOOGLE, SITE, waMentoriaUgc } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Mentoria Viver do Digital | Da primeira permuta às marcas que pagam",
   description:
     "Mentoria em grupo com Juliana Araújo: 8 encontros ao vivo, de 23/nov a 17/dez, pra UGC creators que já deram o primeiro passo e querem fechar as primeiras parcerias pagas. Turma 1 com 20 vagas.",
   alternates: { canonical: `${SITE.url}/mentoria-viver-do-digital` },
+  ...(MENTORIA_UGC_NO_GOOGLE ? {} : { robots: { index: false, follow: true } }),
 };
 
 /**
