@@ -3,6 +3,30 @@
 
 DirectoryIndex index.html
 
+# Um endereco so: www.ousadiamarketing.com.br vai para ousadiamarketing.com.br
+# (o mesmo de SITE.url em lib/site.ts). Sem isso o Google ve dois sites com o
+# mesmo conteudo. O http -> https a Hostinger ja faz sozinha.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+  RewriteRule ^ https://%1%{REQUEST_URI} [R=301,L]
+</IfModule>
+
+# Cabecalhos de seguranca.
+# - HSTS: o navegador passa a usar sempre https neste dominio (1 ano).
+# - nosniff: o navegador nao "adivinha" o tipo de arquivo.
+# - Frame: ninguem coloca o site dentro de um iframe de outro dominio.
+# - CSP minima: so o que nao arrisca quebrar YouTube, fontes e formularios.
+#   Uma CSP completa (script-src etc.) precisa ser testada no navegador antes.
+<IfModule mod_headers.c>
+  Header set Strict-Transport-Security "max-age=31536000"
+  Header set X-Content-Type-Options "nosniff"
+  Header set X-Frame-Options "SAMEORIGIN"
+  Header set Referrer-Policy "strict-origin-when-cross-origin"
+  Header set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header set Content-Security-Policy "upgrade-insecure-requests; frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
+</IfModule>
+
 # Pagina 404 do proprio Next (out/404.html), em vez da pagina padrao do servidor.
 ErrorDocument 404 /404.html
 
