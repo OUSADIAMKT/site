@@ -4,7 +4,6 @@ import { ArrowRight, Brain, Gem, Sparkles, Target } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { MediaSlot, ContentSlot } from "@/components/ui/MediaSlot";
-import { HeroVideo } from "@/components/ui/HeroVideo";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { CasesVitrine } from "@/components/sections/Cases";
 import {
@@ -177,11 +176,13 @@ export default function HomePage() {
 
       {/* ============ 1 · HERO (escuro) ============ */}
       <section className="relative overflow-hidden">
-        <HeroVideo
-          src="/video/hero.mp4"
-          poster="/video/hero-poster.jpg"
-          opacity={0.28}
-        />
+        {/*
+          Vídeo de fundo desligado até existir o arquivo: `public/video/hero.mp4`
+          e `hero-poster.jpg` ainda não foram entregues (ver o README dessa
+          pasta), e o componente pedia os dois a cada visita, gerando 2 erros
+          404. Com os arquivos no lugar, é só voltar:
+          <HeroVideo src="/video/hero.mp4" poster="/video/hero-poster.jpg" opacity={0.28} />
+        */}
         <div className="absolute inset-0 grid-lines opacity-60" aria-hidden />
         <div
           className="absolute -top-32 right-0 h-96 w-96 rounded-full bg-amarelo/20 blur-[120px]"
