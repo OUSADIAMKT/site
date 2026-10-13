@@ -6,12 +6,25 @@
  * Onde falta dado real do cliente, usar TODO_ / MediaSlot — nunca inventar prova social.
  */
 
+/*
+ * Configuração por variável de ambiente
+ * --------------------------------------
+ * Endereço do site e URLs dos Apps Script podem vir de variáveis
+ * `NEXT_PUBLIC_*` (ver `.env.example`). Sem variável, vale o valor de produção
+ * escrito aqui, então um `npm run build` sem `.env` gera o site de sempre.
+ * Serve pra montar uma versão de teste apontando pra planilhas de teste, sem
+ * mexer no código. Variável definida como vazia ("") desliga o envio.
+ *
+ * O site é estático: essas variáveis são lidas no build e ficam gravadas no
+ * HTML/JS. Não coloque segredo nelas.
+ */
+
 export const SITE = {
   name: "Ousadia Marketing",
   tagline: "Por um marketing maior.",
   claim: "Propósito que move. Estratégia que transforma.",
   descriptor: "Plataforma de Creators da Amazônia",
-  url: "https://ousadiamarketing.com.br",
+  url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ousadiamarketing.com.br",
   email: "", // TODO: e-mail comercial
   cidadeBase: "", // TODO: cidade-base (região Norte)
   cnpj: "", // TODO: CNPJ
@@ -120,6 +133,7 @@ export const FORM_ENDPOINT = ""; // TODO: endpoint de aplicação/contato
  * As colunas são fixas — ver `payloadPlanilha()` em `lib/diagnostico.ts`.
  */
 export const SHEET_ENDPOINT_DIAGNOSTICO =
+  process.env.NEXT_PUBLIC_SHEET_ENDPOINT_DIAGNOSTICO ??
   "https://script.google.com/macros/s/AKfycbyLOpwYZOl3OtqYFn6GM0IW0awtE4pXIsULNtTRMyVouGUqS37nBLVqj_vomFU6Wgc3eQ/exec";
 
 /**
@@ -131,7 +145,8 @@ export const SHEET_ENDPOINT_DIAGNOSTICO =
  * URL terminada em `/exec`. Testar com GET antes: deve responder
  * "Newsletter Ousadia online" — se pedir login, a implantação não é pública.
  */
-export const NEWSLETTER_ENDPOINT = ""; // TODO: colar a URL /exec depois de implantar
+export const NEWSLETTER_ENDPOINT =
+  process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT ?? ""; // TODO: colar a URL /exec depois de implantar
 
 /**
  * Web App do Google Apps Script que grava cada diagnóstico do "Ouse Ser
@@ -143,6 +158,7 @@ export const NEWSLETTER_ENDPOINT = ""; // TODO: colar a URL /exec depois de impl
  * "Ouse Ser Você online".
  */
 export const SHEET_ENDPOINT_SATOYIRO =
+  process.env.NEXT_PUBLIC_SHEET_ENDPOINT_SATOYIRO ??
   "https://script.google.com/macros/s/AKfycbyaPiYzKqNDUE3DMSOheELvUvDQNRnEPV1aG4Seos3Kf9wk28IytLqtYgUym7FcFMxt/exec";
 
 /*
@@ -161,6 +177,7 @@ export const SHEET_ENDPOINT_SATOYIRO =
  * "Momento UGC online". Se esta constante ficar vazia, nada é gravado.
  */
 export const SHEET_ENDPOINT_MOMENTO_UGC =
+  process.env.NEXT_PUBLIC_SHEET_ENDPOINT_MOMENTO_UGC ??
   "https://script.google.com/macros/s/AKfycbxG9Zm7zJK5AVEQqmzFRU8909PM9QV1jfHmUD79THNl68slQxvKhqig8uVX6BUlaXV_/exec";
 
 export const SOCIAL = {

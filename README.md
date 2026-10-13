@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ousadiamarketing.com.br
 
-## Getting Started
+Site da Ousadia Marketing, a Agência Escola de Marketing do Norte do Brasil.
+Next.js 16 (App Router) exportado como **site estático** e publicado na
+Hostinger.
 
-First, run the development server:
+## Rodar no seu computador
+
+Precisa do **Node 24** (ver `.nvmrc`).
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000, recarrega ao salvar
+npm run build      # gera o site estático em out/
+npm run lint
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Onde está cada coisa
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| O quê | Onde |
+|---|---|
+| Páginas | `app/` (uma pasta por rota) |
+| Textos e dados do site (WhatsApp, cursos, menu, URLs dos formulários) | `lib/site.ts` |
+| Cases do portfólio | `lib/portfolio.ts` |
+| Posts do blog | `content/posts/*.mdx` (como escrever: `content/README.md`) |
+| Diagnósticos | `lib/diagnostico.ts`, `lib/momento-ugc.ts`, `lib/metodo-satoyiro/` |
+| Backend dos formulários (Google Apps Script) | `docs/apps-script/` |
+| O que ainda falta de conteúdo | `PENDENCIAS.md` |
+| Fonte da copy | `legado/copy-e-arquitetura/PRD-site-ousadia.md` |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Formulários
 
-## Learn More
+O site não tem servidor. Cada formulário que grava dados manda para um
+**Google Apps Script** ligado a uma planilha no Drive; o código de cada um está
+em `docs/apps-script/`, com o passo a passo de implantação no topo do arquivo.
+As URLs `/exec` ficam em `lib/site.ts`.
 
-To learn more about Next.js, take a look at the following resources:
+Mudou um script? Cole o arquivo novo no editor do Apps Script e publique uma
+**nova versão** em Implantar > Gerenciar implantações (sem isso a URL continua
+rodando o código antigo).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+O e-mail do "Momento UGC" é montado pelo próprio script, com os textos de
+`lib/momento-ugc.ts`. Mudou um texto lá? Rode `npm run gs:momento-ugc`, que
+copia os textos para o `.gs`, e cole o script de novo.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Variáveis de ambiente
 
-## Deploy on Vercel
+Opcionais. Sem nenhum `.env`, o build usa os valores de produção de
+`lib/site.ts`. Para um build de teste com outras planilhas, copie
+`.env.example` para `.env.local` e ajuste. Tudo ali fica público no site:
+nada de senha.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Publicar
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+npm run deploy           # builda e grava out/ como um commit na branch deploy
+git push origin deploy   # manda pro GitHub
+```
+
+Depois, no painel da Hostinger: **Implante de GitHub** > branch `deploy` >
+**Implantar**. A branch `main` guarda só o código; `deploy` guarda só o site
+pronto. O `deploy` recusa árvore com alteração não commitada.
+
+`public/.htaccess` vai junto: página 404, cache, redirecionamento de `www` e
+cabeçalhos de segurança.
