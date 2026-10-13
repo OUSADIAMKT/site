@@ -7,7 +7,7 @@ import { ContatoForm } from "@/components/forms/ContatoForm";
 import { SITE, SOCIAL, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Contato | Ousadia Marketing",
+  title: "Contato",
   description:
     "O caminho mais rápido é o WhatsApp: atendimento humano, resposta em até 1h útil. Se preferir, deixa recado no formulário.",
 };

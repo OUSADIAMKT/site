@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_IMAGEM } from "@/lib/site";
 import { PageHero } from "@/components/sections/PageHero";
 import { DiagnosticoQuiz } from "@/components/diagnostico/DiagnosticoQuiz";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Avalie sua maturidade em 5 dimensões do método STORYSELL e receba um plano de 30 dias feito para o seu estágio.",
     url: "/diagnostico",
+    images: OG_IMAGEM,
   },
 };
 

@@ -9,7 +9,7 @@ import { MediaSlot } from "@/components/ui/MediaSlot";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { MdxContent } from "@/components/mdx/MdxContent";
-import { wa, SITE } from "@/lib/site";
+import { wa, OG_IMAGEM, SITE } from "@/lib/site";
 import { POSTS, getPost, relacionados, formatarData } from "@/lib/posts";
 
 export function generateStaticParams() {
@@ -33,7 +33,7 @@ export async function generateMetadata({
       type: "article",
       url: `${SITE.url}/conteudo/${post.slug}`,
       ...(post.data ? { publishedTime: post.data } : {}),
-      ...(post.capa ? { images: [{ url: post.capa.src }] } : {}),
+      images: post.capa ? [{ url: post.capa.src }] : OG_IMAGEM,
     },
   };
 }

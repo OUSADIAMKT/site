@@ -11,7 +11,7 @@ import { casesPorServico, SERVICOS, type Servico } from "@/lib/portfolio";
 import { wa } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Portfólio | Cases da Ousadia Marketing",
+  title: "Portfólio | Cases de marketing na Amazônia",
   description:
     "Campanhas de UGC, institucionais gravados em campo e turmas presenciais: o que a Ousadia já entregou para marcas, projetos e pessoas da Amazônia.",
 };

@@ -5,7 +5,7 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
-import { SITE, SOCIAL } from "@/lib/site";
+import { OG_IMAGEM, SITE, SOCIAL } from "@/lib/site";
 
 const chakra = Chakra_Petch({
   variable: "--font-chakra",
@@ -37,8 +37,9 @@ export const metadata: Metadata = {
     locale: "pt_BR",
     siteName: SITE.name,
     url: SITE.url,
+    images: OG_IMAGEM,
   },
-  twitter: { card: "summary_large_image" },
+  twitter: { card: "summary_large_image", images: OG_IMAGEM },
 };
 
 const organizationJsonLd = {

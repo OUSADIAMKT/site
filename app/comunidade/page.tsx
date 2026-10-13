@@ -10,7 +10,7 @@ import { wa } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Comunidade Creators da Amazônia | Ousadia Marketing",
+  title: "Comunidade Creators da Amazônia",
   description:
     "O lugar onde quem tá construindo troca com quem tá construindo, sem pose, sem panelinha, sem guru intocável. Encontros, conteúdo exclusivo, networking real e bastidor.",
 };

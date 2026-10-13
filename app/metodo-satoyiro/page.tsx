@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_IMAGEM } from "@/lib/site";
 import { PageHero } from "@/components/sections/PageHero";
 import { OuseSerVoceQuiz } from "@/components/metodo-satoyiro/OuseSerVoceQuiz";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Diagnóstico de autoconhecimento e projeto de vida para jovens do ensino médio. Responda o quiz e receba seu mapa personalizado.",
     url: "/metodo-satoyiro",
+    images: OG_IMAGEM,
   },
 };
 

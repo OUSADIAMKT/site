@@ -18,6 +18,15 @@ export const SITE = {
 } as const;
 
 /**
+ * Imagem padrão de compartilhamento (gerada por `app/og.png/route.tsx`).
+ * O layout já usa; página que define o próprio `openGraph` precisa repetir
+ * `images: OG_IMAGEM`, porque o Next troca o objeto inteiro, não soma.
+ */
+export const OG_IMAGEM = [
+  { url: "/og.png", width: 1200, height: 630, alt: "Ousadia Marketing: Por um marketing maior." },
+];
+
+/**
  * Número de atendimento da Ousadia. Alimenta todos os links de WhatsApp do
  * site (botão flutuante, CTAs, fallback dos formulários), então trocar aqui
  * troca em todas as páginas de uma vez.

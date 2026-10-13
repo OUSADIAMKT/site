@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { OG_IMAGEM } from "@/lib/site";
 import { PageHero } from "@/components/sections/PageHero";
 import { MomentoQuiz } from "@/components/momento-ugc/MomentoQuiz";
 
@@ -12,6 +13,7 @@ export const metadata: Metadata = {
     description:
       "Descubra onde você está no caminho pra trabalhar com marcas e receba o seu próximo passo. Diagnóstico gratuito do Mapa do UGC.",
     url: "/momento-ugc",
+    images: OG_IMAGEM,
   },
 };
 
