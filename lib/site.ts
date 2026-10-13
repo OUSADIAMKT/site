@@ -136,16 +136,12 @@ export const NEWSLETTER_ENDPOINT = ""; // TODO: colar a URL /exec depois de impl
 export const SHEET_ENDPOINT_SATOYIRO =
   "https://script.google.com/macros/s/AKfycbyaPiYzKqNDUE3DMSOheELvUvDQNRnEPV1aG4Seos3Kf9wk28IytLqtYgUym7FcFMxt/exec";
 
-/**
- * URL de leitura pública da mesma planilha, em CSV — usada só pelo Painel do
- * Educador (`/metodo-satoyiro/educador`) pra listar os alunos, já que o site
- * é 100% estático e não tem um banco de dados pra consultar.
- *
- * Como gerar: na planilha, Arquivo > Compartilhar > Publicar na Web > escolha
- * a aba de respostas > formato CSV > Publicar. Cole aqui a URL gerada
- * (termina em `output=csv`).
+/*
+ * O Painel do Educador (`/metodo-satoyiro/educador`) lê as respostas pelo
+ * mesmo script, com uma chave que o educador digita e o Google confere
+ * (passo 8 do `.gs`). Não existe mais URL de CSV publicada nem senha no
+ * código do site: as duas deixavam os dados dos alunos abertos.
  */
-export const SHEET_CSV_SATOYIRO = ""; // TODO: colar a URL de publicação CSV
 
 /**
  * Web App do Google Apps Script do "Qual é o seu Momento UGC?" (`/momento-ugc`):
@@ -157,15 +153,6 @@ export const SHEET_CSV_SATOYIRO = ""; // TODO: colar a URL de publicação CSV
  */
 export const SHEET_ENDPOINT_MOMENTO_UGC =
   "https://script.google.com/macros/s/AKfycbxG9Zm7zJK5AVEQqmzFRU8909PM9QV1jfHmUD79THNl68slQxvKhqig8uVX6BUlaXV_/exec";
-
-/**
- * Senha do Painel do Educador. **Isto não é segurança de verdade**: o site é
- * estático (sem servidor), então qualquer valor aqui fica visível pra quem
- * inspecionar o código-fonte da página. Serve só pra afastar curiosos —
- * os dados de verdade (planilha do Google) têm o controle de acesso do
- * Google Drive, que é o que realmente protege as respostas dos alunos.
- */
-export const SENHA_PAINEL_EDUCADOR = ""; // TODO: defina uma senha simples
 
 export const SOCIAL = {
   instagram: "https://instagram.com/ousadiamkt",

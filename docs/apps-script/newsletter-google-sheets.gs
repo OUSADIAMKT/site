@@ -20,6 +20,15 @@
  *    "Newsletter Ousadia online". Se pedir login do Google, a implantação
  *    não ficou pública: repita o passo 4 escolhendo "Qualquer pessoa".
  * 7. Cole a URL (termina em `/exec`) em `NEWSLETTER_ENDPOINT`, em `lib/site.ts`.
+ *
+ * Se mudar este código depois: Implantar > Gerenciar implantações > lápis >
+ * Versão: "Nova versão". Sem isso a URL continua rodando o código antigo.
+ *
+ * SEGURANÇA: a URL é pública (precisa ser, pro site gravar), então qualquer
+ * pessoa pode mandar dados pra ela. Por isso o script só aceita um e-mail
+ * válido e curto, grava como texto (célula começando com = + - @ viraria
+ * fórmula no Sheets) e limita os avisos por e-mail a AVISOS_POR_HORA, pra
+ * ninguém lotar a sua caixa nem gastar a cota diária de e-mail do Google.
  */
 
 // ID da planilha onde as inscrições serão gravadas.
@@ -28,20 +37,27 @@ var SHEET_ID = "198NdIbJ413MZlK3RgkX-NRtjpJpK9yjuiv1A5Xq7MzM";
 // Coloque o e-mail que deve receber o aviso de novo assinante. Vazio = sem e-mail.
 var EMAIL_AVISO = "ousadiamkt@gmail.com";
 
+// Máximo de avisos por hora. Passou disso, a inscrição é gravada sem aviso.
+var AVISOS_POR_HORA = 20;
+
 // Ordem das colunas na planilha (cabeçalho criado automaticamente).
 var COLUNAS = ["data", "email"];
 
 function doPost(e) {
+  var lock = LockService.getScriptLock();
   try {
-    var dados = JSON.parse(e.postData.contents);
-    var email = String(dados.email || "").trim().toLowerCase();
+    var bruto = e && e.postData ? String(e.postData.contents || "") : "";
+    if (!bruto || bruto.length > 2000) return json({ ok: false, erro: "envio inválido" });
+    var dados = JSON.parse(bruto);
+    var email = String((dados && dados.email) || "").trim().toLowerCase();
 
-    if (!email) {
-      return ContentService.createTextOutput(
-        JSON.stringify({ ok: false, erro: "e-mail vazio" }),
-      ).setMimeType(ContentService.MimeType.JSON);
+    if (email.length > 120 || !/^[^@\s=+\-][^@\s]*@[^@\s]+\.[^@\s]+$/.test(email)) {
+      return json({ ok: false, erro: "e-mail inválido" });
     }
 
+    // Duas inscrições no mesmo segundo não podem passar as duas pela checagem
+    // de duplicado.
+    lock.waitLock(30000);
     var sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
 
     // cria cabeçalho na primeira execução
@@ -58,26 +74,37 @@ function doPost(e) {
         return String(v).trim().toLowerCase();
       });
 
-    if (emailsExistentes.indexOf(email) === -1) {
-      sheet.appendRow([new Date().toISOString(), email]);
+    var novo = emailsExistentes.indexOf(email) === -1;
+    if (novo) sheet.appendRow([new Date().toISOString(), email]);
+    lock.releaseLock();
 
-      if (EMAIL_AVISO) {
-        MailApp.sendEmail({
-          to: EMAIL_AVISO,
-          subject: "Nova inscrição na newsletter: " + email,
-          body: "Novo e-mail na lista da newsletter:\n\n" + email,
-        });
-      }
+    if (novo && EMAIL_AVISO && podeAvisar()) {
+      MailApp.sendEmail({
+        to: EMAIL_AVISO,
+        subject: "Nova inscrição na newsletter: " + email,
+        body: "Novo e-mail na lista da newsletter:\n\n" + email,
+      });
     }
 
-    return ContentService.createTextOutput(
-      JSON.stringify({ ok: true }),
-    ).setMimeType(ContentService.MimeType.JSON);
+    return json({ ok: true });
   } catch (err) {
-    return ContentService.createTextOutput(
-      JSON.stringify({ ok: false, erro: String(err) }),
-    ).setMimeType(ContentService.MimeType.JSON);
+    try { lock.releaseLock(); } catch (_) {}
+    return json({ ok: false, erro: String(err) });
   }
+}
+
+/** Conta os avisos da hora corrente; false quando passou do limite. */
+function podeAvisar() {
+  var cache = CacheService.getScriptCache();
+  var chave = "avisos:" + Utilities.formatDate(new Date(), "America/Belem", "yyyyMMddHH");
+  var n = Number(cache.get(chave) || 0);
+  if (n >= AVISOS_POR_HORA || MailApp.getRemainingDailyQuota() < 1) return false;
+  cache.put(chave, String(n + 1), 3600);
+  return true;
+}
+
+function json(obj) {
+  return ContentService.createTextOutput(JSON.stringify(obj)).setMimeType(ContentService.MimeType.JSON);
 }
 
 // Permite testar a URL no navegador (deve responder "Newsletter Ousadia online").

@@ -2,7 +2,13 @@
 
 import { useState } from "react";
 import { ArrowRight, Lock } from "lucide-react";
-import { Field, FormError, Input } from "@/components/forms/fields";
+import {
+  Armadilha,
+  caiuNaArmadilha,
+  Field,
+  FormError,
+  Input,
+} from "@/components/forms/fields";
 import type { LeadAluno } from "@/lib/metodo-satoyiro/tipos";
 
 export function TelaCaptura({
@@ -10,7 +16,8 @@ export function TelaCaptura({
   onEnviar,
 }: {
   primeiroNome: string;
-  onEnviar: (lead: LeadAluno) => void;
+  /** `gravar` é false quando um robô caiu na armadilha (`Armadilha`). */
+  onEnviar: (lead: LeadAluno, gravar: boolean) => void;
 }) {
   const [erro, setErro] = useState(false);
   const [consentErro, setConsentErro] = useState(false);
@@ -54,7 +61,7 @@ export function TelaCaptura({
       contato: valores.contato,
       redeSocial: valores.redeSocial,
       dataNascimento: valores.dataNascimento,
-    });
+    }, !caiuNaArmadilha(form));
   }
 
   return (
@@ -70,6 +77,7 @@ export function TelaCaptura({
       </p>
 
       <form onSubmit={enviar} noValidate className="mt-8 space-y-5">
+        <Armadilha />
         <div className="grid gap-5 sm:grid-cols-2">
           <Field id="os_nomeCompleto" label="Nome completo" required>
             <Input

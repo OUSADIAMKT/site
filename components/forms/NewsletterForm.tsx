@@ -4,6 +4,7 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { NEWSLETTER_ENDPOINT } from "@/lib/site";
 import { inscreverNewsletter } from "@/lib/newsletter";
+import { Armadilha, caiuNaArmadilha } from "@/components/forms/fields";
 
 /** Captura de e-mail do rodapé (PRD 6.5). */
 export function NewsletterForm({ className = "" }: { className?: string }) {
@@ -14,6 +15,12 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
     ev.preventDefault();
     if (!/^\S+@\S+\.\S+$/.test(email)) {
       setEstado("erro");
+      return;
+    }
+
+    // Robô na armadilha: finge que deu certo e não grava.
+    if (caiuNaArmadilha(ev.currentTarget)) {
+      setEstado("ok");
       return;
     }
 
@@ -37,6 +44,7 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
 
   return (
     <form onSubmit={onSubmit} className={className} noValidate>
+      <Armadilha />
       <div className="flex gap-2">
         <label htmlFor="newsletter-email" className="sr-only">
           Seu e-mail

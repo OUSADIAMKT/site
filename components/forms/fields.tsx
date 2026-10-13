@@ -35,6 +35,27 @@ export function Select(props: React.ComponentProps<"select">) {
   return <select {...props} className={controlClass} />;
 }
 
+/** Nome do campo-armadilha anti-robô (ver `Armadilha`). */
+export const ARMADILHA = "site_empresa";
+
+/**
+ * Campo fora da tela que nenhuma pessoa vê nem preenche. Robô que sai
+ * preenchendo tudo cai nele: o formulário segue normal, pra não dar pista, mas
+ * a resposta não é gravada (`caiuNaArmadilha`). Não barra quem manda dados
+ * direto pra URL do Apps Script: isso é tratado nos próprios scripts.
+ */
+export function Armadilha() {
+  return (
+    <div aria-hidden className="pointer-events-none absolute -left-[9999px] h-px w-px overflow-hidden">
+      <input name={ARMADILHA} type="text" tabIndex={-1} autoComplete="off" defaultValue="" />
+    </div>
+  );
+}
+
+export function caiuNaArmadilha(form: HTMLFormElement) {
+  return Boolean(new FormData(form).get(ARMADILHA));
+}
+
 export function Field({
   id,
   label,

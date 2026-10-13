@@ -97,11 +97,11 @@ export function OuseSerVoceQuiz() {
     irParaTopo();
   }
 
-  function finalizarCaptura(dadosLead: LeadAluno) {
+  function finalizarCaptura(dadosLead: LeadAluno, gravar: boolean) {
     const leadFinal: LeadAluno = { ...dadosLead, primeiroNome, turma };
     setLead(leadFinal);
     const r = compute(respostas);
-    salvarNaPlanilha(payloadPlanilha(r, leadFinal));
+    if (gravar) salvarNaPlanilha(payloadPlanilha(r, leadFinal));
     setTela("resultado");
     irParaTopo();
   }

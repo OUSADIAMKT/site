@@ -5,7 +5,6 @@ import { AlertTriangle, Download, Lock, RefreshCw } from "lucide-react";
 import { Field, Input, Select } from "@/components/forms/fields";
 import { BarraLista } from "./BarraLista";
 import { Dispersao } from "./Dispersao";
-import { parseCsv } from "@/lib/metodo-satoyiro/csv";
 import {
   contarOcorrencias,
   dispersaoClarezaAcao,
@@ -13,7 +12,24 @@ import {
   paraCsv,
   type LinhaAluno,
 } from "@/lib/metodo-satoyiro/educador";
-import { SENHA_PAINEL_EDUCADOR, SHEET_CSV_SATOYIRO } from "@/lib/site";
+import { SHEET_ENDPOINT_SATOYIRO } from "@/lib/site";
+
+type RespostaPainel =
+  | { ok: true; linhas: Record<string, string>[] }
+  | { ok: false; erro: string };
+
+/**
+ * Pede as respostas ao Apps Script, que só devolve com a chave certa
+ * (propriedade CHAVE_PAINEL do script, passo 8 de
+ * `docs/apps-script/metodo-satoyiro-google-sheets.gs`). A chave não fica no
+ * código do site: é digitada pelo educador e conferida do lado do Google.
+ */
+async function buscarRespostas(chave: string): Promise<RespostaPainel> {
+  const url = `${SHEET_ENDPOINT_SATOYIRO}?chave=${encodeURIComponent(chave)}`;
+  const resp = await fetch(url, { cache: "no-store" });
+  if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+  return resp.json();
+}
 
 function Aviso({ titulo, children }: { titulo: string; children: React.ReactNode }) {
   return (
@@ -27,9 +43,14 @@ function Aviso({ titulo, children }: { titulo: string; children: React.ReactNode
   );
 }
 
-function TelaSenha({ onEntrar }: { onEntrar: () => void }) {
+function TelaSenha({
+  onEntrar,
+}: {
+  onEntrar: (chave: string) => Promise<string | null>;
+}) {
   const [valor, setValor] = useState("");
-  const [erro, setErro] = useState(false);
+  const [erro, setErro] = useState<string | null>(null);
+  const [enviando, setEnviando] = useState(false);
 
   return (
     <section className="card-surface mx-auto max-w-md p-7 sm:p-9">
@@ -41,34 +62,33 @@ function TelaSenha({ onEntrar }: { onEntrar: () => void }) {
 
       <form
         className="mt-6 space-y-4"
-        onSubmit={(ev) => {
+        onSubmit={async (ev) => {
           ev.preventDefault();
-          if (valor === SENHA_PAINEL_EDUCADOR) {
-            onEntrar();
-          } else {
-            setErro(true);
-          }
+          if (!valor) return;
+          setEnviando(true);
+          setErro(await onEntrar(valor));
+          setEnviando(false);
         }}
       >
-        <Field id="ed_senha" label="Senha" required>
+        <Field id="ed_senha" label="Chave de acesso" required>
           <Input
             id="ed_senha"
             type="password"
             value={valor}
             onChange={(ev) => {
               setValor(ev.target.value);
-              setErro(false);
+              setErro(null);
             }}
             autoFocus
           />
         </Field>
         {erro && (
           <p role="alert" className="font-mono text-xs text-destructive">
-            Senha incorreta.
+            {erro}
           </p>
         )}
-        <button type="submit" className="btn btn-primary w-full">
-          Entrar
+        <button type="submit" className="btn btn-primary w-full" disabled={enviando}>
+          {enviando ? "Conferindo…" : "Entrar"}
         </button>
       </form>
     </section>
@@ -76,7 +96,7 @@ function TelaSenha({ onEntrar }: { onEntrar: () => void }) {
 }
 
 export function PainelEducador() {
-  const [autenticado, setAutenticado] = useState(false);
+  const [chave, setChave] = useState<string | null>(null);
   const [linhas, setLinhas] = useState<LinhaAluno[] | null>(null);
   const [erroCarregamento, setErroCarregamento] = useState(false);
   const [carregando, setCarregando] = useState(false);
@@ -86,25 +106,32 @@ export function PainelEducador() {
   const [filtroDe, setFiltroDe] = useState("");
   const [filtroAte, setFiltroAte] = useState("");
 
+  /** Devolve a mensagem de erro, ou null se entrou. */
+  async function entrar(valor: string): Promise<string | null> {
+    try {
+      const r = await buscarRespostas(valor);
+      if (!r.ok) return r.erro === "chave incorreta" ? "Chave incorreta." : r.erro;
+      setLinhas(normalizarLinhas(r.linhas));
+      setChave(valor);
+      return null;
+    } catch {
+      return "Não consegui falar com a planilha. Tente de novo em instantes.";
+    }
+  }
+
   async function carregar() {
+    if (!chave) return;
     setCarregando(true);
     setErroCarregamento(false);
     try {
-      const resp = await fetch(SHEET_CSV_SATOYIRO, { cache: "no-store" });
-      if (!resp.ok) throw new Error("falha ao buscar CSV");
-      const texto = await resp.text();
-      setLinhas(normalizarLinhas(parseCsv(texto)));
+      const r = await buscarRespostas(chave);
+      if (!r.ok) throw new Error(r.erro);
+      setLinhas(normalizarLinhas(r.linhas));
     } catch {
       setErroCarregamento(true);
     } finally {
       setCarregando(false);
     }
-  }
-
-  /** Disparado direto pela ação do usuário (senha correta), não por um efeito. */
-  function entrar() {
-    setAutenticado(true);
-    if (SHEET_CSV_SATOYIRO) void carregar();
   }
 
   const turmas = useMemo(
@@ -137,34 +164,7 @@ export function PainelEducador() {
     URL.revokeObjectURL(url);
   }
 
-  if (!SENHA_PAINEL_EDUCADOR) {
-    return (
-      <Aviso titulo="Painel ainda não configurado">
-        <p>
-          Falta definir <code>SENHA_PAINEL_EDUCADOR</code> em{" "}
-          <code>lib/site.ts</code>. Lembrete: como o site é estático, essa
-          senha não é segurança de verdade: é só uma barreira contra
-          curiosos. Quem realmente protege os dados é o controle de acesso da
-          planilha do Google.
-        </p>
-      </Aviso>
-    );
-  }
-
-  if (!autenticado) return <TelaSenha onEntrar={entrar} />;
-
-  if (!SHEET_CSV_SATOYIRO) {
-    return (
-      <Aviso titulo="Planilha ainda não publicada para leitura">
-        <p>
-          Falta publicar a planilha como CSV e colar a URL em{" "}
-          <code>SHEET_CSV_SATOYIRO</code> (<code>lib/site.ts</code>). Veja o
-          passo 8 em{" "}
-          <code>docs/apps-script/metodo-satoyiro-google-sheets.gs</code>.
-        </p>
-      </Aviso>
-    );
-  }
+  if (!chave) return <TelaSenha onEntrar={entrar} />;
 
   return (
     <div className="space-y-8">
@@ -181,8 +181,9 @@ export function PainelEducador() {
       {erroCarregamento && (
         <Aviso titulo="Não consegui carregar as respostas">
           <p>
-            Confira se <code>SHEET_CSV_SATOYIRO</code> aponta pra uma
-            publicação CSV válida e pública da planilha.
+            A planilha não respondeu. Tente atualizar de novo; se continuar,
+            confira se a chave mudou (propriedade <code>CHAVE_PAINEL</code> do
+            Apps Script).
           </p>
         </Aviso>
       )}

@@ -3,6 +3,8 @@
 import { useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Check } from "lucide-react";
 import {
+  Armadilha,
+  caiuNaArmadilha,
   Field,
   FormError,
   Input,
@@ -182,7 +184,9 @@ export function MomentoQuiz() {
     setLead(valores);
     // Grava na planilha e pede ao Apps Script o e-mail com o diagnóstico.
     // Não espera resposta: o resultado aparece na hora.
-    salvarNaPlanilha(payloadPlanilha(respostas, calcular(respostas), valores));
+    if (!caiuNaArmadilha(form)) {
+      salvarNaPlanilha(payloadPlanilha(respostas, calcular(respostas), valores));
+    }
     setTela("resultado");
     irParaTopo();
   }
@@ -467,6 +471,7 @@ export function MomentoQuiz() {
           </p>
 
           <form onSubmit={enviarCaptura} noValidate className="mt-8 space-y-5">
+            <Armadilha />
             <div className="grid gap-5 sm:grid-cols-2">
               <Field id="m_nome" label="Nome" required>
                 <Input

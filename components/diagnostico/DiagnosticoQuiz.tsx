@@ -2,7 +2,13 @@
 
 import { useMemo, useRef, useState } from "react";
 import { ArrowLeft, ArrowRight, Lock } from "lucide-react";
-import { Field, FormError, Input } from "@/components/forms/fields";
+import {
+  Armadilha,
+  caiuNaArmadilha,
+  Field,
+  FormError,
+  Input,
+} from "@/components/forms/fields";
 import { ResultadoDiagnostico } from "./ResultadoDiagnostico";
 import { LEAD_VAZIO, type Lead } from "./tipos";
 import {
@@ -165,7 +171,9 @@ export function DiagnosticoQuiz() {
     // Não esperamos a resposta: o envio segue em segundo plano e o resultado
     // aparece na hora. Se falhar, o CTA de WhatsApp leva a leitura completa —
     // o lead não some em silêncio.
-    salvarNaPlanilha(payloadPlanilha(compute(answers), valores));
+    if (!caiuNaArmadilha(form)) {
+      salvarNaPlanilha(payloadPlanilha(compute(answers), valores));
+    }
 
     setTela("resultado");
     irParaTopo();
@@ -349,6 +357,7 @@ export function DiagnosticoQuiz() {
           </p>
 
           <form onSubmit={enviarCaptura} noValidate className="mt-8 space-y-5">
+            <Armadilha />
             <div className="grid gap-5 sm:grid-cols-2">
               <Field id="d_nome" label="Nome" required>
                 <Input
