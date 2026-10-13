@@ -8,6 +8,7 @@ import {
   Field,
   FormError,
   Input,
+  LinkPolitica,
 } from "@/components/forms/fields";
 import { ResultadoDiagnostico } from "./ResultadoDiagnostico";
 import { LEAD_VAZIO, type Lead } from "./tipos";
@@ -425,8 +426,10 @@ export function DiagnosticoQuiz() {
                 }`}
               />
               <span>
-                Autorizo a Ousadia Marketing a enviar meu diagnóstico e conteúdos
-                relacionados pelos canais informados.
+                Tenho 18 anos ou mais e autorizo a Ousadia Marketing a guardar
+                minhas respostas e me enviar o diagnóstico e conteúdos
+                relacionados pelos canais informados, conforme a{" "}
+                <LinkPolitica />.
               </span>
             </label>
 

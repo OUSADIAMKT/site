@@ -18,7 +18,12 @@
  * script para mandar e-mail com conteúdo próprio em nome da Juh.
  */
 
-import { GRUPO_MAPA_UGC, SHEET_ENDPOINT_MOMENTO_UGC, waAulaoUgc } from "@/lib/site";
+import {
+  GRUPO_MAPA_UGC,
+  POLITICA_VERSAO,
+  SHEET_ENDPOINT_MOMENTO_UGC,
+  waAulaoUgc,
+} from "@/lib/site";
 
 /* ------------------------------------------------------------------ *
  * Perguntas
@@ -57,6 +62,13 @@ export type Pergunta = {
 
 /** Id reservado para a opção "Outro". */
 export const OUTRO = "outro";
+
+/**
+ * Faixa "Menos de 18". O diagnóstico é só pra maiores de 18 (decisão de
+ * 13/10/2026): quem marca esta opção para na primeira pergunta, sem deixar
+ * contato (ver `MomentoQuiz`). A opção continua na lista pra ela poder dizer.
+ */
+export const MENOS_DE_18 = "menos_18";
 
 /** Estados para a pergunta "Onde você mora?" — Norte primeiro, que é o público. */
 export const UFS: Opcao[] = [
@@ -97,7 +109,7 @@ export const PERGUNTAS: Pergunta[] = [
     titulo: "Qual é a sua idade?",
     dica: "Escolha a sua faixa.",
     opcoes: [
-      { id: "menos_18", lab: "Menos de 18" },
+      { id: MENOS_DE_18, lab: "Menos de 18" },
       { id: "18_24", lab: "18 a 24" },
       { id: "25_30", lab: "25 a 30" },
       { id: "31_35", lab: "31 a 35" },
@@ -651,7 +663,7 @@ export function calcular(r: Respostas): Resultado {
     // Com várias respostas, a abertura usa a primeira que ela marcou.
     desejo: DESEJO_TEXTO[primeira(r, "desejo")] ?? "",
     mae: perfil.includes("mae") || perfil.includes("mae_solo"),
-    menor: primeira(r, "idade") === "menos_18",
+    menor: primeira(r, "idade") === MENOS_DE_18,
   };
 }
 
@@ -806,6 +818,8 @@ export function payloadPlanilha(r: Respostas, res: Resultado, lead: Lead) {
     utm_source: utm("utm_source"),
     utm_medium: utm("utm_medium"),
     utm_campaign: utm("utm_campaign"),
+    // Só chega aqui quem marcou a caixa de consentimento.
+    consentimento: `sim (política de ${POLITICA_VERSAO})`,
     email_chaves: {
       momento: res.momento.key,
       desejo: r.desejo?.ids[0] ?? "",

@@ -429,7 +429,8 @@ var ABA_RESPOSTAS = "Respostas";
 var ABA_PAINEL = "Painel";
 
 // Ordem das colunas — as chaves têm que bater com `payloadPlanilha()` em
-// `lib/momento-ugc.ts`. As duas últimas são preenchidas por este script.
+// `lib/momento-ugc.ts`. `email_status` e `email_conteudo` são preenchidas por
+// este script.
 var COLUNAS = [
   "data",
   "nome",
@@ -472,6 +473,8 @@ var COLUNAS = [
   "utm_campaign",
   "email_status",
   "email_conteudo",
+  // Colunas novas entram sempre no fim, pra não deslocar as planilhas que já existem.
+  "consentimento",
 ];
 
 /* ------------------------------------------------------------------ *
@@ -842,6 +845,10 @@ function abaRespostas() {
     sheet = primeira.getLastRow() === 0 ? primeira.setName(ABA_RESPOSTAS) : ss.insertSheet(ABA_RESPOSTAS);
   }
   if (sheet.getLastRow() === 0) sheet.appendRow(COLUNAS);
+  else if (sheet.getLastColumn() < COLUNAS.length) {
+    // Planilha antiga e coluna nova no fim (ex.: consentimento): completa o cabeçalho.
+    sheet.getRange(1, 1, 1, COLUNAS.length).setValues([COLUNAS]).setFontWeight("bold");
+  }
   return sheet;
 }
 

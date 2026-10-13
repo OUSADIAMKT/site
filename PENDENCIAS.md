@@ -17,14 +17,14 @@ conforme a regra do PRD 7.3.
 | 2 | **3 vídeos de aluno** (15–30s): nome, cidade, antes/depois em uma frase | Home (dobra 8), `/escola`, `/escola/[curso]` |
 | 3 | **Prints reais de feedback** (DM, comentário, WhatsApp) | Home (dobra 8) |
 | 4 | **Antes/depois e números** dos 8 cases publicados. O portfólio em PDF conta o que foi entregue, mas não traz resultado medido — hoje esses cases mostram o slot de pendência no lugar. | `lib/portfolio.ts` → `antes`, `depois`, `numeros` |
-| 5 | **Textos jurídicos** (Privacidade e Termos) validados por profissional + **CNPJ** | `/politica-de-privacidade`, `/termos`, rodapé |
+| 5 | ~~CNPJ~~ ✅ (13/10/2026). **Textos jurídicos:** Privacidade e Termos escritos em 13/10/2026 a partir do que o site coleta de verdade; falta **revisão de um advogado** e confirmar o prazo de guarda (2 anos) e o trecho sobre menores no Ouse Ser Você | `/politica-de-privacidade`, `/termos` |
 
 ## 2. Dados de contato e integrações
 
 | # | Pendência | Onde configurar |
 |---|---|---|
 | 6 | Links de **TikTok, YouTube e Spotify** | `lib/site.ts` → `SOCIAL` |
-| 7 | **E-mail comercial** e **cidade-base** | `lib/site.ts` → `SITE.email`, `SITE.cidadeBase` |
+| 7 | ~~E-mail comercial e cidade-base~~ ✅ (13/10/2026: contato@ousadiamarketing.com.br, Altamira/PA) | `lib/site.ts` → `SITE` |
 | 8 | **Endpoint de formulário** (aplicação, contato, proposta) | `lib/site.ts` → `FORM_ENDPOINT` |
 | 9 | **Endpoint da newsletter** — script do Apps Script pronto em `docs/apps-script/newsletter-google-sheets.gs`, falta só implantar e colar a URL | `lib/site.ts` → `NEWSLETTER_ENDPOINT` |
 | 9b | **Endpoint do Momento UGC** — script pronto em `docs/apps-script/momento-ugc-google-sheets.gs` (grava no Drive e manda o diagnóstico pro e-mail da menina). Falta criar a planilha, colar o script, rodar `configurar`, implantar e colar a URL. **Enquanto vazio, `/momento-ugc` não grava nada: não divulgar.** Também faltam os IDs dos 5 vídeos (`lib/momento-ugc.ts`) — ver `docs/diagnostico-ugc.md` | `lib/site.ts` → `SHEET_ENDPOINT_MOMENTO_UGC` |

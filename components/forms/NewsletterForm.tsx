@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { NEWSLETTER_ENDPOINT } from "@/lib/site";
 import { inscreverNewsletter } from "@/lib/newsletter";
-import { Armadilha, caiuNaArmadilha } from "@/components/forms/fields";
+import { Armadilha, caiuNaArmadilha, LinkPolitica } from "@/components/forms/fields";
 
 /** Captura de e-mail do rodapé (PRD 6.5). */
 export function NewsletterForm({ className = "" }: { className?: string }) {
@@ -69,6 +69,10 @@ export function NewsletterForm({ className = "" }: { className?: string }) {
           <ArrowRight size={16} />
         </button>
       </div>
+      <p className="mt-2 font-mono text-[10px] leading-relaxed text-cinza-ink">
+        Ao se inscrever, você concorda com a <LinkPolitica />. Sai quando
+        quiser.
+      </p>
       {estado === "erro" && (
         <p role="alert" className="mt-2 font-mono text-xs text-destructive">
           {NEWSLETTER_ENDPOINT

@@ -1,4 +1,4 @@
-import { SHEET_ENDPOINT_SATOYIRO } from "@/lib/site";
+import { POLITICA_VERSAO, SHEET_ENDPOINT_SATOYIRO } from "@/lib/site";
 import { calcularNumeroMissao } from "./numerologia";
 import type { LeadAluno, Resultado } from "./tipos";
 
@@ -32,6 +32,8 @@ export function payloadPlanilha(r: Resultado, lead: LeadAluno) {
         : "não",
     resposta_1: r.abertas.find((a) => a.chave === "q14")?.texto ?? "",
     resposta_2: r.abertas.find((a) => a.chave === "q15")?.texto ?? "",
+    // Só chega aqui quem marcou a caixa de consentimento.
+    consentimento: `sim (política de ${POLITICA_VERSAO})`,
   };
 }
 

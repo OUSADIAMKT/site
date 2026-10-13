@@ -415,6 +415,44 @@
     .js .reveal { opacity: 1; transform: none; }
   }
 
+  /* Texto longo das páginas legais (components/sections/LegalPage.tsx). */
+  .texto-legal {
+    color: color-mix(in oklab, var(--paper) 85%, transparent);
+    line-height: 1.7;
+  }
+  .texto-legal h2 {
+    font-family: var(--font-chakra), sans-serif;
+    font-size: clamp(1.25rem, 2.6vw, 1.6rem);
+    line-height: 1.2;
+    color: var(--paper);
+    margin: 2.75rem 0 1rem;
+  }
+  .texto-legal h2:first-child { margin-top: 0; }
+  .texto-legal h3 {
+    font-weight: 700;
+    color: var(--paper);
+    margin: 1.75rem 0 0.5rem;
+  }
+  .texto-legal p { margin: 0 0 1rem; }
+  .texto-legal ul { margin: 0 0 1rem; padding-left: 1.25rem; list-style: disc; }
+  .texto-legal li { margin: 0 0 0.4rem; }
+  .texto-legal li::marker { color: var(--amarelo); }
+  .texto-legal strong { color: var(--paper); }
+  .texto-legal a {
+    color: var(--amarelo);
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    text-decoration-color: color-mix(in oklab, var(--amarelo) 40%, transparent);
+  }
+  .texto-legal .quadro {
+    border: 1px solid var(--border);
+    border-radius: 0.75rem;
+    background: color-mix(in oklab, white 3%, transparent);
+    padding: 1.25rem 1.5rem;
+    margin: 0 0 1.5rem;
+  }
+  .texto-legal .quadro p:last-child { margin-bottom: 0; }
+
   /* Motivos decorativos (natureza / grafismo) posicionados */
   .motif {
     position: absolute;

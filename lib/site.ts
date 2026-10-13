@@ -25,10 +25,29 @@ export const SITE = {
   claim: "Propósito que move. Estratégia que transforma.",
   descriptor: "Plataforma de Creators da Amazônia",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://ousadiamarketing.com.br",
-  email: "", // TODO: e-mail comercial
-  cidadeBase: "", // TODO: cidade-base (região Norte)
-  cnpj: "", // TODO: CNPJ
+  email: "contato@ousadiamarketing.com.br",
+  cidadeBase: "Altamira, PA",
+  /** Dados do contrato social (JUCEPA, consolidação de 11/02/2026). */
+  razaoSocial: "Ousadia Marketing Creators da Amazônia LTDA",
+  cnpj: "59.259.789/0001-42",
+  endereco: "Rua Coronel José Porfírio, 1651, Centro, Altamira/PA, CEP 68371-030",
 } as const;
+
+/**
+ * Encarregada pelo tratamento de dados pessoais (LGPD, art. 41): a pessoa que
+ * responde aos titulares e à ANPD. Aparece na Política de Privacidade.
+ */
+export const ENCARREGADO_DADOS = {
+  nome: "Tháscila Lawanda",
+  email: "contato@ousadiamarketing.com.br",
+};
+
+/**
+ * Versão da Política de Privacidade em vigor (data da última mudança). Vai
+ * gravada junto com cada consentimento nas planilhas, pra saber qual texto a
+ * pessoa aceitou. Mudou a política? Atualize a data aqui.
+ */
+export const POLITICA_VERSAO = "2026-10-13";
 
 /**
  * Imagem padrão de compartilhamento (gerada por `app/og.png/route.tsx`).

@@ -35,6 +35,24 @@ export function Select(props: React.ComponentProps<"select">) {
   return <select {...props} className={controlClass} />;
 }
 
+/**
+ * Link pra Política de Privacidade dentro das caixas de consentimento. Abre em
+ * outra aba de propósito: quem está no meio de um diagnóstico perderia as
+ * respostas se a página trocasse.
+ */
+export function LinkPolitica({ children = "Política de Privacidade" }: { children?: ReactNode }) {
+  return (
+    <a
+      href="/politica-de-privacidade/"
+      target="_blank"
+      rel="noopener"
+      className="text-amarelo underline underline-offset-4"
+    >
+      {children}
+    </a>
+  );
+}
+
 /** Nome do campo-armadilha anti-robô (ver `Armadilha`). */
 export const ARMADILHA = "site_empresa";
 

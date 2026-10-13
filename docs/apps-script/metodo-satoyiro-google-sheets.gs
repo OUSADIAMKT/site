@@ -81,6 +81,8 @@ var COLUNAS = [
   "conversa_prioritaria",
   "resposta_1",
   "resposta_2",
+  // Colunas novas entram sempre no fim, pra não deslocar as planilhas que já existem.
+  "consentimento",
 ];
 
 function doPost(e) {
@@ -94,9 +96,11 @@ function doPost(e) {
 
     var sheet = SpreadsheetApp.openById(SHEET_ID).getSheets()[0];
 
-    // cria cabeçalho na primeira execução
+    // cria cabeçalho na primeira execução (ou completa, se entrou coluna nova no fim)
     if (sheet.getLastRow() === 0) {
       sheet.appendRow(COLUNAS);
+    } else if (sheet.getLastColumn() < COLUNAS.length) {
+      sheet.getRange(1, 1, 1, COLUNAS.length).setValues([COLUNAS]);
     }
 
     var linha = COLUNAS.map(function (chave) {

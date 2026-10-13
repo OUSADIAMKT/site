@@ -7,12 +7,14 @@ import {
   caiuNaArmadilha,
   Field,
   FormError,
+  LinkPolitica,
   Input,
   Select,
   Textarea,
 } from "@/components/forms/fields";
 import { ResultadoMomento } from "./ResultadoMomento";
 import {
+  MENOS_DE_18,
   OUTRO,
   PERGUNTAS,
   calcular,
@@ -23,7 +25,7 @@ import {
   type Respostas,
 } from "@/lib/momento-ugc";
 
-type Tela = "intro" | "quiz" | "aberta" | "captura" | "resultado";
+type Tela = "intro" | "quiz" | "aberta" | "captura" | "resultado" | "menor";
 
 const LEAD_VAZIO: Lead = {
   nome: "",
@@ -127,6 +129,13 @@ export function MomentoQuiz() {
 
   function avancar() {
     if (!respondida) return;
+    // Diagnóstico só pra maiores de 18 (decisão de 13/10/2026): quem marca
+    // "Menos de 18" para aqui, antes de qualquer dado de contato.
+    if (q.key === "idade" && atual.ids[0] === MENOS_DE_18) {
+      setTela("menor");
+      irParaTopo();
+      return;
+    }
     if (i < PERGUNTAS.length - 1) setI(i + 1);
     else setTela("aberta");
     irParaTopo();
@@ -255,7 +264,7 @@ export function MomentoQuiz() {
           </ul>
 
           <ul className="mt-7 flex flex-wrap gap-2">
-            {["Gratuito", "~4 minutos", "Sem certo ou errado"].map((s) => (
+            {["Gratuito", "~4 minutos", "Para maiores de 18", "Sem certo ou errado"].map((s) => (
               <li
                 key={s}
                 className="rounded-full border border-border bg-white/5 px-4 py-2 font-mono text-xs text-cinza-ink"
@@ -282,6 +291,34 @@ export function MomentoQuiz() {
               }}
             >
               Quero descobrir meu momento <ArrowRight size={16} />
+            </button>
+          </div>
+        </section>
+      )}
+
+      {tela === "menor" && (
+        <section className="card-surface p-7 sm:p-10">
+          <p className="eyebrow">Que bom te ver aqui cedo 💛</p>
+          <h2 className="font-display mt-4 text-[clamp(1.35rem,3.4vw,1.85rem)] leading-tight">
+            Este diagnóstico é para quem já tem 18 anos.
+          </h2>
+          <p className="text-body mt-4 max-w-2xl">
+            Por isso a gente para por aqui, sem pedir nenhum dado seu. Trabalhar
+            com marcas exige contrato, e antes dos 18 isso depende dos seus
+            responsáveis. Enquanto isso, dá pra ir treinando: grave vídeos dos
+            produtos que você já usa e vá descobrindo do que gosta de falar.
+            Quando fizer 18, volta aqui que o seu diagnóstico estará esperando.
+          </p>
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <button
+              type="button"
+              className="btn btn-secondary"
+              onClick={() => {
+                setTela("quiz");
+                irParaTopo();
+              }}
+            >
+              <ArrowLeft size={16} /> Marquei a idade errada
             </button>
           </div>
         </section>
@@ -523,10 +560,11 @@ export function MomentoQuiz() {
                 }`}
               />
               <span>
-                Autorizo a Ousadia e a Juh a guardar minhas respostas e me
-                enviar o diagnóstico e conteúdos sobre UGC pelo e-mail e
-                WhatsApp informados. Meus dados não são repassados a ninguém, e
-                posso pedir para sair quando quiser.
+                Tenho 18 anos ou mais e autorizo a Ousadia e a Juh a guardar
+                minhas respostas e me enviar o diagnóstico e conteúdos sobre UGC
+                pelo e-mail e WhatsApp informados, conforme a{" "}
+                <LinkPolitica />. Meus dados não são vendidos nem repassados a
+                outras empresas, e posso pedir para sair quando quiser.
               </span>
             </label>
 

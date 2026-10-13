@@ -108,8 +108,7 @@ export function Footer() {
           <div className="mt-6 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
             <p className="font-mono text-xs text-cinza-ink">
               Feito na Amazônia, com orgulho. © {new Date().getFullYear()}{" "}
-              Ousadia Marketing.
-              {SITE.cnpj && ` CNPJ ${SITE.cnpj}.`}
+              {SITE.razaoSocial}. CNPJ {SITE.cnpj}.
             </p>
             <div className="flex gap-5 font-mono text-xs text-cinza-ink">
               <Link

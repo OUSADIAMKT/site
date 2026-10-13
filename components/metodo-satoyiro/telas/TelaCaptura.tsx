@@ -8,6 +8,7 @@ import {
   Field,
   FormError,
   Input,
+  LinkPolitica,
 } from "@/components/forms/fields";
 import type { LeadAluno } from "@/lib/metodo-satoyiro/tipos";
 
@@ -139,7 +140,7 @@ export function TelaCaptura({
           <span>
             Sei que meu resultado será guardado pela Ousadia Marketing e
             autorizo o uso dos meus dados para receber meu mapa e conteúdos
-            relacionados ao método Satoyiro.
+            relacionados ao método Satoyiro, conforme a <LinkPolitica />.
           </span>
         </label>
 
