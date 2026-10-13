@@ -395,6 +395,26 @@
     .hero-video__poster { display: block; }
   }
 
+  /* Entrada dos blocos (components/ui/Reveal.tsx). Só esconde quando o script
+     já rodou (classe `js` no <html>): sem JavaScript, tudo aparece. */
+  .js .reveal {
+    opacity: 0;
+    transform: translateY(24px);
+    transition:
+      opacity 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s),
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) var(--reveal-delay, 0s);
+  }
+  .js .reveal.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .js .reveal { opacity: 1; transform: none; transition: none; }
+  }
+  @media print {
+    .js .reveal { opacity: 1; transform: none; }
+  }
+
   /* Motivos decorativos (natureza / grafismo) posicionados */
   .motif {
     position: absolute;

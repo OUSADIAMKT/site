@@ -5,6 +5,7 @@ import { AnnouncementBar } from "@/components/layout/AnnouncementBar";
 import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
+import { REVEAL_SCRIPT } from "@/components/ui/Reveal";
 import { OG_IMAGEM, SITE, SOCIAL } from "@/lib/site";
 
 const chakra = Chakra_Petch({
@@ -58,8 +59,12 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
     <html
       lang="pt-BR"
       className={`dark ${chakra.variable} ${manrope.variable} ${jetbrains.variable} h-full antialiased`}
+      // O REVEAL_SCRIPT acrescenta a classe `js` antes do React hidratar.
+      suppressHydrationWarning
     >
       <body className="flex min-h-full flex-col">
+        {/* Primeiro do body: roda antes de qualquer conteúdo ser pintado. */}
+        <script dangerouslySetInnerHTML={{ __html: REVEAL_SCRIPT }} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
