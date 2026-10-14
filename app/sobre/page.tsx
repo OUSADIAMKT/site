@@ -3,7 +3,8 @@ import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaFinal } from "@/components/sections/CtaFinal";
-import { MediaSlot, ContentSlot } from "@/components/ui/MediaSlot";
+import Image from "next/image";
+import { ContentSlot } from "@/components/ui/MediaSlot";
 import { Leaf, RiverLines } from "@/components/ui/Motifs";
 import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { wa } from "@/lib/site";
@@ -33,8 +34,7 @@ const CAPITULOS = [
   {
     t: "A prova",
     p: [
-      "O método foi testado em sala, não em tese. Foram mais de 30 turmas presenciais, mais de mil alunos formados: a mãe que gravava escondida no quarto e hoje aparece todo dia, o lojista que achava que “isso de internet” não era pra ele, a creator que postava no escuro e aprendeu a ligar a luz.",
-      "No meio do caminho, o Amazon Marketing Day, em duas edições, provou que dava pra encher um evento de marketing na Amazônia sem importar guru: o palco era nosso, o sotaque era nosso, e as cadeiras lotaram.",
+      "Por trás de cada ano, gente. Mais de 30 turmas presenciais e mais de mil alunos formados: a mãe que gravava escondida no quarto e hoje aparece todo dia, o lojista que achava que “isso de internet” não era pra ele, a creator que postava no escuro e aprendeu a ligar a luz.",
     ],
   },
   {
@@ -46,27 +46,63 @@ const CAPITULOS = [
   },
 ];
 
-const MARCOS = [
+type Foto = { src: string; alt: string; w: number; h: number };
+
+const MARCOS: { ano: string; t: string; d: string; fotos?: Foto[] }[] = [
   {
-    ano: "{{ANO}}",
-    t: "Primeiras turmas",
-    d: "O método sai do papel e vai pra sala de aula presencial, em formato de agência escola.",
+    ano: "2020",
+    t: "A primeira sala",
+    d: "Janeiro, Brasil Novo: nasce a Imersão ABC do Marketing Digital. Sem marca, sem logo bonito, sem palco: uma turma presencial de gente querendo entender o digital e aprender a se comunicar com verdade. Ninguém sabia ainda, mas ali começava a Ousadia.",
+    fotos: [
+      { src: "/sobre/abc-brasil-novo-2020.webp", alt: "Turma da Imersão ABC do Marketing Digital em Brasil Novo, janeiro de 2020", w: 1080, h: 1080 },
+      { src: "/sobre/abc-turma-selfie.webp", alt: "Jackson em selfie com uma turma do ABC do Marketing Digital", w: 1200, h: 901 },
+    ],
   },
   {
-    ano: "{{ANO}}",
-    t: "Amazon Marketing Day, 1ª edição",
-    d: "O primeiro grande palco de marketing da região, feito por gente daqui.",
+    ano: "2022",
+    t: "O nome certo e o primeiro palco",
+    d: "O nome “ABC do Marketing” pertencia a outra empresa, e a gente precisou trocar. Em vez de decidir sozinho, o Jackson perguntou pra quem tinha passado pelas turmas. A resposta foi Destrave, porque o que travava as pessoas nunca foi técnica: era medo de aparecer. No mesmo ano, a primeira edição do Amazon Marketing Day prova que dava pra lotar um congresso de marketing na Amazônia sem importar guru.",
   },
   {
-    ano: "{{ANO}}",
-    t: "Amazon Marketing Day, 2ª edição",
-    d: "A prova de que não foi sorte: o evento cresce e consolida o movimento.",
+    ano: "2023",
+    t: "O palco se repete",
+    d: "Segunda edição do Amazon Marketing Day: a prova de que não foi sorte. As turmas chegam ao online e, em outubro, a Ousadia Marketing começa oficialmente. O que era projeto virou empresa.",
+    fotos: [
+      { src: "/sobre/amd-plateia.webp", alt: "Jackson no palco da segunda edição do Amazon Marketing Day, com a plateia", w: 782, h: 444 },
+      { src: "/sobre/amd-jackson-microfone.webp", alt: "Jackson com o microfone na segunda edição do Amazon Marketing Day", w: 1076, h: 607 },
+    ],
   },
   {
-    ano: "Hoje",
-    t: "30+ turmas, +1000 alunos",
-    d: "A primeira Agência Escola de Marketing do Norte vira plataforma: cursos, mentoria, agência e a comunidade Creators da Amazônia.",
+    ano: "2024",
+    t: "O time e o tombo",
+    d: "Surge a Agência-Escola, a primeira do Norte, e em novembro o time está completo, de camisa da Ousadia e sorriso de fim de ano. Semanas depois, a empresa quebra financeiramente. Em vez de fechar a porta, a Ousadia volta pra onde tudo começou: a sala de aula. Retomam as turmas presenciais de Vídeo Maker, Social Media e Tráfego Pago.",
+    fotos: [
+      { src: "/sobre/time-ousadia-2024.webp", alt: "Time da Ousadia reunido em novembro de 2024", w: 738, h: 1200 },
+    ],
   },
+  {
+    ano: "2025",
+    t: "Recomeço com quem a gente formou",
+    d: "Novas turmas e, no mesmo ano, as primeiras mentorias em grupo, como a Mentoria Online Creators Jornada Amazônia COP30. Nasce o Método EVO. E quem se formou aqui vira equipe: com o apoio dos alunos, a Ousadia faz as coberturas de Flix, Expoalta, Corrida Viva Altamira e Forró APAExonado, com talento local atrás e na frente das câmeras.",
+  },
+  {
+    ano: "2026",
+    t: "De escola a movimento",
+    d: "Em fevereiro, o lançamento da Comunidade Creators & Empreendedores da Amazônia. Depois, a Gestão de UGC para marcas, o Programa de Embaixadoras da Ekilibre Amazônia e a cobertura dos Jogos Indígenas: a Amazônia contando a própria história, com o próprio sotaque.",
+    fotos: [
+      { src: "/sobre/comunidade-lancamento-2026.webp", alt: "Evento de lançamento da Comunidade Creators & Empreendedores da Amazônia, fevereiro de 2026", w: 908, h: 1191 },
+    ],
+  },
+];
+
+/** Fotos das turmas, sem ano: entram como galeria no capítulo "A prova". */
+const SALA_DE_AULA: Foto[] = [
+  { src: "/sobre/turma-certificados.webp", alt: "Turma comemorando com os certificados na mão", w: 1200, h: 1047 },
+  { src: "/sobre/aula-revisao.webp", alt: "Jackson dando aula diante de um flip chart com a revisão do dia", w: 540, h: 675 },
+  { src: "/sobre/turma-educom.webp", alt: "Jackson com uma turma presencial", w: 1200, h: 1200 },
+  { src: "/sobre/palestra-sebrae.webp", alt: "Jackson palestrando em evento do Sebrae", w: 919, h: 919 },
+  { src: "/sobre/turma-mulheres.webp", alt: "Alunas de uma turma presencial", w: 968, h: 1200 },
+  { src: "/sobre/imersao-jornada-premium.webp", alt: "Jackson conduzindo a Imersão Jornada Premium", w: 1200, h: 1200 },
 ];
 
 const VALORES = [
@@ -111,9 +147,13 @@ export default function SobrePage() {
         <RiverLines className="motif motif-soft text-rio inset-x-0 top-1/3 h-40 w-full" />
         <div className="container-site relative grid gap-12 lg:grid-cols-[1fr_1.4fr]">
           <Reveal>
-            <MediaSlot
-              className="glow-amarelo lg:sticky lg:top-24"
-              label="Foto do Jackson em contexto regional: sem pose de guru, com verdade."
+            <Image
+              src="/sobre/jackson-amd-palco.webp"
+              alt="Jackson de braços abertos no Amazon Marketing Day, com a plateia atrás"
+              width={1200}
+              height={679}
+              priority
+              className="glow-amarelo w-full rounded-2xl lg:sticky lg:top-24"
             />
           </Reveal>
           <div className="space-y-12">
@@ -128,11 +168,68 @@ export default function SobrePage() {
                       <p key={p.slice(0, 24)}>{p}</p>
                     ))}
                   </div>
+                  {c.t === "A prova" && (
+                    <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                      {SALA_DE_AULA.map((f) => (
+                        <li key={f.src}>
+                          <Image
+                            src={f.src}
+                            alt={f.alt}
+                            width={f.w}
+                            height={f.h}
+                            className="aspect-square w-full rounded-lg object-cover"
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   {c.t === "O salto" && (
-                    <ContentSlot
-                      className="mt-5"
-                      label="Trecho na voz do próprio Jackson sobre os primeiros meses: o que quase deu errado, o que segurou ele."
-                    />
+                    <>
+                      <ContentSlot
+                        className="mt-5"
+                        label="Trecho na voz do próprio Jackson sobre os primeiros meses: o que quase deu errado, o que segurou ele."
+                      />
+                      <div id="historico" className="mt-10 scroll-mt-24">
+                        <p className="eyebrow mb-3">A construção</p>
+                        <ol className="mt-6 space-y-0 border-l border-border">
+                          {MARCOS.map((m, mi) => (
+                            <Reveal key={m.t} delay={mi * 0.05}>
+                              <li className="relative pb-8 pl-8">
+                                <span
+                                  className="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full bg-amarelo"
+                                  aria-hidden
+                                />
+                                <span className="font-mono text-xs uppercase tracking-widest text-amarelo">
+                                  {m.ano}
+                                </span>
+                                <h3 className="font-display text-lg mt-1">
+                                  {m.t}
+                                </h3>
+                                <p className="text-body mt-2 text-[0.95rem]">
+                                  {m.d}
+                                </p>
+                                {m.fotos && (
+                                  <div
+                                    className={`mt-4 grid gap-3 ${m.fotos.length > 1 ? "sm:grid-cols-2" : "max-w-md"}`}
+                                  >
+                                    {m.fotos.map((f) => (
+                                      <Image
+                                        key={f.src}
+                                        src={f.src}
+                                        alt={f.alt}
+                                        width={f.w}
+                                        height={f.h}
+                                        className="max-h-96 w-full rounded-lg object-cover"
+                                      />
+                                    ))}
+                                  </div>
+                                )}
+                              </li>
+                            </Reveal>
+                          ))}
+                        </ol>
+                      </div>
+                    </>
                   )}
                 </article>
               </Reveal>
@@ -195,45 +292,11 @@ export default function SobrePage() {
         </div>
       </section>
 
-      {/* Linha do tempo */}
-      <section
-        id="historico"
-        className="relative overflow-hidden bg-roxo section-padding scroll-mt-24"
-      >
-        <div className="container-site relative">
-          <Reveal>
-            <p className="eyebrow mb-4">Linha do tempo</p>
-            <h2 className="headline-section">Os marcos do caminho</h2>
-            <ContentSlot
-              className="mt-6 max-w-xl"
-              label="Confirmar anos e ordem com o cliente antes de publicar."
-            />
-          </Reveal>
-          <ol className="mt-12 space-y-0 border-l border-border">
-            {MARCOS.map((m, i) => (
-              <Reveal key={m.t} delay={i * 0.05}>
-                <li className="relative pb-10 pl-8">
-                  <span
-                    className="absolute -left-[5px] top-1.5 h-2.5 w-2.5 rounded-full bg-amarelo"
-                    aria-hidden
-                  />
-                  <span className="font-mono text-xs uppercase tracking-widest text-amarelo">
-                    {m.ano}
-                  </span>
-                  <h3 className="font-display text-xl mt-1">{m.t}</h3>
-                  <p className="text-body mt-2 max-w-xl text-[0.95rem]">{m.d}</p>
-                </li>
-              </Reveal>
-            ))}
-          </ol>
-        </div>
-      </section>
-
       {/* Valores */}
       <section className="fold-light relative overflow-hidden">
         <WaveDivider
           className="absolute inset-x-0 top-0 rotate-180"
-          color="var(--roxo)"
+          color="var(--ink-void)"
         />
         <div className="container-site relative section-padding">
           <Reveal>
