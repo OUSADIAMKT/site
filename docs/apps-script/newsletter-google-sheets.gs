@@ -41,7 +41,7 @@ var EMAIL_AVISO = "ousadiamkt@gmail.com";
 var AVISOS_POR_HORA = 20;
 
 // Ordem das colunas na planilha (cabeçalho criado automaticamente).
-var COLUNAS = ["data", "email"];
+var COLUNAS = ["data", "email", "consentimento"];
 
 function doPost(e) {
   var lock = LockService.getScriptLock();
@@ -50,6 +50,8 @@ function doPost(e) {
     if (!bruto || bruto.length > 2000) return json({ ok: false, erro: "envio inválido" });
     var dados = JSON.parse(bruto);
     var email = String((dados && dados.email) || "").trim().toLowerCase();
+    // Texto curto, e sem começar com = + - @ (viraria fórmula no Sheets).
+    var consentimento = String((dados && dados.consentimento) || "").slice(0, 60).replace(/^[=+\-@]+/, "");
 
     if (email.length > 120 || !/^[^@\s=+\-][^@\s]*@[^@\s]+\.[^@\s]+$/.test(email)) {
       return json({ ok: false, erro: "e-mail inválido" });
@@ -66,8 +68,10 @@ function doPost(e) {
     }
 
     // não duplica quem já é assinante
-    var emailsExistentes = sheet
-      .getRange(2, 2, Math.max(sheet.getLastRow() - 1, 0), 1)
+    // (getRange com 0 linhas dá erro, por isso a checagem antes)
+    var linhas = sheet.getLastRow() - 1;
+    var emailsExistentes = linhas < 1 ? [] : sheet
+      .getRange(2, 2, linhas, 1)
       .getValues()
       .flat()
       .map(function (v) {
@@ -75,7 +79,7 @@ function doPost(e) {
       });
 
     var novo = emailsExistentes.indexOf(email) === -1;
-    if (novo) sheet.appendRow([new Date().toISOString(), email]);
+    if (novo) sheet.appendRow([new Date().toISOString(), email, consentimento]);
     lock.releaseLock();
 
     if (novo && EMAIL_AVISO && podeAvisar()) {

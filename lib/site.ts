@@ -159,13 +159,13 @@ export const SHEET_ENDPOINT_DIAGNOSTICO =
  * Web App do Google Apps Script que grava cada inscrição da newsletter na
  * planilha `198NdIbJ413MZlK3RgkX-NRtjpJpK9yjuiv1A5Xq7MzM` (própria, separada
  * da do Diagnóstico). Script pronto em
- * `docs/apps-script/newsletter-google-sheets.gs` — falta implantar (Extensões
- * > Apps Script > Implantar > App da Web > "Qualquer pessoa") e colar aqui a
- * URL terminada em `/exec`. Testar com GET antes: deve responder
- * "Newsletter Ousadia online" — se pedir login, a implantação não é pública.
+ * `docs/apps-script/newsletter-google-sheets.gs`, implantado em 14/10/2026.
+ * Teste com GET: deve responder "Newsletter Ousadia online" — se pedir login,
+ * a implantação não está pública ("Qualquer pessoa").
  */
 export const NEWSLETTER_ENDPOINT =
-  process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT ?? ""; // TODO: colar a URL /exec depois de implantar
+  process.env.NEXT_PUBLIC_NEWSLETTER_ENDPOINT ??
+  "https://script.google.com/macros/s/AKfycbylN_rX1XDaSXV8ycRvXgTAo-gg9mbMuhco6QncNsERXYTP_03ydS2HZmNH-nHrAJ7pIw/exec";
 
 /**
  * Web App do Google Apps Script que grava cada diagnóstico do "Ouse Ser

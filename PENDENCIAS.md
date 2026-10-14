@@ -26,7 +26,7 @@ conforme a regra do PRD 7.3.
 | 6 | Links de **TikTok, YouTube e Spotify** | `lib/site.ts` → `SOCIAL` |
 | 7 | ~~E-mail comercial e cidade-base~~ ✅ (13/10/2026: contato@ousadiamarketing.com.br, Altamira/PA) | `lib/site.ts` → `SITE` |
 | 8 | **Endpoint de formulário** (aplicação, contato, proposta) | `lib/site.ts` → `FORM_ENDPOINT` |
-| 9 | **Endpoint da newsletter** — script do Apps Script pronto em `docs/apps-script/newsletter-google-sheets.gs`, falta só implantar e colar a URL | `lib/site.ts` → `NEWSLETTER_ENDPOINT` |
+| 9 | ~~**Endpoint da newsletter**~~ — implantado e conectado em 14/10/2026. Envio da newsletter em si ainda é manual (exportar a planilha) | `lib/site.ts` → `NEWSLETTER_ENDPOINT` |
 | 9b | **Endpoint do Momento UGC** — script pronto em `docs/apps-script/momento-ugc-google-sheets.gs` (grava no Drive e manda o diagnóstico pro e-mail da menina). Falta criar a planilha, colar o script, rodar `configurar`, implantar e colar a URL. **Enquanto vazio, `/momento-ugc` não grava nada: não divulgar.** Também faltam os IDs dos 5 vídeos (`lib/momento-ugc.ts`) — ver `docs/diagnostico-ugc.md` | `lib/site.ts` → `SHEET_ENDPOINT_MOMENTO_UGC` |
 | 10 | **GA4 + Meta Pixel** e banner de consentimento LGPD (PRD 10) — ainda não implementados | — |
 

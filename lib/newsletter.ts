@@ -1,4 +1,4 @@
-import { NEWSLETTER_ENDPOINT } from "@/lib/site";
+import { NEWSLETTER_ENDPOINT, POLITICA_VERSAO } from "@/lib/site";
 
 /**
  * Dispara a inscrição na newsletter pro Apps Script. **Não bloqueia** — assim
@@ -11,7 +11,11 @@ import { NEWSLETTER_ENDPOINT } from "@/lib/site";
  */
 export function inscreverNewsletter(email: string): boolean {
   if (!NEWSLETTER_ENDPOINT) return false;
-  const corpo = JSON.stringify({ email });
+  const corpo = JSON.stringify({
+    email,
+    // Inscrever-se é o aceite: o texto do form remete à política.
+    consentimento: `sim (política de ${POLITICA_VERSAO})`,
+  });
 
   try {
     if (typeof navigator !== "undefined" && navigator.sendBeacon) {
