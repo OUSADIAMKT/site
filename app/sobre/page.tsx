@@ -84,13 +84,16 @@ const MARCOS: { ano: string; t: string; d: string; fotos?: Foto[] }[] = [
     ano: "2025",
     t: "Recomeço com quem a gente formou",
     d: "Novas turmas e, no mesmo ano, as primeiras mentorias em grupo, como a Mentoria Online Creators Jornada Amazônia COP30. Nasce o Método EVO. E quem se formou aqui vira equipe: com o apoio dos alunos, a Ousadia faz as coberturas de Flix, Expoalta, Corrida Viva Altamira e Forró APAExonado, com talento local atrás e na frente das câmeras.",
+    fotos: [
+      { src: "/sobre/oficina-fotografia-rio.webp", alt: "Jackson com alunos, crianças e educadores numa oficina de fotografia à sombra de uma árvore, na beira do rio", w: 1200, h: 800 },
+    ],
   },
   {
     ano: "2026",
     t: "De escola a movimento",
-    d: "Em fevereiro, o lançamento da Comunidade Creators & Empreendedores da Amazônia. Depois, a Gestão de UGC para marcas, o Programa de Embaixadoras da Ekilibre Amazônia e a cobertura dos Jogos Indígenas: a Amazônia contando a própria história, com o próprio sotaque.",
+    d: "Em fevereiro, o lançamento da Comunidade Creators da Amazônia. Depois, a Gestão de UGC para marcas, o Programa de Embaixadoras da Ekilibre Amazônia e a cobertura dos Jogos Indígenas: a Amazônia contando a própria história, com o próprio sotaque.",
     fotos: [
-      { src: "/sobre/comunidade-lancamento-2026.webp", alt: "Evento de lançamento da Comunidade Creators & Empreendedores da Amazônia, fevereiro de 2026", w: 908, h: 1191 },
+      { src: "/sobre/comunidade-lancamento-2026.webp", alt: "Evento de lançamento da Comunidade Creators da Amazônia, fevereiro de 2026", w: 908, h: 1191 },
     ],
   },
 ];
