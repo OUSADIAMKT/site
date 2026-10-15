@@ -1,7 +1,8 @@
 import Link from "next/link";
 import { Logo } from "@/components/ui/Logo";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
-import { SITE, SOCIAL } from "@/lib/site";
+import { REDES, SITE, SOCIAL } from "@/lib/site";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 
 const COLUMNS = [
   {
@@ -23,13 +24,6 @@ const COLUMNS = [
       { label: "Contato", href: "/contato" as const },
     ],
   },
-];
-
-const REDES = [
-  { label: "Instagram", href: SOCIAL.instagram },
-  { label: "TikTok", href: SOCIAL.tiktok },
-  { label: "YouTube", href: SOCIAL.youtube },
-  { label: "Spotify", href: SOCIAL.spotify },
 ];
 
 export function Footer() {
@@ -82,24 +76,26 @@ export function Footer() {
 
         <div className="mt-14 border-t border-border pt-6">
           <div className="flex flex-wrap gap-x-5 gap-y-2 font-mono text-xs">
-            {REDES.map((r) =>
-              r.href ? (
+            {REDES.map(({ rede, label }) =>
+              SOCIAL[rede] ? (
                 <a
-                  key={r.label}
-                  href={r.href}
+                  key={rede}
+                  href={SOCIAL[rede]}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-cinza-ink transition-colors hover:text-amarelo"
+                  className="inline-flex items-center gap-1.5 text-cinza-ink transition-colors hover:text-amarelo"
                 >
-                  {r.label}
+                  <SocialIcon rede={rede} size={14} />
+                  {label}
                 </a>
               ) : (
                 <span
-                  key={r.label}
-                  className="text-cinza-ink/70 line-through decoration-cinza-ink/40"
+                  key={rede}
+                  className="inline-flex items-center gap-1.5 text-cinza-ink/70 line-through decoration-cinza-ink/40"
                   title="Link ainda não fornecido"
                 >
-                  {r.label}
+                  <SocialIcon rede={rede} size={14} />
+                  {label}
                 </span>
               ),
             )}

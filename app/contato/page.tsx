@@ -4,20 +4,14 @@ import { Reveal } from "@/components/ui/Reveal";
 import { PageHero } from "@/components/sections/PageHero";
 import { ContentSlot } from "@/components/ui/MediaSlot";
 import { ContatoForm } from "@/components/forms/ContatoForm";
-import { SITE, SOCIAL, wa } from "@/lib/site";
+import { REDES, SITE, SOCIAL, wa } from "@/lib/site";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 
 export const metadata: Metadata = {
   title: "Contato",
   description:
     "O caminho mais rápido é o WhatsApp: atendimento humano, resposta em até 1h útil. Se preferir, deixa recado no formulário.",
 };
-
-const REDES = [
-  { label: "Instagram", href: SOCIAL.instagram },
-  { label: "TikTok", href: SOCIAL.tiktok },
-  { label: "YouTube", href: SOCIAL.youtube },
-  { label: "Spotify", href: SOCIAL.spotify },
-];
 
 export default function ContatoPage() {
   return (
@@ -54,20 +48,22 @@ export default function ContatoPage() {
                   Redes
                 </h3>
                 <ul className="mt-4 space-y-2">
-                  {REDES.map((r) => (
-                    <li key={r.label}>
-                      {r.href ? (
+                  {REDES.map(({ rede, label }) => (
+                    <li key={rede}>
+                      {SOCIAL[rede] ? (
                         <a
-                          href={r.href}
+                          href={SOCIAL[rede]}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="text-sm text-cinza-ink transition-colors hover:text-foreground"
+                          className="inline-flex items-center gap-2 text-sm text-cinza-ink transition-colors hover:text-foreground"
                         >
-                          {r.label} ↗
+                          <SocialIcon rede={rede} />
+                          {label} ↗
                         </a>
                       ) : (
-                        <span className="text-sm text-cinza-ink/40">
-                          {r.label} (link pendente)
+                        <span className="inline-flex items-center gap-2 text-sm text-cinza-ink/40">
+                          <SocialIcon rede={rede} />
+                          {label} (link pendente)
                         </span>
                       )}
                     </li>
