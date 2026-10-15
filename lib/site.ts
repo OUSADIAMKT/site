@@ -204,7 +204,6 @@ export const SOCIAL = {
   tiktok: "https://www.tiktok.com/@ousadiamkt",
   youtube: "https://www.youtube.com/@ousadiamarketing",
   linkedin: "https://www.linkedin.com/in/ousadiamarketing/",
-  spotify: "", // TODO
 };
 
 /** Redes na ordem em que aparecem no rodapé e no /contato. */
@@ -213,7 +212,6 @@ export const REDES: { rede: keyof typeof SOCIAL; label: string }[] = [
   { rede: "tiktok", label: "TikTok" },
   { rede: "youtube", label: "YouTube" },
   { rede: "linkedin", label: "LinkedIn" },
-  { rede: "spotify", label: "Spotify" },
 ];
 
 /** Barra de campanha (PRD 6.2). Fora de janela de lançamento, manter `false`. */

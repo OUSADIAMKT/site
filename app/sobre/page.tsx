@@ -48,7 +48,24 @@ const CAPITULOS = [
 
 type Foto = { src: string; alt: string; w: number; h: number };
 
-const MARCOS: { ano: string; t: string; d: string; fotos?: Foto[] }[] = [
+/** Fotos das turmas de 2021–2022: galeria na linha do tempo. */
+const SALA_DE_AULA: Foto[] = [
+  { src: "/sobre/turma-certificados.webp", alt: "Turma comemorando com os certificados na mão", w: 1200, h: 1047 },
+  { src: "/sobre/aula-revisao.webp", alt: "Jackson dando aula diante de um flip chart com a revisão do dia", w: 540, h: 675 },
+  { src: "/sobre/turma-educom.webp", alt: "Jackson com uma turma presencial", w: 1200, h: 1200 },
+  { src: "/sobre/palestra-sebrae.webp", alt: "Jackson palestrando em evento do Sebrae", w: 919, h: 919 },
+  { src: "/sobre/turma-mulheres.webp", alt: "Alunas de uma turma presencial", w: 968, h: 1200 },
+  { src: "/sobre/imersao-jornada-premium.webp", alt: "Jackson conduzindo a Imersão Jornada Premium", w: 1200, h: 1200 },
+];
+
+const MARCOS: {
+  ano: string;
+  t: string;
+  d: string;
+  fotos?: Foto[];
+  /** Muitas fotos: grade de quadrados em vez de fotos grandes. */
+  galeria?: boolean;
+}[] = [
   {
     ano: "2020",
     t: "A primeira sala",
@@ -57,6 +74,13 @@ const MARCOS: { ano: string; t: string; d: string; fotos?: Foto[] }[] = [
       { src: "/sobre/abc-brasil-novo-2020.webp", alt: "Turma da Imersão ABC do Marketing Digital em Brasil Novo, janeiro de 2020", w: 1080, h: 1080 },
       { src: "/sobre/abc-turma-selfie.webp", alt: "Jackson em selfie com uma turma do ABC do Marketing Digital", w: 1200, h: 901 },
     ],
+  },
+  {
+    ano: "2021–2022",
+    t: "A sala de aula vira escola",
+    d: "Turma atrás de turma, palestra atrás de palestra. O que era uma imersão virou rotina: gente de todo canto da região aprendendo a se posicionar, saindo com certificado na mão e projeto feito.",
+    fotos: SALA_DE_AULA,
+    galeria: true,
   },
   {
     ano: "2022",
@@ -96,16 +120,6 @@ const MARCOS: { ano: string; t: string; d: string; fotos?: Foto[] }[] = [
       { src: "/sobre/comunidade-lancamento-2026.webp", alt: "Evento de lançamento da Comunidade Creators da Amazônia, fevereiro de 2026", w: 908, h: 1191 },
     ],
   },
-];
-
-/** Fotos das turmas, sem ano: entram como galeria no capítulo "A prova". */
-const SALA_DE_AULA: Foto[] = [
-  { src: "/sobre/turma-certificados.webp", alt: "Turma comemorando com os certificados na mão", w: 1200, h: 1047 },
-  { src: "/sobre/aula-revisao.webp", alt: "Jackson dando aula diante de um flip chart com a revisão do dia", w: 540, h: 675 },
-  { src: "/sobre/turma-educom.webp", alt: "Jackson com uma turma presencial", w: 1200, h: 1200 },
-  { src: "/sobre/palestra-sebrae.webp", alt: "Jackson palestrando em evento do Sebrae", w: 919, h: 919 },
-  { src: "/sobre/turma-mulheres.webp", alt: "Alunas de uma turma presencial", w: 968, h: 1200 },
-  { src: "/sobre/imersao-jornada-premium.webp", alt: "Jackson conduzindo a Imersão Jornada Premium", w: 1200, h: 1200 },
 ];
 
 const VALORES = [
@@ -171,21 +185,6 @@ export default function SobrePage() {
                       <p key={p.slice(0, 24)}>{p}</p>
                     ))}
                   </div>
-                  {c.t === "A prova" && (
-                    <ul className="mt-6 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                      {SALA_DE_AULA.map((f) => (
-                        <li key={f.src}>
-                          <Image
-                            src={f.src}
-                            alt={f.alt}
-                            width={f.w}
-                            height={f.h}
-                            className="aspect-square w-full rounded-lg object-cover"
-                          />
-                        </li>
-                      ))}
-                    </ul>
-                  )}
                   {c.t === "O salto" && (
                     <>
                       <ContentSlot
@@ -213,7 +212,7 @@ export default function SobrePage() {
                                 </p>
                                 {m.fotos && (
                                   <div
-                                    className={`mt-4 grid gap-3 ${m.fotos.length > 1 ? "sm:grid-cols-2" : "max-w-md"}`}
+                                    className={`mt-4 grid gap-3 ${m.galeria ? "grid-cols-2 sm:grid-cols-3" : m.fotos.length > 1 ? "sm:grid-cols-2" : "max-w-md"}`}
                                   >
                                     {m.fotos.map((f) => (
                                       <Image
@@ -222,7 +221,7 @@ export default function SobrePage() {
                                         alt={f.alt}
                                         width={f.w}
                                         height={f.h}
-                                        className="max-h-96 w-full rounded-lg object-cover"
+                                        className={`w-full rounded-lg object-cover ${m.galeria ? "aspect-square" : "max-h-96"}`}
                                       />
                                     ))}
                                   </div>
