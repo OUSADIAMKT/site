@@ -48,13 +48,12 @@ const CAPITULOS = [
 
 type Foto = { src: string; alt: string; w: number; h: number };
 
-/** Fotos das turmas de 2021–2022: galeria na linha do tempo. */
+/** Fotos das turmas de 2020–2022: galeria na linha do tempo. */
 const SALA_DE_AULA: Foto[] = [
   { src: "/sobre/turma-certificados.webp", alt: "Turma comemorando com os certificados na mão", w: 1200, h: 1047 },
   { src: "/sobre/aula-revisao.webp", alt: "Jackson dando aula diante de um flip chart com a revisão do dia", w: 540, h: 675 },
   { src: "/sobre/turma-educom.webp", alt: "Jackson com uma turma presencial", w: 1200, h: 1200 },
   { src: "/sobre/palestra-sebrae.webp", alt: "Jackson palestrando em evento do Sebrae", w: 919, h: 919 },
-  { src: "/sobre/turma-mulheres.webp", alt: "Alunas de uma turma presencial", w: 968, h: 1200 },
   { src: "/sobre/imersao-jornada-premium.webp", alt: "Jackson conduzindo a Imersão Jornada Premium", w: 1200, h: 1200 },
 ];
 
@@ -77,20 +76,15 @@ const MARCOS: {
   },
   {
     ano: "2021–2022",
-    t: "A sala de aula vira escola",
-    d: "Turma atrás de turma, palestra atrás de palestra. O que era uma imersão virou rotina: gente de todo canto da região aprendendo a se posicionar, saindo com certificado na mão e projeto feito.",
+    t: "Todo mundo pedia mais",
+    d: "Turma atrás de turma, palestra atrás de palestra, e no fim de cada uma a mesma pergunta: “e agora, o que vem depois?”. Em 2022, o nome “ABC do Marketing” precisou mudar, porque pertencia a outra empresa. O Jackson perguntou pra quem tinha passado pelas turmas, e a resposta foi Destrave: o que travava as pessoas nunca foi técnica, era medo de aparecer. No mesmo ano, a primeira edição do Amazon Marketing Day provou que dava pra lotar um congresso de marketing na Amazônia sem importar guru.",
     fotos: SALA_DE_AULA,
     galeria: true,
   },
   {
-    ano: "2022",
-    t: "O nome certo e o primeiro palco",
-    d: "O nome “ABC do Marketing” pertencia a outra empresa, e a gente precisou trocar. Em vez de decidir sozinho, o Jackson perguntou pra quem tinha passado pelas turmas. A resposta foi Destrave, porque o que travava as pessoas nunca foi técnica: era medo de aparecer. No mesmo ano, a primeira edição do Amazon Marketing Day prova que dava pra lotar um congresso de marketing na Amazônia sem importar guru.",
-  },
-  {
     ano: "2023",
-    t: "O palco se repete",
-    d: "Segunda edição do Amazon Marketing Day: a prova de que não foi sorte. As turmas chegam ao online e, em outubro, a Ousadia Marketing começa oficialmente. O que era projeto virou empresa.",
+    t: "Primeiro pivô: agência e produtora",
+    d: "Os alunos queriam mais, e as empresas também: queriam alguém que fizesse junto. A Ousadia escutou e abriu agência e produtora, e em outubro começou oficialmente como empresa. No mesmo ano, a segunda edição do Amazon Marketing Day mostrou que o primeiro palco não tinha sido sorte.",
     fotos: [
       { src: "/sobre/amd-plateia.webp", alt: "Jackson no palco da segunda edição do Amazon Marketing Day, com a plateia", w: 782, h: 444 },
       { src: "/sobre/amd-jackson-microfone.webp", alt: "Jackson com o microfone na segunda edição do Amazon Marketing Day", w: 1076, h: 607 },
@@ -98,27 +92,32 @@ const MARCOS: {
   },
   {
     ano: "2024",
-    t: "O time e o tombo",
-    d: "Surge a Agência-Escola, a primeira do Norte, e em novembro o time está completo, de camisa da Ousadia e sorriso de fim de ano. Semanas depois, a empresa quebra financeiramente. Em vez de fechar a porta, a Ousadia volta pra onde tudo começou: a sala de aula. Retomam as turmas presenciais de Vídeo Maker, Social Media e Tráfego Pago.",
+    t: "O tombo e a volta pra casa",
+    d: "Agência e produtora a todo vapor, a Agência-Escola tomando forma e, em novembro, o time completo, de camisa da Ousadia e sorriso de fim de ano. Semanas depois, a empresa quebra financeiramente. A lição veio dura e clara: o coração da Ousadia sempre foi ensinar. Ainda no fim de 2024, ela volta pra sala de aula com turmas presenciais de Vídeo Maker, Social Media e Tráfego Pago.",
     fotos: [
       { src: "/sobre/time-ousadia-2024.webp", alt: "Time da Ousadia reunido em novembro de 2024", w: 738, h: 1200 },
     ],
   },
   {
     ano: "2025",
-    t: "Recomeço com quem a gente formou",
-    d: "Novas turmas e, no mesmo ano, as primeiras mentorias em grupo, como a Mentoria Online Creators Jornada Amazônia COP30. Nasce o Método EVO. E quem se formou aqui vira equipe: com o apoio dos alunos, a Ousadia faz as coberturas de Flix, Expoalta, Corrida Viva Altamira e Forró APAExonado, com talento local atrás e na frente das câmeras.",
+    t: "Segundo pivô: a região em cena",
+    d: "Novas turmas, as primeiras mentorias em grupo e o nascimento do Método EVO. E quem se formou aqui vira equipe: com os alunos, a Ousadia vai pra cobertura dos grandes eventos da região, como FLIX, Expoalta, COP30 e Corrida Viva Altamira, com talento local atrás e na frente das câmeras. No meio disso tudo, ficou claro o que faltava: um lugar pra essa gente toda se encontrar.",
     fotos: [
       { src: "/sobre/oficina-fotografia-rio.webp", alt: "Jackson com alunos, crianças e educadores numa oficina de fotografia à sombra de uma árvore, na beira do rio", w: 1200, h: 800 },
     ],
   },
   {
-    ano: "2026",
-    t: "De escola a movimento",
-    d: "Em fevereiro, o lançamento da Comunidade Creators da Amazônia. Depois, a Gestão de UGC para marcas, o Programa de Embaixadoras da Ekilibre Amazônia e a cobertura dos Jogos Indígenas: a Amazônia contando a própria história, com o próprio sotaque.",
+    ano: "Fev 2026",
+    t: "Nasce a Creators da Amazônia",
+    d: "O lançamento da Comunidade Creators da Amazônia junta creators e empreendedores da região num só lugar. Vêm junto a Gestão de UGC para marcas, o Programa de Embaixadoras da Ekilibre Amazônia e a cobertura dos Jogos Indígenas.",
     fotos: [
       { src: "/sobre/comunidade-lancamento-2026.webp", alt: "Evento de lançamento da Comunidade Creators da Amazônia, fevereiro de 2026", w: 908, h: 1191 },
     ],
+  },
+  {
+    ano: "Ago 2026",
+    t: "Terceiro pivô: bioeconomia",
+    d: "A Ousadia se reposiciona no mercado e entende onde é o seu lugar: a bioeconomia. Estratégia, comunicação e creators a serviço de quem produz na Amazônia, contando a própria história com o próprio sotaque.",
   },
 ];
 
