@@ -594,7 +594,7 @@ export const ROUTING: Record<ProfileKey, Route> = {
     products: {
       semente: ["Posicionamento", "Destrave"],
       igarape: ["Destrave", "Social Media Ousado"],
-      travessia: ["Social Media Ousado", "UGC Creator", "Audiovisual"],
+      travessia: ["Social Media Ousado", "UGC Creator"],
       floresta: ["UGC Creator", "Mentoria Ousadia"],
     },
     lead: "Posicionamento",
@@ -607,13 +607,13 @@ export const ROUTING: Record<ProfileKey, Route> = {
       "Você já produz, agora precisa de método, portfólio e diferenciação para cobrar melhor e atender com consistência. A Ousadia te leva de executor a creator com voz e sistema.",
     products: {
       semente: ["Posicionamento", "Destrave"],
-      igarape: ["Social Media Ousado", "Audiovisual"],
-      travessia: ["UGC Creator", "IA para iniciantes", "Audiovisual"],
+      igarape: ["Social Media Ousado"],
+      travessia: ["UGC Creator", "IA para iniciantes"],
       floresta: ["UGC Creator", "Mentoria Ousadia"],
     },
     lead: "Social Media Ousado",
     ladder:
-      "Trilha da Escola: Social Media Ousado → Audiovisual → UGC Creator → Mentoria Ousadia",
+      "Trilha da Escola: Social Media Ousado → UGC Creator → Mentoria Ousadia",
   },
   empreendedor: {
     label: "Posicionamento e gestão para vender além do boca a boca",
@@ -710,7 +710,7 @@ export const ROUTING: Record<ProfileKey, Route> = {
       "Você ainda está descobrindo seu caminho, e tudo bem. O erro seria gastar dinheiro antes de ter clareza. Comece pelos fundamentos e deixe o próprio movimento revelar sua direção.",
     products: {
       semente: ["Posicionamento", "Destrave"],
-      igarape: ["Social Media Ousado", "Audiovisual"],
+      igarape: ["Social Media Ousado"],
       travessia: ["Social Media Ousado", "Mentoria Ousadia"],
       floresta: ["Mentoria Ousadia"],
     },

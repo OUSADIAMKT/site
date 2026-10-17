@@ -80,7 +80,6 @@ const ECOSSISTEMA = [
       "ABC do Marketing",
       "Destrave (vergonha de gravar? a gente quebra isso)",
       "Social Media na Prática",
-      "Audiovisual",
     ],
     nota: "Você aprende executando, não anotando. Sai com projeto real, não com PDF salvo no celular.",
     cta: "Ver cursos",

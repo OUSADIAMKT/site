@@ -256,7 +256,7 @@ export const CURSOS: Curso[] = [
     resumo:
       "Fundamentos de posicionamento pra quem ainda soa igual ao concorrente. Seu Sinal, seu público (Travessia) e a mensagem que sustenta tudo o que você publica depois.",
     detalhado: false,
-    /** Fora do grid da Escola — as 4 portas atuais são Social Media, Audiovisual, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
+    /** Fora do grid da Escola — as 3 portas atuais são Social Media, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
     visivel: false,
   },
   {
@@ -282,16 +282,6 @@ export const CURSOS: Curso[] = [
     visivel: true,
   },
   {
-    slug: "video-maker-e-edicao",
-    nome: "Audiovisual",
-    emoji: "🎬",
-    promessa: "Vídeo que parece você, não template.",
-    resumo:
-      "Gravar e editar com a própria cara: enquadramento, luz, som e edição no celular ou no computador. Vídeo que parece você, não template.",
-    detalhado: false,
-    visivel: true,
-  },
-  {
     slug: "ia-para-iniciantes",
     nome: "IA para iniciantes",
     emoji: "🤖",
@@ -300,7 +290,7 @@ export const CURSOS: Curso[] = [
     resumo:
       "Pra quem nunca usou IA pra criar conteúdo: roteiro, copy, imagem, vídeo e automação, direto ao ponto, sem perder a sua voz no meio do processo.",
     detalhado: false,
-    /** Fora do grid da Escola — as 4 portas atuais são Social Media, Audiovisual, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
+    /** Fora do grid da Escola — as 3 portas atuais são Social Media, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
     visivel: false,
   },
   {
@@ -355,7 +345,6 @@ export const NAV_LINKS: NavLink[] = [
     href: "/escola",
     children: [
       { label: "Social Media Ousado", href: "/escola/social-media-ousado" },
-      { label: "Audiovisual", href: "/escola/video-maker-e-edicao" },
       { label: "UGC Creator", href: "/escola/ugc-creator" },
       { label: "Destrave", href: "/escola/destrave" },
     ],
