@@ -264,9 +264,9 @@ export const CURSOS: Curso[] = [
     nome: "Social Media Ousado",
     emoji: "📱",
     promessa:
-      "Pare de postar por obrigação: posicionamento, conteúdo, calendário e métricas, com plano estratégico pronto no fim.",
+      "Em 4 semanas, do celular parado pro primeiro trabalho pago de social media, atendendo o comércio do seu bairro.",
     resumo:
-      "Pra profissionalizar a gestão de redes: estratégia, calendário, copy e relatório. Do “posto quando dá” pro “entrego resultado e cobro por isso”.",
+      "Pra jovens de 18 a 24 anos: escolher um serviço, oferecer, fechar, entregar e cobrar, tudo no celular, com 4 encontros de mentoria ao vivo e a Tháscila Lawanda como mentora.",
     detalhado: false,
     visivel: true,
   },

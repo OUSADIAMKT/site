@@ -11,249 +11,261 @@ import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
 import { SITE, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Social Media Ousado | Curso com Tháscila Lawanda · Escola Ousadia",
+  title: "Social Media Ousado | Seu primeiro trabalho pago em 4 semanas · com Tháscila Lawanda",
   description:
-    "Aprenda a pensar como social media, não como quem só posta: posicionamento, conteúdo, calendário, métricas, primeiros clientes e IA em 8 módulos, com a mentoria de Tháscila Lawanda. Você sai com um plano estratégico pronto.",
+    "Curso online de 4 semanas para jovens de 18 a 24 anos: escolha um serviço, ofereça ao comércio do seu bairro, feche, entregue e cobre. Tudo no celular, com 4 encontros de mentoria ao vivo e a Tháscila Lawanda como mentora. Turma de fim de ano: R$ 197 na condição Black, até 20/11.",
   alternates: { canonical: `${SITE.url}/escola/social-media-ousado` },
 };
 
 /**
- * Landing do curso Social Media Ousado, no molde da `/aulao-ugc`.
- * Conteúdo do "Projeto Pedagógico de Curso — v2.0"
- * (`legado/social-ugc-ppc/ppc/Social Media Ousado - PPC v2.docx`).
+ * Landing do Social Media Ousado, turma de fim de ano 2026, no molde da
+ * `/aulao-ugc`. Fontes:
+ * - PPC: `lib/PPC/PPC — Social Media Ousado (Turma Fim de Ano 2026).md` (17/10/2026)
+ * - Roteiro da VSL: doc "Roteiro VSL — Social Media Ousado" no Claude Docs
+ *   (claude.ai/artifact/RTck1AUmgYrA85XwZpgUxC). O vídeo ainda não foi gravado.
  * Esta rota estática tem prioridade sobre `/escola/[curso]`, que deixou de
  * gerar este slug.
  *
- * A faixa de preço do PPC (R$597–997) é posicionamento interno e não aparece.
- * Data da turma, lotes e link de inscrição ainda não foram definidos: enquanto
- * `TURMA` estiver vazia, a seção de ingressos mostra o slot de pendência e as
- * CTAs caem no WhatsApp de atendimento.
+ * Fora da página de propósito: meta de 40 alunos e receita prevista (internos),
+ * "vagas limitadas" (sem limite definido) e números de autoridade da Tháscila
+ * (a VSL marca como "confirmar antes de gravar").
+ * Plataforma de pagamento ainda não escolhida: enquanto `INSCRICAO_LINK` ficar
+ * vazio, as CTAs caem no WhatsApp de atendimento.
  */
 
-type Lote = { nome: string; preco: string; quando: string; nota: string };
+/** Checkout da turma. Vazio = WhatsApp de atendimento. */
+const INSCRICAO_LINK: string | null = null;
 
-const TURMA: {
-  /** Texto curto, ex.: "Começa em 9/nov". */
-  data: string | null;
-  lotes: Lote[];
-  /** Checkout ou grupo de WhatsApp da turma. Vazio = WhatsApp de atendimento. */
-  link: string | null;
-} = {
-  data: null,
-  lotes: [],
-  link: null,
-};
-
-/** O Método Ousadia, fase a fase (PPC, seção 4). */
-const METODO = [
-  { n: "01", t: "Entender", d: "O papel estratégico das redes e o negócio por trás do perfil.", m: "Módulo 1" },
-  { n: "02", t: "Ver", d: "Público, posicionamento e mensagem com clareza.", m: "Módulos 2 e 3" },
-  { n: "03", t: "Fazer", d: "Conteúdo, roteiros, calendário e pacote pronto pra publicar.", m: "Módulos 4 e 5" },
-  { n: "04", t: "Aplicar", d: "Coloca no ar, mede e transforma a habilidade em serviço e renda.", m: "Módulos 6 e 7" },
-  { n: "05", t: "Evoluir", d: "Alavancagem com IA e ferramentas, e o próximo degrau.", m: "Módulo 8" },
-];
-
-/** Os 8 módulos (PPC, seção 5): aulas, caso da floresta e desafio final. */
-const MODULOS = [
+/** As 4 semanas e suas metas (PPC, módulos 1 a 4). */
+const SEMANAS = [
   {
-    t: "O Perfil Não É Vitrine, É Estratégia",
-    aulas: [
-      "O que um social media estratégico realmente faz",
-      "Diagnóstico de presença digital",
-      "Objetivo de negócio nas redes sociais",
-      "A jornada do público (Instagram, TikTok e Shorts)",
-    ],
-    caso: "Diagnosticar o perfil de uma marca de açaí de Belém ou de biojoias de Icoaraci: feed bonito, oferta nenhuma.",
-    desafio: "Diagnóstico Estratégico Inicial de um perfil real, com 3 ações prioritárias.",
+    n: "1",
+    datas: "23 a 29/nov",
+    t: "Seu primeiro serviço",
+    d: "Escolha o serviço, produza 3 amostras no CapCut e no Canva e mande as primeiras propostas, com script pronto pra não travar.",
+    meta: "5 propostas enviadas",
   },
   {
-    t: "Posicionamento Ousado: Como Ser Lembrado",
-    aulas: [
-      "Quem é a marca e pelo que quer ser lembrada",
-      "Público-alvo sem achismo",
-      "Proposta de valor",
-      "Diferenciação no mercado",
-    ],
-    caso: "Posicionar uma marca de cosméticos de andiroba e cupuaçu diante das gigantes nacionais: a diferença vem da origem.",
-    desafio: "Mapa de Posicionamento, com a frase de posicionamento pra bio.",
+    n: "2",
+    datas: "30/nov a 6/dez",
+    t: "Primeiro Pix",
+    d: "Monte a oferta, descubra quanto cobrar, faça a proposta com IA e combine prazo e pagamento por escrito.",
+    meta: "Primeiro trabalho fechado",
   },
   {
-    t: "Conteúdo Que Conecta, Educa e Vende",
-    aulas: [
-      "Os 4 papéis do conteúdo",
-      "Linhas editoriais estratégicas",
-      "Ganchos que prendem atenção",
-      "Storytelling aplicado ao conteúdo",
-      "CTA sem parecer forçado",
-    ],
-    caso: "Transformar o modo de fazer de um artesão ribeirinho em storytelling que nenhum concorrente consegue copiar.",
-    desafio: "Matriz de Conteúdo Estratégico: 4 linhas editoriais, formato ideal e CTA de cada ideia.",
+    n: "3",
+    datas: "7 a 13/dez",
+    t: "Entregar bem",
+    d: "Gancho, roteiro, calendário, gravação e edição no celular, bem na época em que o comércio precisa de conteúdo de Natal.",
+    meta: "Trabalho entregue e pago",
   },
   {
-    t: "Planejamento de Conteúdo Sem Travar",
-    aulas: [
-      "Como transformar estratégia em calendário",
-      "Frequência possível x frequência ideal",
-      "Planejamento semanal de conteúdo",
-      "Organização de ideias e referências",
-    ],
-    caso: "Um calendário realista pra quem posta depois de um dia inteiro de trabalho.",
-    desafio: "Calendário Editorial de 15 dias, com gancho, CTA e status de produção.",
-  },
-  {
-    t: "Roteiros, Execução e Conteúdo com Mais Impacto",
-    aulas: [
-      "Estrutura de roteiro para Reels, TikTok e Shorts",
-      "Carrossel que prende leitura",
-      "Stories com intenção",
-      "Bastidores que geram conexão",
-    ],
-    caso: "Roteirizar um TikTok do preparo do tacacá ou da colheita do cacau: o formato do Sudeste, com o cenário da floresta.",
-    desafio: "Pacote de Conteúdos Prontos: vídeo curto, carrossel, sequência de Stories e bastidores.",
-  },
-  {
-    t: "Métricas, Ajustes e Estratégia de Crescimento",
-    aulas: [
-      "Métricas que realmente importam",
-      "Como saber se um conteúdo funcionou",
-      "Relatório simples para tomada de decisão",
-      "Como ajustar a estratégia e apresentar métricas ao cliente",
-    ],
-    caso: "O relatório mensal de uma pousada de ecoturismo: mais reservas, não mais curtidas.",
-    desafio: "Relatório Estratégico de Conteúdo, com 3 decisões para o próximo mês.",
-  },
-  {
-    t: "Transformando Estratégia em Serviço",
-    aulas: [
-      "O mercado do social media hoje",
-      "Como conseguir os primeiros clientes",
-      "Como criar portfólio sem experiência",
-      "Reunião de diagnóstico e apresentação profissional",
-      "Proposta comercial, contrato e onboarding",
-      "Precificação para iniciantes",
-    ],
-    caso: "Seus 20 primeiros clientes estão no seu bairro: a ótica, a loja de açaí, o restaurante regional, o artesão do mercado.",
-    desafio: "Kit de Início Profissional: portfólio, lista de clientes, roteiro de reunião, proposta e preços.",
-  },
-  {
-    t: "Ferramentas e Inteligência Artificial",
-    aulas: [
-      "Canva para social media",
-      "Notion para organização profissional",
-      "ClickUp para gestão de projetos",
-      "NotebookLM para organização de conhecimento",
-      "Perplexity para pesquisa inteligente",
-      "Flow e automações simples",
-      "ChatGPT como assistente estratégico",
-      "Criando seu primeiro Agente de IA",
-    ],
-    caso: "Treinar seu agente de IA com o vocabulário e o sotaque da região, pra legenda não soar genérica.",
-    desafio: "Sistema Operacional de Social Media, com o seu agente de IA configurado.",
+    n: "4",
+    datas: "14 a 20/dez",
+    t: "Cliente que volta",
+    d: "Relatório de uma página, depoimento do cliente e um pacote mensal pra continuar trabalhando em janeiro.",
+    meta: "Pacote mensal oferecido",
   },
 ];
 
-/** ICP do PPC (seção 2), em linguagem de página. */
+/** Os 4 encontros de mentoria ao vivo (PPC, "Encontros ao vivo"). */
+const ENCONTROS = [
+  { data: "23/11", t: "Diagnóstico", leva: "Um diagnóstico pronto e as 5 propostas engatilhadas" },
+  { data: "30/11", t: "Criação de conteúdo", leva: "Uma peça pronta pro cliente, feita e revisada ao vivo" },
+  { data: "07/12", t: "Roteiro e calendário", leva: "Roteiros e calendário de dezembro do cliente" },
+  { data: "14/12", t: "Estratégia de conteúdo", leva: "Proposta de pacote mensal com a estratégia de janeiro" },
+];
+
+type Aula = [titulo: string, min: number];
+
+/** Grade completa do curso (PPC, módulos 0 a 5 + Módulo Extra). */
+const MODULOS: { t: string; quando: string; aulas: Aula[] }[] = [
+  {
+    t: "Comece aqui",
+    quando: "Liberado na compra",
+    aulas: [
+      ["Bem-vindo ao Social Media Ousado", 4],
+      ["Prepare o celular", 6],
+      ["Renda extra não é sorte, é oferta", 5],
+    ],
+  },
+  {
+    t: "Seu primeiro serviço",
+    quando: "Semana 1",
+    aulas: [
+      ["Os serviços que o comércio do bairro compra", 6],
+      ["O que é conteúdo bom para comércio local", 6],
+      ["Três amostras em um dia", 7],
+      ["Seu perfil como vitrine", 5],
+      ["A lista de 20 e a primeira mensagem", 6],
+      ["O “não” faz parte do placar", 4],
+    ],
+  },
+  {
+    t: "Primeiro Pix",
+    quando: "Semana 2",
+    aulas: [
+      ["Oferta simples", 6],
+      ["Quanto cobrar", 6],
+      ["Proposta em 10 minutos com IA", 6],
+      ["Do “quanto custa?” ao “fechado”", 7],
+      ["Combinar e receber", 5],
+      ["Primeiro Pix: separar, reinvestir, guardar", 4],
+    ],
+  },
+  {
+    t: "Entregar bem",
+    quando: "Semana 3",
+    aulas: [
+      ["Os 3 segundos que seguram o vídeo", 5],
+      ["Roteiro curto que vende", 6],
+      ["Um mês de conteúdo em uma hora", 6],
+      ["Gravar com o celular", 6],
+      ["Reels ou TikTok em 15 minutos no CapCut", 7],
+      ["Post e carrossel no Canva", 6],
+      ["IA como sua equipe", 6],
+      ["Prazo é reputação", 4],
+    ],
+  },
+  {
+    t: "Cliente que volta",
+    quando: "Semana 4",
+    aulas: [
+      ["Agendar e organizar", 6],
+      ["As 3 métricas que o comércio entende", 5],
+      ["Relatório de uma página", 5],
+      ["Pedir depoimento e indicação", 4],
+      ["De bico para negócio", 6],
+      ["Contar o case", 5],
+    ],
+  },
+  {
+    t: "Próximo nível",
+    quando: "Liberado na semana 4",
+    aulas: [
+      ["Clientes e caixa numa planilha", 5],
+      ["Formalizar quando fizer sentido", 5],
+      ["Rotina de 30 minutos e o próximo degrau", 5],
+    ],
+  },
+  {
+    t: "Extra · IA como sua equipe, com Jackson",
+    quando: "Bônus, liberado em 30/11",
+    aulas: [
+      ["A IA vira sua equipe", 5],
+      ["Prompt que funciona", 6],
+      ["Conhecer o cliente em 10 minutos", 6],
+      ["Nunca mais ficar sem ideia", 6],
+      ["Um assistente para cada cliente", 6],
+      ["O que nunca terceirizar para a IA", 4],
+    ],
+  },
+];
+
+const FORMATO = [
+  { valor: "4", label: "semanas, uma meta por semana" },
+  { valor: "38", label: "aulas de 4 a 7 min, no formato do celular" },
+  { valor: "4", label: "encontros de mentoria ao vivo" },
+  { valor: "20h", label: "de certificado" },
+];
+
+/** Dores do público (PPC, "Público-alvo"). */
 const PUBLICO = [
   {
-    t: "Quem salva tudo e trava na hora de aplicar",
-    d: "Você consome marketing no Instagram, no TikTok e no YouTube, mas na hora de montar a estratégia não sabe por onde começar.",
+    t: "Você passa horas no TikTok e no Instagram",
+    d: "Sabe o que prende a atenção e o que é vergonha alheia. Só que isso ainda não virou dinheiro.",
   },
   {
-    t: "Quem quer prestar serviço de social media",
-    d: "Pra fechar os primeiros clientes da sua região com portfólio, proposta e preço, mesmo sem experiência anterior.",
+    t: "Você quer o próprio dinheiro, agora",
+    d: "Está estudando, procurando emprego ou fazendo bico, e quer algo seu, no seu tempo.",
   },
   {
-    t: "Empreendedor que cuida das próprias redes",
-    d: "Pra parar de postar por obrigação e ter um plano que conversa com o objetivo do seu negócio.",
+    t: "Você só tem o celular",
+    d: "E é o suficiente. O curso inteiro é feito no celular, com apps gratuitos: CapCut, Canva, WhatsApp Business e uma IA.",
   },
   {
-    t: "Quem mora longe dos grandes centros",
-    d: "Você não precisa sair da floresta nem copiar o Sudeste. Os casos do curso são todos amazônicos.",
+    t: "Você topa executar",
+    d: "Não é curso pra só assistir. Toda aula termina numa missão de até 20 minutos, feita pra um negócio de verdade.",
   },
 ];
 
-/** Os três ativos do resultado esperado (PPC, seção 8). */
-const ATIVOS = [
-  {
-    t: "Plano Estratégico de Social Media",
-    d: "Diagnóstico, posicionamento, 4 linhas editoriais, calendário de 30 dias, pacote de conteúdos e plano de métricas, para uma marca real.",
-  },
-  {
-    t: "Kit de Início Profissional",
-    d: "Portfólio, lista de potenciais clientes, roteiro de reunião, proposta comercial e tabela de preços.",
-  },
-  {
-    t: "Sistema Operacional com IA",
-    d: "Organização no Notion e no ClickUp, banco de prompts, automações e um agente de IA pra sua rotina.",
-  },
-];
-
-/** Carga horária real do curso (PPC, seção 11). */
-const FORMATO = [
-  { valor: "8", label: "módulos" },
-  { valor: "39", label: "aulas de 8 a 15 min" },
-  { valor: "8–10h", label: "de conteúdo gravado" },
-  { valor: "15–25h", label: "de prática guiada" },
+/** O Kit Primeiro Pix e o que vem com ele (PPC, "Avaliação e projeto final"). */
+const LEVA = [
+  "Um cliente atendido",
+  "Três trabalhos reais no portfólio",
+  "Um relatório de uma página entregue ao cliente",
+  "Um depoimento do cliente",
+  "Um case publicado no seu perfil",
+  "Certificado de 20 horas",
 ];
 
 /** Respostas em texto puro — as únicas que entram no JSON-LD. */
 const FAQ_TEXTO = [
   {
-    q: "Preciso ter experiência com redes sociais?",
-    a: "Não. O curso começa pelo diagnóstico de um perfil e avança um degrau por módulo. Cada aula tem uma atividade prática, e cada módulo termina com uma entrega.",
+    q: "Não tenho seguidores. Consigo fazer o curso?",
+    a: "Consegue. Seu cliente é o comércio do bairro, não o seu público. Seguidores não entram na conta.",
   },
   {
-    q: "Preciso ter muitos seguidores pra trabalhar como social media?",
-    a: "Não. Quem contrata social media compra estratégia e entrega, não o tamanho do seu perfil. O módulo 7 ensina a montar portfólio mesmo sem ter atendido clientes.",
+    q: "Só tenho celular. Serve?",
+    a: "Serve. Todo o curso é feito no celular, com apps gratuitos: CapCut, Canva, WhatsApp Business e uma IA (ChatGPT ou Claude).",
   },
   {
-    q: "Quais redes o curso cobre?",
-    a: "Instagram, TikTok e YouTube Shorts, com foco em vídeo curto e conteúdo vertical do começo ao fim.",
+    q: "Tenho vergonha de oferecer serviço.",
+    a: "O curso dá script pronto, uma meta pequena (5 propostas na primeira semana) e um encontro ao vivo pra treinar a conversa.",
   },
   {
-    q: "O curso ensina tráfego pago?",
-    a: "Não. O Social Media Ousado é orgânico e estratégico. Tráfego pago é o próximo degrau da Escola, depois que a estratégia está de pé.",
+    q: "Não sei quanto cobrar.",
+    a: "Tem aula só disso: você pesquisa 5 concorrentes da sua região e monta a sua tabela de preço.",
   },
   {
-    q: "Quanto tempo preciso pra fazer?",
-    a: "São 39 aulas de 8 a 15 minutos, cerca de 8 a 10 horas de conteúdo, mais 15 a 25 horas de prática para montar o seu plano.",
+    q: "Não tenho muito tempo.",
+    a: "As aulas têm de 4 a 7 minutos e cada missão leva até 20. São menos de 3 horas de vídeo no curso inteiro.",
   },
   {
-    q: "Como as aulas funcionam?",
-    a: "Aulas gravadas, materiais práticos (checklists, canvas, planilhas e templates), um desafio por módulo e comunidade. A Tháscila Lawanda conduz o curso como especialista e mentora.",
+    q: "Quando começa e como funcionam os encontros?",
+    a: "As inscrições vão de 1º a 20 de novembro e as aulas começam no fim de novembro. São 4 encontros de mentoria online de 90 minutos, um por semana, com gravação disponível. O curso termina em 20 de dezembro.",
+  },
+  {
+    q: "Quanto custa?",
+    a: "O valor do curso é R$ 297. Pra turma de fim de ano tem a condição Black: R$ 197, só até 20 de novembro.",
+  },
+  {
+    q: "O curso garante que eu vou ganhar dinheiro?",
+    a: "Não. O curso entrega método, metas semanais e acompanhamento. A renda depende da sua execução.",
+  },
+  {
+    q: "E se não for pra mim?",
+    a: "Você tem 7 dias de garantia: entrou, achou que não é pra você, pede o dinheiro de volta. Sem burocracia.",
+  },
+  {
+    q: "Como ganho o certificado?",
+    a: "Com 80% das missões aprovadas e o Kit Primeiro Pix entregue. Quem não fechar um trabalho pago pode entregar o kit para um negócio real sem cobrar e recebe o certificado. Quem recebe o primeiro pagamento ganha também o selo Primeiro Pix.",
   },
 ];
 
 const FAQ: FaqItem[] = [
   ...FAQ_TEXTO,
   {
-    q: "Quando começa a próxima turma e quanto custa?",
+    q: "Como pago? Dá pra parcelar?",
     a: (
       <>
-        {TURMA.data ? (
-          <p>{TURMA.data}. Valores e lotes na seção de ingressos, logo acima.</p>
-        ) : (
-          <ContentSlot label="Data da próxima turma, lotes e forma de pagamento." />
-        )}
-        <p className="mt-3">
-          Se quiser saber antes, chama a gente no WhatsApp.
-        </p>
+        <ContentSlot label="Plataforma de pagamento, parcelamento e tempo de acesso às aulas gravadas (pendências do PPC)." />
+        <p className="mt-3">Enquanto isso, chama a gente no WhatsApp.</p>
       </>
     ),
   },
 ];
 
 export default function SocialMediaOusadoPage() {
-  const inscricaoHref =
-    TURMA.link ?? wa("escola", "Social Media Ousado");
-  const duvidaHref = wa("escola", "Social Media Ousado");
+  const atendimento = wa("escola", "Social Media Ousado (turma de fim de ano)");
+  const inscricaoHref = INSCRICAO_LINK ?? atendimento;
 
   const cursoJsonLd = {
     "@context": "https://schema.org",
     "@type": "Course",
     name: "Social Media Ousado",
     description:
-      "Curso online de estratégia de redes sociais: posicionamento, conteúdo, calendário, métricas, primeiros clientes e IA, em 8 módulos e 39 aulas.",
+      "Curso online de 4 semanas para conseguir o primeiro trabalho pago de social media atendendo o comércio local: oferecer, fechar, entregar e cobrar, tudo no celular.",
     provider: {
       "@type": "Organization",
       name: "Ousadia Marketing",
@@ -263,7 +275,17 @@ export default function SocialMediaOusadoPage() {
     hasCourseInstance: {
       "@type": "CourseInstance",
       courseMode: "online",
+      courseWorkload: "PT20H",
       instructor: { "@type": "Person", name: "Tháscila Lawanda" },
+    },
+    offers: {
+      "@type": "Offer",
+      name: "Condição Black · turma de fim de ano",
+      price: "197",
+      priceCurrency: "BRL",
+      category: "Paid",
+      validFrom: "2026-11-01T00:00:00-03:00",
+      validThrough: "2026-11-20T23:59:59-03:00",
     },
     inLanguage: "pt-BR",
   };
@@ -277,82 +299,73 @@ export default function SocialMediaOusadoPage() {
       <FaqJsonLd items={FAQ_TEXTO} />
 
       <PageHero
-        eyebrow="Curso online · Escola Ousadia · com Tháscila Lawanda"
+        eyebrow="Curso online · 4 semanas · Turma de fim de ano · com Tháscila Lawanda"
         motif="river"
         title={
           <>
-            Social media não é sobre postar mais. É sobre{" "}
-            <span className="text-amarelo">postar com mais intenção</span>.
+            O comércio do seu bairro posta mal.{" "}
+            <span className="text-amarelo">Isso é uma vaga de trabalho.</span>
           </>
         }
-        lead="No Social Media Ousado você aprende a pensar como social media, não como quem só posta: posicionamento, conteúdo, calendário, métricas e os primeiros clientes. No fim, sai com um plano estratégico pronto na mão, pra você, pro seu negócio ou pra um cliente."
+        lead="Em 4 semanas, você sai do celular parado pro seu primeiro trabalho pago de social media: oferecer, fechar, entregar e cobrar. Tudo no celular, sem precisar de seguidores."
       >
         <MediaSlot
           kind="vídeo"
           ratio="aspect-video"
           className="max-w-3xl border-2 border-amarelo"
-          label="Vídeo de apresentação do curso com a Tháscila (YouTube)."
+          label="VSL do Social Media Ousado com a Tháscila (cerca de 5 min, roteiro pronto no Claude Docs)."
         />
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
           <a href={inscricaoHref} className="btn btn-primary">
-            Quero minha vaga <ArrowRight size={16} />
+            Quero garantir minha vaga <ArrowRight size={16} />
           </a>
           <span className="font-mono text-xs text-cinza-ink">
-            8 módulos · 39 aulas · mentoria da Tháscila Lawanda
+            R$ 197 na condição Black · inscrições de 1º a 20/nov
           </span>
         </div>
       </PageHero>
 
-      {/* Antes e depois */}
+      {/* Quebra de crença */}
       <section className="relative overflow-hidden bg-ink section-padding">
         <Paddle className="motif motif-soft text-amarelo right-[8%] top-12 hidden w-20 rotate-6 lg:block" />
-        <div className="container-site relative">
+        <div className="container-site relative max-w-3xl">
           <Reveal>
-            <p className="eyebrow mb-4">A travessia</p>
+            <p className="eyebrow mb-4">Seu cliente não é seu seguidor</p>
             <h2 className="headline-section max-w-2xl">
-              Você não precisa sair da floresta pra viver de criação de conteúdo
+              Você não precisa de seguidores. Precisa de um cliente.
             </h2>
           </Reveal>
-          <div className="mt-10 grid gap-6 md:grid-cols-2">
-            <Reveal delay={0.04}>
-              <div className="card-surface h-full p-7">
-                <p className="font-mono text-xs uppercase tracking-wide text-cinza-ink">
-                  Antes
-                </p>
-                <p className="text-body mt-3">
-                  Você posta por obrigação, copia trend do Sudeste, salva curso
-                  nos stories e trava na hora de aplicar. E acha que precisa de
-                  milhares de seguidores, ou de sair do Norte, pra trabalhar com
-                  isso.
-                </p>
-              </div>
-            </Reveal>
-            <Reveal delay={0.1}>
-              <div className="card-surface h-full border-2 border-amarelo p-7">
-                <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
-                  Depois
-                </p>
-                <p className="text-body mt-3">
-                  Você pensa com estratégia, tem um plano real na mão e sabe
-                  como fechar o primeiro cliente da sua região. Sendo você
-                  mesma, com sotaque, sem imitar ninguém.
-                </p>
-              </div>
-            </Reveal>
-          </div>
-          <Reveal delay={0.14}>
-            <p className="text-body mt-10 max-w-2xl text-lg">
-              <strong className="font-semibold text-foreground">
-                Conteúdo sem estratégia vira barulho.
-              </strong>{" "}
-              Cada módulo do curso empurra você mais um degrau, de quem posta
-              por obrigação a quem entrega resultado e cobra por isso.
-            </p>
+          <Reveal delay={0.06}>
+            <div className="text-body mt-8 space-y-5 text-lg">
+              <p>
+                Você entende de rede social melhor do que muito dono de loja.
+                Mas toda vez que pensa em trabalhar com isso, vem a voz:{" "}
+                <em>“eu não tenho seguidores”</em>, <em>“eu só tenho celular”</em>
+                , <em>“quem vai me pagar?”</em>
+              </p>
+              <p>
+                Pra ganhar dinheiro com social media, você não precisa ser
+                influenciador. Seu cliente é o salão, a oficina, a loja da feira,
+                o açaí da esquina: gente que sabe que precisa estar nas redes,
+                mas não tem tempo e posta do jeito que dá.
+              </p>
+              <p>
+                E dezembro é quando o comércio mais precisa de conteúdo. Por isso
+                a meta desta turma é o{" "}
+                <strong className="font-semibold text-foreground">
+                  primeiro Pix antes do Natal
+                </strong>
+                .
+              </p>
+              <p className="text-base">
+                Curtida sozinha não paga boleto. Cliente paga.
+              </p>
+            </div>
           </Reveal>
         </div>
       </section>
 
-      {/* O método */}
+      {/* As 4 semanas */}
       <section className="fold-light relative overflow-hidden">
         <WaveDivider
           className="absolute inset-x-0 top-0 rotate-180"
@@ -362,24 +375,28 @@ export default function SocialMediaOusadoPage() {
           <Reveal>
             <p className="eyebrow mb-4">O método</p>
             <h2 className="headline-section max-w-2xl">
-              O Método Ousadia em 5 fases
+              4 semanas, 4 metas, um primeiro trabalho pago
             </h2>
             <p className="text-body mt-5 max-w-2xl">
-              Ninguém pula etapa. Cada fase deixa uma entrega concreta na sua
-              mão, do entendimento à evolução contínua.
+              Um módulo por semana, liberado na segunda-feira. O Módulo 0 chega
+              na compra, pra você começar com o celular pronto e uma lista de 10
+              negócios que podem virar clientes.
             </p>
           </Reveal>
-          <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-5">
-            {METODO.map((f, i) => (
-              <Reveal key={f.t} delay={i * 0.06}>
+          <ol className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            {SEMANAS.map((s, i) => (
+              <Reveal key={s.n} delay={i * 0.06}>
                 <li className="card-surface flex h-full flex-col p-6">
                   <span className="font-display text-3xl text-amarelo">
-                    {f.n}
+                    0{s.n}
                   </span>
-                  <h3 className="font-display text-lg mt-2">{f.t}</h3>
-                  <p className="text-body mt-2 text-sm">{f.d}</p>
+                  <p className="mt-2 font-mono text-[11px] uppercase tracking-wide text-cinza-ink">
+                    Semana {s.n} · {s.datas}
+                  </p>
+                  <h3 className="font-display text-lg mt-1">{s.t}</h3>
+                  <p className="text-body mt-2 text-sm">{s.d}</p>
                   <p className="mt-auto pt-4 font-mono text-[11px] uppercase tracking-wide text-floresta-deep">
-                    {f.m}
+                    Meta · {s.meta}
                   </p>
                 </li>
               </Reveal>
@@ -388,80 +405,44 @@ export default function SocialMediaOusadoPage() {
         </div>
       </section>
 
-      {/* Módulos */}
+      {/* Encontros ao vivo */}
       <section className="relative overflow-hidden bg-roxo section-padding">
         <GrafismoDiamonds
           color="#ffffff"
           className="absolute inset-0 opacity-[0.04]"
         />
         <div className="container-site relative">
-          <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
+          <div className="grid gap-12 lg:grid-cols-[.9fr_1.1fr]">
             <Reveal>
-              <p className="eyebrow mb-4">O conteúdo</p>
+              <p className="eyebrow mb-4">Mentoria ao vivo</p>
               <h2 className="headline-section">
-                8 módulos,{" "}
-                <span className="text-amarelo">39 aulas</span>
+                4 encontros pra te{" "}
+                <span className="text-amarelo">colocar em ação</span>
               </h2>
               <p className="text-body mt-5 max-w-md">
-                Aulas curtas, de 8 a 15 minutos, com prática guiada em todas.
-                Cada módulo traz um caso real da floresta e termina com um
-                desafio que vira parte do seu plano.
+                Não são aulas. São 90 minutos por semana, às segundas, pra
+                abordar o cliente, criar conteúdo e fazer diferença rápido nas
+                redes dele. Cada encontro fica gravado.
               </p>
-              <dl className="mt-8 grid grid-cols-2 gap-4">
-                {FORMATO.map((f) => (
-                  <div key={f.label} className="card-surface p-4">
-                    <dt className="sr-only">{f.label}</dt>
-                    <dd className="font-display text-3xl leading-none text-amarelo">
-                      {f.valor}
-                    </dd>
-                    <dd className="text-body mt-1.5 text-xs">{f.label}</dd>
-                  </div>
-                ))}
-              </dl>
+              <p className="mt-4 font-mono text-xs text-cinza-ink">
+                Datas previstas · horário a confirmar
+              </p>
             </Reveal>
             <Reveal delay={0.06}>
-              <ol className="space-y-3">
-                {MODULOS.map((m, i) => (
-                  <li key={m.t}>
-                    <details className="card-surface group p-5 [&_summary::-webkit-details-marker]:hidden">
-                      <summary className="flex cursor-pointer list-none items-start gap-4">
-                        <span className="w-8 shrink-0 font-display text-xl text-amarelo">
-                          {String(i + 1).padStart(2, "0")}
-                        </span>
-                        <span className="flex-1">
-                          <span className="font-display block text-base text-foreground">
-                            {m.t}
-                          </span>
-                          <span className="font-mono text-[11px] uppercase tracking-wide text-cinza-ink">
-                            {m.aulas.length} aulas
-                          </span>
-                        </span>
-                        <ChevronDown
-                          size={18}
-                          className="mt-1 shrink-0 text-amarelo transition-transform group-open:rotate-180"
-                          aria-hidden
-                        />
-                      </summary>
-                      <div className="mt-4 pl-12">
-                        <ul className="text-body space-y-1.5 text-sm">
-                          {m.aulas.map((a) => (
-                            <li key={a}>· {a}</li>
-                          ))}
-                        </ul>
-                        <p className="text-body mt-4 text-sm">
-                          <span className="font-mono text-[11px] uppercase tracking-wide text-amarelo">
-                            Caso da floresta ·{" "}
-                          </span>
-                          {m.caso}
-                        </p>
-                        <p className="text-body mt-2 text-sm">
-                          <span className="font-mono text-[11px] uppercase tracking-wide text-amarelo">
-                            Desafio final ·{" "}
-                          </span>
-                          {m.desafio}
-                        </p>
-                      </div>
-                    </details>
+              <ol className="card-surface divide-y divide-white/10 p-2">
+                {ENCONTROS.map((e) => (
+                  <li key={e.data} className="flex gap-5 px-4 py-4">
+                    <span className="w-14 shrink-0 font-mono text-sm text-amarelo">
+                      {e.data}
+                    </span>
+                    <span>
+                      <span className="block text-sm font-semibold text-foreground">
+                        {e.t}
+                      </span>
+                      <span className="text-body block text-sm">
+                        Você sai com: {e.leva}
+                      </span>
+                    </span>
                   </li>
                 ))}
               </ol>
@@ -491,9 +472,9 @@ export default function SocialMediaOusadoPage() {
                 </h2>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {[
-                    "Especialista em social media",
+                    "Social media da Ousadia",
+                    "Coordenadora de marcas",
                     "Mentora do Social Media Ousado",
-                    "Time Ousadia Marketing",
                   ].map((t) => (
                     <span
                       key={t}
@@ -505,15 +486,22 @@ export default function SocialMediaOusadoPage() {
                 </div>
                 <div className="text-body mt-6 space-y-4">
                   <p>
-                    A Tháscila é a social media da Ousadia Marketing: coordena o
-                    calendário editorial, roteiriza ganchos e cuida da
-                    distribuição dos conteúdos da agência-escola. É o trabalho
-                    que o curso ensina, feito todo dia, de dentro da Amazônia.
+                    A Tháscila é social media e coordena marcas atendidas pela
+                    Ousadia Marketing. Foi com essa experiência que ela atualizou
+                    o Social Media Ousado inteiro, pra ficar mais direto, mais
+                    prático e focado no que o cliente realmente quer.
                   </p>
                   <p>
-                    No Social Media Ousado, ela conduz você pelos 8 módulos como
-                    especialista e mentora, do diagnóstico do primeiro perfil
-                    até o plano estratégico pronto pra apresentar a um cliente.
+                    Não é teoria. É o método que a Ousadia usa todo dia com
+                    cliente de verdade.
+                  </p>
+                  <p>
+                    No módulo extra de inteligência artificial, o curso recebe{" "}
+                    <strong className="font-semibold text-foreground">
+                      Jackson Satoyiro
+                    </strong>
+                    , fundador da Ousadia, pra te ensinar a usar a IA como a sua
+                    equipe: proposta, roteiro e legenda em minutos.
                   </p>
                 </div>
               </div>
@@ -531,7 +519,9 @@ export default function SocialMediaOusadoPage() {
         <div className="container-site relative section-padding">
           <Reveal>
             <p className="eyebrow mb-4">Público</p>
-            <h2 className="headline-section">Pra quem é este curso</h2>
+            <h2 className="headline-section">
+              Pra quem tem de 18 a 24 anos e um celular na mão
+            </h2>
           </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
             {PUBLICO.map((p, i) => (
@@ -546,36 +536,112 @@ export default function SocialMediaOusadoPage() {
         </div>
       </section>
 
-      {/* Com o que você sai */}
+      {/* Conteúdo */}
       <section className="relative overflow-hidden bg-ink section-padding">
         <div className="container-site relative">
-          <Reveal>
-            <p className="eyebrow mb-4">Resultado</p>
-            <h2 className="headline-section max-w-2xl">
-              Você não sai só com conhecimento. Sai com{" "}
-              <span className="text-amarelo">três ativos na mão</span>
-            </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-6 md:grid-cols-3">
-            {ATIVOS.map((a, i) => (
-              <Reveal key={a.t} delay={i * 0.06}>
-                <div className="card-surface h-full p-7">
-                  <span className="font-display text-3xl text-amarelo">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="font-display text-lg mt-2">{a.t}</h3>
-                  <p className="text-body mt-2 text-sm">{a.d}</p>
-                </div>
-              </Reveal>
-            ))}
+          <div className="grid gap-12 lg:grid-cols-[.8fr_1.2fr]">
+            <Reveal>
+              <p className="eyebrow mb-4">O conteúdo</p>
+              <h2 className="headline-section">
+                Aula curta, <span className="text-amarelo">missão prática</span>
+              </h2>
+              <p className="text-body mt-5 max-w-md">
+                Cada aula ensina uma ideia, mostra na tela do celular com
+                exemplo de comércio amazônico e termina com uma missão de até 20
+                minutos, feita pra um cliente de verdade. A missão vai pro mural
+                da turma e recebe retorno do monitor.
+              </p>
+              <dl className="mt-8 grid grid-cols-2 gap-4">
+                {FORMATO.map((f) => (
+                  <div key={f.label} className="card-surface p-4">
+                    <dt className="sr-only">{f.label}</dt>
+                    <dd className="font-display text-3xl leading-none text-amarelo">
+                      {f.valor}
+                    </dd>
+                    <dd className="text-body mt-1.5 text-xs">{f.label}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <ol className="space-y-3">
+                {MODULOS.map((m, i) => (
+                  <li key={m.t}>
+                    <details className="card-surface group p-5 [&_summary::-webkit-details-marker]:hidden">
+                      <summary className="flex cursor-pointer list-none items-start gap-4">
+                        <span className="w-8 shrink-0 font-display text-xl text-amarelo">
+                          {i < MODULOS.length - 1 ? String(i).padStart(2, "0") : "+"}
+                        </span>
+                        <span className="flex-1">
+                          <span className="font-display block text-base text-foreground">
+                            {m.t}
+                          </span>
+                          <span className="font-mono text-[11px] uppercase tracking-wide text-cinza-ink">
+                            {m.quando} · {m.aulas.length} aulas
+                          </span>
+                        </span>
+                        <ChevronDown
+                          size={18}
+                          className="mt-1 shrink-0 text-amarelo transition-transform group-open:rotate-180"
+                          aria-hidden
+                        />
+                      </summary>
+                      <ul className="text-body mt-4 space-y-1.5 pl-12 text-sm">
+                        {m.aulas.map(([titulo, min]) => (
+                          <li key={titulo} className="flex justify-between gap-4">
+                            <span>{titulo}</span>
+                            <span className="shrink-0 font-mono text-xs text-cinza-ink">
+                              {min} min
+                            </span>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </li>
+                ))}
+              </ol>
+            </Reveal>
           </div>
-          <Reveal delay={0.12}>
-            <p className="mt-8 max-w-3xl font-mono text-xs leading-relaxed text-cinza-ink">
-              O curso ensina método, não promete cliente nem faturamento. O
-              resultado depende da sua aplicação, da prática e das oportunidades
-              da sua região.
-            </p>
-          </Reveal>
+        </div>
+      </section>
+
+      {/* O que você leva */}
+      <section className="fold-light relative overflow-hidden">
+        <WaveDivider
+          className="absolute inset-x-0 top-0 rotate-180"
+          color="var(--ink)"
+        />
+        <div className="container-site relative section-padding">
+          <div className="grid gap-12 lg:grid-cols-2">
+            <Reveal>
+              <p className="eyebrow mb-4">O que você leva</p>
+              <h2 className="headline-section max-w-xl">
+                No fim das 4 semanas, o{" "}
+                <span className="text-floresta-deep">Kit Primeiro Pix</span>
+              </h2>
+              <p className="text-body mt-5 max-w-md">
+                Você é avaliado pelo que entrega a um negócio real, não por
+                prova. E quem recebe o primeiro pagamento ganha o selo Primeiro
+                Pix e entra no mural da turma.
+              </p>
+              <p className="mt-6 max-w-md font-mono text-xs leading-relaxed text-cinza-ink">
+                O curso promete método, metas e acompanhamento, não um valor de
+                ganho. A renda depende da execução de cada aluno.
+              </p>
+            </Reveal>
+            <Reveal delay={0.06}>
+              <ul className="space-y-3">
+                {LEVA.map((t) => (
+                  <li key={t} className="card-surface flex items-start gap-3 p-4">
+                    <span className="mt-0.5 text-floresta" aria-hidden>
+                      ✓
+                    </span>
+                    <span className="text-body text-[0.95rem]">{t}</span>
+                  </li>
+                ))}
+              </ul>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -587,45 +653,50 @@ export default function SocialMediaOusadoPage() {
         />
         <div className="container-site relative">
           <Reveal>
-            <p className="eyebrow mb-4 text-center">Ingressos</p>
+            <p className="eyebrow mb-4 text-center">Turma de fim de ano</p>
             <h2 className="headline-section mx-auto max-w-2xl text-center">
-              Quanto antes, <span className="text-amarelo">mais barato</span>
+              Condição Black,{" "}
+              <span className="text-amarelo">só até 20/11</span>
             </h2>
-            {TURMA.data && (
-              <p className="text-body mx-auto mt-5 max-w-xl text-center">
-                {TURMA.data}.
-              </p>
-            )}
+            <p className="text-body mx-auto mt-5 max-w-xl text-center">
+              Inscrições de 1º a 20 de novembro. As aulas começam no fim de
+              novembro e o curso termina em 20 de dezembro.
+            </p>
           </Reveal>
-          {TURMA.lotes.length > 0 ? (
-            <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-2">
-              {TURMA.lotes.map((l, i) => (
-                <Reveal key={l.nome} delay={i * 0.08}>
-                  <div
-                    className={`card-surface h-full p-8 text-center ${i === 0 ? "border-2 border-amarelo" : ""}`}
-                  >
-                    <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
-                      {l.nome} · {l.quando}
-                    </p>
-                    <p className="font-display mt-4 text-5xl leading-none">
-                      {l.preco}
-                    </p>
-                    <p className="text-body mt-4 text-sm">{l.nota}</p>
-                  </div>
-                </Reveal>
-              ))}
-            </div>
-          ) : (
-            <ContentSlot
-              className="mx-auto mt-10 max-w-xl"
-              label="Data da turma, lotes (nome, período e valor) e link de inscrição (checkout ou grupo de WhatsApp)."
-            />
-          )}
+          <div className="mx-auto mt-12 grid max-w-3xl gap-6 sm:grid-cols-2">
+            <Reveal>
+              <div className="card-surface h-full p-8 text-center opacity-80">
+                <p className="font-mono text-xs uppercase tracking-wide text-cinza-ink">
+                  Valor do curso
+                </p>
+                <p className="font-display mt-4 text-5xl leading-none line-through decoration-2">
+                  R$ 297
+                </p>
+                <p className="text-body mt-4 text-sm">
+                  O preço de sempre do Social Media Ousado.
+                </p>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="card-surface h-full border-2 border-amarelo p-8 text-center">
+                <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
+                  Condição Black · de 1º a 20/nov
+                </p>
+                <p className="font-display mt-4 text-5xl leading-none">R$ 197</p>
+                <p className="text-body mt-4 text-sm">
+                  R$ 100 a menos, só pra esta turma.
+                </p>
+              </div>
+            </Reveal>
+          </div>
           <Reveal delay={0.12}>
             <div className="mt-10 flex flex-col items-center gap-3">
               <a href={inscricaoHref} className="btn btn-primary">
-                Quero minha vaga <ArrowRight size={16} />
+                Quero garantir minha vaga <ArrowRight size={16} />
               </a>
+              <span className="font-mono text-xs text-cinza-ink">
+                Garantia de 7 dias · sem burocracia
+              </span>
             </div>
           </Reveal>
         </div>
@@ -657,21 +728,22 @@ export default function SocialMediaOusadoPage() {
       <CtaFinal
         title={
           <>
-            Curtida sozinha não paga boleto.{" "}
-            <span className="text-amarelo">Estratégia paga.</span>
+            Seu primeiro Pix com social media,{" "}
+            <span className="text-amarelo">antes do Natal</span>
           </>
         }
-        lead="Garanta sua vaga no Social Media Ousado e saia com um plano estratégico pronto pra aplicar em você, no seu negócio ou num cliente da sua região."
-        ctaLabel="Quero minha vaga"
+        lead="O açaí da esquina, o salão, a loja da feira: eles vão precisar de alguém pra cuidar das redes neste fim de ano. Pode ser você."
+        ctaLabel="Quero garantir minha vaga"
         href={inscricaoHref}
         waveColor="var(--paper)"
         secondary={
-          TURMA.link ? (
-            <a href={duvidaHref} className="btn btn-secondary">
+          INSCRICAO_LINK ? (
+            <a href={atendimento} className="btn btn-secondary">
               <MessageCircle size={16} /> Tirar dúvida no WhatsApp
             </a>
           ) : undefined
         }
+        microcopy="R$ 197 na condição Black, até 20/11 · garantia de 7 dias."
       />
     </>
   );
