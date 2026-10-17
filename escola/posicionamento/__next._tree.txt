@@ -8,4 +8,4 @@
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"curso","t":"d","k":"posicionamento","s":["social-media-ousado"]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"escola","h":64,"c":"$Q2"}]]
-0:{"b":"594eac3eb97d86bd4727841c6f172a8c45e35a9f","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"3afe9b24fdefbe23b77ba30b8bd1c05196047a9d","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
