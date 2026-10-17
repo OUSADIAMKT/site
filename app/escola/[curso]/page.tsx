@@ -11,8 +11,13 @@ import { MediaSlot, ContentSlot } from "@/components/ui/MediaSlot";
 import { CURSOS, getCurso, wa } from "@/lib/site";
 import { getConteudo } from "@/lib/cursos-conteudo";
 
+/** Cursos com landing própria em `app/escola/<slug>/` — a rota estática ganha. */
+const COM_LANDING_PROPRIA = ["social-media-ousado"];
+
 export function generateStaticParams() {
-  return CURSOS.map((c) => ({ curso: c.slug }));
+  return CURSOS.filter((c) => !COM_LANDING_PROPRIA.includes(c.slug)).map(
+    (c) => ({ curso: c.slug }),
+  );
 }
 
 export async function generateMetadata({
