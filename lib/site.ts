@@ -348,45 +348,23 @@ export function getCurso(slug: string) {
 /* ------------------------------------------------------------------ *
  * Navegação (PRD 6.3 / 6.4)
  * ------------------------------------------------------------------ */
-export type NavLink = {
-  label: string;
-  href: string;
-  /** Itens de submenu — quando ausente, o link não abre dropdown. */
-  children?: { label: string; href: string }[];
-};
+export type NavItem = { label: string; href: string };
+
+/**
+ * Item do menu principal: ou um link simples, ou só um rótulo que abre um
+ * submenu (sem link próprio: a página vem de um dos itens do submenu).
+ */
+export type NavLink =
+  | { label: string; href: string; children?: undefined }
+  | { label: string; href?: undefined; children: NavItem[] };
 
 export const NAV_LINKS: NavLink[] = [
-  {
-    label: "Sobre",
-    href: "/sobre",
-    children: [
-      { label: "Quem Somos", href: "/sobre" },
-      { label: "Portfólio", href: "/portfolio" },
-      { label: "Histórico", href: "/sobre#historico" },
-    ],
-  },
-  {
-    label: "Escola",
-    href: "/escola",
-    children: [
-      { label: "Social Media Ousado", href: "/escola/social-media-ousado" },
-      { label: "UGC Creator", href: "/escola/ugc-creator" },
-      { label: "IA do Zero à Prática", href: "/escola/ia-para-iniciantes" },
-      { label: "Destrave", href: "/escola/destrave" },
-    ],
-  },
-  {
-    label: "Agência",
-    href: "/agencia",
-    children: [
-      { label: "Serviços", href: "/agencia" },
-      { label: "Cases", href: "/agencia#cases" },
-    ],
-  },
+  { label: "Quem somos", href: "/sobre" },
+  { label: "Escola", href: "/escola" },
+  { label: "Agência", href: "/agencia" },
   { label: "Comunidade", href: "/comunidade" },
   {
     label: "Conteúdo",
-    href: "/conteudo",
     children: [
       { label: "Blog", href: "/conteudo" },
       { label: "Aulão UGC", href: "/aulao-ugc" },
@@ -395,13 +373,12 @@ export const NAV_LINKS: NavLink[] = [
   {
     // Um teste por área (pedido de 18/10/2026).
     label: "Diagnóstico",
-    href: "/diagnostico",
     children: [
       { label: "Social Media", href: "/diagnostico/social-media" },
-      { label: "UGC", href: "/momento-ugc" },
+      { label: "UGC Creator", href: "/momento-ugc" },
       { label: "Posicionamento", href: "/diagnostico" },
-      { label: "IA", href: "/diagnostico/ia" },
-      { label: "Destrave (Método Satoyiro)", href: "/metodo-satoyiro" },
+      { label: "Inteligência Artificial", href: "/diagnostico/ia" },
+      { label: "Destrave (Autenticidade)", href: "/metodo-satoyiro" },
     ],
   },
 ];

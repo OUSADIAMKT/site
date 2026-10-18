@@ -1,11 +1,92 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
-import { NAV_LINKS, wa } from "@/lib/site";
+import { NAV_LINKS, wa, type NavItem } from "@/lib/site";
+
+/**
+ * Tamanho da fonte do menu: 20% acima do que era (12px no computador e 14px
+ * no celular, pedido de 18/10/2026). Com a fonte maior, o menu completo só
+ * cabe a partir de 1280px (`xl`); abaixo disso vale o menu de celular.
+ */
+const FONTE_DESK = "text-[0.9rem]";
+const FONTE_MOBILE = "text-[1.05rem]";
+
+/**
+ * Rótulo sem link próprio que abre um submenu. Abre ao clicar (ou tocar) e
+ * também ao passar o mouse; fecha ao escolher um item, com Esc ou ao clicar
+ * fora.
+ */
+function Dropdown({ label, children }: { label: string; children: NavItem[] }) {
+  const [aberto, setAberto] = useState(false);
+  const raiz = useRef<HTMLDivElement>(null);
+  // Com mouse o submenu já abriu ao passar por cima: o clique não pode fechar.
+  const tipo = useRef("");
+
+  useEffect(() => {
+    if (!aberto) return;
+    const fora = (e: PointerEvent) => {
+      if (!raiz.current?.contains(e.target as Node)) setAberto(false);
+    };
+    const esc = (e: KeyboardEvent) => e.key === "Escape" && setAberto(false);
+    document.addEventListener("pointerdown", fora);
+    document.addEventListener("keydown", esc);
+    return () => {
+      document.removeEventListener("pointerdown", fora);
+      document.removeEventListener("keydown", esc);
+    };
+  }, [aberto]);
+
+  return (
+    <div
+      ref={raiz}
+      className="relative"
+      onMouseEnter={() => setAberto(true)}
+      onMouseLeave={() => setAberto(false)}
+    >
+      <button
+        type="button"
+        aria-expanded={aberto}
+        aria-haspopup="true"
+        onPointerDown={(e) => (tipo.current = e.pointerType)}
+        onClick={() => {
+          const mouse = tipo.current === "mouse";
+          tipo.current = "";
+          setAberto((v) => mouse || !v);
+        }}
+        className={`flex items-center gap-1 py-2 font-mono ${FONTE_DESK} uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground`}
+      >
+        {label}
+        <ChevronDown
+          size={14}
+          className={`transition-transform duration-200 ${aberto ? "rotate-180" : ""}`}
+          aria-hidden
+        />
+      </button>
+      <div
+        className={`absolute left-1/2 top-full z-10 min-w-[210px] -translate-x-1/2 rounded-lg border border-border bg-ink-deep/95 p-2 shadow-lg backdrop-blur-md transition-all duration-150 ${
+          aberto
+            ? "visible translate-y-1 opacity-100"
+            : "invisible opacity-0"
+        }`}
+      >
+        {children.map((child) => (
+          <Link
+            key={child.href}
+            href={child.href}
+            onClick={() => setAberto(false)}
+            className={`block rounded-md px-3 py-2 font-mono ${FONTE_DESK} uppercase tracking-wider text-cinza-ink transition-colors hover:bg-white/5 hover:text-amarelo`}
+          >
+            {child.label}
+          </Link>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 export function Header() {
   const [open, setOpen] = useState(false);
@@ -24,40 +105,17 @@ export function Header() {
           <Logo className="h-10" priority />
         </Link>
 
-        <nav className="hidden items-center gap-6 lg:flex">
+        <nav className="hidden items-center gap-6 whitespace-nowrap xl:flex">
           {NAV_LINKS.map((link) =>
             link.children ? (
-              <div key={link.href} className="group relative">
-                <div className="flex items-center gap-1 py-2">
-                  <Link
-                    href={link.href}
-                    className="font-mono text-xs uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground"
-                  >
-                    {link.label}
-                  </Link>
-                  <ChevronDown
-                    size={12}
-                    className="text-cinza-ink transition-transform duration-200 group-hover:rotate-180 group-focus-within:rotate-180"
-                    aria-hidden
-                  />
-                </div>
-                <div className="invisible absolute left-1/2 top-full z-10 min-w-[190px] -translate-x-1/2 rounded-lg border border-border bg-ink-deep/95 p-2 opacity-0 shadow-lg backdrop-blur-md transition-all duration-150 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
-                  {link.children.map((child) => (
-                    <Link
-                      key={child.href}
-                      href={child.href}
-                      className="block rounded-md px-3 py-2 font-mono text-xs uppercase tracking-wider text-cinza-ink transition-colors hover:bg-white/5 hover:text-amarelo"
-                    >
-                      {child.label}
-                    </Link>
-                  ))}
-                </div>
-              </div>
+              <Dropdown key={link.label} label={link.label}>
+                {link.children}
+              </Dropdown>
             ) : (
               <Link
                 key={link.href}
                 href={link.href}
-                className="font-mono text-xs uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground"
+                className={`font-mono ${FONTE_DESK} uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground`}
               >
                 {link.label}
               </Link>
@@ -74,7 +132,7 @@ export function Header() {
           </a>
           <button
             onClick={() => setOpen((v) => !v)}
-            className="text-foreground lg:hidden"
+            className="text-foreground xl:hidden"
             aria-expanded={open}
             aria-label={open ? "Fechar menu" : "Abrir menu"}
           >
@@ -89,38 +147,30 @@ export function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-border bg-ink lg:hidden"
+            className="overflow-hidden border-t border-border bg-ink xl:hidden"
           >
             <div className="container-site flex flex-col gap-1 py-4">
               {NAV_LINKS.map((link) =>
                 link.children ? (
-                  <div key={link.href} className="flex flex-col">
-                    <div className="flex items-center justify-between">
-                      <Link
-                        href={link.href}
-                        onClick={closeMobile}
-                        className="flex-1 py-2 font-mono text-sm uppercase tracking-wider text-cinza-ink hover:text-amarelo"
-                      >
-                        {link.label}
-                      </Link>
-                      <button
-                        onClick={() =>
-                          setExpanded((v) => (v === link.href ? null : link.href))
-                        }
-                        aria-expanded={expanded === link.href}
-                        aria-label={`Submenu de ${link.label}`}
-                        className="p-2 text-cinza-ink"
-                      >
-                        <ChevronDown
-                          size={16}
-                          className={`transition-transform duration-200 ${
-                            expanded === link.href ? "rotate-180" : ""
-                          }`}
-                        />
-                      </button>
-                    </div>
+                  <div key={link.label} className="flex flex-col">
+                    <button
+                      onClick={() =>
+                        setExpanded((v) => (v === link.label ? null : link.label))
+                      }
+                      aria-expanded={expanded === link.label}
+                      className={`flex items-center justify-between py-2 text-left font-mono ${FONTE_MOBILE} uppercase tracking-wider text-cinza-ink hover:text-amarelo`}
+                    >
+                      {link.label}
+                      <ChevronDown
+                        size={18}
+                        className={`transition-transform duration-200 ${
+                          expanded === link.label ? "rotate-180" : ""
+                        }`}
+                        aria-hidden
+                      />
+                    </button>
                     <AnimatePresence>
-                      {expanded === link.href && (
+                      {expanded === link.label && (
                         <motion.div
                           initial={{ height: 0, opacity: 0 }}
                           animate={{ height: "auto", opacity: 1 }}
@@ -132,7 +182,7 @@ export function Header() {
                               key={child.href}
                               href={child.href}
                               onClick={closeMobile}
-                              className="block py-2 font-mono text-sm uppercase tracking-wider text-cinza-ink/80 hover:text-amarelo"
+                              className={`block py-2 font-mono ${FONTE_MOBILE} uppercase tracking-wider text-cinza-ink/80 hover:text-amarelo`}
                             >
                               {child.label}
                             </Link>
@@ -146,7 +196,7 @@ export function Header() {
                     key={link.href}
                     href={link.href}
                     onClick={closeMobile}
-                    className="py-2 font-mono text-sm uppercase tracking-wider text-cinza-ink hover:text-amarelo"
+                    className={`py-2 font-mono ${FONTE_MOBILE} uppercase tracking-wider text-cinza-ink hover:text-amarelo`}
                   >
                     {link.label}
                   </Link>
