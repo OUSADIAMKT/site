@@ -1,4 +1,4 @@
-:HL["/_next/static/chunks/1anr217ssiv5f.css","style"]
+:HL["/_next/static/chunks/2gq2mjxwn5hzd.css","style"]
 :HL["/_next/static/media/1ccf8ef962b3f693-s.p.0gwn7w9k-i020.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/374a88ea0960b3d4-s.p.2fz20jxmyia8o.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/638f182e7ded7477-s.p.1yexyk_f9-p2r.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
@@ -6,6 +6,6 @@
 :HL["/_next/static/media/a343f882a40d2cc9-s.p.1sj6eobyi31rd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/dc0c65e819e3bb6c-s.p.1d4mg4yt567i3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 3:[["children",{"s":"__PAGE__","h":160}]]
-2:[["children",{"s":{"n":"curso","t":"d","k":"posicionamento","s":["social-media-ousado"]},"h":96,"c":"$Q3"}]]
+2:[["children",{"s":{"n":"curso","t":"d","k":"posicionamento","s":["ia-para-iniciantes","social-media-ousado"]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"escola","h":64,"c":"$Q2"}]]
-0:{"b":"3afe9b24fdefbe23b77ba30b8bd1c05196047a9d","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"5ae26245a41c15995a8c35c3ee9965a0cf46efd2","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
