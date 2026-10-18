@@ -199,6 +199,19 @@ export const SHEET_ENDPOINT_MOMENTO_UGC =
   process.env.NEXT_PUBLIC_SHEET_ENDPOINT_MOMENTO_UGC ??
   "https://script.google.com/macros/s/AKfycbxG9Zm7zJK5AVEQqmzFRU8909PM9QV1jfHmUD79THNl68slQxvKhqig8uVX6BUlaXV_/exec";
 
+/**
+ * Diagnóstico de IA (`/diagnostico/ia`): grava nome, e-mail, WhatsApp,
+ * profissão, faixa etária e o resultado na planilha "Leads Diagnóstico de IA"
+ * (Drive, criada em 18/10/2026). Backend:
+ * `docs/apps-script/diagnostico-ia-google-sheets.gs`, implantado em 18/10/2026
+ * como App da Web (Executar como: Eu; acesso: Qualquer pessoa, senão o Google
+ * pede login e nada grava). Testar com GET: deve responder "Diagnóstico de IA
+ * online". Vazio = o teste funciona, mas nada é gravado.
+ */
+export const SHEET_ENDPOINT_DIAGNOSTICO_IA =
+  process.env.NEXT_PUBLIC_SHEET_ENDPOINT_DIAGNOSTICO_IA ??
+  "https://script.google.com/macros/s/AKfycbxr7wyPKbNYDaBmu4iVYVeqGbbfyTJGK30CvyiYkDDKa7YJPFir3D2JFraYdn9wxekx/exec";
+
 export const SOCIAL = {
   instagram: "https://instagram.com/ousadiamkt",
   tiktok: "https://www.tiktok.com/@ousadiamkt",
@@ -256,7 +269,7 @@ export const CURSOS: Curso[] = [
     resumo:
       "Fundamentos de posicionamento pra quem ainda soa igual ao concorrente. Seu Sinal, seu público (Travessia) e a mensagem que sustenta tudo o que você publica depois.",
     detalhado: false,
-    /** Fora do grid da Escola — as 3 portas atuais são Social Media, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
+    /** Fora do grid da Escola — as 4 portas atuais são Social Media, UGC Creator, IA para iniciantes e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
     visivel: false,
   },
   {
@@ -286,12 +299,11 @@ export const CURSOS: Curso[] = [
     nome: "IA para iniciantes",
     emoji: "🤖",
     promessa:
-      "Produza mais rápido com IA sem virar perfil genérico: roteiro, copy, imagem e vídeo a serviço da sua voz.",
+      "Do zero à prática em 30 horas: use IA no trabalho com autonomia e senso crítico, sem programação e só com planos gratuitos.",
     resumo:
-      "Pra quem nunca usou IA pra criar conteúdo: roteiro, copy, imagem, vídeo e automação, direto ao ponto, sem perder a sua voz no meio do processo.",
+      "Pra quem nunca usou IA: assistentes, prompts, produtividade, conteúdo, negócios e automação sem código, com 70% de prática e Jackson Queiroz conduzindo.",
     detalhado: false,
-    /** Fora do grid da Escola — as 3 portas atuais são Social Media, UGC Creator e Destrave. Página segue no ar pro diagnóstico e WhatsApp. */
-    visivel: false,
+    visivel: true,
   },
   {
     slug: "destrave",
@@ -346,6 +358,7 @@ export const NAV_LINKS: NavLink[] = [
     children: [
       { label: "Social Media Ousado", href: "/escola/social-media-ousado" },
       { label: "UGC Creator", href: "/escola/ugc-creator" },
+      { label: "IA do Zero à Prática", href: "/escola/ia-para-iniciantes" },
       { label: "Destrave", href: "/escola/destrave" },
     ],
   },
@@ -363,8 +376,18 @@ export const NAV_LINKS: NavLink[] = [
     href: "/conteudo",
     children: [
       { label: "Blog", href: "/conteudo" },
-      { label: "Diagnóstico", href: "/diagnostico" },
       { label: "Aulão UGC", href: "/aulao-ugc" },
+    ],
+  },
+  {
+    // Um teste por área (pedido de 18/10/2026). Social Media entra quando o teste existir.
+    label: "Diagnóstico",
+    href: "/diagnostico",
+    children: [
+      { label: "UGC", href: "/momento-ugc" },
+      { label: "Posicionamento", href: "/diagnostico" },
+      { label: "IA", href: "/diagnostico/ia" },
+      { label: "Destrave (Método Satoyiro)", href: "/metodo-satoyiro" },
     ],
   },
 ];

@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/portfolio", priority: 0.8 },
     { path: "/comunidade", priority: 0.7 },
     { path: "/diagnostico", priority: 0.8 },
+    { path: "/diagnostico/ia", priority: 0.7 },
     { path: "/aulao-ugc", priority: 0.7 },
     { path: "/momento-ugc", priority: 0.7 },
     ...(MENTORIA_UGC_NO_GOOGLE

@@ -90,6 +90,23 @@ export default function PrivacidadePage() {
         </li>
       </ul>
 
+      <h3>Diagnóstico de IA</h3>
+      <ul>
+        <li>
+          <strong>Dados:</strong> nome, e-mail, WhatsApp, profissão, faixa
+          etária e as respostas do diagnóstico.
+        </li>
+        <li>
+          <strong>Para quê:</strong> entender quem está começando a usar
+          Inteligência Artificial e enviar conteúdos sobre IA e sobre o curso
+          Inteligência Artificial do Zero à Prática.
+        </li>
+        <li>
+          Quem informa ter <strong>menos de 18 anos</strong> vê o resultado,
+          mas os dados não são guardados.
+        </li>
+      </ul>
+
       <h3>Ouse Ser Você (método Satoyiro)</h3>
       <ul>
         <li>
@@ -248,8 +265,9 @@ export default function PrivacidadePage() {
 
       <h2>8. Menores de idade</h2>
       <p>
-        Os diagnósticos abertos ao público (Maturidade Digital e Momento UGC)
-        são para maiores de 18 anos. O Ouse Ser Você é usado com turmas do
+        Os diagnósticos abertos ao público (Maturidade Digital, Momento UGC e
+        Diagnóstico de IA) são para maiores de 18 anos; no Diagnóstico de IA,
+        quem tem menos de 18 vê o resultado, mas nada é guardado. O Ouse Ser Você é usado com turmas do
         ensino médio, junto com a escola e os educadores; quando quem responde
         tem menos de 18 anos, os dados são usados apenas para entregar o mapa ao
         aluno e ao educador da turma, no melhor interesse do adolescente (LGPD,

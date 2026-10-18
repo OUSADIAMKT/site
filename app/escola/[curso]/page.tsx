@@ -12,7 +12,7 @@ import { CURSOS, getCurso, wa } from "@/lib/site";
 import { getConteudo } from "@/lib/cursos-conteudo";
 
 /** Cursos com landing própria em `app/escola/<slug>/` — a rota estática ganha. */
-const COM_LANDING_PROPRIA = ["social-media-ousado"];
+const COM_LANDING_PROPRIA = ["social-media-ousado", "ia-para-iniciantes"];
 
 export function generateStaticParams() {
   return CURSOS.filter((c) => !COM_LANDING_PROPRIA.includes(c.slug)).map(
