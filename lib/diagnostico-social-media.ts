@@ -1,0 +1,419 @@
+/**
+ * Diagnóstico de Social Media (`/diagnostico/social-media`).
+ *
+ * Versão 2 (18/10/2026), com as mesmas melhorias do Diagnóstico de IA: 4
+ * competências com 2 perguntas cada (a maioria de situação), 2 perguntas sem
+ * ponto (dificuldade e objetivo), opções embaralhadas e de tamanho parecido,
+ * resultado com gráficos, missão e plano de 30 dias.
+ *
+ * Tudo sai do PPC do Social Media Ousado
+ * (`lib/PPC/PPC — Social Media Ousado (Turma Fim de Ano 2026).md`): os 3 eixos
+ * do curso (aqui Marketing e Redes virou Conteúdo + Negócio), as objeções do
+ * público (viram as dificuldades, com a resposta do curso), o gancho da aula
+ * 3.1, a abordagem da 1.5, o preço da 2.2 e os módulos de cada semana.
+ *
+ * Planilha própria (não a de IA): os leads vão também pra mentora Tháscila
+ * Lawanda. Ver `SHEET_ENDPOINT_DIAGNOSTICO_SOCIAL_MEDIA` em `lib/site.ts`.
+ */
+
+import type { DiagnosticoArea } from "@/lib/diagnostico-area";
+import { SHEET_ENDPOINT_DIAGNOSTICO_SOCIAL_MEDIA } from "@/lib/site";
+
+const CURSO = "/escola/social-media-ousado";
+
+export const DIAGNOSTICO_SOCIAL_MEDIA: DiagnosticoArea = {
+  teste: "social-media",
+  endpoint: SHEET_ENDPOINT_DIAGNOSTICO_SOCIAL_MEDIA,
+  compartilhaCom: "Tháscila Lawanda, mentora do Social Media Ousado",
+  nome: "Diagnóstico de Social Media",
+  rotuloResultado: "seu momento como social media",
+  intro:
+    "Responda 10 perguntas e descubra o quanto falta pro seu primeiro trabalho pago de social media: como você encara oferecer serviço, que ferramentas domina, se o seu conteúdo prende e se você sabe vender. Várias perguntas são situações reais: responda o que você faria de verdade.",
+  comoFunciona: [
+    {
+      k: "01",
+      t: "10 perguntas",
+      d: "Sobre o que você já fez e situações do dia a dia de um social media. Leva uns 4 minutos.",
+    },
+    {
+      k: "02",
+      t: "Seu painel",
+      d: "Seu momento, um gráfico das 4 competências e o que mais te trava.",
+    },
+    {
+      k: "03",
+      t: "Seu plano",
+      d: "Uma missão pra esta semana e um plano de 30 dias rumo ao primeiro cliente.",
+    },
+  ],
+  textoBotaoInicio: "Quero descobrir meu momento",
+  textoCaptura:
+    "Com esses dados a Ousadia e a Tháscila Lawanda, mentora do curso, entendem quem quer trabalhar com social media e podem te mandar conteúdos e novidades. O resultado aparece aqui na hora.",
+  textoConsentimento: "conteúdos sobre social media e sobre o curso Social Media Ousado",
+  dimensoes: [
+    {
+      key: "mentalidade",
+      nome: "Mentalidade empreendedora",
+      curto: "Mentalidade",
+      prioridade:
+        "Oferecer sem travar: uma lista de 10 negócios, um script pronto e a meta de mandar 5 propostas, não de fechar 5.",
+    },
+    {
+      key: "ferramentas",
+      nome: "Ferramentas",
+      curto: "Ferramentas",
+      prioridade:
+        "Dominar o kit do celular (CapCut, Canva, WhatsApp Business e uma IA) fazendo 3 amostras pra negócios reais.",
+    },
+    {
+      key: "conteudo",
+      nome: "Conteúdo que prende",
+      curto: "Conteúdo",
+      prioridade:
+        "Treinar ganchos pros 3 primeiros segundos e planejar o mês num calendário, em vez de postar quando der.",
+    },
+    {
+      key: "negocio",
+      nome: "Vender e cobrar",
+      curto: "Negócio",
+      prioridade:
+        "Montar uma oferta simples por escrito (o que entra, prazo e preço) e uma tabela a partir de 5 concorrentes da sua região.",
+    },
+  ],
+  perguntas: [
+    {
+      key: "m1",
+      dim: "mentalidade",
+      tema: "Mentalidade",
+      titulo: "Você já ofereceu serviço de redes sociais pra alguém?",
+      opcoes: [
+        { lab: "Nunca: tenho vergonha de oferecer", pts: 0 },
+        { lab: "Nunca: não saberia o que oferecer", pts: 1 },
+        { lab: "Já fiz de graça pra algum conhecido", pts: 2 },
+        { lab: "Já cobrei por pelo menos um trabalho", pts: 3 },
+      ],
+    },
+    {
+      key: "m2",
+      dim: "mentalidade",
+      tema: "Mentalidade",
+      titulo:
+        "Você mandou proposta pra 5 negócios. Quatro disseram “não” e um nem respondeu. E agora?",
+      opcoes: [
+        { lab: "Desisto: se ninguém quis, não é pra mim", pts: 0 },
+        { lab: "Espero passar um tempo e tento de novo", pts: 1 },
+        { lab: "Mando a mesma mensagem pra outros 5", pts: 2 },
+        { lab: "Ajusto a mensagem, chamo quem sumiu e sigo", pts: 3 },
+      ],
+    },
+    {
+      key: "f1",
+      dim: "ferramentas",
+      tema: "Ferramentas",
+      titulo: "Como você se sai editando vídeo curto no celular?",
+      opcoes: [
+        { lab: "Nunca editei um vídeo no celular", pts: 0 },
+        { lab: "Só pelo editor do Instagram ou TikTok", pts: 1 },
+        { lab: "Uso o CapCut ou parecido, no básico", pts: 2 },
+        { lab: "Corto, legendo e ponho música sem travar", pts: 3 },
+      ],
+    },
+    {
+      key: "f2",
+      dim: "ferramentas",
+      tema: "Ferramentas",
+      titulo: "Uma loja pediu 8 legendas pra amanhã. Como você faz?",
+      opcoes: [
+        { lab: "Copio legendas de outras lojas parecidas", pts: 0 },
+        { lab: "Peço 8 legendas pra IA e mando direto", pts: 1 },
+        { lab: "Escrevo as 8 na mão, uma por uma", pts: 2 },
+        { lab: "Dou à IA o tom e os produtos e reviso tudo", pts: 3 },
+      ],
+    },
+    {
+      key: "c1",
+      dim: "conteudo",
+      tema: "Conteúdo",
+      titulo: "Qual destas aberturas segura melhor um vídeo da oficina de motos do bairro?",
+      dica: "Pense nos 3 primeiros segundos: é ali que a pessoa decide se continua.",
+      opcoes: [
+        { lab: "“Oi, gente! Tudo bem? Hoje vou mostrar a oficina.”", pts: 0 },
+        { lab: "“Oficina do Zé: qualidade e preço justo desde 2010.”", pts: 1 },
+        { lab: "Música em alta e a fachada da oficina, sem fala.", pts: 1 },
+        { lab: "“Sua moto faz esse barulho? Não espere ela parar.”", pts: 3 },
+      ],
+    },
+    {
+      key: "c2",
+      dim: "conteudo",
+      tema: "Conteúdo",
+      titulo: "Um comércio te contratou pro mês de dezembro. Qual é o seu primeiro passo?",
+      opcoes: [
+        { lab: "Começo postando e vejo o que dá certo", pts: 0 },
+        { lab: "Faço uma lista de ideias de post soltas", pts: 1 },
+        { lab: "Monto um calendário com datas e pautas", pts: 2 },
+        { lab: "Monto o calendário e combino como medir", pts: 3 },
+      ],
+    },
+    {
+      key: "n1",
+      dim: "negocio",
+      tema: "Vender e cobrar",
+      titulo: "O dono da loja pergunta “quanto custa?”. Qual resposta funciona melhor?",
+      opcoes: [
+        { lab: "“Quanto você pode pagar? A gente vê.”", pts: 0 },
+        { lab: "“Faço baratinho, que eu tô começando.”", pts: 1 },
+        { lab: "“Fica R$ 300 por mês, pode ser?”", pts: 2 },
+        { lab: "“4 posts e 2 vídeos: R$ 300, em 15 dias.”", pts: 3 },
+      ],
+    },
+    {
+      key: "n2",
+      dim: "negocio",
+      tema: "Vender e cobrar",
+      titulo: "Qual primeira mensagem tem mais chance de resposta de um comércio?",
+      opcoes: [
+        { lab: "“Oi! Seus posts estão fracos, posso ajudar?”", pts: 0 },
+        { lab: "“Oi! Sou social media. Quer me contratar?”", pts: 1 },
+        { lab: "“Oi! Faço posts e vídeos. Olha meu perfil.”", pts: 2 },
+        { lab: "“Oi! Fiz 3 ideias pro Insta da loja. Mando?”", pts: 3 },
+      ],
+    },
+    {
+      key: "dificuldade",
+      pontua: false,
+      papel: "dificuldade",
+      tema: "Sua dificuldade",
+      titulo: "O que mais te segura pra começar (ou crescer) como social media?",
+      dica: "Esta e a próxima não valem ponto: servem pra montar o seu plano.",
+      opcoes: [
+        {
+          lab: "Não tenho seguidores",
+          leitura:
+            "Seguidores não entram na conta. O seu cliente é o comércio do bairro, não o seu público, e o que ele quer ver são amostras do que você faz.",
+        },
+        {
+          lab: "Só tenho celular",
+          leitura:
+            "Dá pra fazer tudo no celular, com apps gratuitos: CapCut, Canva, WhatsApp Business e uma IA. Notebook fica pra depois, se um dia fizer falta.",
+        },
+        {
+          lab: "Tenho vergonha de oferecer",
+          leitura:
+            "Quase todo mundo trava aqui, e isso se treina. Ajuda ter um script pronto e uma meta pequena: mandar 5 propostas, não fechar 5.",
+        },
+        {
+          lab: "Não sei quanto cobrar",
+          leitura:
+            "Preço sem método vira chute. Pesquise o que 5 social medias da sua região cobram e monte a sua tabela a partir disso.",
+        },
+        {
+          lab: "Não tenho tempo",
+          leitura:
+            "Dá pra começar com 20 minutos por dia: montar a lista de negócios, fazer uma amostra, mandar uma proposta. Constância vale mais que maratona.",
+        },
+        {
+          lab: "Não sei por onde começar",
+          leitura:
+            "Comece pela lista: 10 negócios perto de você que postam pouco ou mal. É dela que sai o seu primeiro cliente.",
+        },
+        {
+          lab: "Nada me segura no momento",
+          leitura:
+            "Ótimo: o seu painel mostra em qual competência está a maior margem de crescimento. Comece por ela.",
+        },
+      ],
+    },
+    {
+      key: "objetivo",
+      pontua: false,
+      papel: "objetivo",
+      tema: "Seu objetivo",
+      titulo: "O que você mais quer conquistar com social media nos próximos meses?",
+      opcoes: [
+        {
+          lab: "Ganhar o meu primeiro dinheiro com redes",
+          oportunidades: [
+            "Escolher um serviço só e montar uma oferta simples.",
+            "Fazer 3 amostras pra negócios reais do seu bairro.",
+            "Mandar as 5 primeiras propostas com um script pronto.",
+          ],
+          comando:
+            "Moro em [sua cidade e bairro]. Liste 10 tipos de comércio local que costumam precisar de ajuda com o Instagram e, pra cada um, sugira um serviço simples de social media que eu poderia oferecer e entregar em uma semana.",
+        },
+        {
+          lab: "Ter um portfólio pra mostrar",
+          oportunidades: [
+            "Produzir 3 amostras mesmo sem ter cliente.",
+            "Arrumar a bio e os destaques do seu perfil como vitrine.",
+            "Contar cada trabalho no formato antes, o que eu fiz e resultado.",
+          ],
+          comando:
+            "Quero montar um portfólio de social media sem ter clientes ainda. Escolhi este negócio: [nome e tipo de negócio]. Sugira 3 amostras (1 vídeo curto, 1 post e 1 carrossel) com o tema, o texto e a ideia visual de cada uma.",
+        },
+        {
+          lab: "Conseguir clientes fixos todo mês",
+          oportunidades: [
+            "Transformar trabalho avulso em pacote mensal.",
+            "Mandar um relatório de uma página com as 3 métricas que o comércio entende.",
+            "Pedir depoimento e indicação sem vergonha.",
+          ],
+          comando:
+            "Atendo [tipo de negócio] com [o que você entrega]. Monte uma proposta de pacote mensal em até 10 linhas pra mandar no WhatsApp: o que entra, o que fica de fora e o prazo. Deixe [preço] pra eu preencher.",
+        },
+        {
+          lab: "Aprender a criar conteúdo que vende",
+          oportunidades: [
+            "Escrever ganchos que seguram os 3 primeiros segundos.",
+            "Usar o roteiro curto: problema, prova e chamada.",
+            "Montar um mês de conteúdo em uma hora.",
+          ],
+          comando:
+            "Escreva 10 ganchos de até 10 palavras pra vídeos de [tipo de negócio] em [sua cidade]. Cada gancho deve falar de um problema ou de um desejo do cliente. Nada de começar com “Oi, gente”.",
+        },
+        {
+          lab: "Trabalhar no meu tempo, de onde eu estiver",
+          oportunidades: [
+            "Ter uma rotina de 30 minutos por dia pra prospectar.",
+            "Agendar os posts da semana no Meta Business Suite.",
+            "Usar respostas rápidas e etiquetas no WhatsApp Business.",
+          ],
+          comando:
+            "Tenho [quantas horas] livres por dia, nos horários [seus horários]. Monte uma rotina semanal de social media iniciante com prospectar, produzir, atender e estudar. Em tabela, com blocos de no máximo 1 hora.",
+        },
+        {
+          lab: "Organizar e crescer o que já faço",
+          oportunidades: [
+            "Controlar clientes e caixa numa planilha simples.",
+            "Saber quando abrir o MEI e usar contrato.",
+            "Usar a IA como equipe, com um assistente pra cada cliente.",
+          ],
+          comando:
+            "Atendo [número] clientes de social media. Monte a estrutura de uma planilha simples pra controlar clientes, serviços, valores, datas de pagamento e o caixa do mês, com as colunas e as fórmulas que eu preciso.",
+        },
+      ],
+    },
+  ],
+  niveis: [
+    {
+      id: "parado",
+      nome: "Celular parado",
+      min: 0,
+      cor: "#f5c518",
+      frase: "Eu passo horas nas redes, mas isso ainda não vira dinheiro.",
+      descricao:
+        "Você usa as redes, mas ainda não enxerga nelas uma fonte de renda. A boa notícia: você não precisa de seguidores nem de notebook. O seu cliente é o comércio do seu bairro, e tudo se faz pelo celular.",
+      mensagem:
+        "Seu próximo passo é enxergar o comércio do bairro como cliente e preparar o celular pra trabalhar.",
+      missao:
+        "Liste 10 negócios perto de você que postam pouco ou mal e escolha um. Depois cole o comando abaixo numa IA e veja as ideias que aparecem.",
+      plano: [
+        { semana: "Semana 1", foco: "Preparar o celular e montar a lista de 10 negócios", onde: "Módulo 0" },
+        { semana: "Semana 2", foco: "Escolher um serviço e produzir 3 amostras", onde: "Módulo 1" },
+        { semana: "Semana 3", foco: "Arrumar o perfil e mandar as 5 primeiras propostas", onde: "Módulo 1" },
+        { semana: "Semana 4", foco: "Montar a oferta e a tabela de preço", onde: "Módulo 2" },
+      ],
+      destino: {
+        tipo: "curso",
+        titulo: "Social Media Ousado",
+        texto:
+          "O curso foi feito pra esse momento: tudo pelo celular, sem precisar de seguidores. O Módulo 0 (Comece aqui) e o Módulo 1 (Seu primeiro serviço) te levam até as primeiras propostas.",
+        botao: "Conhecer o curso",
+        href: CURSO,
+      },
+    },
+    {
+      id: "olhar",
+      nome: "Olhar de social media",
+      min: 7,
+      cor: "#f08a24",
+      frase: "Eu vejo o que está errado nos perfis, mas ainda não ofereci nada.",
+      descricao:
+        "Você sabe que dá pra fazer melhor e já mexe em algumas ferramentas, mas ainda não ofereceu nada, ou só fez de graça. O que trava costuma ser vergonha de oferecer e não saber quanto cobrar.",
+      mensagem:
+        "Seu próximo passo é transformar esse olhar em serviço: uma oferta simples, um preço e as primeiras propostas.",
+      missao:
+        "Faça uma amostra pra um negócio da sua lista e mande junto com uma mensagem de abordagem ainda esta semana.",
+      plano: [
+        { semana: "Semana 1", foco: "Produzir 3 amostras e mandar 5 propostas", onde: "Módulo 1" },
+        { semana: "Semana 2", foco: "Definir o preço e fechar o primeiro trabalho", onde: "Módulo 2" },
+        { semana: "Semana 3", foco: "Entregar no prazo e receber o Primeiro Pix", onde: "Módulo 3" },
+        { semana: "Semana 4", foco: "Mostrar o resultado e pedir depoimento", onde: "Módulo 4" },
+      ],
+      destino: {
+        tipo: "curso",
+        titulo: "Social Media Ousado",
+        texto:
+          "No curso, o Módulo 1 (Seu primeiro serviço) e o Módulo 2 (Primeiro Pix) tiram você do olhar pra primeira proposta fechada, com script, preço e acordo por escrito.",
+        botao: "Conhecer o curso",
+        href: CURSO,
+      },
+    },
+    {
+      id: "pronto",
+      nome: "Pronto pra oferecer",
+      min: 13,
+      cor: "#3fa7d6",
+      frase: "Eu sei criar conteúdo. Falta método pra fechar e cobrar.",
+      descricao:
+        "Você já cria conteúdo com segurança e talvez até tenha feito trabalhos pra conhecidos. O próximo passo é virar profissional: proposta clara, prazo e preço por escrito, e entrega que faz o cliente querer continuar.",
+      mensagem:
+        "Seu próximo salto é profissionalizar: oferta por escrito, preço com método e entrega que traz o próximo cliente.",
+      missao:
+        "Escreva a sua oferta de entrada: o que entra, o que fica de fora, o prazo e o preço. Mande pra um negócio da sua lista.",
+      plano: [
+        { semana: "Semana 1", foco: "Oferta simples e tabela de preço", onde: "Módulo 2" },
+        { semana: "Semana 2", foco: "Proposta com IA e resposta às objeções", onde: "Módulo 2" },
+        { semana: "Semana 3", foco: "Ganchos, roteiro e calendário do cliente", onde: "Módulo 3" },
+        { semana: "Semana 4", foco: "Relatório de uma página e pacote mensal", onde: "Módulo 4" },
+      ],
+      destino: {
+        tipo: "curso",
+        titulo: "Social Media Ousado",
+        texto:
+          "No curso, o seu foco é o Módulo 2 (Primeiro Pix) e o Módulo 3 (Entregar bem). O começo serve de revisão rápida.",
+        botao: "Conhecer o curso",
+        href: CURSO,
+      },
+    },
+    {
+      id: "profissional",
+      nome: "Já é social media",
+      min: 19,
+      // Precisa já ter cobrado (m1 = 3) e mandar bem nas situações de venda.
+      exige: [
+        { perguntas: ["m1"], min: 3 },
+        { perguntas: ["n1", "n2"], min: 2 },
+      ],
+      cor: "#b48cf2",
+      frase: "Eu já trabalho com redes. Agora quero que o cliente fique e cresça.",
+      descricao:
+        "Você oferece, cobra e entrega. O que separa você do próximo nível é recorrência: pacote mensal, relatório simples que o comerciante entende e o seu próprio perfil funcionando como vitrine.",
+      mensagem:
+        "Seu desafio agora é recorrência: pacote mensal, relatório que o comerciante entende e o seu perfil trazendo os próximos clientes.",
+      missao:
+        "Escolha um cliente atual e mande um relatório de uma página (alcance, mensagens recebidas e vendas que ele citou) junto com a proposta de pacote mensal.",
+      plano: [
+        { semana: "Semana 1", foco: "As 3 métricas e o relatório de uma página", onde: "Módulo 4" },
+        { semana: "Semana 2", foco: "De bico pra negócio: o pacote mensal", onde: "Módulo 4" },
+        { semana: "Semana 3", foco: "Clientes e caixa na planilha, e quando abrir o MEI", onde: "Módulo 5" },
+        { semana: "Semana 4", foco: "Um assistente de IA pra cada cliente", onde: "Módulo Extra" },
+      ],
+      destino: {
+        tipo: "curso",
+        titulo: "Social Media Ousado",
+        texto:
+          "Mesmo pra quem já trabalha, o curso tem o que organizar: o Módulo 4 (Cliente que volta), o Módulo 5 (Próximo nível) e o Módulo Extra de IA com o Jackson.",
+        botao: "Conhecer o curso",
+        href: CURSO,
+      },
+    },
+  ],
+  alerta: {
+    perguntas: ["m1", "m2"],
+    titulo: "Sobre a vergonha de oferecer",
+    destaque: "Quase todo mundo trava na hora de oferecer. E isso se treina.",
+    texto:
+      "Comece pequeno: uma lista de 10 negócios, um script pronto e a meta de mandar 5 propostas, não de fechar 5. Cada “não” te deixa mais perto do primeiro “sim”.",
+  },
+};

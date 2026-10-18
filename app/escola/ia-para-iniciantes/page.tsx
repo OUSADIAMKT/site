@@ -449,8 +449,8 @@ export default function IaParaIniciantesPage() {
         </div>
       </section>
 
-      {/* Módulos */}
-      <section className="fold-light relative overflow-hidden">
+      {/* Módulos (âncora usada pelo Diagnóstico de IA, nível Praticante) */}
+      <section id="modulos" className="fold-light relative scroll-mt-20 overflow-hidden">
         <WaveDivider
           className="absolute inset-x-0 top-0 rotate-180"
           color="var(--ink-void)"
@@ -466,6 +466,13 @@ export default function IaParaIniciantesPage() {
                 Entender, conversar, instruir com precisão, aplicar no trabalho,
                 conectar ferramentas e resolver um problema real. Cada módulo usa
                 o anterior e termina com uma entrega que vai pro seu portfólio.
+              </p>
+              <p className="text-body mt-6 max-w-md border-l-2 border-floresta-deep pl-4 text-sm">
+                <strong>Já usa IA no trabalho?</strong> O curso é um só, e o
+                conteúdo mais denso está nos módulos finais: produtividade com
+                medição (4), conteúdo (5), negócios e marketing (6), automação e
+                assistentes (7) e o projeto final (8). Pra você, os primeiros
+                servem de revisão rápida.
               </p>
             </Reveal>
             <Reveal delay={0.06}>

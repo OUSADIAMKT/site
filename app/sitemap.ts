@@ -30,6 +30,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { path: "/comunidade", priority: 0.7 },
     { path: "/diagnostico", priority: 0.8 },
     { path: "/diagnostico/ia", priority: 0.7 },
+    { path: "/diagnostico/social-media", priority: 0.7 },
     { path: "/aulao-ugc", priority: 0.7 },
     { path: "/momento-ugc", priority: 0.7 },
     ...(MENTORIA_UGC_NO_GOOGLE

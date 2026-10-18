@@ -47,7 +47,7 @@ export const ENCARREGADO_DADOS = {
  * gravada junto com cada consentimento nas planilhas, pra saber qual texto a
  * pessoa aceitou. Mudou a política? Atualize a data aqui.
  */
-export const POLITICA_VERSAO = "2026-10-13";
+export const POLITICA_VERSAO = "2026-10-18";
 
 /**
  * Imagem padrão de compartilhamento (gerada por `app/og.png/route.tsx`).
@@ -202,15 +202,28 @@ export const SHEET_ENDPOINT_MOMENTO_UGC =
 /**
  * Diagnóstico de IA (`/diagnostico/ia`): grava nome, e-mail, WhatsApp,
  * profissão, faixa etária e o resultado na planilha "Leads Diagnóstico de IA"
- * (Drive, criada em 18/10/2026). Backend:
- * `docs/apps-script/diagnostico-ia-google-sheets.gs`, implantado em 18/10/2026
- * como App da Web (Executar como: Eu; acesso: Qualquer pessoa, senão o Google
- * pede login e nada grava). Testar com GET: deve responder "Diagnóstico de IA
- * online". Vazio = o teste funciona, mas nada é gravado.
+ * (Drive, criada em 18/10/2026), aba "IA", com a aba "Painel" montada pelo
+ * script. Backend: `docs/apps-script/diagnostico-ia-google-sheets.gs` (v3),
+ * implantado em 18/10/2026 (a v1 usava a URL `AKfycbxr7wy…`) como App da Web (Executar como: Eu; acesso:
+ * Qualquer pessoa, senão o Google pede login e nada grava). Testar com GET:
+ * deve responder "Diagnóstico de IA online". Vazio = o teste funciona, mas
+ * nada é gravado.
  */
 export const SHEET_ENDPOINT_DIAGNOSTICO_IA =
   process.env.NEXT_PUBLIC_SHEET_ENDPOINT_DIAGNOSTICO_IA ??
-  "https://script.google.com/macros/s/AKfycbxr7wyPKbNYDaBmu4iVYVeqGbbfyTJGK30CvyiYkDDKa7YJPFir3D2JFraYdn9wxekx/exec";
+  "https://script.google.com/macros/s/AKfycbxeYn40VwJrHg5DjRnxU83qd8VWjstxj1emWIy49Ec1Z9vLMWnV66WN2Zxt0PZ8adfW/exec";
+
+/**
+ * Diagnóstico de Social Media (`/diagnostico/social-media`): planilha
+ * própria, separada da de IA, porque a mentora Tháscila Lawanda recebe esses
+ * leads (pedido de 18/10/2026). Backend:
+ * `docs/apps-script/diagnostico-social-media-google-sheets.gs`, implantado
+ * em 18/10/2026 (Executar como: Eu; acesso: Qualquer pessoa). Vazio = o teste
+ * funciona, mas nada é gravado.
+ */
+export const SHEET_ENDPOINT_DIAGNOSTICO_SOCIAL_MEDIA =
+  process.env.NEXT_PUBLIC_SHEET_ENDPOINT_DIAGNOSTICO_SOCIAL_MEDIA ??
+  "https://script.google.com/macros/s/AKfycbxJH9I5FC4H1U4nvJpVwWnI5hif6U0BHjGcsdqL_yn5nuGUKluj4ad5Rdf2taxFNN0/exec";
 
 export const SOCIAL = {
   instagram: "https://instagram.com/ousadiamkt",
@@ -380,10 +393,11 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   {
-    // Um teste por área (pedido de 18/10/2026). Social Media entra quando o teste existir.
+    // Um teste por área (pedido de 18/10/2026).
     label: "Diagnóstico",
     href: "/diagnostico",
     children: [
+      { label: "Social Media", href: "/diagnostico/social-media" },
       { label: "UGC", href: "/momento-ugc" },
       { label: "Posicionamento", href: "/diagnostico" },
       { label: "IA", href: "/diagnostico/ia" },

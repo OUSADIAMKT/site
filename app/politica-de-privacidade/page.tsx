@@ -90,16 +90,23 @@ export default function PrivacidadePage() {
         </li>
       </ul>
 
-      <h3>Diagnóstico de IA</h3>
+      <h3>Diagnósticos de IA e de Social Media</h3>
       <ul>
         <li>
           <strong>Dados:</strong> nome, e-mail, WhatsApp, profissão, faixa
           etária e as respostas do diagnóstico.
         </li>
         <li>
-          <strong>Para quê:</strong> entender quem está começando a usar
-          Inteligência Artificial e enviar conteúdos sobre IA e sobre o curso
-          Inteligência Artificial do Zero à Prática.
+          <strong>Para quê:</strong> entender quem está começando nessas áreas
+          e enviar conteúdos sobre IA ou social media e sobre os cursos
+          Inteligência Artificial do Zero à Prática e Social Media Ousado. De
+          forma agrupada, sem identificar ninguém, as respostas também viram a
+          média que aparece no resultado de quem faz o teste depois.
+        </li>
+        <li>
+          Cada diagnóstico fica numa planilha separada. As respostas do
+          Diagnóstico de Social Media também são acessadas por Tháscila
+          Lawanda, mentora do curso Social Media Ousado.
         </li>
         <li>
           Quem informa ter <strong>menos de 18 anos</strong> vê o resultado,
@@ -201,6 +208,10 @@ export default function PrivacidadePage() {
           diagnóstico Qual é o seu Momento UGC?.
         </li>
         <li>
+          <strong>Tháscila Lawanda (mentora do Social Media Ousado)</strong>:
+          apenas as respostas do Diagnóstico de Social Media.
+        </li>
+        <li>
           <strong>Autoridades públicas</strong>: somente se houver ordem judicial
           ou obrigação legal.
         </li>
@@ -265,9 +276,10 @@ export default function PrivacidadePage() {
 
       <h2>8. Menores de idade</h2>
       <p>
-        Os diagnósticos abertos ao público (Maturidade Digital, Momento UGC e
-        Diagnóstico de IA) são para maiores de 18 anos; no Diagnóstico de IA,
-        quem tem menos de 18 vê o resultado, mas nada é guardado. O Ouse Ser Você é usado com turmas do
+        Os diagnósticos abertos ao público (Maturidade Digital, Momento UGC,
+        IA e Social Media) são para maiores de 18 anos; nos de IA e de Social
+        Media, quem tem menos de 18 vê o resultado, mas nada é guardado. O
+        Ouse Ser Você é usado com turmas do
         ensino médio, junto com a escola e os educadores; quando quem responde
         tem menos de 18 anos, os dados são usados apenas para entregar o mapa ao
         aluno e ao educador da turma, no melhor interesse do adolescente (LGPD,
