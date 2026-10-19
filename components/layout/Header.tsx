@@ -5,14 +5,20 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { Logo } from "@/components/ui/Logo";
-import { NAV_LINKS, wa, type NavItem } from "@/lib/site";
+import { NAV_LINKS, REDES, SOCIAL, type NavItem } from "@/lib/site";
+import { SocialIcon } from "@/components/ui/SocialIcon";
 
 /**
  * Tamanho da fonte do menu: 20% acima do que era (12px no computador e 14px
- * no celular, pedido de 18/10/2026). Com a fonte maior, o menu completo só
- * cabe a partir de 1280px (`xl`); abaixo disso vale o menu de celular.
+ * no celular, pedido de 18/10/2026). O menu completo aparece a partir de
+ * 1024px (`lg`); abaixo disso vale o menu de celular.
  */
 const FONTE_DESK = "text-[0.9rem]";
+/**
+ * Itens do topo: encolhem sozinhos conforme a tela (13px em 1024px, 14,4px a
+ * partir de 1280px) para o menu completo caber em tablet na horizontal.
+ */
+const FONTE_NAV = "text-[length:clamp(0.78rem,0.4rem_+_0.625vw,0.9rem)]";
 const FONTE_MOBILE = "text-[1.05rem]";
 
 /**
@@ -57,7 +63,7 @@ function Dropdown({ label, children }: { label: string; children: NavItem[] }) {
           tipo.current = "";
           setAberto((v) => mouse || !v);
         }}
-        className={`flex items-center gap-1 py-2 font-mono ${FONTE_DESK} uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground`}
+        className={`flex items-center gap-1 py-2 font-mono ${FONTE_NAV} uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground`}
       >
         {label}
         <ChevronDown
@@ -105,7 +111,7 @@ export function Header() {
           <Logo className="h-10" priority />
         </Link>
 
-        <nav className="hidden items-center gap-6 whitespace-nowrap xl:flex">
+        <nav className="hidden items-center gap-4 whitespace-nowrap lg:flex xl:gap-6">
           {NAV_LINKS.map((link) =>
             link.children ? (
               <Dropdown key={link.label} label={link.label}>
@@ -115,7 +121,7 @@ export function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`font-mono ${FONTE_DESK} uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground`}
+                className={`font-mono ${FONTE_NAV} uppercase tracking-wider text-cinza-ink transition-colors hover:text-foreground`}
               >
                 {link.label}
               </Link>
@@ -124,15 +130,25 @@ export function Header() {
         </nav>
 
         <div className="flex items-center gap-3">
-          <a
-            href={wa("home")}
-            className="btn btn-primary hidden !px-4 !py-2.5 sm:inline-flex"
-          >
-            Falar no WhatsApp
-          </a>
+          {/* Teste de 18/10/2026: ícones das redes no lugar do botão de WhatsApp. */}
+          <ul className="hidden items-center gap-1 sm:flex">
+            {REDES.filter(({ rede }) => SOCIAL[rede]).map(({ rede, label }) => (
+              <li key={rede}>
+                <a
+                  href={SOCIAL[rede]}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={`${label} da Ousadia`}
+                  className="flex size-10 items-center justify-center text-cinza-ink transition-[scale,translate,color] duration-300 ease-[cubic-bezier(.34,1.56,.64,1)] hover:-translate-y-0.5 hover:scale-[1.2] hover:text-amarelo focus-visible:-translate-y-0.5 focus-visible:scale-[1.2] focus-visible:text-amarelo motion-reduce:transform-none"
+                >
+                  <SocialIcon rede={rede} size={22} />
+                </a>
+              </li>
+            ))}
+          </ul>
           <button
             onClick={() => setOpen((v) => !v)}
-            className="text-foreground xl:hidden"
+            className="text-foreground lg:hidden"
             aria-expanded={open}
             aria-label={open ? "Fechar menu" : "Abrir menu"}
           >
@@ -147,7 +163,7 @@ export function Header() {
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            className="overflow-hidden border-t border-border bg-ink xl:hidden"
+            className="overflow-hidden border-t border-border bg-ink lg:hidden"
           >
             <div className="container-site flex flex-col gap-1 py-4">
               {NAV_LINKS.map((link) =>
@@ -202,9 +218,22 @@ export function Header() {
                   </Link>
                 ),
               )}
-              <a href={wa("home")} className="btn btn-primary mt-3">
-                Falar no WhatsApp
-              </a>
+              {/* O topo só mostra as redes a partir de 640px; no celular elas vêm aqui. */}
+              <ul className="mt-3 flex items-center gap-1 sm:hidden">
+                {REDES.filter(({ rede }) => SOCIAL[rede]).map(({ rede, label }) => (
+                  <li key={rede}>
+                    <a
+                      href={SOCIAL[rede]}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`${label} da Ousadia`}
+                      className="flex size-11 items-center justify-center text-cinza-ink transition-colors hover:text-amarelo"
+                    >
+                      <SocialIcon rede={rede} size={24} />
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </motion.nav>
         )}

@@ -101,7 +101,7 @@ const MARCOS: {
   {
     ano: "2025",
     t: "Segundo pivô: a região em cena",
-    d: "Novas turmas, as primeiras mentorias em grupo e o nascimento do Método EVO. E quem se formou aqui vira equipe: com os alunos, a Ousadia vai pra cobertura dos grandes eventos da região, como FLIX, Expoalta, COP30 e Corrida Viva Altamira, com talento local atrás e na frente das câmeras. No meio disso tudo, ficou claro o que faltava: um lugar pra essa gente toda se encontrar.",
+    d: "Novas turmas, as primeiras mentorias em grupo e o nascimento do Método EVO. E quem se formou aqui vira equipe: com os alunos, a Ousadia vai pra cobertura dos grandes eventos da região, como FLIX, Expoalta, COP30, Corrida Viva Altamira, Forró APAExonado e os Jogos Indígenas, com talento local atrás e na frente das câmeras. No meio disso tudo, ficou claro o que faltava: um lugar pra essa gente toda se encontrar.",
     fotos: [
       { src: "/sobre/oficina-fotografia-rio.webp", alt: "Jackson com alunos, crianças e educadores numa oficina de fotografia à sombra de uma árvore, na beira do rio", w: 1200, h: 800 },
     ],
@@ -109,7 +109,7 @@ const MARCOS: {
   {
     ano: "Fev 2026",
     t: "Nasce a Creators da Amazônia",
-    d: "O lançamento da Comunidade Creators da Amazônia junta creators e empreendedores da região num só lugar. Vêm junto a Gestão de UGC para marcas, o Programa de Embaixadoras da Ekilibre Amazônia e a cobertura dos Jogos Indígenas.",
+    d: "O lançamento da Comunidade Creators da Amazônia junta creators e empreendedores da região num só lugar. Vêm junto a Gestão de UGC do Programa de Embaixadoras da Ekilibre Amazônia e mais uma cobertura dos Jogos Indígenas.",
     fotos: [
       { src: "/sobre/comunidade-lancamento-2026.webp", alt: "Evento de lançamento da Comunidade Creators da Amazônia, fevereiro de 2026", w: 908, h: 1191 },
     ],
