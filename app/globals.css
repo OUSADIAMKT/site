@@ -184,16 +184,19 @@ main > [data-tema] {
   color: var(--foreground);
 }
 
-/* Botão de ação no tema verde: laranja Criatividade Viva (#FF692F) com texto
-   roxo escuro em negrito (~6,4:1). O amarelo ficaria colado nos destaques de
-   texto, que também são amarelos. */
+/* Botão de ação no tema verde: laranja queimado (#B5551F) com texto branco em
+   negrito (~4,9:1). O amarelo ficaria colado nos destaques de texto, que
+   também são amarelos; o laranja vivo da paleta ficou forte demais. */
 [data-tema="verde"] .btn-primary {
-  background: #ff692f;
-  color: #18102c;
+  background: #b5551f;
+  color: #ffffff;
   font-weight: 700;
+  /* Contorno claro: sobre o verde médio da chamada final o laranja queimado
+     tem só ~2:1 de contraste com o fundo, e o botão se perderia. */
+  border: 2px solid rgba(255, 241, 214, 0.7);
 }
 [data-tema="verde"] .btn-primary:hover {
-  box-shadow: 0 12px 30px -8px rgba(255, 105, 47, 0.7);
+  box-shadow: 0 12px 30px -8px rgba(181, 85, 31, 0.6);
 }
 
 /* Neon (Diagnóstico de IA e do Destrave): futurista. Grafite frio, prata, verde neon e roxo neon.
