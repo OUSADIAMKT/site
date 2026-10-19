@@ -33,7 +33,7 @@ export default function DiagnosticoIAPage() {
         lead="Experiência, comunicação com a IA, senso crítico e produtividade: um teste com situações reais pra mostrar onde você está, o que te trava e qual é o próximo passo. Sem julgamento, com direção."
       />
 
-      <section className="relative overflow-hidden bg-ink section-padding">
+      <section className="relative overflow-hidden section-padding">
         <div className="container-site relative max-w-4xl">
           <QuizArea
             cfg={DIAGNOSTICO_IA}

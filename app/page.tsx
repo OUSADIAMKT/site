@@ -426,8 +426,11 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ============ 6 · ECOSSISTEMA (roxo) ============ */}
-      <section className="relative overflow-hidden bg-roxo section-padding">
+      {/* ============ 6 · ECOSSISTEMA (verde) ============ */}
+      <section
+        data-tema="verde"
+        className="relative overflow-hidden !bg-roxo section-padding"
+      >
         <Leaf className="motif motif-soft text-floresta -left-8 bottom-4 hidden w-56 -rotate-45 lg:block" />
         <div className="container-site relative">
           <Reveal>

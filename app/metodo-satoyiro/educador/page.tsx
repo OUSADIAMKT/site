@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 
 export default function PainelEducadorPage() {
   return (
-    <section className="bg-ink section-padding">
+    <section className="section-padding">
       <div className="container-site max-w-6xl">
         <PainelEducador />
       </div>

@@ -31,7 +31,7 @@ export default function MetodoSatoyiroPage() {
         lead="Um quiz de autoconhecimento pra quem está no ensino médio e quer entender melhor como se vê, o caminho que está trilhando e a régua que usa pra medir sucesso. Sem julgamento, com direção."
       />
 
-      <section className="relative overflow-hidden bg-ink section-padding">
+      <section className="relative overflow-hidden section-padding">
         <div className="container-site relative max-w-4xl">
           <OuseSerVoceQuiz />
         </div>

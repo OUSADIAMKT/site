@@ -143,6 +143,384 @@
   --ring: var(--amarelo);
 }
 
+/* ---- Tema por área do site (preview de 19/10/2026) ----
+   Mesmo ritmo de dobras; só a família de cor das dobras escuras muda. Cada
+   área declara `data-tema` num layout próprio. Verde = Escola, a partir do
+   verde da paleta Criatividade Viva (#176D49). */
+/* O menu principal fica no layout raiz, fora do wrapper da página; o :has()
+   faz ele vestir o tema da página aberta. */
+[data-tema="verde"],
+body:has(main > div[data-tema="verde"]) header {
+  --ink-void: #06150e;
+  --ink-deep: #0a1f15;
+  --ink: #0f2b1d;
+  --roxo: #176d49; /* verde da paleta Criatividade Viva */
+  --roxo-600: #1f8a5d;
+  --roxo-700: #0f4f34;
+
+  --floresta: #3fd08f; /* acento sobre fundo verde escuro */
+  --floresta-deep: #176d49; /* texto sobre marfim (~5,5:1) */
+  --rio: #7fe0b4;
+  --rio-soft: #a6ebcb;
+
+  --paper: #fff1d6; /* marfim da paleta Criatividade Viva */
+  --cinza-ink: #9dc0ae;
+
+  --background: var(--ink-deep);
+  --card: #0f2b1d;
+  --muted: #0f2b1d;
+}
+/* Página curta: o wrapper do tema ocupa o resto da altura, senão sobra uma
+   faixa com o fundo padrão (roxo) entre o conteúdo e o rodapé. */
+main:has(> [data-tema]) {
+  display: flex;
+  flex-direction: column;
+}
+main > [data-tema] {
+  flex: 1;
+}
+[data-tema="verde"] {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+/* Botão de ação no tema verde: laranja Criatividade Viva (#FF692F) com texto
+   roxo escuro em negrito (~6,4:1). O amarelo ficaria colado nos destaques de
+   texto, que também são amarelos. */
+[data-tema="verde"] .btn-primary {
+  background: #ff692f;
+  color: #18102c;
+  font-weight: 700;
+}
+[data-tema="verde"] .btn-primary:hover {
+  box-shadow: 0 12px 30px -8px rgba(255, 105, 47, 0.7);
+}
+
+/* Neon (Diagnóstico de IA e do Destrave): futurista. Grafite frio, prata, verde neon e roxo neon.
+   Aqui o `--amarelo` vira o verde neon (botões, destaques de texto), e o
+   `--floresta` vira o roxo neon (selos, marcadores). O menu entra junto pelo
+   mesmo `:has()`, declarado depois do verde para ganhar na ordem. */
+[data-tema="neon"],
+body:has(main div[data-tema="neon"]) header {
+  --ink-void: #06070a;
+  --ink-deep: #0b0d12;
+  --ink: #11141b;
+  --roxo: #241046;
+  --roxo-600: #34166b;
+  --roxo-700: #1a0d36;
+
+  --amarelo: #39ff88;
+  --amarelo-soft: #8dffc0;
+  --floresta: #b56cff;
+  --floresta-deep: #7a2fd0;
+  --rio: #c5ccd6;
+  --rio-soft: #e3e8ee;
+
+  --foreground: #e6eaf0;
+  --cinza-ink: #9aa3b0;
+
+  --background: var(--ink-deep);
+  --card: #12151d;
+  --card-foreground: #e6eaf0;
+  --muted: #171b24;
+  --border: rgba(190, 200, 215, 0.16);
+  --ring: #39ff88;
+}
+[data-tema="neon"] {
+  background:
+    radial-gradient(60rem 38rem at 8% 0%, rgba(168, 85, 247, 0.22), transparent 62%),
+    radial-gradient(52rem 36rem at 96% 55%, rgba(57, 255, 136, 0.11), transparent 62%),
+    linear-gradient(rgba(190, 200, 215, 0.035) 1px, transparent 1px) 0 0 / 3rem 3rem,
+    linear-gradient(90deg, rgba(190, 200, 215, 0.035) 1px, transparent 1px) 0 0 / 3rem 3rem,
+    var(--ink-deep);
+  color: var(--foreground);
+}
+[data-tema="neon"] .card-surface {
+  border-color: rgba(181, 108, 255, 0.28);
+  box-shadow:
+    0 0 38px -16px rgba(181, 108, 255, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+[data-tema="neon"] .eyebrow { color: var(--floresta); }
+[data-tema="neon"] .text-amarelo { text-shadow: 0 0 22px rgba(57, 255, 136, 0.45); }
+/* Volta ao botão do tema, não ao laranja do verde (o IA fica dentro dele). */
+[data-tema="neon"] .btn-primary {
+  background: var(--amarelo);
+  color: #06120b;
+  font-weight: 700;
+  box-shadow: 0 0 26px -6px rgba(57, 255, 136, 0.55);
+}
+[data-tema="neon"] .btn-primary:hover {
+  box-shadow: 0 0 36px -4px rgba(57, 255, 136, 0.8);
+}
+
+/* Azul Xingu (#149BD2): teste no Diagnóstico de IA. Azul petróleo escuro nas
+   dobras, o `--amarelo` vira o azul Xingu (botões e destaques de texto) e o
+   `--floresta` vira um azul-gelo para selos e marcadores. */
+[data-tema="xingu"],
+body:has(main div[data-tema="xingu"]) header {
+  --ink-void: #06121a;
+  --ink-deep: #0a1c28;
+  --ink: #0f2838;
+  --roxo: #14384d;
+  --roxo-600: #1a4a64;
+  --roxo-700: #0f2838;
+
+  --amarelo: #149bd2;
+  --amarelo-soft: #5cc0e8;
+  --floresta: #5cc0e8;
+  --floresta-deep: #0b6f99;
+  --rio: #8fd5f0;
+  --rio-soft: #bfe8f7;
+
+  --foreground: #eaf4fa;
+  --cinza-ink: #9db5c4;
+
+  --background: var(--ink-deep);
+  --card: #0f2838;
+  --card-foreground: #eaf4fa;
+  --muted: #123246;
+  --border: rgba(143, 213, 240, 0.18);
+  --ring: #149bd2;
+}
+[data-tema="xingu"] {
+  background:
+    radial-gradient(60rem 38rem at 8% 0%, rgba(20, 155, 210, 0.24), transparent 62%),
+    radial-gradient(52rem 36rem at 96% 55%, rgba(92, 192, 232, 0.12), transparent 62%),
+    var(--ink-deep);
+  color: var(--foreground);
+}
+[data-tema="xingu"] .card-surface {
+  border-color: rgba(20, 155, 210, 0.35);
+  box-shadow: 0 0 38px -16px rgba(20, 155, 210, 0.5);
+}
+[data-tema="xingu"] .eyebrow { color: var(--floresta); }
+[data-tema="xingu"] .btn-primary {
+  background: #149bd2;
+  color: #04121a;
+  font-weight: 700;
+  box-shadow: 0 0 26px -8px rgba(20, 155, 210, 0.6);
+}
+[data-tema="xingu"] .btn-primary:hover {
+  box-shadow: 0 0 36px -4px rgba(20, 155, 210, 0.85);
+}
+
+/* Laranja (#FF692F, paleta Criatividade Viva): teste no Diagnóstico de Social
+   Media. Dobras num marrom-avermelhado escuro tirado da cor; o `--amarelo`
+   vira o laranja (botões e destaques de texto) e o `--floresta` um laranja
+   claro para selos e marcadores. */
+[data-tema="laranja"],
+body:has(main div[data-tema="laranja"]) header {
+  --ink-void: #140805;
+  --ink-deep: #1f0e07;
+  --ink: #2b140a;
+  --roxo: #4a1e0c;
+  --roxo-600: #5c2710;
+  --roxo-700: #2b140a;
+
+  --amarelo: #ff692f;
+  --amarelo-soft: #ff9a6e;
+  --floresta: #ffa77a;
+  --floresta-deep: #b8480c;
+  --rio: #ffc4a3;
+  --rio-soft: #ffdcc8;
+
+  --foreground: #fbf1ea;
+  --cinza-ink: #c9ab9e;
+
+  --background: var(--ink-deep);
+  --card: #2b140a;
+  --card-foreground: #fbf1ea;
+  --muted: #35190c;
+  --border: rgba(255, 167, 122, 0.2);
+  --ring: #ff692f;
+}
+[data-tema="laranja"] {
+  background:
+    radial-gradient(60rem 38rem at 8% 0%, rgba(255, 105, 47, 0.2), transparent 62%),
+    radial-gradient(52rem 36rem at 96% 55%, rgba(255, 167, 122, 0.1), transparent 62%),
+    var(--ink-deep);
+  color: var(--foreground);
+}
+[data-tema="laranja"] .card-surface {
+  border-color: rgba(255, 105, 47, 0.35);
+  box-shadow: 0 0 38px -16px rgba(255, 105, 47, 0.5);
+}
+[data-tema="laranja"] .eyebrow { color: var(--floresta); }
+[data-tema="laranja"] .btn-primary {
+  background: #ff692f;
+  color: #1a0b05;
+  font-weight: 700;
+  box-shadow: 0 0 26px -8px rgba(255, 105, 47, 0.6);
+}
+[data-tema="laranja"] .btn-primary:hover {
+  box-shadow: 0 0 36px -4px rgba(255, 105, 47, 0.85);
+}
+
+/* Amarelo (#FFC61A, amarelo da marca): teste no Diagnóstico de Social Media.
+   Dobras num marrom-oliva escuro tirado do amarelo; o `--amarelo` já é a cor
+   da marca, então botões e destaques de texto ficam como no resto do site, e
+   o `--floresta` vira um amarelo-creme para selos e marcadores. */
+[data-tema="amarelo"],
+body:has(main div[data-tema="amarelo"]) header {
+  --ink-void: #110d02;
+  --ink-deep: #1b1505;
+  --ink: #261d08;
+  --roxo: #3d2f0a;
+  --roxo-600: #4f3d0d;
+  --roxo-700: #261d08;
+
+  --amarelo: #ffc61a;
+  --amarelo-soft: #ffdd66;
+  --floresta: #ffe08a;
+  --floresta-deep: #8a6400;
+  --rio: #fff0bf;
+  --rio-soft: #fff7dc;
+
+  --foreground: #fdf6e3;
+  --cinza-ink: #c8b98f;
+
+  --background: var(--ink-deep);
+  --card: #261d08;
+  --card-foreground: #fdf6e3;
+  --muted: #31250a;
+  --border: rgba(255, 198, 26, 0.2);
+  --ring: #ffc61a;
+}
+[data-tema="amarelo"] {
+  background:
+    radial-gradient(60rem 38rem at 8% 0%, rgba(255, 198, 26, 0.17), transparent 62%),
+    radial-gradient(52rem 36rem at 96% 55%, rgba(255, 221, 102, 0.09), transparent 62%),
+    var(--ink-deep);
+  color: var(--foreground);
+}
+[data-tema="amarelo"] .card-surface {
+  border-color: rgba(255, 198, 26, 0.32);
+  box-shadow: 0 0 38px -16px rgba(255, 198, 26, 0.45);
+}
+[data-tema="amarelo"] .eyebrow { color: var(--floresta); }
+[data-tema="amarelo"] .btn-primary {
+  background: #ffc61a;
+  color: #1a0b2e;
+  font-weight: 700;
+  box-shadow: 0 0 26px -8px rgba(255, 198, 26, 0.55);
+}
+[data-tema="amarelo"] .btn-primary:hover {
+  box-shadow: 0 0 36px -4px rgba(255, 198, 26, 0.8);
+}
+
+/* Wrapper de tema dentro de outro (ex.: rosa dentro do layout verde dos
+   diagnósticos): o de dentro também ocupa o resto da altura. */
+[data-tema]:has(> [data-tema]) {
+  display: flex;
+  flex-direction: column;
+}
+[data-tema] > [data-tema] {
+  flex: 1;
+}
+
+/* Rosa (#FF5AA5): teste no Diagnóstico de Maturidade Digital. Dobras num
+   vinho escuro tirado da cor; o `--amarelo` vira o rosa (botões e destaques
+   de texto) e o `--floresta` um rosa claro para selos e marcadores. */
+[data-tema="rosa"],
+body:has(main div[data-tema="rosa"]) header {
+  --ink-void: #14060d;
+  --ink-deep: #1f0a15;
+  --ink: #2b0f1d;
+  --roxo: #4a1530;
+  --roxo-600: #5f1c3e;
+  --roxo-700: #2b0f1d;
+
+  --amarelo: #ff5aa5;
+  --amarelo-soft: #ff8cc2;
+  --floresta: #ffa6cf;
+  --floresta-deep: #b0225f;
+  --rio: #ffc7e1;
+  --rio-soft: #ffe0ee;
+
+  --foreground: #fdf0f6;
+  --cinza-ink: #cfa8ba;
+
+  --background: var(--ink-deep);
+  --card: #2b0f1d;
+  --card-foreground: #fdf0f6;
+  --muted: #351324;
+  --border: rgba(255, 166, 207, 0.2);
+  --ring: #ff5aa5;
+}
+[data-tema="rosa"] {
+  background:
+    radial-gradient(60rem 38rem at 8% 0%, rgba(255, 90, 165, 0.2), transparent 62%),
+    radial-gradient(52rem 36rem at 96% 55%, rgba(255, 166, 207, 0.1), transparent 62%),
+    var(--ink-deep);
+  color: var(--foreground);
+}
+[data-tema="rosa"] .card-surface {
+  border-color: rgba(255, 90, 165, 0.35);
+  box-shadow: 0 0 38px -16px rgba(255, 90, 165, 0.5);
+}
+[data-tema="rosa"] .eyebrow { color: var(--floresta); }
+[data-tema="rosa"] .btn-primary {
+  background: #ff5aa5;
+  color: #1a0610;
+  font-weight: 700;
+  box-shadow: 0 0 26px -8px rgba(255, 90, 165, 0.6);
+}
+[data-tema="rosa"] .btn-primary:hover {
+  box-shadow: 0 0 36px -4px rgba(255, 90, 165, 0.85);
+}
+
+/* Vermelho (#F44A4A): teste no Diagnóstico de Maturidade Digital. Dobras num
+   bordô escuro tirado da cor; o `--amarelo` vira o vermelho (botões e
+   destaques de texto) e o `--floresta` um vermelho-salmão para selos. */
+[data-tema="vermelho"],
+body:has(main div[data-tema="vermelho"]) header {
+  --ink-void: #140506;
+  --ink-deep: #200a0b;
+  --ink: #2e0f10;
+  --roxo: #4d1619;
+  --roxo-600: #631d21;
+  --roxo-700: #2e0f10;
+
+  --amarelo: #f44a4a;
+  --amarelo-soft: #ff7a7a;
+  --floresta: #ff9b9b;
+  --floresta-deep: #b02424;
+  --rio: #ffc2c2;
+  --rio-soft: #ffe0e0;
+
+  --foreground: #fdf1f1;
+  --cinza-ink: #cfa9a9;
+
+  --background: var(--ink-deep);
+  --card: #2e0f10;
+  --card-foreground: #fdf1f1;
+  --muted: #381314;
+  --border: rgba(255, 155, 155, 0.2);
+  --ring: #f44a4a;
+}
+[data-tema="vermelho"] {
+  background:
+    radial-gradient(60rem 38rem at 8% 0%, rgba(244, 74, 74, 0.2), transparent 62%),
+    radial-gradient(52rem 36rem at 96% 55%, rgba(255, 155, 155, 0.09), transparent 62%),
+    var(--ink-deep);
+  color: var(--foreground);
+}
+[data-tema="vermelho"] .card-surface {
+  border-color: rgba(244, 74, 74, 0.38);
+  box-shadow: 0 0 38px -16px rgba(244, 74, 74, 0.5);
+}
+[data-tema="vermelho"] .eyebrow { color: var(--floresta); }
+[data-tema="vermelho"] .btn-primary {
+  background: #f44a4a;
+  color: #1a0505;
+  font-weight: 700;
+  box-shadow: 0 0 26px -8px rgba(244, 74, 74, 0.6);
+}
+[data-tema="vermelho"] .btn-primary:hover {
+  box-shadow: 0 0 36px -4px rgba(244, 74, 74, 0.85);
+}
+
 /* "Baixar meu mapa (PDF)" (ver /metodo-satoyiro) usa window.print() — sem
    biblioteca extra, a pessoa escolhe "Salvar como PDF" no diálogo do
    navegador. Isto some com navegação, CTAs flutuantes e botões de ação, que

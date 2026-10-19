@@ -33,7 +33,7 @@ export default function DiagnosticoSocialMediaPage() {
         lead="Um teste com situações reais pra saber como você encara oferecer serviço, que ferramentas domina, se o seu conteúdo prende e se você sabe cobrar. Curtida sozinha não paga boleto: aqui você descobre o próximo passo."
       />
 
-      <section className="relative overflow-hidden bg-ink section-padding">
+      <section className="relative overflow-hidden section-padding">
         <div className="container-site relative max-w-4xl">
           <QuizArea
             cfg={DIAGNOSTICO_SOCIAL_MEDIA}
