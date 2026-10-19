@@ -11,9 +11,9 @@ import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
 import { SITE, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Destrave | Imersão presencial em Altamira/PA · 30 e 31 de janeiro de 2027",
+  title: "Destrave | Online ao vivo e Imersão presencial em Altamira/PA",
   description:
-    "Imersão presencial de 2 dias em Altamira/PA, com 12 vagas: marketing, criação de conteúdo e o fim do medo e da vergonha de aparecer. Com Jackson, Tháscila e Juh. 30 e 31 de janeiro de 2027, R$ 1.297.",
+    "O método da Ousadia pra quem trava na câmera, em dois formatos: Destrave Online, 6 semanas ao vivo pelo celular (Turma Fundadora, R$ 197), e Destrave Imersão, 2 dias presenciais em Altamira/PA em 30 e 31 de janeiro de 2027 (12 vagas, R$ 1.297).",
   alternates: { canonical: `${SITE.url}/escola/destrave` },
 };
 
@@ -27,12 +27,31 @@ export const metadata: Metadata = {
  * Sem dado: horários, programação por dia, parcelamento, o que está incluso,
  * depoimentos e fotos. Ficam em slot de pendência, nunca inventados.
  * Esta rota estática ganha da `/escola/[curso]` (slug em COM_LANDING_PROPRIA).
+ *
+ * Em 19/10/2026 o STORYSELL virou Destrave Online, e Destrave passou a ser a
+ * marca do método, com dois formatos. A seção "Formatos" apresenta os dois. O
+ * resto da página continua sendo da Imersão. Os dados do Online vêm do plano
+ * "Lançamento Semente". A garantia ainda não foi aprovada e por isso não
+ * aparece na página.
  */
 
 const LOCAL = "Altamira/PA";
 const DATAS = "30 e 31 de janeiro de 2027";
 const VAGAS = 12;
 const PRECO = "R$ 1.297";
+
+const ONLINE = {
+  turma: "Turma Fundadora",
+  periodo: "12/11 a 18/12/2026",
+  vagas: 50,
+  preco: "R$ 197",
+  itens: [
+    "6 semanas ao vivo, tudo pelo celular",
+    "Segunda: a tarefa da semana. Quarta, 20h: encontro ao vivo. Sexta: você mostra o que publicou",
+    "Os 5 passos do método Satoyiro: Sinal, Travessia, Ossada, Ritual e Colheita",
+    "Você sai com a sua Frase-Sinal, 3 histórias mapeadas e 5 conteúdos publicados",
+  ],
+};
 
 const NUMEROS = [
   { valor: "22", label: "turmas realizadas" },
@@ -176,6 +195,7 @@ const FAQ: FaqItem[] = [
 
 export default function DestravePage() {
   const inscricaoHref = wa("escola", "Destrave (imersão de janeiro em Altamira)");
+  const onlineHref = wa("escola", "Destrave Online (Turma Fundadora)");
 
   const eventJsonLd = {
     "@context": "https://schema.org",
@@ -227,7 +247,7 @@ export default function DestravePage() {
       <FaqJsonLd items={FAQ_TEXTO} />
 
       <PageHero
-        eyebrow={`Imersão presencial · ${DATAS} · ${LOCAL}`}
+        eyebrow={`Destrave · Online ao vivo ou presencial em ${LOCAL}`}
         motif="river"
         title={
           <>
@@ -241,9 +261,9 @@ export default function DestravePage() {
           <a href={inscricaoHref} className="btn btn-primary">
             Quero garantir minha vaga <ArrowRight size={16} />
           </a>
-          <span className="inline-flex items-center gap-2 font-mono text-xs text-cinza-ink">
-            <MapPin size={14} aria-hidden /> {LOCAL} · {VAGAS} vagas · {PRECO}
-          </span>
+          <a href="#formatos" className="btn btn-ghost">
+            Ver os dois formatos
+          </a>
         </div>
         <dl className="mt-10 grid max-w-3xl grid-cols-2 gap-4 sm:grid-cols-4">
           {NUMEROS.map((n) => (
@@ -257,6 +277,95 @@ export default function DestravePage() {
           ))}
         </dl>
       </PageHero>
+
+      {/* Formatos */}
+      <section
+        id="formatos"
+        className="fold-light relative scroll-mt-24 overflow-hidden"
+      >
+        <div className="container-site relative section-padding">
+          <Reveal>
+            <p className="eyebrow mb-4">Dois formatos, o mesmo método</p>
+            <h2 className="headline-section max-w-2xl">
+              Destrave de onde você estiver
+            </h2>
+            <p className="text-body mt-5 max-w-2xl text-lg">
+              O método é o mesmo nos dois formatos. Muda só o jeito de fazer:
+              no Online, você aplica no seu negócio ao longo de 6 semanas, com
+              a turma ao vivo. Na Imersão, são dois dias inteiros em Altamira,
+              frente a frente com a gente.
+            </p>
+          </Reveal>
+          <div className="mt-12 grid gap-6 lg:grid-cols-2">
+            <Reveal>
+              <div className="card-surface flex h-full flex-col border-2 border-amarelo p-7">
+                <p className="font-mono text-[11px] uppercase tracking-wide text-floresta-deep">
+                  Destrave Online · {ONLINE.turma}
+                </p>
+                <h3 className="font-display mt-2 text-2xl">
+                  6 semanas ao vivo, pelo celular
+                </h3>
+                <p className="text-body mt-2 text-sm">
+                  {ONLINE.periodo} · {ONLINE.vagas} vagas · {ONLINE.preco}
+                </p>
+                <ul className="text-body mt-5 flex-1 space-y-2 text-sm">
+                  {ONLINE.itens.map((it) => (
+                    <li key={it} className="flex gap-2">
+                      <span className="text-floresta" aria-hidden>
+                        ✓
+                      </span>
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={onlineHref}
+                  className="btn btn-primary mt-7 w-full justify-center"
+                >
+                  Quero ser fundadora <ArrowRight size={16} />
+                </a>
+              </div>
+            </Reveal>
+            <Reveal delay={0.08}>
+              <div className="card-surface flex h-full flex-col p-7">
+                <p className="font-mono text-[11px] uppercase tracking-wide text-floresta-deep">
+                  Destrave Imersão · presencial
+                </p>
+                <h3 className="font-display mt-2 text-2xl">
+                  2 dias em {LOCAL}
+                </h3>
+                <p className="text-body mt-2 inline-flex items-center gap-1.5 text-sm">
+                  <MapPin size={14} aria-hidden /> {DATAS} · {VAGAS} vagas ·{" "}
+                  {PRECO}
+                </p>
+                <ul className="text-body mt-5 flex-1 space-y-2 text-sm">
+                  {[
+                    "Marketing, criação de conteúdo e o fim do medo de aparecer",
+                    "Turma de 12 pessoas, com Jackson, Tháscila e Juh",
+                    "Você grava e publica ainda durante a imersão",
+                  ].map((it) => (
+                    <li key={it} className="flex gap-2">
+                      <span className="text-floresta" aria-hidden>
+                        ✓
+                      </span>
+                      <span>{it}</span>
+                    </li>
+                  ))}
+                </ul>
+                <a
+                  href={inscricaoHref}
+                  className="btn btn-primary mt-7 w-full justify-center"
+                >
+                  Quero a imersão <ArrowRight size={16} />
+                </a>
+              </div>
+            </Reveal>
+          </div>
+          <p className="text-body mt-8 max-w-2xl text-sm">
+            Daqui pra baixo, a página fala da Imersão presencial.
+          </p>
+        </div>
+      </section>
 
       {/* Dor */}
       <section className="relative overflow-hidden bg-ink section-padding">

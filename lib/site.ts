@@ -325,7 +325,7 @@ export const CURSOS: Curso[] = [
     promessa:
       "O treinamento anti-vergonha de gravar. Técnica, não motivação.",
     resumo:
-      "O treinamento anti-vergonha de gravar. Técnica, não motivação: a câmera trava no técnico e destrava no humano. Você sai gravando, de verdade.",
+      "O treinamento anti-vergonha de gravar. Técnica, não motivação: a câmera trava no técnico e destrava no humano. Em dois formatos: Online, com 6 semanas ao vivo pelo celular, ou Imersão de 2 dias presenciais em Altamira.",
     detalhado: true,
     visivel: true,
   },

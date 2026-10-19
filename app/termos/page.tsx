@@ -93,7 +93,7 @@ export default function TermosPage() {
       <h2>6. Propriedade intelectual</h2>
       <p>
         A marca Ousadia Marketing, os textos, vídeos, materiais e os métodos
-        apresentados no site (como o STORYSELL e o método Satoyiro) pertencem à
+        apresentados no site (como o Destrave e o método Satoyiro) pertencem à
         Ousadia ou a quem os licenciou para ela. Você pode compartilhar links e
         citar trechos com crédito, mas não pode copiar, revender ou distribuir o
         conteúdo sem autorização por escrito. Os grafismos usados no visual do

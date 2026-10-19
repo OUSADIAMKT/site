@@ -33,7 +33,7 @@ const ETAPAS = [
   {
     k: "02 · Onde",
     t: "Onde você está",
-    d: "Medimos sua maturidade em 5 dimensões do método STORYSELL.",
+    d: "Medimos sua maturidade em 5 dimensões do método Destrave.",
   },
   {
     k: "03 · Próximo",

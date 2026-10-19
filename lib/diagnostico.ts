@@ -10,11 +10,11 @@ import { CURSOS, SHEET_ENDPOINT_DIAGNOSTICO } from "@/lib/site";
  *
  * Estrutura: 12 perguntas em 4 blocos. As 2 primeiras qualificam (perfil e
  * objetivo, sem pontos); as 10 seguintes pontuam de 0 a 3 em 5 dimensões do
- * método STORYSELL — 2 perguntas por dimensão, 6 pontos cada, 30 no total.
+ * método Destrave — 2 perguntas por dimensão, 6 pontos cada, 30 no total.
  */
 
 /* ------------------------------------------------------------------ *
- * Dimensões (pilares do STORYSELL)
+ * Dimensões (pilares do Destrave)
  * ------------------------------------------------------------------ */
 
 export type DimKey = "posic" | "influ" | "plan" | "exec" | "perf";
@@ -648,7 +648,7 @@ export const ROUTING: Record<ProfileKey, Route> = {
   especialista: {
     label: "Marca pessoal e autoridade para o especialista invisível",
     intro:
-      "Você é forte tecnicamente, mas o mercado ainda não sabe disso. É exatamente aqui que o STORYSELL brilha: transformar seu conhecimento em autoridade reconhecível, sem virar influencer, sem expor a vida íntima.",
+      "Você é forte tecnicamente, mas o mercado ainda não sabe disso. É exatamente aqui que o Destrave brilha: transformar seu conhecimento em autoridade reconhecível, sem virar influencer, sem expor a vida íntima.",
     products: {
       semente: [
         "Igarapé + Tambatajá",
@@ -656,12 +656,12 @@ export const ROUTING: Record<ProfileKey, Route> = {
         "Aulão de autoridade",
       ],
       igarape: [
-        "STORYSELL Raiz: Trilha Cacique",
+        "Destrave Online: Trilha Cacique",
         "Mentoria de posicionamento de especialista",
         "Projeto de marca pessoal (entrada)",
       ],
       travessia: [
-        "Mentoria STORYSELL",
+        "Destrave Online",
         "Projeto de Marca Pessoal",
         "Gestão de Marca Pessoal Premium",
       ],
@@ -671,9 +671,9 @@ export const ROUTING: Record<ProfileKey, Route> = {
         "Inner Circle Floresta em Pé",
       ],
     },
-    lead: "Mentoria STORYSELL / Projeto de Marca Pessoal",
+    lead: "Destrave Online / Projeto de Marca Pessoal",
     ladder:
-      "Trilha do especialista: STORYSELL Raiz (Cacique) → Projeto de Marca Pessoal → Lançamento",
+      "Trilha do especialista: Destrave Online (Trilha Cacique) → Projeto de Marca Pessoal → Lançamento",
   },
   empresa: {
     label: "Governança e parceria estratégica de marketing",
@@ -719,7 +719,7 @@ export const ROUTING: Record<ProfileKey, Route> = {
   },
 };
 
-/** Perfis em que o método STORYSELL é a recomendação natural. */
+/** Perfis em que o método Destrave é a recomendação natural. */
 export const STORYSELL_FIT = new Set<ProfileKey>([
   "creator_ini",
   "creator_pro",
@@ -833,7 +833,7 @@ export type Resultado = {
   profile: ProfileKey;
   goal: string | null;
   route: Route;
-  /** Perfil com alta aderência ao STORYSELL e produto indicado coerente. */
+  /** Perfil com alta aderência ao Destrave (o nome antigo, STORYSELL, segue nas chaves da planilha) e produto indicado coerente. */
   storysell: boolean;
   produtos: string[];
 };

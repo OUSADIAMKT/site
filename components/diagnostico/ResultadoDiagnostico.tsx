@@ -158,7 +158,7 @@ export function ResultadoDiagnostico({
       <Secao>
         <h3 className="font-display text-2xl">Sua maturidade por dimensão</h3>
         <p className="text-body mt-2 text-sm">
-          Cinco dimensões conectadas ao método STORYSELL. Cada uma vale de 0 a{" "}
+          Cinco dimensões conectadas ao método Destrave. Cada uma vale de 0 a{" "}
           {DIM_MAX} pontos.
         </p>
 
@@ -292,7 +292,7 @@ export function ResultadoDiagnostico({
 
             {r.storysell && (
               <p className="mt-4 text-sm font-semibold text-amarelo">
-                ✦ Seu perfil tem alta aderência ao método STORYSELL: a
+                ✦ Seu perfil tem alta aderência ao método Destrave: a
                 metodologia foi desenhada exatamente para quem precisa
                 transformar voz e conhecimento em autoridade.
               </p>

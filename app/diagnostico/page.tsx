@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Diagnóstico de Maturidade Digital | Ousadia Marketing",
     description:
-      "Avalie sua maturidade em 5 dimensões do método STORYSELL e receba um plano de 30 dias feito para o seu estágio.",
+      "Avalie sua maturidade em 5 dimensões do método Destrave e receba um plano de 30 dias feito para o seu estágio.",
     url: "/diagnostico",
     images: OG_IMAGEM,
   },
