@@ -8,7 +8,7 @@ import { CtaFinal } from "@/components/sections/CtaFinal";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { ContentSlot, MediaSlot } from "@/components/ui/MediaSlot";
 import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
-import { SITE, wa } from "@/lib/site";
+import { SITE, waThascila } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Social Media Ousado | Seu primeiro trabalho pago em 4 semanas · com Tháscila Lawanda",
@@ -257,7 +257,9 @@ const FAQ: FaqItem[] = [
 ];
 
 export default function SocialMediaOusadoPage() {
-  const atendimento = wa("escola", "Social Media Ousado (turma de fim de ano)");
+  const atendimento = waThascila(
+    "Oi, Tháscila! Quero saber sobre o curso Social Media Ousado (turma de fim de ano).",
+  );
   const inscricaoHref = INSCRICAO_LINK ?? atendimento;
 
   const cursoJsonLd = {

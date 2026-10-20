@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
@@ -9,7 +9,7 @@ import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { ContentSlot } from "@/components/ui/MediaSlot";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
-import { GRUPO_MAPA_UGC, SITE, waAulaoUgc } from "@/lib/site";
+import { SITE, waAulaoUgc } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Aulão Mapa do UGC | Sábado, 7/nov, ao vivo com a Juh Araújo",
@@ -25,8 +25,8 @@ export const metadata: Metadata = {
  * de 1º/08 e usava o Método MAPA por letras — o blueprint trocou pelas
  * 4 rotas (Perfil, Portfólio, Prospecção, Plataformas).
  *
- * Toda CTA principal cai no grupo de WhatsApp: o checkout ainda não foi
- * escolhido (Hotmart ou Kiwify) e o link do lote sai primeiro no grupo.
+ * Toda CTA principal cai no WhatsApp da Juh (pedido de 19/10/2026): o checkout
+ * ainda não foi escolhido (Hotmart ou Kiwify).
  * O pitch do curso de R$197 e a mentoria **não** aparecem aqui de propósito —
  * regra do blueprint: o aulão termina com uma única oferta, feita ao vivo.
  */
@@ -36,7 +36,7 @@ const LOTES = [
     nome: "Lote 1",
     preco: "R$ 37",
     quando: "De 26 a 30/out",
-    nota: "Abre na segunda, 26/out. O link sai primeiro no grupo.",
+    nota: "Abre na segunda, 26/out.",
   },
   {
     nome: "Lote 2",
@@ -156,7 +156,7 @@ const FAQ_TEXTO = [
   },
   {
     q: "Quanto custa?",
-    a: "Lote 1: R$37, de 26 a 30 de outubro. Lote 2: R$47, de 1º a 6 de novembro. As vendas fecham no dia 6 ou quando a sala lotar. O link de cada lote sai primeiro no grupo do Mapa do UGC.",
+    a: "Lote 1: R$37, de 26 a 30 de outubro. Lote 2: R$47, de 1º a 6 de novembro. As vendas fecham no dia 6 ou quando a sala lotar.",
   },
   {
     q: "Preciso ser influenciadora pra participar?",
@@ -201,9 +201,9 @@ const FAQ: FaqItem[] = [
 ];
 
 export default function AulaoUgcPage() {
-  const grupoHref = GRUPO_MAPA_UGC;
+  // Todas as CTAs falam direto com a Juh (pedido de 19/10/2026).
   const juhHref = waAulaoUgc(
-    "Oi, Juh! Tenho uma dúvida sobre o Aulão Mapa do UGC de 7/11.",
+    "Oi, Juh! Quero garantir minha vaga no Aulão Mapa do UGC de 7/11.",
   );
 
   const eventoJsonLd = {
@@ -273,11 +273,11 @@ export default function AulaoUgcPage() {
           />
         </div>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <a href={grupoHref} className="btn btn-primary">
-            Entrar no grupo do Mapa do UGC <ArrowRight size={16} />
+          <a href={juhHref} className="btn btn-primary">
+            Falar com a Juh no WhatsApp <ArrowRight size={16} />
           </a>
           <span className="font-mono text-xs text-cinza-ink">
-            Lote 1 a R$37 abre em 26/out · o link sai primeiro no grupo
+            Lote 1 a R$37 abre em 26/out · conversa direto com a Juh
           </span>
         </div>
       </PageHero>
@@ -575,11 +575,11 @@ export default function AulaoUgcPage() {
           </div>
           <Reveal delay={0.12}>
             <div className="mt-10 flex flex-col items-center gap-3">
-              <a href={grupoHref} className="btn btn-primary">
-                Entrar no grupo e receber o link <ArrowRight size={16} />
+              <a href={juhHref} className="btn btn-primary">
+                Falar com a Juh e garantir meu lugar <ArrowRight size={16} />
               </a>
               <span className="font-mono text-xs text-cinza-ink">
-                Grupo gratuito no WhatsApp · sem spam, só o Mapa do UGC
+                Conversa direto no WhatsApp da Juh · sem spam
               </span>
             </div>
           </Reveal>
@@ -608,16 +608,11 @@ export default function AulaoUgcPage() {
             <span className="text-amarelo">abre o mapa inteiro</span>
           </>
         }
-        lead="Entra no grupo do Mapa do UGC: é lá que o link do lote 1 sai primeiro, em 26/out, junto com os avisos e os conteúdos de aquecimento da Juh."
-        ctaLabel="Entrar no grupo do Mapa do UGC"
-        href={grupoHref}
+        lead="Chama a Juh no WhatsApp pra garantir seu lugar e tirar suas dúvidas. O lote 1 abre em 26/out."
+        ctaLabel="Falar com a Juh no WhatsApp"
+        href={juhHref}
         waveColor="var(--paper)"
-        secondary={
-          <a href={juhHref} className="btn btn-secondary">
-            <MessageCircle size={16} /> Tirar dúvida com a Juh
-          </a>
-        }
-        microcopy="O botão principal abre o grupo no WhatsApp. O segundo fala direto com a Juliana Araújo."
+        microcopy="O botão abre a conversa direto com a Juliana Araújo no WhatsApp."
       />
     </>
   );

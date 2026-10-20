@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { OG_IMAGEM, wa } from "@/lib/site";
+import { OG_IMAGEM, waThascila } from "@/lib/site";
 import { PageHero } from "@/components/sections/PageHero";
 import { QuizArea } from "@/components/diagnostico-area/QuizArea";
 import { DIAGNOSTICO_SOCIAL_MEDIA } from "@/lib/diagnostico-social-media";
@@ -37,7 +37,9 @@ export default function DiagnosticoSocialMediaPage() {
         <div className="container-site relative max-w-4xl">
           <QuizArea
             cfg={DIAGNOSTICO_SOCIAL_MEDIA}
-            waHref={wa("escola", "Social Media Ousado")}
+            waHref={waThascila(
+              "Oi, Tháscila! Fiz o Diagnóstico de Social Media e quero tirar dúvidas sobre o curso Social Media Ousado.",
+            )}
           />
         </div>
       </section>

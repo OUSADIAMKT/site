@@ -93,6 +93,32 @@ export function waAulaoUgc(
 }
 
 /**
+ * Número da Tháscila Lawanda, mentora do Social Media Ousado. Recebe o
+ * atendimento do curso Social Media Ousado, da Agência e do Diagnóstico de
+ * Social Media (pedido de 19/10/2026). Informado como 91 9381-4449; o 9 extra
+ * na frente segue o mesmo padrão do número da Juh (93 9228-2674 → 93 99228-2674).
+ */
+export const WHATSAPP_THASCILA = "5591993814449";
+
+/** Link de WhatsApp da Tháscila, com a mensagem já preenchida. */
+export function waThascila(
+  texto = "Oi, Tháscila! Quero saber sobre o Social Media Ousado.",
+) {
+  return `https://wa.me/${WHATSAPP_THASCILA}?text=${encodeURIComponent(texto)}`;
+}
+
+/**
+ * WhatsApp de atendimento de um curso: UGC Creator cai na Juh, Social Media
+ * Ousado na Tháscila e os demais no atendimento geral da Ousadia.
+ */
+export function waCurso(slug: string, nome: string) {
+  const texto = `Oi! Quero saber sobre o curso ${nome}.`;
+  if (slug === "ugc-creator") return waAulaoUgc(texto);
+  if (slug === "social-media-ousado") return waThascila(texto);
+  return wa("escola", nome);
+}
+
+/**
  * Grupo de WhatsApp "Mapa do UGC" da Juh — sala de espera do aulão de 7/nov.
  * É ali que o link de cada lote sai primeiro (blueprint de lançamento,
  * 03/10/2026), por isso as CTAs de `/aulao-ugc` caem no grupo e não no

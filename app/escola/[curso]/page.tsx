@@ -8,7 +8,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CtaFinal } from "@/components/sections/CtaFinal";
 import { FaqList } from "@/components/sections/Faq";
 import { MediaSlot, ContentSlot } from "@/components/ui/MediaSlot";
-import { CURSOS, getCurso, wa } from "@/lib/site";
+import { CURSOS, getCurso, waCurso } from "@/lib/site";
 import { getConteudo } from "@/lib/cursos-conteudo";
 
 /** Cursos com landing própria em `app/escola/<slug>/` — a rota estática ganha. */
@@ -40,7 +40,7 @@ export default async function CursoPage({
   if (!c) notFound();
 
   const k = getConteudo(c.slug);
-  const waHref = wa("escola", c.nome);
+  const waHref = waCurso(c.slug, c.nome);
 
   const courseJsonLd = {
     "@context": "https://schema.org",

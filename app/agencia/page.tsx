@@ -7,7 +7,7 @@ import { ContentSlot } from "@/components/ui/MediaSlot";
 import { CasesVitrine } from "@/components/sections/Cases";
 import { PropostaForm } from "@/components/forms/PropostaForm";
 import { GrafismoDiamonds, RiverLines } from "@/components/ui/Motifs";
-import { wa } from "@/lib/site";
+import { waThascila } from "@/lib/site";
 
 export const metadata: Metadata = {
   title: "Agência Ousadia | Marketing que vende para marcas da região",
@@ -71,7 +71,7 @@ export default function AgenciaPage() {
         }
         lead="Para marcas que querem comunicar com alma e vender com método. Estratégia, creators locais e conteúdo com identidade, medido por resultado, não por estética de portfólio."
       >
-        <a href={wa("agencia")} className="btn btn-primary">
+        <a href={waThascila("Oi, Tháscila! Represento uma marca e quero uma proposta da Agência Ousadia.")} className="btn btn-primary">
           Solicitar proposta <ArrowRight size={16} />
         </a>
       </PageHero>
@@ -163,7 +163,7 @@ export default function AgenciaPage() {
             <p className="text-body mt-5">
               Prefere ir direto?{" "}
               <a
-                href={wa("agencia")}
+                href={waThascila("Oi, Tháscila! Represento uma marca e quero uma proposta da Agência Ousadia.")}
                 className="text-amarelo underline underline-offset-4"
               >
                 Chama no WhatsApp
