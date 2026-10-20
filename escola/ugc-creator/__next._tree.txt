@@ -8,4 +8,4 @@
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"curso","t":"d","k":"ugc-creator","s":["destrave","ia-para-iniciantes","social-media-ousado"]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"escola","h":64,"c":"$Q2"}]]
-0:{"b":"e890d87326098381b458be5a89354a46ca0cd723","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"59339f2ff9f2ccf39d6ffa7f616f8a573ace800b","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
