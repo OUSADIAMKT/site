@@ -206,7 +206,7 @@ export const mdxComponents = {
     const cor = {
       base: "var(--ink)",
       roxo: "#100a1c",
-      verde: "#091c13",
+      verde: "#272b00",
       marfim: "var(--paper)",
     } as const;
     return (

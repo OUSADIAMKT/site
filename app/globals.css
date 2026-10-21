@@ -922,18 +922,18 @@ body:has(main div[data-tema="vermelho"]) header {
   --chart-2: #b9a5e8;
 }
 [data-tom="verde"] {
-  --ink-void: #05130d;
-  --ink-deep: #091c13;
-  --ink: #0e271a;
+  --ink-void: #1c1f00;
+  --ink-deep: #272b00;
+  --ink: #333800;
   --amarelo: #3fd08f;
   --amarelo-soft: #7fe0b4;
   --floresta: #3fd08f;
   --rio: #7fe0b4;
   --rio-soft: #a6ebcb;
   --cinza-ink: #9dc0ae;
-  --card: #0e271a;
-  --muted: #0e271a;
-  background: #091c13;
+  --card: #333800;
+  --muted: #333800;
+  background: #272b00;
   color: var(--foreground);
   --chart-1: #3fd08f;
   --chart-2: #fff1d6;
