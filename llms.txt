@@ -1,0 +1,31 @@
+# Ousadia Marketing
+
+> Primeira Agência Escola de Marketing do Norte do Brasil, com sede em Altamira, PA. Plataforma de Creators da Amazônia: cursos, mentoria, agência e comunidade para quem quer vender com estratégia, criatividade e IA, a partir da Amazônia.
+
+Slogan: "Por um marketing maior." Contato: contato@ousadiamarketing.com.br.
+
+## Páginas principais
+
+- [Início](https://ousadiamarketing.com.br/): A primeira Agência Escola de Marketing do Norte do Brasil. Cursos, mentorias e comunidade para quem quer parar de postar no escuro e começar a vender com estratégia, criatividade e IA.
+- [Sobre](https://ousadiamarketing.com.br/sobre/): Por que a primeira Agência Escola de Marketing do Norte existe, e por que ela tinha que nascer aqui. A história do Jackson, o manifesto e os valores da Ousadia.
+- [Escola Ousadia](https://ousadiamarketing.com.br/escola/): Curso da Ousadia não termina com certificado na gaveta. Termina com projeto real publicado, perfil reposicionado e a primeira venda a caminho.
+- [Mentoria](https://ousadiamarketing.com.br/mentoria/): Acompanhamento direto com o Jackson e o time: posicionamento, conteúdo, estratégia e venda desenhados pra você, não pra todo mundo. Vagas limitadas, aplicação obrigatória.
+- [Agência](https://ousadiamarketing.com.br/agencia/): Estratégia, creators locais e conteúdo com identidade, medido por resultado, não por estética de portfólio.
+- [Portfólio](https://ousadiamarketing.com.br/portfolio/): Campanhas de UGC, institucionais gravados em campo e turmas presenciais: o que a Ousadia já entregou para marcas, projetos e pessoas da Amazônia.
+- [Comunidade](https://ousadiamarketing.com.br/comunidade/): Encontros, conteúdo exclusivo, networking real e bastidor entre quem está construindo.
+- [Diagnóstico de Maturidade Digital](https://ousadiamarketing.com.br/diagnostico/): 12 perguntas, ~4 minutos. Em que estágio da Escada Amazônica sua marca está (posicionamento, influência, planejamento, conteúdo e performance) e qual é o próximo passo.
+- [Diagnóstico de IA](https://ousadiamarketing.com.br/diagnostico/ia/): 10 perguntas, ~4 minutos, resultado na hora: seu nível com a IA, um painel das 4 competências e um plano de 30 dias.
+- [Diagnóstico de Social Media](https://ousadiamarketing.com.br/diagnostico/social-media/): 10 perguntas, ~4 minutos, resultado na hora: seu momento como social media e um plano de 30 dias.
+- [Conteúdo](https://ousadiamarketing.com.br/conteudo/): Artigos, podcast e cases, de dentro da floresta.
+- [Contato](https://ousadiamarketing.com.br/contato/): WhatsApp com atendimento humano, resposta em até 1h útil, ou formulário.
+
+## Cursos
+
+- [Social Media Ousado](https://ousadiamarketing.com.br/escola/social-media-ousado/): Em 4 semanas, do celular parado pro primeiro trabalho pago de social media, atendendo o comércio do seu bairro.
+- [UGC Creator](https://ousadiamarketing.com.br/escola/ugc-creator/): Crie o conteúdo que marcas pagam pra ter, sem precisar de milhões de seguidores.
+- [IA para iniciantes](https://ousadiamarketing.com.br/escola/ia-para-iniciantes/): Do zero à prática em 30 horas: use IA no trabalho com autonomia e senso crítico, sem programação e só com planos gratuitos.
+- [Destrave](https://ousadiamarketing.com.br/escola/destrave/): O treinamento anti-vergonha de gravar. Técnica, não motivação.
+
+## Artigos e conteúdos
+
+- [Bioeconomia: o que é e por que a Amazônia está no centro](https://ousadiamarketing.com.br/conteudo/bioeconomia-o-que-e/): O que é bioeconomia, de onde veio o termo, o que diz a lei brasileira e por que açaí, cacau e castanha colocam a Amazônia no centro da conversa.

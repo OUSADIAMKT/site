@@ -2,4 +2,19 @@ User-Agent: *
 Allow: /
 Disallow: /obrigado
 
+User-Agent: OAI-SearchBot
+User-Agent: ChatGPT-User
+User-Agent: GPTBot
+User-Agent: Claude-SearchBot
+User-Agent: Claude-User
+User-Agent: ClaudeBot
+User-Agent: PerplexityBot
+User-Agent: Perplexity-User
+User-Agent: Google-Extended
+User-Agent: Applebot-Extended
+User-Agent: Bingbot
+User-Agent: CCBot
+Allow: /
+Disallow: /obrigado
+
 Sitemap: https://ousadiamarketing.com.br/sitemap.xml
