@@ -910,3 +910,156 @@ body:has(main div[data-tema="vermelho"]) header {
     }
   }
 }
+/* Seções de cor dentro de um post (`<Secao tom="...">` no MDX).
+   Só três tons, os da identidade da Home: roxo, verde escuro e marfim (o marfim
+   reaproveita `.fold-light`). Usa `data-tom`, e não `data-tema`, de propósito:
+   os seletores `data-tema` também pintam o menu via :has(), e aqui só a faixa
+   do post muda de cor. `--chart-*` são as cores dos gráficos de cada tom. */
+[data-tom="roxo"] {
+  background: #100a1c;
+  color: var(--foreground);
+  --chart-1: #23b26f;
+  --chart-2: #b9a5e8;
+}
+[data-tom="verde"] {
+  --ink-void: #05130d;
+  --ink-deep: #091c13;
+  --ink: #0e271a;
+  --amarelo: #3fd08f;
+  --amarelo-soft: #7fe0b4;
+  --floresta: #3fd08f;
+  --rio: #7fe0b4;
+  --rio-soft: #a6ebcb;
+  --cinza-ink: #9dc0ae;
+  --card: #0e271a;
+  --muted: #0e271a;
+  background: #091c13;
+  color: var(--foreground);
+  --chart-1: #3fd08f;
+  --chart-2: #fff1d6;
+}
+[data-tom="marfim"] {
+  --chart-1: #128a52;
+  --chart-2: #241044;
+  /* `.text-foreground` (números, títulos dos cartões) fica escuro no marfim. */
+  --foreground: #1a0b2e;
+  --border: rgba(26, 11, 46, 0.12);
+}
+/* Subtítulo no marfim: tarja amarela com texto escuro, para o contraste. */
+[data-tom="marfim"] h3 {
+  display: block;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.25em 0.6em;
+  background: var(--amarelo);
+  color: #1a0b2e;
+  border-radius: 0.35em;
+}
+[data-tom="marfim"] h3 a {
+  color: inherit;
+}
+
+/* Post que não quer o botão flutuante do WhatsApp. */
+body:has([data-sem-flutuante]) [data-whatsapp-float] {
+  display: none;
+}
+
+/* `<Caderno>` nos posts: página de caderno de dever de casa, em marfim sobre a
+   faixa roxa. Linhas de 32px alinhadas ao line-height do texto; o exercício usa
+   a fonte manuscrita (`--font-manuscrita`, carregada na página do post). */
+.caderno {
+  position: relative;
+  margin: 2.5rem 0;
+  padding: 0.6rem;
+  border: 3px solid #fff1d6;
+  border-radius: 1.25rem;
+}
+.caderno-pagina {
+  position: relative;
+  padding: 1.75rem 1.25rem 2rem 4.25rem;
+  color: #241044;
+  background-color: #fff1d6;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    transparent 0 31px,
+    rgba(36, 16, 68, 0.16) 31px 32px
+  );
+  background-position: 0 3.6rem;
+  border: 2px solid #241044;
+  border-radius: 0.75rem;
+  box-shadow: 6px 6px 0 #ffc61a;
+}
+/* Margem do caderno */
+.caderno-pagina::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 3.2rem;
+  width: 2px;
+  background: #8a6bd1;
+  opacity: 0.6;
+}
+/* Furos da espiral */
+.caderno-espiral {
+  position: absolute;
+  top: 1rem;
+  bottom: 1rem;
+  left: 0.8rem;
+  width: 1.2rem;
+  background: radial-gradient(circle at center, #100a1c 0 0.4rem, transparent 0.44rem)
+    0 0 / 1.2rem 2.4rem repeat-y;
+}
+.caderno-etiqueta {
+  position: absolute;
+  top: -0.85rem;
+  right: 1.25rem;
+  padding: 0.2rem 0.75rem;
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #1a0b2e;
+  background: #ffc61a;
+  border: 2px solid #241044;
+  transform: rotate(3deg);
+}
+.caderno h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #241044;
+}
+.caderno p {
+  margin-top: 0;
+  color: #241044;
+  line-height: 32px;
+}
+.caderno-exercicio,
+.caderno-exercicio p,
+.caderno-exercicio strong {
+  font-family: var(--font-manuscrita), "Segoe Script", cursive;
+  font-size: 1.65rem;
+  line-height: 32px;
+  color: #3a1c8a;
+  font-weight: 500;
+}
+.caderno-exercicio {
+  position: relative;
+  margin-top: 32px;
+  padding-left: 2.2rem;
+  transform: rotate(-0.6deg);
+}
+.caderno-exercicio::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.4rem;
+  width: 1.4rem;
+  height: 1.4rem;
+  border: 2px solid #3a1c8a;
+  border-radius: 0.25rem;
+}
+.caderno-exercicio strong {
+  font-weight: 700;
+  background: linear-gradient(transparent 55%, #ffc61a 55%);
+}

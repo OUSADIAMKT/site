@@ -3,6 +3,15 @@ import Image from "next/image";
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { ArrowRight } from "lucide-react";
 import { wa, type WaContext } from "@/lib/site";
+import { WaveDivider } from "@/components/ui/WaveDivider";
+import {
+  Duvida,
+  GraficoBarras,
+  GraficoRosca,
+  Kpi,
+  Kpis,
+  Marcos,
+} from "@/components/mdx/graficos";
 
 /* ------------------------------------------------------------------ *
  * Elementos de markdown, no tema Ousadia Amazônia
@@ -32,6 +41,12 @@ function Anchor({ href = "", ...props }: ComponentPropsWithoutRef<"a">) {
 
 export const mdxComponents = {
   a: Anchor,
+  Duvida,
+  GraficoBarras,
+  GraficoRosca,
+  Kpi,
+  Kpis,
+  Marcos,
 
   h2: (props: ComponentPropsWithoutRef<"h2">) => (
     <h2
@@ -115,20 +130,23 @@ export const mdxComponents = {
 
   img: ({ src, alt, ...props }: ComponentPropsWithoutRef<"img">) => {
     if (typeof src !== "string") return null;
+    // Sai da coluna de leitura: infográfico em 768px fica ilegível.
     return (
-      <figure className="my-9">
-        <Image
-          src={src}
-          alt={alt ?? ""}
-          width={1200}
-          height={675}
-          sizes="(max-width: 768px) 100vw, 768px"
-          className="w-full rounded-2xl border border-border"
-          {...(props as Record<string, unknown>)}
-        />
+      <figure className="relative left-1/2 my-9 w-[min(1100px,92vw)] -translate-x-1/2">
+        <a href={src} target="_blank" rel="noopener noreferrer">
+          <Image
+            src={src}
+            alt={alt ?? ""}
+            width={1200}
+            height={675}
+            sizes="(max-width: 1100px) 92vw, 1100px"
+            className="w-full rounded-2xl border border-border"
+            {...(props as Record<string, unknown>)}
+          />
+        </a>
         {alt ? (
           <figcaption className="mt-3 text-center font-mono text-xs text-cinza-ink">
-            {alt}
+            Toque na imagem para ampliar
           </figcaption>
         ) : null}
       </figure>
@@ -168,6 +186,68 @@ export const mdxComponents = {
       <span className="slot-key">pendente · </span>
       <span className="[&>p]:inline">{children}</span>
     </div>
+  ),
+
+  /**
+   * Faixa de cor de ponta a ponta para um assunto do post, no ritmo da Home:
+   * só a onda no topo (na cor da faixa anterior, em `de`), sem figuras. Só os
+   * tons da identidade: roxo, verde escuro e marfim. O texto continua na coluna de leitura; só o fundo sai dela.
+   */
+  Secao: ({
+    tom = "verde",
+    de = "base",
+    children,
+  }: {
+    tom?: "roxo" | "verde" | "marfim";
+    /** Tom da faixa de cima, para a onda emendar sem emenda. */
+    de?: "base" | "roxo" | "verde" | "marfim";
+    children: ReactNode;
+  }) => {
+    const cor = {
+      base: "var(--ink)",
+      roxo: "#100a1c",
+      verde: "#091c13",
+      marfim: "var(--paper)",
+    } as const;
+    return (
+      <div
+        data-tom={tom}
+        className={`${tom === "marfim" ? "fold-light " : ""}relative left-1/2 -ml-[50vw] w-screen overflow-hidden pb-16 pt-28`}
+      >
+        <WaveDivider
+          className="absolute inset-x-0 top-0 rotate-180"
+          color={cor[de]}
+        />
+        <div className="relative mx-auto max-w-3xl px-5 [&>:first-child]:mt-0 [&>:first-child>:first-child]:mt-0">
+          {children}
+        </div>
+      </div>
+    );
+  },
+
+  /** Página de caderno de dever de casa, com o exercício à mão. */
+  Caderno: ({
+    titulo = "Para refletir",
+    children,
+  }: {
+    titulo?: string;
+    children: ReactNode;
+  }) => (
+    <section className="caderno">
+      <div className="caderno-pagina">
+        <span aria-hidden className="caderno-espiral" />
+        <span aria-hidden className="caderno-etiqueta">
+          dever de casa
+        </span>
+        <h2 className="font-display text-2xl">{titulo}</h2>
+        {children}
+      </div>
+    </section>
+  ),
+
+  /** Exercício escrito à mão dentro do `<Caderno>`. */
+  Exercicio: ({ children }: { children: ReactNode }) => (
+    <div className="caderno-exercicio">{children}</div>
   ),
 
   /** Fecha o post no WhatsApp — regra de ouro do PRD 6.6. */

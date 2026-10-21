@@ -1,16 +1,23 @@
 import Link from "next/link";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { Caveat } from "next/font/google";
 import { notFound } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { CtaFinal } from "@/components/sections/CtaFinal";
-import { MediaSlot } from "@/components/ui/MediaSlot";
 import { NewsletterForm } from "@/components/forms/NewsletterForm";
 import { KeneStrip } from "@/components/ui/graphics/Kene";
+import { AudioPlayer } from "@/components/ui/AudioPlayer";
 import { MdxContent } from "@/components/mdx/MdxContent";
 import { wa, OG_IMAGEM, SITE } from "@/lib/site";
 import { POSTS, getPost, relacionados, formatarData } from "@/lib/posts";
+
+/** Letra de caderno, usada só no `<Caderno>` dos posts. */
+const manuscrita = Caveat({
+  variable: "--font-manuscrita",
+  subsets: ["latin"],
+});
 
 export function generateStaticParams() {
   return POSTS.map((p) => ({ slug: p.slug }));
@@ -69,11 +76,32 @@ export default async function PostPage({
         dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
       />
 
-      <article>
+      <article className={manuscrita.variable}>
         {/* Cabeçalho */}
         <header className="relative overflow-hidden">
-          <div className="absolute inset-0 grid-lines opacity-50" aria-hidden />
-          <div className="container-site relative section-padding max-w-3xl">
+          {post.capa ? (
+            <>
+              <Image
+                src={post.capa.src}
+                alt={post.capaAlt ?? ""}
+                fill
+                sizes="100vw"
+                priority
+                placeholder={post.capa.blurDataURL ? "blur" : undefined}
+                blurDataURL={post.capa.blurDataURL}
+                className="object-cover"
+              />
+              <div
+                className="absolute inset-0 bg-gradient-to-t from-ink-deep via-ink-deep/75 to-ink-deep/35"
+                aria-hidden
+              />
+            </>
+          ) : (
+            <div className="absolute inset-0 grid-lines opacity-50" aria-hidden />
+          )}
+          <div
+            className={`container-site relative section-padding max-w-3xl ${post.capa ? "pt-40 md:pt-56" : ""}`}
+          >
             <Reveal>
               <nav
                 aria-label="Trilha de navegação"
@@ -102,31 +130,23 @@ export default async function PostPage({
           <KeneStrip motif="iso" height={18} className="text-amarelo opacity-70" />
         </header>
 
+        {post.audio ? (
+          <section className="bg-ink-void py-6">
+            <div className="container-site max-w-3xl">
+              <AudioPlayer
+                src={post.audio}
+                titulo={post.audioTitulo ?? "Ouça este conteúdo"}
+              />
+            </div>
+          </section>
+        ) : null}
+
+        {post.semFlutuante ? <span hidden data-sem-flutuante /> : null}
+
         {/* Corpo */}
         <section className="relative overflow-hidden bg-ink section-padding">
           <div className="container-site relative max-w-3xl">
-            <Reveal>
-              {post.capa ? (
-                <Image
-                  src={post.capa.src}
-                  alt={post.capaAlt ?? ""}
-                  width={post.capa.width}
-                  height={post.capa.height}
-                  placeholder={post.capa.blurDataURL ? "blur" : undefined}
-                  blurDataURL={post.capa.blurDataURL}
-                  sizes="(max-width: 768px) 100vw, 768px"
-                  priority
-                  className="aspect-video w-full rounded-2xl border border-border object-cover"
-                />
-              ) : (
-                <MediaSlot
-                  ratio="aspect-video"
-                  label="Capa do post: imagem real relacionada. Zero stock."
-                />
-              )}
-            </Reveal>
-
-            {post.toc.length > 1 ? (
+            {post.toc.length > 1 && !post.semSumario ? (
               <Reveal delay={0.06}>
                 <nav aria-label="Neste post" className="card-surface mt-10 p-6">
                   <p className="font-mono text-[0.7rem] uppercase tracking-widest text-amarelo">

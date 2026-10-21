@@ -32,6 +32,13 @@ const posts = defineCollection({
       /** Capa real. Sem stock: enquanto não existir, a lista mostra o slot. */
       capa: s.image().optional(),
       capaAlt: s.string().optional(),
+      /** Podcast do post: caminho do MP3. Aparece como player sob o banner. */
+      audio: s.string().optional(),
+      audioTitulo: s.string().optional(),
+      /** Esconde o botão flutuante do WhatsApp só nesta página. */
+      /** Esconde o sumário "Neste post" do começo. */
+      semSumario: s.boolean().default(false),
+      semFlutuante: s.boolean().default(false),
       tags: s.array(s.string()).default([]),
       destaque: s.boolean().default(false),
       /** Rascunho: sai do ar em produção, aparece em `next dev`. */
