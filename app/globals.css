@@ -925,17 +925,17 @@ body:has(main div[data-tema="vermelho"]) header {
   --ink-void: #1c1f00;
   --ink-deep: #272b00;
   --ink: #333800;
-  --amarelo: #3fd08f;
-  --amarelo-soft: #7fe0b4;
-  --floresta: #3fd08f;
-  --rio: #7fe0b4;
-  --rio-soft: #a6ebcb;
-  --cinza-ink: #9dc0ae;
+  --amarelo: #c5d44f;
+  --amarelo-soft: #dbe58a;
+  --floresta: #c5d44f;
+  --rio: #dbe58a;
+  --rio-soft: #ecf1bd;
+  --cinza-ink: #c4c59c;
   --card: #333800;
   --muted: #333800;
   background: #272b00;
   color: var(--foreground);
-  --chart-1: #3fd08f;
+  --chart-1: #c5d44f;
   --chart-2: #fff1d6;
 }
 [data-tom="marfim"] {
