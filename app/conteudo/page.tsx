@@ -6,6 +6,7 @@ import { wa } from "@/lib/site";
 import { POSTS, paraLista } from "@/lib/posts";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/conteudo" },
   title: "Conteúdo | Estratégia, bastidor e provocação útil",
   description:
     "O que a gente aprende fazendo, publicado sem filtro de guru. Artigos, podcast e cases, de dentro da floresta.",

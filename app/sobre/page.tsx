@@ -11,6 +11,7 @@ import { wa } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/sobre" },
   title: "Sobre a Ousadia | A história por trás do movimento",
   description:
     "Por que a primeira Agência Escola de Marketing do Norte existe, e por que ela tinha que nascer aqui. A história do Jackson, o manifesto e os valores da Ousadia.",

@@ -23,6 +23,7 @@ import {
 import { STATS, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/" },
   title:
     "Ousadia Marketing | Agência Escola e Plataforma de Creators da Amazônia",
   description:

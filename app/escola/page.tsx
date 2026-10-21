@@ -10,6 +10,7 @@ import { Tree } from "@/components/ui/Motifs";
 import { CURSOS, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/escola" },
   title: "Escola Ousadia | Cursos práticos de marketing e conteúdo",
   description:
     "Curso da Ousadia não termina com certificado na gaveta. Termina com projeto real publicado, perfil reposicionado e a primeira venda a caminho.",

@@ -29,21 +29,47 @@ export async function generateMetadata({
   const { slug } = await params;
   const post = getPost(slug);
   if (!post) return {};
+  const imagens = post.capa
+    ? [
+        {
+          url: post.capa.src,
+          width: post.capa.width,
+          height: post.capa.height,
+          alt: post.capaAlt ?? post.titulo,
+        },
+      ]
+    : OG_IMAGEM;
   return {
     title: post.titulo,
     description: post.resumo,
+    keywords: post.tags,
+    authors: [{ name: post.autor, url: SITE.url }],
     alternates: { canonical: `/conteudo/${post.slug}` },
     ...(post.pendente ? { robots: { index: false, follow: true } } : {}),
     openGraph: {
       title: post.titulo,
       description: post.resumo,
       type: "article",
-      url: `${SITE.url}/conteudo/${post.slug}`,
+      url: `${SITE.url}/conteudo/${post.slug}/`,
       ...(post.data ? { publishedTime: post.data } : {}),
-      images: post.capa ? [{ url: post.capa.src }] : OG_IMAGEM,
+      ...(post.atualizado ? { modifiedTime: post.atualizado } : {}),
+      authors: [post.autor],
+      tags: post.tags,
+      images: imagens,
+    },
+    // Sem isto o Twitter/X herda a imagem genérica do layout, não a capa.
+    twitter: {
+      card: "summary_large_image",
+      title: post.titulo,
+      description: post.resumo,
+      images: imagens,
     },
   };
 }
+
+/** Caminho do site (`/conteudo/...`) vira URL completa; URL externa passa. */
+const absoluta = (caminho: string) =>
+  caminho.startsWith("/") ? `${SITE.url}${caminho}` : caminho;
 
 export default async function PostPage({
   params,
@@ -55,25 +81,95 @@ export default async function PostPage({
   const outros = relacionados(post);
   const tempoLeitura = post.metadata.readingTime;
 
-  const articleJsonLd = {
+  /**
+   * Dados estruturados do post, num só `@graph`: o artigo (com o podcast
+   * como `audio`), a trilha de navegação e, se o texto tiver `<Duvida>`, as
+   * perguntas frequentes. Autor e editora apontam para a organização definida
+   * no layout pelo `@id`.
+   */
+  const url = `${SITE.url}/conteudo/${post.slug}/`;
+  const organizacao = { "@id": `${SITE.url}/#organizacao` };
+  const jsonLd = {
     "@context": "https://schema.org",
-    "@type": "Article",
-    headline: post.titulo,
-    description: post.resumo,
-    author: { "@type": "Organization", name: post.autor },
-    publisher: { "@type": "Organization", name: "Ousadia Marketing" },
-    inLanguage: "pt-BR",
-    mainEntityOfPage: `${SITE.url}/conteudo/${post.slug}`,
-    ...(post.data ? { datePublished: post.data } : {}),
-    ...(post.atualizado ? { dateModified: post.atualizado } : {}),
-    ...(post.capa ? { image: `${SITE.url}${post.capa.src}` } : {}),
+    "@graph": [
+      {
+        "@type": post.tipo === "Podcast" ? "PodcastEpisode" : "Article",
+        "@id": `${url}#artigo`,
+        headline: post.titulo,
+        description: post.resumo,
+        url,
+        mainEntityOfPage: url,
+        inLanguage: "pt-BR",
+        isAccessibleForFree: true,
+        author:
+          post.autor === SITE.name
+            ? organizacao
+            : { "@type": "Person", name: post.autor },
+        publisher: organizacao,
+        isPartOf: { "@id": `${SITE.url}/#site` },
+        ...(post.tags.length ? { keywords: post.tags.join(", ") } : {}),
+        articleSection: post.tipo,
+        wordCount: post.metadata.wordCount,
+        ...(post.data ? { datePublished: post.data } : {}),
+        ...(post.atualizado || post.data
+          ? { dateModified: post.atualizado ?? post.data }
+          : {}),
+        ...(post.capa
+          ? {
+              image: {
+                "@type": "ImageObject",
+                url: `${SITE.url}${post.capa.src}`,
+                width: post.capa.width,
+                height: post.capa.height,
+              },
+            }
+          : {}),
+        ...(post.audio
+          ? {
+              audio: {
+                "@type": "AudioObject",
+                name: post.audioTitulo ?? post.titulo,
+                contentUrl: absoluta(post.audio),
+                encodingFormat: "audio/mpeg",
+                inLanguage: "pt-BR",
+              },
+            }
+          : {}),
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Início", item: `${SITE.url}/` },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "Conteúdo",
+            item: `${SITE.url}/conteudo/`,
+          },
+          { "@type": "ListItem", position: 3, name: post.titulo, item: url },
+        ],
+      },
+      ...(post.faq.length
+        ? [
+            {
+              "@type": "FAQPage",
+              "@id": `${url}#duvidas`,
+              mainEntity: post.faq.map((f) => ({
+                "@type": "Question",
+                name: f.pergunta,
+                acceptedAnswer: { "@type": "Answer", text: f.resposta },
+              })),
+            },
+          ]
+        : []),
+    ],
   };
 
   return (
     <>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
       <article className={manuscrita.variable}>
@@ -117,7 +213,14 @@ export default async function PostPage({
                 {post.titulo}
               </h1>
               <p className="mt-5 font-mono text-xs uppercase tracking-wider text-cinza-ink">
-                {formatarData(post.data)} · por {post.autor}
+                {post.data ? (
+                  <time dateTime={post.data.slice(0, 10)}>
+                    {formatarData(post.data)}
+                  </time>
+                ) : (
+                  formatarData(post.data)
+                )}{" "}
+                · por {post.autor}
                 {tempoLeitura > 0 ? ` · ${tempoLeitura} min de leitura` : ""}
               </p>
               {post.rascunho ? (

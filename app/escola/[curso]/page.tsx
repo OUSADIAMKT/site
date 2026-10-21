@@ -29,6 +29,7 @@ export async function generateMetadata({
   return {
     title: `${c.nome} | Escola Ousadia`,
     description: c.promessa,
+    alternates: { canonical: `/escola/${c.slug}` },
   };
 }
 

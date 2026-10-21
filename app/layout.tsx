@@ -41,17 +41,67 @@ export const metadata: Metadata = {
     images: OG_IMAGEM,
   },
   twitter: { card: "summary_large_image", images: OG_IMAGEM },
+  // Deixa o Google mostrar imagem grande e trecho inteiro (Discover e busca).
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
+/**
+ * Quem é a Ousadia, para o Google (painel de conhecimento) e para as IAs que
+ * citam a fonte. `@id` fixo deixa os artigos apontarem para esta mesma
+ * entidade como autora e editora, em vez de repetir os dados em cada página.
+ */
 const organizationJsonLd = {
   "@context": "https://schema.org",
-  "@type": "Organization",
-  name: SITE.name,
-  url: SITE.url,
-  description:
-    "Primeira Agência Escola de Marketing do Norte do Brasil. Cursos, mentoria, agência e a comunidade Creators da Amazônia.",
-  sameAs: Object.values(SOCIAL).filter(Boolean),
-  areaServed: "BR",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${SITE.url}/#organizacao`,
+      name: SITE.name,
+      legalName: SITE.razaoSocial,
+      url: SITE.url,
+      logo: `${SITE.url}/marca/circular.png`,
+      email: SITE.email,
+      slogan: SITE.tagline,
+      description:
+        "Primeira Agência Escola de Marketing do Norte do Brasil. Cursos, mentoria, agência e a comunidade Creators da Amazônia.",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: "Rua Coronel José Porfírio, 1651, Centro",
+        addressLocality: "Altamira",
+        addressRegion: "PA",
+        postalCode: "68371-030",
+        addressCountry: "BR",
+      },
+      sameAs: Object.values(SOCIAL).filter(Boolean),
+      areaServed: "BR",
+      knowsAbout: [
+        "marketing digital",
+        "social media",
+        "UGC",
+        "inteligência artificial para negócios",
+        "Amazônia",
+        "bioeconomia",
+      ],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${SITE.url}/#site`,
+      name: SITE.name,
+      url: SITE.url,
+      inLanguage: "pt-BR",
+      publisher: { "@id": `${SITE.url}/#organizacao` },
+    },
+  ],
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

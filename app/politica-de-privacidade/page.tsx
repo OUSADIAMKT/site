@@ -4,6 +4,7 @@ import { LegalPage } from "@/components/sections/LegalPage";
 import { ENCARREGADO_DADOS, POLITICA_VERSAO, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/politica-de-privacidade" },
   title: "Política de Privacidade",
   description:
     "Como a Ousadia Marketing coleta, usa, guarda e protege os dados pessoais de quem usa o site, conforme a LGPD.",

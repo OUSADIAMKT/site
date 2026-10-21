@@ -4,6 +4,7 @@ import { LegalPage } from "@/components/sections/LegalPage";
 import { POLITICA_VERSAO, SITE } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/termos" },
   title: "Termos de Uso",
   description:
     "Condições de uso do site da Ousadia Marketing, dos diagnósticos gratuitos e das ofertas de cursos, mentorias e serviços.",

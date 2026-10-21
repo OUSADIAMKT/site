@@ -13,6 +13,15 @@ import rehypeAutolinkHeadings from "rehype-autolink-headings";
  * o corpo do post usa `<Pendente>` — nunca texto inventado nem stock photo.
  */
 
+/** Markdown curto para texto corrido: tira ênfase, links e quebras. */
+function textoPlano(md: string) {
+  return md
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, "$1")
+    .replace(/[*_`]/g, "")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 const posts = defineCollection({
   name: "Post",
   pattern: "posts/**/*.mdx",
@@ -60,7 +69,18 @@ const posts = defineCollection({
        */
       const pendente =
         corpo.replace(/<Pendente>[\s\S]*?<\/Pendente>/g, "").trim().length === 0;
-      return { ...post, slug, url: `/conteudo/${slug}`, pendente };
+      /**
+       * Perguntas dos blocos `<Duvida>` viram o JSON-LD `FAQPage` do post (ver
+       * `app/conteudo/[slug]`). Sai do próprio texto, então não tem como a
+       * marcação divergir do que o leitor vê.
+       */
+      const faq = [
+        ...corpo.matchAll(/<Duvida\s+pergunta="([^"]+)"\s*>([\s\S]*?)<\/Duvida>/g),
+      ].map(([, pergunta, resposta]) => ({
+        pergunta,
+        resposta: textoPlano(resposta),
+      }));
+      return { ...post, slug, url: `/conteudo/${slug}`, pendente, faq };
     }),
 });
 

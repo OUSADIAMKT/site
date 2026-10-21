@@ -11,6 +11,7 @@ import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
 import { wa } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/mentoria" },
   title: "Mentoria Ousadia | Posicionamento e Vendas para Creators",
   description:
     "Acompanhamento direto com o Jackson e o time: posicionamento, conteúdo, estratégia e venda desenhados pra você, não pra todo mundo. Vagas limitadas, aplicação obrigatória.",

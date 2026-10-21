@@ -8,6 +8,7 @@ import { REDES, SITE, SOCIAL, wa } from "@/lib/site";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/contato" },
   title: "Contato",
   description:
     "O caminho mais rápido é o WhatsApp: atendimento humano, resposta em até 1h útil. Se preferir, deixa recado no formulário.",

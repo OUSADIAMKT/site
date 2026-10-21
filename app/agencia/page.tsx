@@ -10,6 +10,7 @@ import { GrafismoDiamonds, RiverLines } from "@/components/ui/Motifs";
 import { waThascila } from "@/lib/site";
 
 export const metadata: Metadata = {
+  alternates: { canonical: "/agencia" },
   title: "Agência Ousadia | Marketing que vende para marcas da região",
   description:
     "Estratégia, creators locais e conteúdo com identidade, medido por resultado, não por estética de portfólio. Solicite uma proposta.",
