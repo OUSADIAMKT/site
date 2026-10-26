@@ -9,26 +9,30 @@ import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { ContentSlot } from "@/components/ui/MediaSlot";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
-import { SITE, waAulaoUgc } from "@/lib/site";
+import { GRUPO_MAPA_UGC, SITE } from "@/lib/site";
+
+/** Checkout da Imersão Mapa do UGC (HeroSpark). */
+const COMPRA_URL =
+  "https://pay.herospark.com/como-resolver-problema-e-alcancar-resultado-548651";
 
 export const metadata: Metadata = {
-  title: "Aulão Mapa do UGC | Sábado, 7/nov, ao vivo com a Juh Araújo",
+  title: "Imersão Mapa do UGC | Sábado, 7/nov, ao vivo com a Juh Araújo",
   description:
-    "Cinco horas ao vivo com Juliana Araújo, creator de Altamira com 70+ marcas atendidas: saia com perfil de UGC arrumado, portfólio no Canva e as primeiras mensagens enviadas para marcas. Sábado, 7/nov, das 15h às 20h. Lote 1 a R$37.",
-  alternates: { canonical: `${SITE.url}/aulao-ugc` },
+    "Cinco horas de imersão ao vivo com Juliana Araújo, creator de Altamira com 70+ marcas atendidas: saia com perfil de UGC arrumado, portfólio no Canva e as primeiras mensagens enviadas para marcas. Sábado, 7/nov, das 14h às 19h. Lote 1 a R$37.",
+  alternates: { canonical: `${SITE.url}/mapa-do-ugc` },
 };
 
 /**
- * Landing do Aulão Mapa do UGC, turma de 7/nov/2026. Datas, lotes e as
+ * Landing da Imersão Mapa do UGC, turma de 7/nov/2026. Datas, lotes e as
  * 4 rotas vêm do "Blueprint de Lançamento — Mapa do UGC" (03/10/2026).
  * A página antiga (`legado/social-ugc-ppc/ugc/aulao_ugc.html`) era da turma
  * de 1º/08 e usava o Método MAPA por letras — o blueprint trocou pelas
  * 4 rotas (Perfil, Portfólio, Prospecção, Plataformas).
  *
- * Toda CTA principal cai no WhatsApp da Juh (pedido de 19/10/2026): o checkout
- * ainda não foi escolhido (Hotmart ou Kiwify).
+ * A CTA principal leva ao checkout da HeroSpark; o grupo do WhatsApp fica como
+ * CTA secundária.
  * O pitch do curso de R$197 e a mentoria **não** aparecem aqui de propósito —
- * regra do blueprint: o aulão termina com uma única oferta, feita ao vivo.
+ * regra do blueprint: a imersão termina com uma única oferta, feita ao vivo.
  */
 
 const LOTES = [
@@ -73,16 +77,16 @@ const ROTAS = [
   },
 ];
 
-/** Grade do dia. O pitch das 18h45 fica de fora — é condição só ao vivo. */
+/** Grade do dia. O pitch das 17h45 fica de fora — é condição só ao vivo. */
 const AGENDA = [
-  { h: "15h00", t: "Abertura: de Altamira para 70 marcas, e as regras da tarde" },
-  { h: "15h20", t: "Rota 1 · Perfil" },
-  { h: "16h10", t: "Pausa e desafio: story “tô no Mapa do UGC”" },
-  { h: "16h20", t: "Rota 2 · Portfólio" },
-  { h: "17h10", t: "Rota 3 · Prospecção, com a primeira mensagem enviada" },
-  { h: "17h55", t: "Rota 4 · Plataformas" },
-  { h: "18h20", t: "Jackson Satoyiro: UGC como negócio" },
-  { h: "18h45", t: "Perguntas, novidades e encerramento às 20h" },
+  { h: "14h00", t: "Abertura: de Altamira para 70 marcas, e as regras da tarde" },
+  { h: "14h20", t: "Rota 1 · Perfil" },
+  { h: "15h10", t: "Pausa e desafio: story “tô no Mapa do UGC”" },
+  { h: "15h20", t: "Rota 2 · Portfólio" },
+  { h: "16h10", t: "Rota 3 · Prospecção, com a primeira mensagem enviada" },
+  { h: "16h55", t: "Rota 4 · Plataformas" },
+  { h: "17h20", t: "Jackson Satoyiro: UGC como negócio" },
+  { h: "17h45", t: "Perguntas, novidades e encerramento às 19h" },
 ];
 
 const PUBLICO = [
@@ -96,7 +100,7 @@ const PUBLICO = [
   },
   {
     t: "Quem gosta de gravar vídeos",
-    d: "Se você testa produtos, grava demonstrações ou conta histórias curtas, o aulão dá direção a essa criatividade.",
+    d: "Se você testa produtos, grava demonstrações ou conta histórias curtas, a imersão dá direção a essa criatividade.",
   },
   {
     t: "Quem mora longe dos grandes centros",
@@ -144,6 +148,8 @@ const PRINTS = [
 
 /** Depoimentos gravados no celular — Shorts, por isso o formato vertical. */
 const DEPOIMENTOS = [
+  { id: "N-q6r4jSZNU", titulo: "Depoimento da Thalia" },
+  { id: "t57qogTvwPI", titulo: "Depoimento da Sara" },
   { id: "3iVry7h2C8U", titulo: "Depoimento em vídeo de aluna do método" },
   { id: "ZQgKyvz7UOE", titulo: "Depoimento em vídeo de aluna do método" },
 ];
@@ -151,8 +157,8 @@ const DEPOIMENTOS = [
 /** Respostas em texto puro — as únicas que entram no JSON-LD (PRD 11). */
 const FAQ_TEXTO = [
   {
-    q: "Quando é o aulão?",
-    a: "Sábado, 7 de novembro de 2026, das 15h às 20h (horário de Brasília), ao vivo e online. São cinco horas em ritmo de oficina, com pausa e uma entrega a cada bloco.",
+    q: "Quando é a imersão?",
+    a: "Sábado, 7 de novembro de 2026, das 14h às 19h (horário de Brasília), ao vivo e online. São cinco horas em ritmo de oficina, com pausa e uma entrega a cada bloco.",
   },
   {
     q: "Quanto custa?",
@@ -168,7 +174,7 @@ const FAQ_TEXTO = [
   },
   {
     q: "Não tenho câmera profissional, posso participar?",
-    a: "Pode. O aulão foi pensado pra quem vai começar usando o celular. A qualidade final depende também de iluminação, áudio, roteiro e prática, e esses pontos fazem parte da aula.",
+    a: "Pode. A imersão foi pensada pra quem vai começar usando o celular. A qualidade final depende também de iluminação, áudio, roteiro e prática, e esses pontos fazem parte da aula.",
   },
   {
     q: "UGC é promessa de dinheiro rápido?",
@@ -191,7 +197,7 @@ const FAQ: FaqItem[] = [
           label="Plataforma da transmissão (Zoom, YouTube fechado ou própria) e se haverá gravação — decisões em aberto no blueprint."
         />
         <p className="mt-3">
-          O aulão é feito pra você fazer junto, ao vivo: reserve a tarde de 7/11
+          A imersão é feita pra você fazer junto, ao vivo: reserve a tarde de 7/11
           na agenda.
         </p>
       </>
@@ -200,23 +206,18 @@ const FAQ: FaqItem[] = [
   ...FAQ_TEXTO.slice(2),
 ];
 
-export default function AulaoUgcPage() {
-  // Todas as CTAs falam direto com a Juh (pedido de 19/10/2026).
-  const juhHref = waAulaoUgc(
-    "Oi, Juh! Quero garantir minha vaga no Aulão Mapa do UGC de 7/11.",
-  );
-
+export default function MapaDoUgcPage() {
   const eventoJsonLd = {
     "@context": "https://schema.org",
     "@type": "Event",
-    name: "Aulão Mapa do UGC",
+    name: "Imersão Mapa do UGC",
     description:
-      "Aulão ao vivo de UGC com Juliana Araújo: as 4 rotas do Mapa do UGC — perfil, portfólio, prospecção e plataformas.",
-    startDate: "2026-11-07T15:00:00-03:00",
-    endDate: "2026-11-07T20:00:00-03:00",
+      "Imersão ao vivo de UGC com Juliana Araújo: as 4 rotas do Mapa do UGC — perfil, portfólio, prospecção e plataformas.",
+    startDate: "2026-11-07T14:00:00-03:00",
+    endDate: "2026-11-07T19:00:00-03:00",
     eventAttendanceMode: "https://schema.org/OnlineEventAttendanceMode",
     eventStatus: "https://schema.org/EventScheduled",
-    location: { "@type": "VirtualLocation", url: `${SITE.url}/aulao-ugc` },
+    location: { "@type": "VirtualLocation", url: `${SITE.url}/mapa-do-ugc` },
     performer: { "@type": "Person", name: "Juliana Araújo" },
     organizer: {
       "@type": "Organization",
@@ -253,7 +254,7 @@ export default function AulaoUgcPage() {
       <FaqJsonLd items={FAQ_TEXTO} />
 
       <PageHero
-        eyebrow="Aulão ao vivo · Sábado, 7/nov · 15h às 20h"
+        eyebrow="Imersão ao vivo · Sábado, 7/nov · 14h às 19h"
         motif="river"
         title={
           <>
@@ -268,17 +269,22 @@ export default function AulaoUgcPage() {
       >
         <div className="max-w-3xl overflow-hidden rounded-2xl border-2 border-amarelo shadow-[0_28px_70px_rgba(0,0,0,.45)]">
           <YouTubeLite
-            id="2Y27xKkvnJE"
-            titulo="Vídeo de apresentação do Aulão Mapa do UGC"
+            id="rNkRbpJMglY"
+            titulo="Vídeo de apresentação da Imersão Mapa do UGC"
           />
         </div>
         <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center">
-          <a href={juhHref} className="btn btn-primary">
-            Falar com a Juh no WhatsApp <ArrowRight size={16} />
+          <a href={COMPRA_URL} className="btn btn-primary">
+            Garantir minha vaga na Imersão <ArrowRight size={16} />
           </a>
-          <span className="font-mono text-xs text-cinza-ink">
-            Lote 1 a R$37 abre em 26/out · conversa direto com a Juh
-          </span>
+          <a
+            href={GRUPO_MAPA_UGC}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn btn-secondary"
+          >
+            Entrar no grupo do WhatsApp
+          </a>
         </div>
       </PageHero>
 
@@ -376,7 +382,7 @@ export default function AulaoUgcPage() {
               <p className="eyebrow mb-4">O dia</p>
               <h2 className="headline-section">
                 Sábado, 7/nov,{" "}
-                <span className="text-amarelo">das 15h às 20h</span>
+                <span className="text-amarelo">das 14h às 19h</span>
               </h2>
               <p className="text-body mt-5 max-w-md">
                 Cinco horas em ritmo de oficina: mão na massa, pausa e uma
@@ -406,7 +412,7 @@ export default function AulaoUgcPage() {
           <div className="grid items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
             <Reveal>
               <Image
-                src="/aulao-ugc/juh-perfil.webp"
+                src="/mapa-do-ugc/juh-perfil.webp"
                 alt="Juliana Araújo, UGC Creator da Amazônia"
                 width={1498}
                 height={1000}
@@ -418,7 +424,7 @@ export default function AulaoUgcPage() {
                 <p className="eyebrow mb-4">Quem conduz</p>
                 <h2 className="headline-section max-w-xl">
                   Conheça <span className="text-amarelo">Juliana Araújo</span>,
-                  quem vai conduzir o aulão
+                  quem vai conduzir a imersão
                 </h2>
                 <div className="mt-6 flex flex-wrap gap-2">
                   {[
@@ -448,7 +454,7 @@ export default function AulaoUgcPage() {
                     começando.
                   </p>
                   <p>
-                    Na rota de negócio, o aulão recebe{" "}
+                    Na rota de negócio, a imersão recebe{" "}
                     <strong className="font-semibold text-foreground">
                       Jackson Satoyiro
                     </strong>
@@ -471,7 +477,7 @@ export default function AulaoUgcPage() {
         <div className="container-site relative section-padding">
           <Reveal>
             <p className="eyebrow mb-4">Público</p>
-            <h2 className="headline-section">Pra quem é este aulão</h2>
+            <h2 className="headline-section">Pra quem é esta imersão</h2>
           </Reveal>
           <div className="mt-12 grid gap-6 sm:grid-cols-2">
             {PUBLICO.map((p, i) => (
@@ -501,7 +507,7 @@ export default function AulaoUgcPage() {
               <Reveal key={p.src} delay={i * 0.05}>
                 <figure className="overflow-hidden rounded-xl border-2 border-amarelo/55 bg-roxo shadow-[0_14px_34px_rgba(0,0,0,.3)]">
                   <Image
-                    src={`/aulao-ugc/${p.src}`}
+                    src={`/mapa-do-ugc/${p.src}`}
                     alt={p.alt}
                     width={p.w}
                     height={800}
@@ -517,7 +523,7 @@ export default function AulaoUgcPage() {
               Elas contam melhor do que a gente
             </h3>
           </Reveal>
-          <div className="mx-auto mt-8 grid max-w-2xl gap-6 sm:grid-cols-2">
+          <div className="mx-auto mt-8 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {DEPOIMENTOS.map((d, i) => (
               <Reveal key={d.id} delay={i * 0.08}>
                 <div className="overflow-hidden rounded-2xl border-2 border-amarelo shadow-[0_20px_50px_rgba(0,0,0,.35)]">
@@ -575,12 +581,17 @@ export default function AulaoUgcPage() {
           </div>
           <Reveal delay={0.12}>
             <div className="mt-10 flex flex-col items-center gap-3">
-              <a href={juhHref} className="btn btn-primary">
-                Falar com a Juh e garantir meu lugar <ArrowRight size={16} />
+              <a href={COMPRA_URL} className="btn btn-primary">
+                Garantir meu lugar na Imersão <ArrowRight size={16} />
               </a>
-              <span className="font-mono text-xs text-cinza-ink">
-                Conversa direto no WhatsApp da Juh · sem spam
-              </span>
+              <a
+                href={GRUPO_MAPA_UGC}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-mono text-xs text-cinza-ink underline underline-offset-4"
+              >
+                Prefere tirar dúvidas antes? Entre no grupo do WhatsApp
+              </a>
             </div>
           </Reveal>
         </div>
@@ -608,11 +619,11 @@ export default function AulaoUgcPage() {
             <span className="text-amarelo">abre o mapa inteiro</span>
           </>
         }
-        lead="Chama a Juh no WhatsApp pra garantir seu lugar e tirar suas dúvidas. O lote 1 abre em 26/out."
-        ctaLabel="Falar com a Juh no WhatsApp"
-        href={juhHref}
+        lead="Garanta seu lugar na Imersão Mapa do UGC e entre no grupo do WhatsApp pra receber os avisos e tirar suas dúvidas."
+        ctaLabel="Garantir minha vaga"
+        href={COMPRA_URL}
         waveColor="var(--paper)"
-        microcopy="O botão abre a conversa direto com a Juliana Araújo no WhatsApp."
+        microcopy="O botão abre o checkout seguro da HeroSpark."
       />
     </>
   );

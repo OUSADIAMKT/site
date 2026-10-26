@@ -22,8 +22,8 @@ export const metadata: Metadata = {
 /**
  * Página de vendas da mentoria da Juh (R$ 497, Turma 1). Copy verbatim do doc
  * "Copy da Página de Vendas — Mentoria Viver do Digital" (03/10/2026).
- * Segue a identidade de `/aulao-ugc` e reaproveita a mídia dele em
- * `public/aulao-ugc/` — temporária, até chegarem a foto do cocar e os
+ * Segue a identidade de `/mapa-do-ugc` e reaproveita a mídia dele em
+ * `public/mapa-do-ugc/` — temporária, até chegarem a foto do cocar e os
  * depoimentos da própria turma do aulão de 7/nov.
  * Toda CTA cai no WhatsApp da Juh: ainda não existe link de checkout.
  */
@@ -323,7 +323,7 @@ export default function MentoriaViverDoDigitalPage() {
             </div>
             <Reveal delay={0.1}>
               <Image
-                src="/aulao-ugc/juh-perfil.webp"
+                src="/mapa-do-ugc/juh-perfil.webp"
                 alt="Juliana Araújo, a Juh, UGC Creator da Amazônia"
                 width={1498}
                 height={1000}
@@ -587,7 +587,7 @@ export default function MentoriaViverDoDigitalPage() {
               <Reveal key={p.src} delay={i * 0.05}>
                 <figure className="overflow-hidden rounded-xl border-2 border-amarelo/55 bg-roxo shadow-[0_14px_34px_rgba(0,0,0,.3)]">
                   <Image
-                    src={`/aulao-ugc/${p.src}`}
+                    src={`/mapa-do-ugc/${p.src}`}
                     alt={p.alt}
                     width={p.w}
                     height={800}
@@ -615,7 +615,7 @@ export default function MentoriaViverDoDigitalPage() {
           <div className="grid items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
             <Reveal>
               <Image
-                src="/aulao-ugc/juh-perfil.webp"
+                src="/mapa-do-ugc/juh-perfil.webp"
                 alt="Juliana Araújo, UGC Creator da Amazônia"
                 width={1498}
                 height={1000}

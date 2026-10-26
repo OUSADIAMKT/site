@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 /**
  * Landing do Social Media Ousado, turma de fim de ano 2026, no molde da
- * `/aulao-ugc`. Fontes:
+ * `/mapa-do-ugc`. Fontes:
  * - PPC: `lib/PPC/PPC — Social Media Ousado (Turma Fim de Ano 2026).md` (17/10/2026)
  * - Roteiro da VSL: doc "Roteiro VSL — Social Media Ousado" no Claude Docs
  *   (claude.ai/artifact/RTck1AUmgYrA85XwZpgUxC). O vídeo ainda não foi gravado.

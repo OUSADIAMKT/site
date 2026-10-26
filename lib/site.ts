@@ -79,7 +79,7 @@ export function waDiagnostico(texto: string) {
 
 /**
  * Número da Juliana Araújo, que conduz o Aulão Mapa do UGC Creator.
- * A landing `/aulao-ugc` fala direto com ela, não com o atendimento geral —
+ * A landing `/mapa-do-ugc` fala direto com ela, não com o atendimento geral —
  * por isso o número é próprio (confirmado no rodapé da página antiga,
  * `legado/social-ugc-ppc/ugc/aulao_ugc.html`).
  */
@@ -121,7 +121,7 @@ export function waCurso(slug: string, nome: string) {
 /**
  * Grupo de WhatsApp "Mapa do UGC" da Juh — sala de espera do aulão de 7/nov.
  * É ali que o link de cada lote sai primeiro (blueprint de lançamento,
- * 03/10/2026), por isso as CTAs de `/aulao-ugc` caem no grupo e não no
+ * 03/10/2026), por isso as CTAs de `/mapa-do-ugc` caem no grupo e não no
  * número dela. Parâmetros de compartilhamento (`?s=cl&p=i…`) tirados.
  */
 export const GRUPO_MAPA_UGC = "https://chat.whatsapp.com/IFS158jFoeEEXqltGJMLCG";
@@ -393,7 +393,7 @@ export const NAV_LINKS: NavLink[] = [
     label: "Conteúdo",
     children: [
       { label: "Blog", href: "/conteudo" },
-      { label: "Aulão UGC", href: "/aulao-ugc" },
+      { label: "Imersão Mapa do UGC", href: "/mapa-do-ugc" },
     ],
   },
   {
