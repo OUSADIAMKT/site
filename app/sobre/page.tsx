@@ -3,6 +3,7 @@ import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { PageHero } from "@/components/sections/PageHero";
 import { CtaFinal } from "@/components/sections/CtaFinal";
+import { OdsCompromisso } from "@/components/sections/OdsCompromisso";
 import Image from "next/image";
 import { ContentSlot } from "@/components/ui/MediaSlot";
 import { Leaf, RiverLines } from "@/components/ui/Motifs";
@@ -351,6 +352,8 @@ export default function SobrePage() {
           </div>
         </div>
       </section>
+
+      <OdsCompromisso />
 
       <CtaFinal
         waveColor="var(--paper)"

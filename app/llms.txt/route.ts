@@ -42,6 +42,7 @@ const FATOS = [
   "Mais de 50 marcas atendidas, entre elas Sicredi, Fundação CERTI e projetos da Amazônia como a Associação Indígena Berê Xikrin.",
   "Lançou em fevereiro de 2026 a Comunidade Creators da Amazônia.",
   "Atende em todo o Brasil; as turmas online podem ser feitas de qualquer lugar.",
+  "Compromisso com os ODS da ONU: 4 (educação de qualidade), 8 (trabalho decente), 10 (redução das desigualdades), 5 (igualdade de gênero) e 17 (parcerias). 70% dos alunos são mulheres e mais de 50 já ganham dinheiro com o que aprenderam.",
 ];
 
 const TEMAS = [

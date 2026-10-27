@@ -115,6 +115,8 @@ const organizationJsonLd = {
         "inteligência artificial para negócios",
         "tráfego pago",
         "bioeconomia",
+        "Objetivos de Desenvolvimento Sustentável (ODS)",
+        "educação empreendedora na Amazônia",
         "Amazônia",
       ],
     },
