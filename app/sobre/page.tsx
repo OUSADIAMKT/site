@@ -36,7 +36,7 @@ const CAPITULOS = [
   {
     t: "A prova",
     p: [
-      "Por trás de cada ano, gente. Mais de 30 turmas presenciais e mais de mil alunos formados: a mãe que gravava escondida no quarto e hoje aparece todo dia, o lojista que achava que “isso de internet” não era pra ele, a creator que postava no escuro e aprendeu a ligar a luz.",
+      "Por trás de cada ano, gente. Mais de 30 turmas presenciais, 500 alunos formados e mais de mil pessoas impactadas entre cursos, palestras e eventos: a mãe que gravava escondida no quarto e hoje aparece todo dia, o lojista que achava que “isso de internet” não era pra ele, a creator que postava no escuro e aprendeu a ligar a luz.",
     ],
   },
   {

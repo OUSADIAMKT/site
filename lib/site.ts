@@ -292,7 +292,7 @@ export const CAMPAIGN = {
  * ------------------------------------------------------------------ */
 export const STATS = [
   { n: "50+", l: "marcas atendidas" },
-  { n: "+1000", l: "alunos formados" },
+  { n: "+1000", l: "pessoas impactadas" }, // cursos + palestras + eventos; formados são 500,
   { n: "2x", l: "congressos Amazon Marketing Day" },
   { n: "1x", l: "liderança do WCD, Dia Mundial da Criatividade" },
 ];
