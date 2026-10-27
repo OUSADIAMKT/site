@@ -74,7 +74,7 @@ const FAQ = [
   },
   {
     q: "Tem garantia?",
-    a: <ContentSlot label="Política de garantia específica da mentoria. Validar com o time." />,
+    a: "A garantia de 7 dias é dos cursos da Escola. Na mentoria, a aplicação existe justamente pra isso: a gente conversa antes da sua entrada pra ter certeza de que é o momento certo pra você.",
   },
 ];
 

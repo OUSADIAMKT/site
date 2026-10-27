@@ -1,16 +1,18 @@
 import Link from "next/link";
+import Image from "next/image";
 import type { Metadata } from "next";
-import { ArrowRight, Brain, Gem, Sparkles, Target } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
-import { MediaSlot, ContentSlot } from "@/components/ui/MediaSlot";
+import { MediaSlot } from "@/components/ui/MediaSlot";
+import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { CasesVitrine } from "@/components/sections/Cases";
+import { PilaresCanoa } from "@/components/sections/PilaresCanoa";
 import {
   Leaf,
   Paddle,
   Canoe,
-  Tree,
   RiverLines,
 } from "@/components/ui/Motifs";
 import {
@@ -29,6 +31,51 @@ export const metadata: Metadata = {
   description:
     "A primeira Agência Escola de Marketing do Norte do Brasil. Cursos, mentorias e comunidade para quem quer parar de postar no escuro e começar a vender com estratégia, criatividade e IA.",
 };
+
+/**
+ * Marcas atendidas, na faixa da prova social rápida. Os arquivos em
+ * `public/marcas-atendidas/` já são brancos monocromáticos, recortados e com a
+ * mesma altura (160px): a harmonia vem do arquivo, não de ajuste por logo.
+ */
+const MARCAS = [
+  { src: "sicredi", nome: "Sicredi", w: 643 },
+  { src: "certi", nome: "Fundação CERTI", w: 426 },
+  { src: "biorama", nome: "Biorama", w: 1105 },
+  { src: "jornada-amazonia", nome: "Jornada Amazônia", w: 721 },
+  { src: "world-creativity-day", nome: "World Creativity Day 2024", w: 417 },
+  { src: "bere-xikrin", nome: "Associação Indígena Berê Xikrin", w: 373 },
+  { src: "creax", nome: "CREAX — Centro Regional de Educação Ambiental do Xingu", w: 571 },
+  { src: "sindicato-produtores-rurais-altamira", nome: "Siralta — Sindicato dos Produtores Rurais de Altamira", w: 470 },
+  { src: "gem-tv-pa", nome: "Gem TV Pará", w: 430 },
+];
+
+/**
+ * Depoimentos em vídeo (Shorts) e prints de alunas do Mapa do UGC, os mesmos de
+ * `/mapa-do-ugc`. Os do Social Media Ousado entram quando chegarem.
+ */
+const DEPOIMENTOS_VIDEO = [
+  { id: "N-q6r4jSZNU", titulo: "Depoimento da Thalia" },
+  { id: "t57qogTvwPI", titulo: "Depoimento da Sara" },
+  { id: "3iVry7h2C8U", titulo: "Depoimento em vídeo de aluna do Mapa do UGC" },
+];
+
+const PRINTS = [
+  {
+    src: "depoimento-diy.webp",
+    w: 1041,
+    alt: "Print de WhatsApp: terceira campanha de UGC aprovada com a marca de cosméticos DIY",
+  },
+  {
+    src: "depoimento-samsung.webp",
+    w: 1012,
+    alt: "Print de notificação: candidatura aprovada em campanha da Samsung Galaxy",
+  },
+  {
+    src: "depoimento-oralb.webp",
+    w: 1306,
+    alt: "Print de aluna aprovada na campanha Iconic da Oral-B no Instagram",
+  },
+];
 
 const DORES = [
   {
@@ -49,29 +96,6 @@ const DORES = [
   },
 ];
 
-const PILARES = [
-  {
-    icon: Target,
-    t: "Estratégia",
-    d: "Você para de postar pelo feeling. Constrói um plano que tem início, meio e venda.",
-  },
-  {
-    icon: Sparkles,
-    t: "Criatividade",
-    d: "Você descobre como gravar, editar e narrar com sua cara, sem virar mais um clone do guru de São Paulo.",
-  },
-  {
-    icon: Brain,
-    t: "Inteligência Artificial",
-    d: "A IA deixa de ser bicho-papão. Vira sua cocriadora, sua editora, seu departamento inteiro.",
-  },
-  {
-    icon: Gem,
-    t: "Desenvolvimento pessoal",
-    d: "Porque câmera trava no técnico, mas destrava no humano. A gente cuida dos dois.",
-  },
-];
-
 const ECOSSISTEMA = [
   {
     emoji: "📚",
@@ -80,7 +104,7 @@ const ECOSSISTEMA = [
     itens: [
       "ABC do Marketing",
       "Destrave (vergonha de gravar? a gente quebra isso)",
-      "Social Media na Prática",
+      "Social Media Ousado",
     ],
     nota: "Você aprende executando, não anotando. Sai com projeto real, não com PDF salvo no celular.",
     cta: "Ver cursos",
@@ -133,7 +157,7 @@ const NAO_E_PRA_VOCE = [
   "Você quer só assistir aula sem aplicar",
   "Você acha que método não importa, “feeling resolve”",
   "Você odeia ser desafiado(a)",
-  "Você quer marketing Mobral. Aqui não tem.",
+  "Você quer marketing de copia e cola. Aqui não tem.",
 ];
 
 const FAQ_TXT = [
@@ -147,7 +171,7 @@ const FAQ_TXT = [
   },
   {
     q: "“E se eu investir e me arrepender?”",
-    a: "Tem garantia de 7 dias. Entrou, achou que não é pra você, devolve o dinheiro. Sem drama, sem formulário gigante, sem ligação de retenção.",
+    a: "Nos cursos da Escola, tem garantia de 7 dias. Entrou, achou que não é pra você, devolve o dinheiro. Sem drama, sem formulário gigante, sem ligação de retenção.",
   },
   {
     q: "“Preciso ter seguidores pra começar?”",
@@ -155,7 +179,7 @@ const FAQ_TXT = [
   },
   {
     q: "“Eu não sou da Amazônia. Posso participar?”",
-    a: "Pode. A bandeira é regional, mas o método é universal. A gente já tem aluno em quase todo estado do Brasil.",
+    a: "Pode. A bandeira é regional, mas o método é universal. E nas turmas online dá pra estudar de qualquer lugar da Amazônia, e de fora dela também.",
   },
   {
     q: "“É um curso ou uma comunidade?”",
@@ -220,19 +244,6 @@ export default function HomePage() {
                 com a alma de quem é da terra.
               </p>
             </Reveal>
-            <Reveal delay={0.15}>
-              <div className="mt-9 flex flex-col gap-4 sm:flex-row sm:items-center">
-                <a href={wa("home")} className="btn btn-primary">
-                  Quero entrar pra Ousadia <ArrowRight size={16} />
-                </a>
-                <a
-                  href="#a-dor"
-                  className="font-mono text-xs uppercase tracking-wider text-cinza-ink underline-offset-4 transition-colors hover:text-amarelo hover:underline"
-                >
-                  Ainda explorando? Veja como a gente pensa →
-                </a>
-              </div>
-            </Reveal>
           </div>
 
           <Reveal delay={0.2}>
@@ -253,7 +264,7 @@ export default function HomePage() {
         <div className="container-site relative section-padding !py-14">
           <Reveal>
             <p className="font-display text-xl sm:text-2xl leading-snug max-w-3xl">
-              Mais de 30 turmas formadas. Mais de mil creators destravados. Uma
+              Mais de 50 marcas atendidas. Mais de mil creators destravados. Uma
               região inteira sendo{" "}
               <span className="text-amarelo">reposicionada no digital</span>.
             </p>
@@ -278,10 +289,27 @@ export default function HomePage() {
               </Reveal>
             ))}
           </div>
-          <ContentSlot
-            className="mt-10 max-w-xl"
-            label="Faixa de logos: marcas atendidas, eventos onde a Ousadia palestrou, mídia que citou."
-          />
+          <Reveal delay={0.1}>
+            <div className="mt-12 border-t border-white/10 pt-10">
+              <p className="font-mono text-xs uppercase tracking-widest text-cinza-ink">
+                Marcas e projetos que já confiaram na Ousadia
+              </p>
+              <ul className="mt-8 flex flex-wrap items-center gap-x-12 gap-y-9">
+                {MARCAS.map((m) => (
+                  <li key={m.src}>
+                    <Image
+                      src={`/marcas-atendidas/${m.src}.webp`}
+                      alt={m.nome}
+                      title={m.nome}
+                      width={m.w}
+                      height={160}
+                      className="h-9 w-auto opacity-75 transition-opacity hover:opacity-100 sm:h-10"
+                    />
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </Reveal>
         </div>
       </section>
 
@@ -326,10 +354,6 @@ export default function HomePage() {
           className="absolute inset-x-0 top-0 rotate-180"
           color="var(--ink-deep)"
         />
-        <Tree
-          className="motif motif-soft text-floresta right-6 top-20 hidden w-64 md:block"
-          style={{ color: "#128a52" }}
-        />
         <div className="container-site relative section-padding">
           <Reveal>
             <p className="eyebrow mb-4">A virada</p>
@@ -338,30 +362,30 @@ export default function HomePage() {
               <span className="text-amarelo">pensar, comunicar e vender</span>.
             </h2>
             <p className="text-body mt-6 max-w-2xl">
-              Estratégia é como o projeto de uma casa: sem projeto, dá errado. A
-              Ousadia te entrega a planta, e te ensina a construir.
+              Pra atravessar o rio, uma canoa precisa de quatro coisas: rumo,
+              uma pintura que diga de quem ela é, motor pra ir mais longe e
+              alguém com coragem de remar. No marketing é igual. Esses são os
+              quatro pilares da Ousadia.
             </p>
           </Reveal>
-          <div className="mt-12 grid gap-6 sm:grid-cols-2">
-            {PILARES.map((p, i) => (
-              <Reveal key={p.t} delay={i * 0.06}>
-                <div className="card-surface h-full p-6">
-                  <p.icon className="text-floresta mb-4" size={28} />
-                  <h3 className="font-display text-xl">{p.t}</h3>
-                  <p className="text-body mt-2 text-[0.95rem]">{p.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <Reveal delay={0.06}>
+            <div className="mt-12">
+              <PilaresCanoa />
+            </div>
+          </Reveal>
           <Reveal delay={0.1}>
-            <div className="mt-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-body max-w-md">
-                Cada um desses pilares já transforma. Os quatro juntos? Mudam a
-                sua história.
+            <div className="mt-12 flex flex-col gap-5 border-t border-[#241044]/10 pt-8 md:flex-row md:items-center md:justify-between">
+              <p className="font-display text-xl max-w-xl">
+                Cada pilar já te tira do porto. Os quatro juntos te levam pro
+                outro lado do rio.
               </p>
-              <a href={wa("home")} className="btn btn-primary shrink-0">
-                Quero essa transformação <ArrowRight size={16} />
-              </a>
+              <Link
+                href="/diagnostico"
+                className="inline-flex shrink-0 items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-floresta-deep transition-transform hover:translate-x-1"
+              >
+                Qual pilar te falta? Faça o diagnóstico gratuito{" "}
+                <ArrowRight size={14} />
+              </Link>
             </div>
           </Reveal>
         </div>
@@ -530,7 +554,7 @@ export default function HomePage() {
                   Errei muito. Acertei o suficiente.
                 </p>
                 <p>
-                  Hoje, depois de <strong>30 turmas formadas</strong>, duas
+                  Hoje, depois de <strong>mais de 50 marcas atendidas</strong>, duas
                   edições do <strong>Amazon Marketing Day</strong> e do
                   reconhecimento de uma comunidade que cresce todo dia, eu
                   entendi uma coisa:
@@ -571,13 +595,11 @@ export default function HomePage() {
                 Depoimentos em vídeo
               </h3>
               <div className="mt-5 grid gap-5 sm:grid-cols-3">
-                {[1, 2, 3].map((i) => (
-                  <Reveal key={i} delay={i * 0.05}>
-                    <MediaSlot
-                      kind="vídeo"
-                      ratio="aspect-[9/16]"
-                      label={`Vídeo de aluno ${i} (15 a 30s): nome, cidade e antes/depois em uma frase.`}
-                    />
+                {DEPOIMENTOS_VIDEO.map((d, i) => (
+                  <Reveal key={d.id} delay={i * 0.05}>
+                    <div className="overflow-hidden rounded-2xl border-2 border-amarelo">
+                      <YouTubeLite id={d.id} titulo={d.titulo} formato="vertical" />
+                    </div>
                   </Reveal>
                 ))}
               </div>
@@ -588,13 +610,17 @@ export default function HomePage() {
                 Prints de feedback
               </h3>
               <div className="mt-5 grid gap-5 sm:grid-cols-3">
-                {[1, 2, 3].map((i) => (
-                  <Reveal key={i} delay={i * 0.05}>
-                    <MediaSlot
-                      kind="print"
-                      ratio="aspect-[4/3]"
-                      label={`Print real de DM, comentário ou WhatsApp ${i}. Real e desorganizado é melhor que estilizado.`}
-                    />
+                {PRINTS.map((p, i) => (
+                  <Reveal key={p.src} delay={i * 0.05}>
+                    <figure className="overflow-hidden rounded-xl border-2 border-amarelo/55">
+                      <Image
+                        src={`/mapa-do-ugc/${p.src}`}
+                        alt={p.alt}
+                        width={p.w}
+                        height={800}
+                        className="h-full w-full object-cover"
+                      />
+                    </figure>
                   </Reveal>
                 ))}
               </div>
@@ -728,8 +754,7 @@ export default function HomePage() {
               Quero entrar pra Ousadia <ArrowRight size={16} />
             </a>
             <p className="relative mt-5 font-mono text-xs text-cinza-ink">
-              Você é redirecionado(a) pro WhatsApp. Falamos com você em até 1h
-              útil.
+              Você é redirecionado(a) pro WhatsApp.
             </p>
             <SectionDivider
               motif="faba"
@@ -738,7 +763,7 @@ export default function HomePage() {
               className="relative mx-auto max-w-lg text-amarelo"
             />
             <ul className="relative flex flex-wrap justify-center gap-x-7 gap-y-2 font-mono text-xs text-cinza-ink">
-              <li>🛡️ Garantia de 7 dias. Sem letra miúda.</li>
+              <li>🛡️ Garantia de 7 dias nos cursos da Escola.</li>
               <li>💬 Atendimento humano (não é bot).</li>
               <li>🔥 Vagas limitadas por turma.</li>
             </ul>

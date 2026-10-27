@@ -25,7 +25,7 @@ const PAGINAS = [
   ["/diagnostico/ia", "Diagnóstico de IA", "10 perguntas, ~4 minutos, resultado na hora: seu nível com a IA, um painel das 4 competências e um plano de 30 dias."],
   ["/diagnostico/social-media", "Diagnóstico de Social Media", "10 perguntas, ~4 minutos, resultado na hora: seu momento como social media e um plano de 30 dias."],
   ["/conteudo", "Conteúdo", "Artigos, podcast e cases, de dentro da floresta."],
-  ["/contato", "Contato", "WhatsApp com atendimento humano, resposta em até 1h útil, ou formulário."],
+  ["/contato", "Contato", "WhatsApp com atendimento humano, ou formulário."],
 ] as const;
 
 export function GET() {

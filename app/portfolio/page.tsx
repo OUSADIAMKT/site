@@ -172,7 +172,7 @@ export default function PortfolioPage() {
               O que precisa acontecer pra virar case aqui
             </h2>
             <p className="text-body mt-5 max-w-2xl">
-              “Marketing Mobral” também acontece em portfólio: logo de cliente
+              “Marketing de copia e cola” também acontece em portfólio: logo de cliente
               que nunca fechou contrato, print recortado, número sem base. Esses
               são os quatro filtros que a gente aplica antes de publicar.
             </p>

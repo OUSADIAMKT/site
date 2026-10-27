@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "/contato" },
   title: "Contato",
   description:
-    "O caminho mais rápido é o WhatsApp: atendimento humano, resposta em até 1h útil. Se preferir, deixa recado no formulário.",
+    "O caminho mais rápido é o WhatsApp: atendimento humano, sem robô. Se preferir, deixa recado no formulário.",
 };
 
 export default function ContatoPage() {
@@ -25,7 +25,7 @@ export default function ContatoPage() {
             Bora trocar uma <span className="text-amarelo">ideia</span>?
           </>
         }
-        lead="O caminho mais rápido é o WhatsApp: atendimento humano, resposta em até 1h útil. Se preferir, deixa recado no formulário."
+        lead="O caminho mais rápido é o WhatsApp: atendimento humano, sem robô. Se preferir, deixa recado no formulário."
       >
         <a href={wa("contato")} className="btn btn-primary">
           Chamar no WhatsApp <ArrowRight size={16} />

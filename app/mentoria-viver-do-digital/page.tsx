@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import { ArrowRight, Check, ShieldCheck, X } from "lucide-react";
+import { ArrowRight, Check, Users, X } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { CtaFinal } from "@/components/sections/CtaFinal";
@@ -665,7 +665,7 @@ export default function MentoriaViverDoDigitalPage() {
         </div>
       </section>
 
-      {/* 8. Investimento e garantia */}
+      {/* 8. Investimento */}
       <section className="fold-light relative overflow-hidden">
         <WaveDivider
           className="absolute inset-x-0 top-0 rotate-180"
@@ -722,14 +722,14 @@ export default function MentoriaViverDoDigitalPage() {
             </Reveal>
             <Reveal delay={0.08}>
               <div className="card-surface flex h-full flex-col p-8">
-                <ShieldCheck size={36} className="text-floresta-deep" />
+                <Users size={36} className="text-floresta-deep" />
                 <h3 className="font-display mt-4 text-xl">
-                  Garantia de 7 dias
+                  Turma pequena de propósito
                 </h3>
                 <p className="text-body mt-3">
-                  Participe do primeiro encontro, conheça a turma e o método. Se
-                  em até 7 dias depois da compra você sentir que não é para
-                  você, devolvo 100% do seu investimento. Sem perguntas.
+                  São só 20 vagas pra que eu consiga olhar o trabalho de cada
+                  uma de perto, nos encontros e no grupo. Antes de entrar, a
+                  gente conversa pra ver se é o momento certo pra você.
                 </p>
                 <p className="text-body mt-auto pt-6 text-sm">
                   As inscrições vão até a data-limite ou até as vagas acabarem,

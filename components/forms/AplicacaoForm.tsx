@@ -99,8 +99,8 @@ export function AplicacaoForm() {
         {enviando ? "Enviando…" : "Enviar aplicação"} <ArrowRight size={16} />
       </button>
       <p className="font-mono text-xs text-cinza-ink">
-        Ao enviar, você é levado(a) pra página de confirmação. Falamos com você
-        em até 1h útil.
+        Ao enviar, você é levado(a) pra página de confirmação, e a gente te
+        chama no WhatsApp.
       </p>
     </form>
   );

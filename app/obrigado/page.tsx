@@ -9,7 +9,7 @@ import { wa } from "@/lib/site";
 export const metadata: Metadata = {
   title: "Recebemos sua aplicação",
   description:
-    "Sua aplicação chegou. Falamos com você em até 1h útil: atendimento humano, sem robô de funil.",
+    "Sua aplicação chegou. A gente te chama no WhatsApp: atendimento humano, sem robô de funil.",
   robots: { index: false, follow: false },
 };
 
@@ -31,7 +31,7 @@ export default function ObrigadoPage() {
             Recebido. Agora é <span className="text-amarelo">com a gente</span>.
           </h1>
           <p className="text-body mt-6">
-            Sua aplicação chegou. Falamos com você em até 1h útil: atendimento
+            Sua aplicação chegou. A gente te chama no WhatsApp: atendimento
             humano, sem robô de funil.
           </p>
           <p className="text-body mt-8 font-mono text-xs uppercase tracking-wider">

@@ -271,7 +271,7 @@ export default function SobrePage() {
                 A gente acredita que marketing não é maquiagem: é comunicação
                 com método. Que “post bonitinho” sem estratégia é{" "}
                 <strong className="font-semibold text-foreground">
-                  marketing Mobral
+                  marketing de copia e cola
                 </strong>
                 . E que ninguém aqui precisa imitar guru de São Paulo pra
                 crescer.

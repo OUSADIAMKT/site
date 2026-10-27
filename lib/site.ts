@@ -277,7 +277,7 @@ export const CAMPAIGN = {
  * Prova social — PRD 8.2. Só números confirmados pelo cliente.
  * ------------------------------------------------------------------ */
 export const STATS = [
-  { n: "30+", l: "turmas presenciais formadas" },
+  { n: "50+", l: "marcas atendidas" },
   { n: "+1000", l: "alunos formados" },
   { n: "2x", l: "congressos Amazon Marketing Day" },
   { n: "1x", l: "liderança do WCD, Dia Mundial da Criatividade" },

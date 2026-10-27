@@ -13,7 +13,7 @@ export function CtaFinal({
   lead,
   ctaLabel,
   href,
-  microcopy = "Você é redirecionado(a) pro WhatsApp. Falamos com você em até 1h útil.",
+  microcopy = "Você é redirecionado(a) pro WhatsApp. Atendimento humano, sem robô.",
   waveColor = "var(--ink-deep)",
   secondary,
 }: {
