@@ -11,9 +11,11 @@ import { ArrowRight, Clock } from "lucide-react";
  * - Sapopemas (as raízes-parede, que eram batidas pra mandar recado longe) →
  *   Estratégia → Diagnóstico de Maturidade Digital.
  * - Tronco (cresce reto até romper o dossel e aguenta o vento lá de cima) →
- *   Desenvolvimento pessoal → Momento UGC (que pergunta o que te trava).
- * - Flores (abrem à noite e mesmo assim os morcegos acham cada uma) →
- *   Criatividade → Diagnóstico de Social Media.
+ *   Desenvolvimento pessoal → Ouse Ser Você, o diagnóstico de autenticidade
+ *   do Método Satoyiro.
+ * - Flores e frutos (a flor abre à noite e vira fruto: hora de colher) →
+ *   Criatividade → os dois caminhos de ganhar dinheiro lado a lado: Momento
+ *   UGC e Diagnóstico de Social Media.
  * - Paina (a fibra que leva as sementes no vento) → IA → Diagnóstico de IA.
  *
  * A pessoa escolhe a frase que mais parece com ela (ou toca na árvore), a parte
@@ -31,7 +33,8 @@ type Pilar = {
   marketing: string;
   sinais: string[];
   leva: string;
-  diag: { nome: string; href: string; mede: string; tempo: string };
+  /** Um diagnóstico, ou dois lado a lado quando a parte tem dois caminhos. */
+  diags: { nome: string; href: string; mede: string; tempo: string }[];
   cursos: { label: string; href: string }[];
 };
 
@@ -51,12 +54,14 @@ const PILARES: Pilar[] = [
       "Cada semana o perfil parece de uma marca diferente.",
     ],
     leva: "Seu posicionamento numa frase: o seu Sinal",
-    diag: {
-      nome: "Diagnóstico de Maturidade Digital",
-      href: "/diagnostico",
-      mede: "Mede posicionamento, conteúdo, influência, planejamento e performance, e te entrega um plano de 30 dias pro seu estágio.",
-      tempo: "12 perguntas · uns 4 minutos",
-    },
+    diags: [
+      {
+        nome: "Diagnóstico de Maturidade Digital",
+        href: "/diagnostico",
+        mede: "Mede posicionamento, conteúdo, influência, planejamento e performance, e te entrega um plano de 30 dias pro seu estágio.",
+        tempo: "12 perguntas · uns 4 minutos",
+      },
+    ],
     cursos: [
       { label: "Mentoria", href: "/mentoria" },
       { label: "Posicionamento", href: "/escola/posicionamento" },
@@ -70,42 +75,52 @@ const PILARES: Pilar[] = [
     floresta:
       "A sumaúma cresce reta até romper a copa das outras árvores e passar dos 50 metros. Lá em cima o vento bate mais forte, e é o tronco que aguenta sem vergar.",
     marketing:
-      "O tronco é você. Aparecer é ficar exposto ao vento: comentário, crítica, vergonha. Autoconfiança e constância são o que te mantêm de pé lá em cima.",
+      "O tronco é você, do jeito que você é. Aparecer é ficar exposto ao vento: comentário, crítica, vergonha. Quem sabe quem é não verga, porque não precisa fingir ser outra pessoa.",
     sinais: [
       "Você grava, apaga, grava de novo e não posta.",
-      "Some por semanas e recomeça do zero.",
+      "Imita o jeito de falar de quem faz sucesso e não se reconhece.",
       "Acha que todo mundo vai te julgar.",
     ],
     leva: "Seu primeiro vídeo gravado sem travar",
-    diag: {
-      nome: "Qual é o seu Momento UGC?",
-      href: "/momento-ugc",
-      mede: "Olha pra sua vida, o seu momento e o que está te travando, e diz o que fazer agora.",
-      tempo: "Uns 4 minutos",
-    },
+    diags: [
+      {
+        nome: "Ouse Ser Você · Método Satoyiro",
+        href: "/metodo-satoyiro",
+        mede: "O diagnóstico de autenticidade: como você se vê, o caminho que está trilhando e a régua que usa pra medir sucesso. Você recebe um mapa com gráficos e recomendações.",
+        tempo: "15 perguntas",
+      },
+    ],
     cursos: [{ label: "Destrave", href: "/escola/destrave" }],
   },
   {
     n: 3,
-    parte: "As flores",
+    parte: "As flores e os frutos",
     t: "Criatividade",
-    dor: "Meu conteúdo parece o de todo mundo, ou o de um guru de São Paulo.",
+    dor: "Eu crio conteúdo, mas ainda não ganho dinheiro com ele.",
     floresta:
-      "As flores da sumaúma abrem à noite, quando quase nada floresce. Mesmo no escuro, os morcegos encontram cada uma delas. Ela não copia ninguém, e é por isso que é achada.",
+      "As flores da sumaúma abrem à noite e, mesmo no escuro, os morcegos encontram cada uma. Toda flor visitada vira fruto: uma cápsula comprida que amadurece pendurada lá no alto. É a hora da colheita.",
     marketing:
-      "Criatividade é florescer do seu jeito: roteiro, gravação e edição com a sua cara, o seu sotaque e o seu cenário. Quem é diferente não precisa gritar pra ser encontrado.",
+      "Criatividade é florescer do seu jeito, com a sua cara, o seu sotaque e o seu cenário. E flor que abre vira fruto: é aqui que o seu conteúdo começa a pagar as contas, criando pra marcas como UGC creator ou cuidando das redes de clientes como social media.",
     sinais: [
-      "Você copia trend e nada acontece.",
-      "Toda segunda-feira falta ideia.",
-      "Seu feed não tem nada que só você faria.",
+      "Seu conteúdo parece o de todo mundo, ou o de um guru de São Paulo.",
+      "Não sabe quanto cobrar nem pra quem oferecer.",
+      "Já fez conteúdo de graça pra marca em troca de “divulgação”.",
     ],
-    leva: "Um portfólio de vídeos gravados no celular",
-    diag: {
-      nome: "Diagnóstico de Social Media",
-      href: "/diagnostico/social-media",
-      mede: "Mostra se o seu conteúdo prende, que ferramentas você domina e quanto falta pro seu primeiro cliente.",
-      tempo: "10 perguntas · uns 4 minutos",
-    },
+    leva: "Um portfólio pronto pra mostrar e o seu primeiro cliente",
+    diags: [
+      {
+        nome: "Qual é o seu Momento UGC?",
+        href: "/momento-ugc",
+        mede: "Pra quem quer criar vídeos pra marcas: mostra em que momento você está e o que fazer agora pra fechar os primeiros trabalhos.",
+        tempo: "Uns 4 minutos",
+      },
+      {
+        nome: "Diagnóstico de Social Media",
+        href: "/diagnostico/social-media",
+        mede: "Pra quem quer cuidar das redes de clientes: mostra quanto falta pro seu primeiro trabalho pago.",
+        tempo: "10 perguntas · uns 4 minutos",
+      },
+    ],
     cursos: [
       { label: "UGC Creator", href: "/escola/ugc-creator" },
       { label: "Social Media Ousado", href: "/escola/social-media-ousado" },
@@ -126,12 +141,14 @@ const PILARES: Pilar[] = [
       "Tem medo de a IA deixar tudo com cara de robô.",
     ],
     leva: "Um fluxo de trabalho com IA, só com planos gratuitos",
-    diag: {
-      nome: "Diagnóstico de IA",
-      href: "/diagnostico/ia",
-      mede: "Descobre o que você já consegue fazer com IA, o que te trava e por onde continuar.",
-      tempo: "10 perguntas · uns 4 minutos",
-    },
+    diags: [
+      {
+        nome: "Diagnóstico de IA",
+        href: "/diagnostico/ia",
+        mede: "Descobre o que você já consegue fazer com IA, o que te trava e por onde continuar.",
+        tempo: "10 perguntas · uns 4 minutos",
+      },
+    ],
     cursos: [
       { label: "IA para iniciantes", href: "/escola/ia-para-iniciantes" },
     ],
@@ -173,6 +190,14 @@ const COPA = "translate(300 140) scale(1.16 0.82) translate(-300 -140)";
 const naCopa = (x: number, y: number): [number, number] => [
   300 + (x - 300) * 1.16,
   140 + (y - 140) * 0.82,
+];
+
+/** Frutos pendurados embaixo da copa: [x, inclinação em graus]. */
+const FRUTOS: [number, number][] = [
+  [178, 6],
+  [236, -4],
+  [366, 5],
+  [424, -6],
 ];
 
 /** Sementes com paina soltas no vento: [x, y, raio, atraso da animação]. */
@@ -408,6 +433,44 @@ function Sumauma({
             </g>
           );
         })}
+        {/* Frutos: cápsulas compridas penduradas embaixo da copa */}
+        {FRUTOS.map(([x, inclina]) => (
+          <g key={x} transform={`rotate(${inclina} ${x} 176)`}>
+            <path
+              d={`M${x} 172v12`}
+              stroke={ROXO}
+              strokeWidth="2.5"
+              strokeLinecap="round"
+            />
+            {on(3) && (
+              <ellipse
+                cx={x}
+                cy="200"
+                rx="13"
+                ry="22"
+                fill={AMARELO}
+                opacity=".3"
+              />
+            )}
+            <ellipse
+              cx={x}
+              cy="200"
+              rx="7"
+              ry="16"
+              fill={on(3) ? AMARELO : "#8a6a2e"}
+              stroke={ROXO}
+              strokeOpacity=".35"
+              strokeWidth="1.5"
+              style={{ transition: "fill .35s ease" }}
+            />
+            <path
+              d={`M${x} 188v24`}
+              stroke={ROXO}
+              strokeOpacity=".25"
+              strokeWidth="1.2"
+            />
+          </g>
+        ))}
       </g>
 
       {/* Números das partes */}
@@ -471,9 +534,9 @@ function Painel({ p }: { p: Pilar | null }) {
         </h3>
         <p className="text-body mt-3 text-[0.95rem]">
           Começa por uma parte: a raiz que não segura, o tronco que verga, a
-          flor que não abre, a semente que não voa. Escolha ali em cima a frase
-          que mais parece com você, ou toque numa parte da árvore, e a gente te
-          mostra qual diagnóstico fazer primeiro.
+          flor que não vira fruto, a semente que não voa. Escolha ali em cima a
+          frase que mais parece com você, ou toque numa parte da árvore, e a
+          gente te mostra qual diagnóstico fazer primeiro.
         </p>
         <div className="mt-6 flex flex-wrap items-center gap-4">
           <Link href="/diagnostico" className="btn btn-primary">
@@ -546,20 +609,49 @@ function Painel({ p }: { p: Pilar | null }) {
       {/* Recomendação: o diagnóstico daquela parte da árvore */}
       <div className="bg-[#241044] p-6 text-white md:p-8">
         <p className="font-mono text-[11px] uppercase tracking-widest text-[#ffc61a]">
-          Diagnóstico recomendado pra você
+          {p.diags.length > 1
+            ? "Hora de colher: escolha o seu caminho"
+            : "Diagnóstico recomendado pra você"}
         </p>
-        <p className="font-display text-xl mt-2">{p.diag.nome}</p>
-        <p className="mt-2 text-[0.95rem] leading-relaxed text-[#cfc6e0]">
-          {p.diag.mede}
-        </p>
-        <div className="mt-5 flex flex-wrap items-center gap-4">
-          <Link href={p.diag.href} className="btn btn-primary">
-            Fazer o diagnóstico gratuito <ArrowRight size={15} />
-          </Link>
-          <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-[#a89fbc]">
-            <Clock size={13} /> {p.diag.tempo}
-          </span>
-        </div>
+        {p.diags.length > 1 ? (
+          // Dois caminhos lado a lado, cada um com o seu diagnóstico.
+          <div className="mt-4 grid gap-4 sm:grid-cols-2">
+            {p.diags.map((d) => (
+              <div
+                key={d.href}
+                className="flex flex-col rounded-xl border border-white/10 bg-white/5 p-5"
+              >
+                <p className="font-display text-lg">{d.nome}</p>
+                <p className="mt-2 flex-1 text-[0.9rem] leading-relaxed text-[#cfc6e0]">
+                  {d.mede}
+                </p>
+                <span className="mt-3 inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-[#a89fbc]">
+                  <Clock size={13} /> {d.tempo}
+                </span>
+                <Link href={d.href} className="btn btn-primary mt-4">
+                  Fazer este diagnóstico <ArrowRight size={15} />
+                </Link>
+              </div>
+            ))}
+          </div>
+        ) : (
+          p.diags.map((d) => (
+            <div key={d.href}>
+              <p className="font-display text-xl mt-2">{d.nome}</p>
+              <p className="mt-2 text-[0.95rem] leading-relaxed text-[#cfc6e0]">
+                {d.mede}
+              </p>
+              <div className="mt-5 flex flex-wrap items-center gap-4">
+                <Link href={d.href} className="btn btn-primary">
+                  Fazer o diagnóstico gratuito <ArrowRight size={15} />
+                </Link>
+                <span className="inline-flex items-center gap-1.5 font-mono text-[11px] uppercase tracking-wider text-[#a89fbc]">
+                  <Clock size={13} /> {d.tempo}
+                </span>
+              </div>
+            </div>
+          ))
+        )}
         <p className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-1 font-mono text-[11px] uppercase tracking-wider text-[#a89fbc]">
           Já sabe o que quer?
           {p.cursos.map((c) => (

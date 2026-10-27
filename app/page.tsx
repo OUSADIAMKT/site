@@ -363,10 +363,10 @@ export default function HomePage() {
             </h2>
             <p className="text-body mt-6 max-w-2xl">
               Na Amazônia, a sumaúma é chamada de mãe da floresta. Passa dos 50
-              metros, floresce quando ninguém mais floresce, espalha semente no
-              vento por quilômetros, e as raízes dela já foram o jeito de mandar
-              recado de um lado a outro da mata. Uma árvore que pensa, comunica
-              e se multiplica. É isso que a gente quer pro seu marketing, e cada
+              metros, floresce quando ninguém mais floresce, dá fruto lá no
+              alto, espalha semente no vento por quilômetros, e as raízes dela
+              já foram o jeito de mandar recado de um lado a outro da mata. Uma
+              árvore que pensa, comunica, colhe e se multiplica. É isso que a gente quer pro seu marketing, e cada
               parte dela é um dos quatro pilares da Ousadia.
             </p>
           </Reveal>
