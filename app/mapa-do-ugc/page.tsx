@@ -13,7 +13,7 @@ import { GRUPO_MAPA_UGC, SITE } from "@/lib/site";
 
 /** Checkout da Imersão Mapa do UGC (HeroSpark). */
 const COMPRA_URL =
-  "https://pay.herospark.com/como-resolver-problema-e-alcancar-resultado-548651";
+  "https://pay.herospark.com/o-guia-pratico-para-alcancar-resultado-549116";
 
 export const metadata: Metadata = {
   title: "Imersão Mapa do UGC | Sábado, 7/nov, ao vivo com a Juh Araújo",
