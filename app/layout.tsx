@@ -6,7 +6,7 @@ import { Header } from "@/components/layout/Header";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
 import { REVEAL_SCRIPT } from "@/components/ui/Reveal";
-import { OG_IMAGEM, SITE, SOCIAL } from "@/lib/site";
+import { FUNDADOR, OG_IMAGEM, SITE, SOCIAL, WHATSAPP_NUMBER } from "@/lib/site";
 
 const chakra = Chakra_Petch({
   variable: "--font-chakra",
@@ -64,9 +64,12 @@ const organizationJsonLd = {
   "@context": "https://schema.org",
   "@graph": [
     {
-      "@type": "Organization",
+      // Agência e escola ao mesmo tempo: os dois tipos deixam a Ousadia
+      // aparecer tanto em "agência de marketing" quanto em "curso de marketing".
+      "@type": ["Organization", "EducationalOrganization"],
       "@id": `${SITE.url}/#organizacao`,
       name: SITE.name,
+      alternateName: ["Ousadia", "Ousadia Marketing Creators da Amazônia"],
       legalName: SITE.razaoSocial,
       url: SITE.url,
       logo: `${SITE.url}/marca/circular.png`,
@@ -83,14 +86,55 @@ const organizationJsonLd = {
         addressCountry: "BR",
       },
       sameAs: Object.values(SOCIAL).filter(Boolean),
-      areaServed: "BR",
+      founder: { "@id": `${SITE.url}/#fundador` },
+      foundingLocation: { "@type": "Place", name: SITE.cidadeBase },
+      contactPoint: {
+        "@type": "ContactPoint",
+        contactType: "atendimento",
+        telephone: `+${WHATSAPP_NUMBER}`,
+        email: SITE.email,
+        availableLanguage: "pt-BR",
+      },
+      areaServed: [
+        { "@type": "Place", name: "Amazônia" },
+        { "@type": "State", name: "Pará" },
+        { "@type": "Country", name: "Brasil" },
+      ],
+      // Os temas em que a Ousadia quer ser lembrada (e citada) por buscadores
+      // e IAs. Mantenha alinhado com os assuntos do blog e dos cursos.
       knowsAbout: [
         "marketing digital",
+        "marketing digital na Amazônia",
         "social media",
-        "UGC",
+        "UGC (conteúdo gerado pelo usuário)",
+        "creator economy",
+        "influência local",
+        "posicionamento de marca",
+        "marketing de conteúdo",
+        "vergonha de gravar vídeo",
         "inteligência artificial para negócios",
-        "Amazônia",
+        "tráfego pago",
         "bioeconomia",
+        "Amazônia",
+      ],
+    },
+    {
+      "@type": "Person",
+      "@id": `${SITE.url}/#fundador`,
+      name: FUNDADOR.nome,
+      alternateName: FUNDADOR.alternateName,
+      jobTitle: FUNDADOR.cargo,
+      description: FUNDADOR.bio,
+      url: `${SITE.url}/sobre/`,
+      image: `${SITE.url}${FUNDADOR.foto}`,
+      worksFor: { "@id": `${SITE.url}/#organizacao` },
+      homeLocation: { "@type": "Place", name: SITE.cidadeBase },
+      knowsAbout: [
+        "marketing digital",
+        "posicionamento",
+        "oratória e vídeo",
+        "inteligência artificial",
+        "creator economy",
       ],
     },
     {

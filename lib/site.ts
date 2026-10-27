@@ -34,6 +34,20 @@ export const SITE = {
 } as const;
 
 /**
+ * O fundador como entidade (JSON-LD do layout e da página /sobre). Um nome só,
+ * sempre igual, é o que faz Google e IAs ligarem "Jackson" à Ousadia.
+ * ATENÇÃO: o site usa "Jackson Queiroz" (curso de IA) e "Jackson Satoyiro"
+ * (Destrave). Confirmar qual é o nome principal antes de publicar.
+ */
+export const FUNDADOR = {
+  nome: "Jackson Queiroz",
+  alternateName: ["Jackson Satoyiro"],
+  cargo: "Fundador da Ousadia Marketing",
+  bio: "Fundador da Ousadia Marketing, a primeira Agência Escola de Marketing do Norte do Brasil. Foi servidor público por 18 anos antes de virar empreendedor no digital. Criador do Destrave e do Amazon Marketing Day.",
+  foto: "/sobre/jackson-amd-palco.webp",
+};
+
+/**
  * Encarregada pelo tratamento de dados pessoais (LGPD, art. 41): a pessoa que
  * responde aos titulares e à ANPD. Aparece na Política de Privacidade.
  */
@@ -386,16 +400,18 @@ export type NavLink =
 
 export const NAV_LINKS: NavLink[] = [
   { label: "Quem somos", href: "/sobre" },
-  { label: "Escola", href: "/escola" },
-  { label: "Agência", href: "/agencia" },
-  { label: "Comunidade", href: "/comunidade" },
   {
-    label: "Conteúdo",
+    // A Imersão Mapa do UGC morava em "Conteúdo"; foi pra Escola quando o Blog
+    // virou item próprio do menu (27/10/2026).
+    label: "Escola",
     children: [
-      { label: "Blog", href: "/conteudo" },
+      { label: "Todos os cursos", href: "/escola" },
       { label: "Imersão Mapa do UGC", href: "/mapa-do-ugc" },
     ],
   },
+  { label: "Agência", href: "/agencia" },
+  { label: "Comunidade", href: "/comunidade" },
+  { label: "Blog", href: "/conteudo" },
   {
     // Um teste por área (pedido de 18/10/2026).
     label: "Diagnóstico",

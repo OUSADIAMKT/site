@@ -7,7 +7,7 @@ import Image from "next/image";
 import { ContentSlot } from "@/components/ui/MediaSlot";
 import { Leaf, RiverLines } from "@/components/ui/Motifs";
 import { KeneStrip } from "@/components/ui/graphics/Kene";
-import { wa } from "@/lib/site";
+import { SITE, wa } from "@/lib/site";
 import { ArrowRight } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -145,9 +145,41 @@ const VALORES = [
   },
 ];
 
+/**
+ * Página de perfil do fundador: aponta para a entidade `#fundador` declarada
+ * no layout, em vez de repetir os dados. É o que o Google usa pra ligar a
+ * pessoa à marca (autoria, painel de conhecimento) e o que as IAs citam.
+ */
+const perfilJsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": ["AboutPage", "ProfilePage"],
+      "@id": `${SITE.url}/sobre/#pagina`,
+      url: `${SITE.url}/sobre/`,
+      name: "Sobre a Ousadia Marketing",
+      inLanguage: "pt-BR",
+      about: { "@id": `${SITE.url}/#organizacao` },
+      mainEntity: { "@id": `${SITE.url}/#fundador` },
+      isPartOf: { "@id": `${SITE.url}/#site` },
+    },
+    {
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Início", item: `${SITE.url}/` },
+        { "@type": "ListItem", position: 2, name: "Sobre", item: `${SITE.url}/sobre/` },
+      ],
+    },
+  ],
+};
+
 export default function SobrePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(perfilJsonLd) }}
+      />
       <PageHero
         eyebrow="Sobre a Ousadia"
         title={

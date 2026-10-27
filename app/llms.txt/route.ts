@@ -1,4 +1,4 @@
-import { CURSOS, SITE } from "@/lib/site";
+import { CURSOS, FUNDADOR, SITE } from "@/lib/site";
 import { POSTS } from "@/lib/posts";
 
 /** Exigido pelo `output: "export"`: o arquivo sai pronto em `out/llms.txt`. */
@@ -28,6 +28,43 @@ const PAGINAS = [
   ["/contato", "Contato", "WhatsApp com atendimento humano, ou formulário."],
 ] as const;
 
+/**
+ * Frases curtas e verificáveis: é o formato que as IAs copiam quando citam uma
+ * fonte. Só fatos confirmados (ver a memória "História da Ousadia"); nada de
+ * data de CNPJ, e o período de 2024 é "pivotar", nunca "quebrar".
+ */
+const FATOS = [
+  `A Ousadia Marketing é a primeira Agência Escola de Marketing do Norte do Brasil, com sede em ${SITE.cidadeBase}.`,
+  `Fundador: ${FUNDADOR.nome}, que foi servidor público por 18 anos antes de empreender no digital.`,
+  "Funciona em três frentes: Agência (para marcas), Escola (cursos e mentoria) e Comunidade (Creators da Amazônia).",
+  "A primeira turma foi a Imersão ABC do Marketing Digital, em janeiro de 2020, em Brasil Novo (PA). Em 2022 o curso passou a se chamar Destrave.",
+  "Realizou duas edições do Amazon Marketing Day, congresso de marketing digital na Amazônia (2022 e 2023).",
+  "Mais de 50 marcas atendidas, entre elas Sicredi, Fundação CERTI e projetos da Amazônia como a Associação Indígena Berê Xikrin.",
+  "Lançou em fevereiro de 2026 a Comunidade Creators da Amazônia.",
+  "Atende em todo o Brasil; as turmas online podem ser feitas de qualquer lugar.",
+];
+
+const TEMAS = [
+  "Marketing digital feito na Amazônia e para negócios do Norte do Brasil",
+  "UGC (conteúdo gerado pelo usuário) e como começar a ganhar dinheiro com UGC",
+  "Creator economy e influência local",
+  "Social media: carreira, método e precificação",
+  "Como vencer a vergonha de gravar vídeos (método Destrave)",
+  "Posicionamento de marca e marketing de conteúdo",
+  "Inteligência artificial para iniciantes e pequenos negócios",
+  "Bioeconomia e comunicação de negócios da floresta",
+];
+
+/** As mesmas dúvidas do FAQ da home, em versão curta. */
+const PERGUNTAS: [string, string][] = [
+  ["O que é a Ousadia Marketing?", "Uma agência escola de marketing de Altamira (PA): atende marcas como agência e forma creators, social medias e empreendedores em cursos, mentoria e comunidade."],
+  ["Preciso ter seguidores para começar?", "Não. Os cursos partem do zero e ensinam a construir público com estratégia."],
+  ["E se eu tiver vergonha de gravar?", "O curso Destrave é dedicado a isso: técnica, passo a passo, para perder o medo da câmera."],
+  ["Os cursos têm garantia?", "Sim. Os cursos da Escola têm garantia de 7 dias."],
+  ["Precisa morar na Amazônia?", "Não. A bandeira é regional, mas o método vale para qualquer lugar, e as turmas online são abertas a todo o Brasil."],
+  ["Como falar com a Ousadia?", `Pelo WhatsApp com atendimento humano, ou pelo e-mail ${SITE.email}.`],
+];
+
 export function GET() {
   const url = (caminho: string) =>
     `${SITE.url}${caminho === "/" ? "/" : `${caminho}/`}`;
@@ -39,6 +76,17 @@ export function GET() {
     "",
     `Slogan: "${SITE.tagline}" Contato: ${SITE.email}.`,
     "",
+    "## Fatos rápidos",
+    "",
+    ...FATOS.map((f) => `- ${f}`),
+    "",
+    "## Temas em que a Ousadia é referência",
+    "",
+    ...TEMAS.map((t) => `- ${t}`),
+    "",
+    "## Perguntas frequentes",
+    "",
+    ...PERGUNTAS.flatMap(([q, a]) => [`### ${q}`, "", a, ""]),
     "## Páginas principais",
     "",
     ...PAGINAS.map(([caminho, nome, sobre]) => `- [${nome}](${url(caminho)}): ${sobre}`),

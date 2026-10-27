@@ -9,6 +9,8 @@ import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { CasesVitrine } from "@/components/sections/Cases";
 import { PilaresSumauma } from "@/components/sections/PilaresSumauma";
+import { EcossistemaCamadas } from "@/components/sections/EcossistemaCamadas";
+import { BlogHome } from "@/components/sections/BlogHome";
 import {
   Leaf,
   Paddle,
@@ -16,7 +18,6 @@ import {
   RiverLines,
 } from "@/components/ui/Motifs";
 import {
-  KeneBullet,
   KeneField,
   KeneRule,
   KeneStrip,
@@ -35,18 +36,21 @@ export const metadata: Metadata = {
 /**
  * Marcas atendidas, na faixa da prova social rápida. Os arquivos em
  * `public/marcas-atendidas/` já são brancos monocromáticos, recortados e com a
- * mesma altura (160px): a harmonia vem do arquivo, não de ajuste por logo.
+ * mesma altura (160px): a harmonia vem do arquivo. A exceção é a Biorama, só
+ * letreiro e muito larga, que aparece com ~68% da altura pra não pesar mais que as outras.
  */
 const MARCAS = [
   { src: "sicredi", nome: "Sicredi", w: 643 },
   { src: "certi", nome: "Fundação CERTI", w: 426 },
-  { src: "biorama", nome: "Biorama", w: 1105 },
+  { src: "biorama", nome: "Biorama", w: 1105, menor: true },
   { src: "jornada-amazonia", nome: "Jornada Amazônia", w: 721 },
   { src: "world-creativity-day", nome: "World Creativity Day 2024", w: 417 },
   { src: "bere-xikrin", nome: "Associação Indígena Berê Xikrin", w: 373 },
   { src: "creax", nome: "CREAX — Centro Regional de Educação Ambiental do Xingu", w: 571 },
   { src: "sindicato-produtores-rurais-altamira", nome: "Siralta — Sindicato dos Produtores Rurais de Altamira", w: 470 },
-  { src: "gem-tv-pa", nome: "Gem TV Pará", w: 430 },
+  { src: "gem-tv-pa", nome: "Gem TV Pará", w: 426 },
+  { src: "rio-xingu-pousada-lodge", nome: "Rio Xingu Pousada · Lodge", w: 836 },
+  { src: "viver-de-amazonia", nome: "Viver de Amazônia", w: 527 },
 ];
 
 /**
@@ -93,54 +97,6 @@ const DORES = [
   {
     t: "“Vejo todo mundo crescendo, menos eu.”",
     d: "Calma. Esse “todo mundo” é uma curadoria de quem o algoritmo te entrega. A maioria também tá perdida, só posta com mais cara de quem não tá.",
-  },
-];
-
-const ECOSSISTEMA = [
-  {
-    emoji: "📚",
-    t: "Cursos práticos",
-    para: "Para quem tá começando ou quer profissionalizar.",
-    itens: [
-      "ABC do Marketing",
-      "Destrave (vergonha de gravar? a gente quebra isso)",
-      "Social Media Ousado",
-    ],
-    nota: "Você aprende executando, não anotando. Sai com projeto real, não com PDF salvo no celular.",
-    cta: "Ver cursos",
-    href: "/escola" as const,
-  },
-  {
-    emoji: "💎",
-    t: "Mentoria high ticket",
-    para: "Para quem já tem base e quer acelerar.",
-    itens: [],
-    nota: "Acompanhamento direto com o Jackson e o time. Posicionamento, conteúdo, estratégia e venda: tudo desenhado pra você, não pra “todo mundo”. Vagas limitadas. Aplicação obrigatória.",
-    cta: "Aplicar para a mentoria",
-    href: "/mentoria" as const,
-  },
-  {
-    emoji: "🚀",
-    t: "Agência (para marcas)",
-    para: "Para empresas que querem comunicar com alma e vender com método.",
-    itens: [
-      "Gestão de campanhas com creators",
-      "Estratégia de conteúdo",
-      "Posicionamento de marca",
-      "UGC e influência local",
-    ],
-    nota: "Não fazemos “marketing bonito”. Fazemos marketing que vende.",
-    cta: "Solicitar proposta",
-    href: "/agencia" as const,
-  },
-  {
-    emoji: "🌱",
-    t: "Comunidade Creators da Amazônia",
-    para: "Para quem quer estar onde as coisas acontecem antes de virarem tendência.",
-    itens: [],
-    nota: "Comunidade fechada com encontros, conteúdo exclusivo, networking real e bastidor do que a gente tá construindo.",
-    cta: "Quero entrar",
-    href: "/comunidade" as const,
   },
 ];
 
@@ -303,7 +259,9 @@ export default function HomePage() {
                       title={m.nome}
                       width={m.w}
                       height={160}
-                      className="h-9 w-auto opacity-75 transition-opacity hover:opacity-100 sm:h-10"
+                      className={`w-auto opacity-75 transition-opacity hover:opacity-100 ${
+                        m.menor ? "h-[1.53rem] sm:h-[1.7rem]" : "h-9 sm:h-10"
+                      }`}
                     />
                   </li>
                 ))}
@@ -453,131 +411,13 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ============ 6 · ECOSSISTEMA (verde) ============ */}
-      <section
-        data-tema="verde"
-        className="relative overflow-hidden !bg-roxo section-padding"
-      >
-        <Leaf className="motif motif-soft text-floresta -left-8 bottom-4 hidden w-56 -rotate-45 lg:block" />
-        <div className="container-site relative">
-          <Reveal>
-            <p className="eyebrow mb-4">O ecossistema</p>
-            <h2 className="headline-section max-w-3xl">
-              Existe um caminho pra você na Ousadia. Independentemente de{" "}
-              <span className="text-amarelo">onde você esteja</span>.
-            </h2>
-            <p className="text-body mt-6 max-w-2xl">
-              Tá começando do zero? Tem um lugar. Já tem público, mas não vende?
-              Tem outro. Quer escalar marca? Tem um terceiro. Olha aí:
-            </p>
-          </Reveal>
-          <div className="mt-12 grid gap-6 md:grid-cols-2">
-            {ECOSSISTEMA.map((e, i) => (
-              <Reveal key={e.t} delay={i * 0.06}>
-                <div className="card-surface flex h-full flex-col p-7">
-                  <span className="text-2xl" aria-hidden>
-                    {e.emoji}
-                  </span>
-                  <h3 className="font-display text-xl mt-3">{e.t}</h3>
-                  <p className="mt-2 font-mono text-xs uppercase tracking-wider text-rio">
-                    {e.para}
-                  </p>
-                  {e.itens.length > 0 && (
-                    <ul className="mt-4 space-y-1.5">
-                      {e.itens.map((it) => (
-                        <li
-                          key={it}
-                          className="text-body flex items-start gap-2 text-sm"
-                        >
-                          <KeneBullet
-                            mark="quadrado"
-                            size={9}
-                            className="mt-[0.42rem] text-floresta"
-                          />
-                          {it}
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                  <p className="text-body mt-4 text-sm">{e.nota}</p>
-                  <Link
-                    href={e.href}
-                    className="mt-6 inline-flex items-center gap-2 self-start font-mono text-xs font-semibold uppercase tracking-wider text-amarelo transition-transform hover:translate-x-1"
-                  >
-                    {e.cta} <ArrowRight size={14} />
-                  </Link>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
+      {/* ============ 6 · ECOSSISTEMA (camadas) ============ */}
+      <EcossistemaCamadas />
 
-      {/* ============ 7 · JACKSON (escuro) ============ */}
-      <section className="relative overflow-hidden bg-ink section-padding">
-        <KeneStrip
-          motif="ronoa"
-          height={18}
-          className="absolute inset-x-0 top-0 text-amarelo opacity-25"
-        />
-        <Paddle className="motif motif-soft text-amarelo right-[6%] top-10 hidden w-20 rotate-6 lg:block" />
-        <div className="container-site relative grid gap-12 lg:grid-cols-[1fr_1.3fr] lg:items-center">
-          <Reveal>
-            <MediaSlot
-              className="glow-amarelo"
-              label="Foto real do Jackson: sem pose de guru. Contexto regional."
-            />
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div>
-              <p className="eyebrow mb-4">Quem lidera</p>
-              <h2 className="headline-section">
-                Antes de te ensinar a se posicionar, eu mesmo precisei me{" "}
-                <span className="text-amarelo">reposicionar</span>.
-              </h2>
-              <div className="text-body mt-7 space-y-4">
-                <p>Trabalhei 18 anos como servidor público.</p>
-                <p>
-                  Tinha estabilidade, tinha salário, tinha “futuro garantido”.
-                  Tinha também uma sensação chata de que eu tava deixando uma
-                  versão minha morrer todo dia, na frente da tela do computador,
-                  em uma sala que não era minha.
-                </p>
-                <p>
-                  Aí eu fiz o que ninguém em sã consciência faz:{" "}
-                  <strong className="font-semibold text-foreground">
-                    pulei
-                  </strong>
-                  .
-                </p>
-                <p>
-                  Estudei marketing como quem estuda pra concurso. Apliquei como
-                  quem precisa pagar conta no fim do mês, porque eu precisava.
-                  Errei muito. Acertei o suficiente.
-                </p>
-                <p>
-                  Hoje, depois de <strong>mais de 50 marcas atendidas</strong>, duas
-                  edições do <strong>Amazon Marketing Day</strong> e do
-                  reconhecimento de uma comunidade que cresce todo dia, eu
-                  entendi uma coisa:
-                </p>
-                <p className="font-display text-2xl text-floresta">
-                  O Norte não tá atrás. O Norte tava só sem voz.
-                </p>
-                <p>A Ousadia é a minha forma de devolver essa voz.</p>
-              </div>
-              <div className="mt-8 flex flex-col gap-4 sm:flex-row">
-                <a href={wa("sobre")} className="btn btn-primary">
-                  Quero conversar com a Ousadia <ArrowRight size={16} />
-                </a>
-                <Link href="/sobre" className="btn btn-secondary">
-                  Ler a história completa
-                </Link>
-              </div>
-            </div>
-          </Reveal>
-        </div>
-      </section>
+      {/* ============ 7 · BLOG (escuro) ============ */}
+      {/* Entrou no lugar de "Quem lidera" (27/10/2026); o Jackson segue
+          na faixa de autoria dentro da seção e na página /sobre. */}
+      <BlogHome />
 
       {/* ============ 8 · PROVA SOCIAL PESADA (claro) ============ */}
       <section className="fold-light relative overflow-hidden">
