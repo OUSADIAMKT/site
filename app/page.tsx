@@ -8,7 +8,7 @@ import { MediaSlot } from "@/components/ui/MediaSlot";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { CasesVitrine } from "@/components/sections/Cases";
-import { PilaresCanoa } from "@/components/sections/PilaresCanoa";
+import { PilaresSumauma } from "@/components/sections/PilaresSumauma";
 import {
   Leaf,
   Paddle,
@@ -362,28 +362,30 @@ export default function HomePage() {
               <span className="text-amarelo">pensar, comunicar e vender</span>.
             </h2>
             <p className="text-body mt-6 max-w-2xl">
-              Pra atravessar o rio, uma canoa precisa de quatro coisas: rumo,
-              uma pintura que diga de quem ela é, motor pra ir mais longe e
-              alguém com coragem de remar. No marketing é igual. Esses são os
-              quatro pilares da Ousadia.
+              Na Amazônia, a sumaúma é chamada de mãe da floresta. Passa dos 50
+              metros, floresce quando ninguém mais floresce, espalha semente no
+              vento por quilômetros, e as raízes dela já foram o jeito de mandar
+              recado de um lado a outro da mata. Uma árvore que pensa, comunica
+              e se multiplica. É isso que a gente quer pro seu marketing, e cada
+              parte dela é um dos quatro pilares da Ousadia.
             </p>
           </Reveal>
           <Reveal delay={0.06}>
             <div className="mt-12">
-              <PilaresCanoa />
+              <PilaresSumauma />
             </div>
           </Reveal>
           <Reveal delay={0.1}>
             <div className="mt-12 flex flex-col gap-5 border-t border-[#241044]/10 pt-8 md:flex-row md:items-center md:justify-between">
               <p className="font-display text-xl max-w-xl">
-                Cada pilar já te tira do porto. Os quatro juntos te levam pro
-                outro lado do rio.
+                Cada parte sozinha já te dá sombra. As quatro juntas fazem você
+                ser vista de longe, acima da mata.
               </p>
               <Link
                 href="/diagnostico"
                 className="inline-flex shrink-0 items-center gap-2 font-mono text-xs font-semibold uppercase tracking-wider text-floresta-deep transition-transform hover:translate-x-1"
               >
-                Qual pilar te falta? Faça o diagnóstico gratuito{" "}
+                Não sabe por onde começar? Diagnóstico completo{" "}
                 <ArrowRight size={14} />
               </Link>
             </div>
