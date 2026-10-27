@@ -10,4 +10,4 @@
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"d","k":"bioeconomia-o-que-e","s":[]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"conteudo","h":64,"c":"$Q2"}]]
-0:{"b":"0cb5beb6324b86182b986ac257d438ba3bd578e3","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"dbafeb358c3fc131dc41a4ae04deaabc099f3663","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
