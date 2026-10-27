@@ -5,12 +5,12 @@ import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
 import { MediaSlot } from "@/components/ui/MediaSlot";
-import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { CasesVitrine } from "@/components/sections/Cases";
 import { PilaresSumauma } from "@/components/sections/PilaresSumauma";
 import { EcossistemaCamadas } from "@/components/sections/EcossistemaCamadas";
 import { BlogHome } from "@/components/sections/BlogHome";
+import { Depoimentos } from "@/components/sections/Depoimentos";
 import {
   Leaf,
   Paddle,
@@ -51,34 +51,6 @@ const MARCAS = [
   { src: "gem-tv-pa", nome: "Gem TV Pará", w: 426 },
   { src: "rio-xingu-pousada-lodge", nome: "Rio Xingu Pousada · Lodge", w: 836 },
   { src: "viver-de-amazonia", nome: "Viver de Amazônia", w: 527 },
-];
-
-/**
- * Depoimentos em vídeo (Shorts) e prints de alunas do Mapa do UGC, os mesmos de
- * `/mapa-do-ugc`. Os do Social Media Ousado entram quando chegarem.
- */
-const DEPOIMENTOS_VIDEO = [
-  { id: "N-q6r4jSZNU", titulo: "Depoimento da Thalia" },
-  { id: "t57qogTvwPI", titulo: "Depoimento da Sara" },
-  { id: "3iVry7h2C8U", titulo: "Depoimento em vídeo de aluna do Mapa do UGC" },
-];
-
-const PRINTS = [
-  {
-    src: "depoimento-diy.webp",
-    w: 1041,
-    alt: "Print de WhatsApp: terceira campanha de UGC aprovada com a marca de cosméticos DIY",
-  },
-  {
-    src: "depoimento-samsung.webp",
-    w: 1012,
-    alt: "Print de notificação: candidatura aprovada em campanha da Samsung Galaxy",
-  },
-  {
-    src: "depoimento-oralb.webp",
-    w: 1306,
-    alt: "Print de aluna aprovada na campanha Iconic da Oral-B no Instagram",
-  },
 ];
 
 const DORES = [
@@ -432,41 +404,9 @@ export default function HomePage() {
           </Reveal>
 
           <div className="mt-12 space-y-12">
-            <div>
-              <h3 className="font-mono text-xs uppercase tracking-widest text-floresta-deep">
-                Depoimentos em vídeo
-              </h3>
-              <div className="mt-5 grid gap-5 sm:grid-cols-3">
-                {DEPOIMENTOS_VIDEO.map((d, i) => (
-                  <Reveal key={d.id} delay={i * 0.05}>
-                    <div className="overflow-hidden rounded-2xl border-2 border-amarelo">
-                      <YouTubeLite id={d.id} titulo={d.titulo} formato="vertical" />
-                    </div>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <h3 className="font-mono text-xs uppercase tracking-widest text-floresta-deep">
-                Prints de feedback
-              </h3>
-              <div className="mt-5 grid gap-5 sm:grid-cols-3">
-                {PRINTS.map((p, i) => (
-                  <Reveal key={p.src} delay={i * 0.05}>
-                    <figure className="overflow-hidden rounded-xl border-2 border-amarelo/55">
-                      <Image
-                        src={`/mapa-do-ugc/${p.src}`}
-                        alt={p.alt}
-                        width={p.w}
-                        height={800}
-                        className="h-full w-full object-cover"
-                      />
-                    </figure>
-                  </Reveal>
-                ))}
-              </div>
-            </div>
+            {/* Depoimentos com tag por área; as abas aparecem sozinhas
+                quando houver mais de uma área (ver Depoimentos.tsx). */}
+            <Depoimentos />
 
             <div>
               <h3 className="font-mono text-xs uppercase tracking-widest text-floresta-deep">
