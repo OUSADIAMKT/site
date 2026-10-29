@@ -796,6 +796,18 @@ body:has(main div[data-tema="vermelho"]) header {
     .js .reveal { opacity: 1; transform: none; }
   }
 
+  /* Correnteza do rio da jornada (app/aulao-social-media/JornadaRio.tsx):
+     o tracejado desce devagar, como água. */
+  .rio-corrente {
+    animation: rio-corre 2.4s linear infinite;
+  }
+  @keyframes rio-corre {
+    to { stroke-dashoffset: -24; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .rio-corrente { animation: none; }
+  }
+
   /* Texto longo das páginas legais (components/sections/LegalPage.tsx). */
   .texto-legal {
     color: color-mix(in oklab, var(--paper) 85%, transparent);

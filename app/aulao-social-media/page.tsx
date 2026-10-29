@@ -17,6 +17,7 @@ import { MediaSlot } from "@/components/ui/MediaSlot";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { GrafismoDiamonds, Paddle, RiverLines } from "@/components/ui/Motifs";
 import { GRUPO_AULAO_SOCIAL_MEDIA, SITE } from "@/lib/site";
+import { JornadaRio } from "./JornadaRio";
 
 export const metadata: Metadata = {
   title: "Aulão gratuito de Social Media · 17/11, 20h · com Tháscila Lawanda",
@@ -110,30 +111,43 @@ const DEPOIMENTOS: { id: string | null; titulo: string }[] = [
 ];
 
 /**
- * Galeria das turmas, numa grade só (masonry em colunas) porque as fotos
- * misturam retrato e paisagem. Ordem: as de certificado primeiro, que mostram
- * quem conclui. As duas de "Primeira turma"/"Primeira aula" já trazem a
- * legenda gravada na arte. Fotos antigas são pequenas (~460px): não esticar.
+ * Mosaico das turmas: grade de células quadradas (4 colunas no desktop, 2 no
+ * celular) em que cada foto ocupa 1×1, 2×1 (largo), 1×2 (alto) ou 2×2 (destaque).
+ * A ordem abaixo foi montada pra fechar 6 linhas no desktop e 12 no celular sem
+ * buraco — ao incluir ou tirar foto, refazer a conta (soma das células = múltiplo
+ * de 4). As turma-7 a 10 vieram de stories e já foram cortadas em quadrado, sem
+ * as figurinhas. Fotos antigas (turma-4 a 6) são pequenas: ficam em 1×1.
  */
-const GALERIA = [
-  { src: "turma-certificados-1.webp", w: 900, h: 600, alt: "Turma da Ousadia segurando os certificados de conclusão, com a equipe da Ousadia sentada à frente" },
-  { src: "turma-1.webp", w: 900, h: 1600, alt: "Jackson com um grupo de alunas sorrindo na sala da Ousadia Marketing" },
-  { src: "turma-4.webp", w: 463, h: 400, alt: "Primeira turma de Social Media da Ousadia reunida em volta da mesa de aula" },
-  { src: "turma-certificados-2.webp", w: 900, h: 600, alt: "Alunos e alunas posando com os certificados em uma turma da Ousadia" },
-  { src: "turma-2.webp", w: 900, h: 1599, alt: "Selfie do Jackson com alunas sorrindo durante uma aula da Ousadia" },
-  { src: "turma-5.webp", w: 456, h: 516, alt: "Alunos da primeira aula de Audiovisual da Ousadia posando juntos na sala" },
-  { src: "turma-sala.webp", w: 900, h: 600, alt: "Alunos e alunas sorrindo na sala de aula da Ousadia" },
-  { src: "turma-3.webp", w: 900, h: 1599, alt: "Selfie de uma turma da Ousadia reunida em volta da mesa de aula" },
-  { src: "turma-6.webp", w: 462, h: 465, alt: "Turma da Ousadia reunida diante do fundo verde do estúdio" },
-  { src: "turma-grupo.webp", w: 900, h: 600, alt: "Cinco mulheres sorrindo lado a lado na sala da Ousadia" },
+const GALERIA: {
+  src: string;
+  w: number;
+  h: number;
+  forma: "largo" | "alto" | "quadrado" | "destaque";
+  pos?: string;
+  alt: string;
+}[] = [
+  { src: "turma-certificados-1.webp", w: 900, h: 600, forma: "largo", pos: "object-[50%_40%]", alt: "Turma da Ousadia segurando os certificados de conclusão, com a equipe da Ousadia sentada à frente" },
+  { src: "turma-8.webp", w: 900, h: 900, forma: "destaque", alt: "Turma de Social Media da Ousadia reunida no fim da aula, sobre o tapete vermelho" },
+  { src: "turma-1.webp", w: 900, h: 1600, forma: "alto", alt: "Jackson com um grupo de alunas sorrindo na sala da Ousadia Marketing" },
+  { src: "turma-7.webp", w: 900, h: 900, forma: "quadrado", alt: "Turma de Social Media da Ousadia posando em duas fileiras na sala de aula" },
+  { src: "turma-4.webp", w: 463, h: 400, forma: "quadrado", alt: "Primeira turma de Social Media da Ousadia reunida em volta da mesa de aula" },
+  { src: "turma-certificados-2.webp", w: 900, h: 600, forma: "largo", pos: "object-[50%_45%]", alt: "Alunos e alunas posando com os certificados em uma turma da Ousadia" },
+  { src: "turma-sala.webp", w: 900, h: 600, forma: "largo", pos: "object-[50%_35%]", alt: "Alunos e alunas sorrindo na sala de aula da Ousadia" },
+  { src: "turma-2.webp", w: 900, h: 1599, forma: "alto", alt: "Selfie do Jackson com alunas sorrindo durante uma aula da Ousadia" },
+  { src: "turma-3.webp", w: 900, h: 1599, forma: "alto", alt: "Selfie de uma turma da Ousadia reunida em volta da mesa de aula" },
+  { src: "turma-9.webp", w: 900, h: 900, forma: "quadrado", alt: "Turma de Social Media da Ousadia sorrindo, com o Jackson de camiseta amarela ao centro" },
+  { src: "turma-10.webp", w: 900, h: 900, forma: "quadrado", alt: "Segunda turma de Social Media de 2025 reunida na sala da Educorp" },
+  { src: "turma-5.webp", w: 456, h: 516, forma: "quadrado", pos: "object-[50%_70%]", alt: "Alunos da primeira aula de Audiovisual da Ousadia posando juntos na sala" },
+  { src: "turma-6.webp", w: 462, h: 465, forma: "quadrado", alt: "Turma da Ousadia reunida diante do fundo verde do estúdio" },
+  { src: "turma-grupo.webp", w: 900, h: 600, forma: "largo", pos: "object-[50%_30%]", alt: "Cinco mulheres sorrindo lado a lado na sala da Ousadia" },
 ];
 
-const SEMANAS_MENTORIA = [
-  { n: "1", t: "Posicionamento e portfólio" },
-  { n: "2", t: "Conteúdo e narrativa" },
-  { n: "3", t: "Métricas e relatório" },
-  { n: "4", t: "Preço e prospecção" },
-];
+const FORMA_GALERIA = {
+  largo: "col-span-2",
+  alto: "row-span-2",
+  quadrado: "",
+  destaque: "col-span-2 row-span-2",
+} as const;
 
 /** Texto puro: todas entram no JSON-LD de FAQ. */
 const FAQ = [
@@ -160,6 +174,10 @@ const FAQ = [
   {
     q: "Quanto cobra um social media iniciante?",
     a: "Depende da cidade, do serviço e do que entra no pacote. O aulão ensina o jeito certo de precificar o seu trabalho. A Ousadia ensina método, não promete valor de ganho: a renda depende da execução de cada pessoa.",
+  },
+  {
+    q: "O que acontece em cada encontro da Mentoria Social Media Ousado?",
+    a: "São 4 encontros ao vivo, um por semana. Semana 1, posicionamento e portfólio: perfil vitrine, 3 amostras e análise do seu perfil. Semana 2, conteúdo e narrativa: ganchos, roteiros de vídeo curto, conteúdo pensado para a busca nas redes, IA como equipe e um calendário de 30 dias. Semana 3, métricas e relatório: as métricas que o cliente entende e um relatório de uma página. Semana 4, preço e prospecção: tabela de preço, scripts de abordagem, proposta com IA e pacote mensal.",
   },
   {
     q: "Quando vou saber o valor da mentoria?",
@@ -495,22 +513,30 @@ export default function AulaoSocialMediaPage() {
               gente de carne e osso, uma turma de cada vez.
             </p>
           </Reveal>
-          <div className="mt-10 columns-2 gap-4 sm:gap-5 lg:columns-3">
-            {GALERIA.map((g) => (
-              <figure
-                key={g.src}
-                className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border-2 border-amarelo/55 shadow-[0_20px_50px_rgba(0,0,0,.35)] sm:mb-5"
-              >
-                <Image
-                  src={`/aulao-social-media/${g.src}`}
-                  alt={g.alt}
-                  width={g.w}
-                  height={g.h}
-                  sizes="(min-width: 1024px) 380px, 50vw"
-                  className="h-auto w-full"
-                />
-              </figure>
-            ))}
+          {/* As linhas têm a altura de uma coluna (cqw = largura do
+              container), então cada célula é quadrada em qualquer tela. */}
+          <div className="@container mx-auto mt-10 max-w-5xl">
+            <div className="grid auto-rows-[calc((100cqw-0.75rem)/2)] grid-cols-2 gap-3 md:auto-rows-[calc((100cqw-3rem)/4)] md:grid-cols-4 md:gap-4">
+              {GALERIA.map((g) => (
+                <figure
+                  key={g.src}
+                  className={`group overflow-hidden rounded-2xl border-2 border-amarelo/45 shadow-[0_20px_50px_rgba(0,0,0,.35)] ${FORMA_GALERIA[g.forma]}`}
+                >
+                  <Image
+                    src={`/aulao-social-media/${g.src}`}
+                    alt={g.alt}
+                    width={g.w}
+                    height={g.h}
+                    sizes={
+                      g.forma === "destaque" || g.forma === "largo"
+                        ? "(min-width: 768px) 512px, 100vw"
+                        : "(min-width: 768px) 256px, 50vw"
+                    }
+                    className={`h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.04] ${g.pos ?? ""}`}
+                  />
+                </figure>
+              ))}
+            </div>
           </div>
         </div>
       </section>
@@ -564,23 +590,21 @@ export default function AulaoSocialMediaPage() {
               Mentoria Social Media{" "}
               <span className="text-amarelo">Ousado</span>
             </h2>
-            <p className="text-body mx-auto mt-5 max-w-xl text-center">
+            <p className="text-body mx-auto mt-5 max-w-2xl text-center">
               Turma Fundadora: 4 semanas de encontros ao vivo, com análise do
               seu perfil e os modelos de trabalho da Tháscila. Vagas limitadas.
             </p>
+            <h3 className="font-display mx-auto mt-12 max-w-2xl text-center text-2xl">
+              Todo rio grande começa num{" "}
+              <span className="text-amarelo">igarapé</span>
+            </h3>
+            <p className="text-body mx-auto mt-3 max-w-2xl text-center">
+              A mentoria é uma viagem rio abaixo: da nascente, onde você
+              descobre de onde brota o seu trabalho, até a foz, onde ele ganha o
+              mundo. Um encontro por semana, uma margem nova a cada parada.
+            </p>
           </Reveal>
-          <div className="mx-auto mt-12 grid max-w-4xl gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {SEMANAS_MENTORIA.map((s, i) => (
-              <Reveal key={s.n} delay={i * 0.06}>
-                <div className="card-surface h-full p-6">
-                  <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
-                    Semana {s.n}
-                  </p>
-                  <p className="font-display mt-2 text-lg">{s.t}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
+          <JornadaRio />
           <Reveal delay={0.12}>
             <div className="mt-10 flex flex-col items-center gap-3 text-center">
               <p className="font-display text-xl text-amarelo">
