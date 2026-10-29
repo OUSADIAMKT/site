@@ -149,6 +149,26 @@ export const GRUPO_AULAO_SOCIAL_MEDIA =
   "https://chat.whatsapp.com/Gg0SHIJYC4RA10k16jZgez";
 
 /**
+ * Grupo de WhatsApp aberto da Comunidade Creators da Amazônia — a porta de
+ * entrada gratuita de `/comunidade` (link passado pelo usuário em 28/10/2026).
+ */
+export const GRUPO_COMUNIDADE = "https://chat.whatsapp.com/FxdBVhLfvJ2L3WKoB9KjCE";
+
+/**
+ * Assinatura semestral da comunidade (R$ 162 = os R$ 27/mês da escada de
+ * preços do Destrave × 6). Enquanto o checkout não existir, fica vazio e o
+ * botão cai no WhatsApp com a mensagem de assinatura.
+ */
+export const CHECKOUT_COMUNIDADE = "";
+
+/** Link de WhatsApp da comunidade, com a mensagem já preenchida. */
+export function waComunidade(
+  texto = "Oi! Quero entrar pra comunidade Creators da Amazônia.",
+) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
+}
+
+/**
  * Link de WhatsApp da Mentoria Viver do Digital — também cai na Juh.
  * Enquanto não houver checkout, a inscrição fecha na conversa (blueprint).
  */
