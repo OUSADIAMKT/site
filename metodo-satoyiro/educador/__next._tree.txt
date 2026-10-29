@@ -1,12 +1,12 @@
-:HL["/_next/static/chunks/1uof4isx_zw_a.css","style"]
-:HL["/_next/static/chunks/0rolw6xbv2p1y.css","style"]
+:HL["/_next/static/chunks/1ghed2-k2vnrm.css","style"]
+:HL["/_next/static/chunks/3ikhkd4utlnty.css","style"]
 :HL["/_next/static/media/0ae4ea64f35ab5f6-s.p.1d4mg4yt567i3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/4e437607573e1075-s.p.2fz20jxmyia8o.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
-:HL["/_next/static/media/d4b605c61b941c57-s.p.1sj6eobyi31rd.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/82450a180bcad83c-s.p.0p-wng2nn8o-p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/fd0cf0e1fc72cdfe-s.p.0gwn7w9k-i020.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/ff2c3018cc098bc4-s.p.1yexyk_f9-p2r.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":"educador","h":96,"c":"$Q3"}]]
 1:[["children",{"s":"metodo-satoyiro","h":64,"c":"$Q2"}]]
-0:{"b":"7b0145d7670ffe20519d827ce6afd1ad248bbc67","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"c52e808cf1353917a36a0d1a18991e9bf882636f","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
