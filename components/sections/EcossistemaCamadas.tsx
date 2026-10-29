@@ -15,6 +15,7 @@ import {
   KeneRule,
   KeneStrip,
 } from "@/components/ui/graphics/Kene";
+import { CHECKOUT_COMUNIDADE } from "@/lib/site";
 
 /**
  * O ecossistema da Ousadia em três camadas (proposta 2 de 27/10/2026): a
@@ -36,7 +37,11 @@ type Camada = {
   nota: string;
   /** Foto no topo do card, de ponta a ponta. */
   foto?: { src: string; alt: string };
-  links: { label: string; href: "/agencia" | "/escola" | "/mentoria" | "/comunidade" }[];
+  /** `externo` = checkout fora do site, abre em nova aba. */
+  links: (
+    | { label: string; href: "/agencia" | "/escola" | "/mentoria" | "/comunidade" }
+    | { label: string; href: string; externo: true }
+  )[];
 };
 
 const CAMADAS: Camada[] = [
@@ -94,7 +99,7 @@ const CAMADAS: Camada[] = [
       "Bastidor do que a gente tá construindo",
     ],
     nota: "Creators da Amazônia: a base que sustenta tudo o que a Ousadia faz.",
-    links: [{ label: "Quero entrar", href: "/comunidade" }],
+    links: [{ label: "Quero entrar", href: CHECKOUT_COMUNIDADE, externo: true }],
   },
 ];
 
@@ -431,16 +436,31 @@ export function EcossistemaCamadas() {
                   {c.nota}
                 </p>
                 <div className="mt-auto flex flex-col gap-3 pt-6">
-                  {c.links.map((l) => (
-                    <Link
-                      key={l.href}
-                      href={l.href}
-                      className="inline-flex items-center gap-2 self-start font-mono text-xs font-semibold uppercase tracking-wider transition-transform hover:translate-x-1"
-                      style={{ color: c.cor }}
-                    >
-                      {l.label} <ArrowRight size={14} />
-                    </Link>
-                  ))}
+                  {c.links.map((l) => {
+                    const classe =
+                      "inline-flex items-center gap-2 self-start font-mono text-xs font-semibold uppercase tracking-wider transition-transform hover:translate-x-1";
+                    const conteudo = (
+                      <>
+                        {l.label} <ArrowRight size={14} />
+                      </>
+                    );
+                    return "externo" in l ? (
+                      <a
+                        key={l.href}
+                        href={l.href}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className={classe}
+                        style={{ color: c.cor }}
+                      >
+                        {conteudo}
+                      </a>
+                    ) : (
+                      <Link key={l.href} href={l.href} className={classe} style={{ color: c.cor }}>
+                        {conteudo}
+                      </Link>
+                    );
+                  })}
                 </div>
               </article>
             </Reveal>

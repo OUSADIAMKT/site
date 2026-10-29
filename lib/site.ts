@@ -157,8 +157,10 @@ export const GRUPO_COMUNIDADE = "https://chat.whatsapp.com/FxdBVhLfvJ2L3WKoB9KjC
 /**
  * Checkout da assinatura semestral da comunidade na HeroSpark (de R$ 297 por
  * R$ 135, 12x de R$ 14, ou R$ 120 no Pix). Vazio = o botão cai no WhatsApp.
+ * Link passado pelo usuário em 29/10/2026 (o antigo, ousadiamkt.herospark.co, dava 404).
  */
-export const CHECKOUT_COMUNIDADE = "https://ousadiamkt.herospark.co/comunidade";
+export const CHECKOUT_COMUNIDADE =
+  "https://pay.herospark.com/comunidade-creators-da-amazonia-461105";
 
 /** Link de WhatsApp da comunidade, com a mensagem já preenchida. */
 export function waComunidade(
