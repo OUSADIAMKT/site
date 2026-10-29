@@ -32,6 +32,19 @@ import {
 
 export const metadata: Metadata = {
   alternates: { canonical: "/comunidade" },
+  openGraph: {
+    title: "Comunidade Creators da Amazônia",
+    description:
+      "UGC, Social Media, Destrave e IA: encontros ao vivo a cada 15 dias com Jackson, Tháscila e Juh. Feito na Amazônia. Para ganhar o mundo.",
+    images: [
+      {
+        url: "/comunidade/og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Comunidade Creators da Amazônia: UGC, Social Media, Destrave e IA. Feito na Amazônia. Para ganhar o mundo.",
+      },
+    ],
+  },
   title: "Comunidade Creators da Amazônia · UGC, Social Media, Destrave e IA",
   description:
     "A comunidade de creators, social medias e empreendedores do Norte: 4 pilares (UGC, Social Media, Destrave e IA), encontros ao vivo a cada 15 dias com Jackson, Tháscila e Juh, e uma rede de gente que está fazendo acontecer. Entrada gratuita no grupo, assinatura semestral e convite para ex-alunos.",
@@ -45,13 +58,15 @@ export const metadata: Metadata = {
  * Modelo de entrada definido pelo usuário: grupo aberto e gratuito
  * (GRUPO_COMUNIDADE), assinatura semestral (CHECKOUT_COMUNIDADE; vazio = cai
  * no WhatsApp) e convite sem custo para quem já foi aluno pagante. Encontros
- * ao vivo quinzenais. O preço (R$ 162/semestre) é o degrau "Comunidade R$ 27/mês"
- * da escada do Destrave, vezes 6.
+ * ao vivo quinzenais. Preço da oferta na HeroSpark (29/10/2026): de R$ 297
+ * por R$ 135 (12x de R$ 14 no cartão) ou R$ 120 no Pix.
  */
 
 const CTA = "Entrar no grupo gratuito";
-const PRECO_SEMESTRE = "R$ 162";
-const PRECO_MES = "R$ 27";
+const PRECO_DE = "R$ 297";
+const PRECO_POR = "R$ 135";
+const PRECO_PIX = "R$ 120";
+const PARCELA = "12x de R$ 14";
 
 const ASSINAR_HREF =
   CHECKOUT_COMUNIDADE ||
@@ -279,7 +294,7 @@ const FAQ = [
   },
   {
     q: "Quanto custa para entrar?",
-    a: `Tem três jeitos de entrar. O grupo aberto no WhatsApp é gratuito. A assinatura de membro custa ${PRECO_SEMESTRE} por semestre, o que dá ${PRECO_MES} por mês. E quem já foi aluno pagante da Ousadia recebe o acesso de membro por convite, sem custo.`,
+    a: `Tem três jeitos de entrar. O grupo aberto no WhatsApp é gratuito. A assinatura semestral de membro sai de ${PRECO_DE} por ${PARCELA} no cartão, ${PRECO_POR} à vista ou ${PRECO_PIX} no Pix. E quem já foi aluno pagante da Ousadia recebe o acesso de membro por convite, sem custo.`,
   },
   {
     q: "Qual a diferença entre o grupo gratuito e a assinatura?",
@@ -311,7 +326,7 @@ const FAQ = [
   },
   {
     q: "Como funciona a assinatura semestral?",
-    a: `São 6 meses de acesso de membro a partir da confirmação do pagamento, por ${PRECO_SEMESTRE}. No fim do semestre, você escolhe se renova. A Ousadia ensina método e não promete ganho: o resultado depende da execução de cada pessoa.`,
+    a: `São 6 meses de acesso de membro a partir da confirmação do pagamento, por ${PARCELA} no cartão, ${PRECO_POR} à vista ou ${PRECO_PIX} no Pix. O pagamento é feito na HeroSpark. No fim do semestre, você escolhe se renova. A Ousadia ensina método e não promete ganho: o resultado depende da execução de cada pessoa.`,
   },
 ];
 
@@ -353,7 +368,7 @@ export default function ComunidadePage() {
       {
         "@type": "Offer",
         name: "Assinatura semestral de membro",
-        price: "162",
+        price: "135",
         priceCurrency: "BRL",
         url: `${SITE.url}/comunidade`,
       },
@@ -649,6 +664,19 @@ export default function ComunidadePage() {
             </p>
           </Reveal>
 
+          <Reveal delay={0.04}>
+            <figure className="mx-auto mt-12 max-w-4xl overflow-hidden rounded-3xl border-2 border-amarelo/60 shadow-[0_28px_70px_rgba(0,0,0,.45)]">
+              <Image
+                src="/comunidade/banner.webp"
+                alt="Comunidade Creators da Amazônia: pôr do sol sobre o rio e os 4 pilares, UGC, Social Media, Destrave e IA. Feito na Amazônia. Para ganhar o mundo."
+                width={1600}
+                height={900}
+                sizes="(min-width: 1024px) 896px, 100vw"
+                className="w-full"
+              />
+            </figure>
+          </Reveal>
+
           <div className="mt-14 grid gap-6 lg:grid-cols-3 lg:items-stretch">
             {/* Grátis */}
             <Reveal delay={0.04}>
@@ -688,14 +716,21 @@ export default function ComunidadePage() {
                 <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
                   Membro · assinatura semestral
                 </p>
-                <p className="mt-3 flex items-baseline gap-2">
+                <p className="text-body mt-3 text-sm">
+                  de <s className="text-cinza-ink">{PRECO_DE}</s> por
+                </p>
+                <p className="mt-1 flex items-baseline gap-2">
+                  <span className="font-display text-xl text-amarelo">12x de</span>
                   <span className="font-display text-5xl text-amarelo">
-                    {PRECO_SEMESTRE}
+                    R$ 14
                   </span>
-                  <span className="text-body text-sm">por semestre</span>
                 </p>
                 <p className="text-body mt-2 text-sm">
-                  Equivale a {PRECO_MES} por mês, por 6 meses de acesso.
+                  ou {PRECO_POR} à vista ·{" "}
+                  <strong className="font-semibold text-floresta">
+                    {PRECO_PIX} no Pix
+                  </strong>
+                  . São 6 meses de acesso.
                 </p>
                 <ul className="mt-6 flex-1 space-y-3 text-sm">
                   {[

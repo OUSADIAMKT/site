@@ -155,11 +155,10 @@ export const GRUPO_AULAO_SOCIAL_MEDIA =
 export const GRUPO_COMUNIDADE = "https://chat.whatsapp.com/FxdBVhLfvJ2L3WKoB9KjCE";
 
 /**
- * Assinatura semestral da comunidade (R$ 162 = os R$ 27/mês da escada de
- * preços do Destrave × 6). Enquanto o checkout não existir, fica vazio e o
- * botão cai no WhatsApp com a mensagem de assinatura.
+ * Checkout da assinatura semestral da comunidade na HeroSpark (de R$ 297 por
+ * R$ 135, 12x de R$ 14, ou R$ 120 no Pix). Vazio = o botão cai no WhatsApp.
  */
-export const CHECKOUT_COMUNIDADE = "";
+export const CHECKOUT_COMUNIDADE = "https://ousadiamkt.herospark.co/comunidade";
 
 /** Link de WhatsApp da comunidade, com a mensagem já preenchida. */
 export function waComunidade(
