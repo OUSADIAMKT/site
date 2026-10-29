@@ -13,6 +13,10 @@ DirectoryIndex index.html
 
   # Curso Audiovisual retirado do site em 17/10/2026: o endereco antigo leva a Escola.
   RewriteRule ^escola/video-maker-e-edicao/?$ /escola/ [R=301,L]
+
+  # Post renomeado duas vezes ("Mobral" e depois "copia e cola", em 28/10/2026
+  # virou "marketing genérico"): os enderecos antigos levam ao post atual.
+  RewriteRule ^conteudo/marketing-(mobral|copia-e-cola)-o-que-e/?$ /conteudo/marketing-generico-o-que-e/ [R=301,L]
 </IfModule>
 
 # Cabecalhos de seguranca.
