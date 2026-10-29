@@ -3,8 +3,13 @@ import Link from "next/link";
 import {
   ArrowRight,
   BadgeDollarSign,
+  CalendarCheck,
   CalendarDays,
+  Gauge,
   MapPin,
+  Radar,
+  Sparkles,
+  Target,
   Users,
 } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
@@ -17,6 +22,7 @@ import { MediaSlot } from "@/components/ui/MediaSlot";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
 import { GrafismoDiamonds, Paddle, RiverLines } from "@/components/ui/Motifs";
 import { GRUPO_AULAO_SOCIAL_MEDIA, SITE } from "@/lib/site";
+import { DIAGNOSTICO_SOCIAL_MEDIA } from "@/lib/diagnostico-social-media";
 import { JornadaRio } from "./JornadaRio";
 
 export const metadata: Metadata = {
@@ -140,6 +146,36 @@ const GALERIA: {
   { src: "turma-5.webp", w: 456, h: 516, forma: "quadrado", pos: "object-[50%_70%]", alt: "Alunos da primeira aula de Audiovisual da Ousadia posando juntos na sala" },
   { src: "turma-6.webp", w: 462, h: 465, forma: "quadrado", alt: "Turma da Ousadia reunida diante do fundo verde do estúdio" },
   { src: "turma-grupo.webp", w: 900, h: 600, forma: "largo", pos: "object-[50%_30%]", alt: "Cinco mulheres sorrindo lado a lado na sala da Ousadia" },
+];
+
+/** O que o Diagnóstico de Social Media entrega (ver `comoFunciona` e o
+ *  resultado em lib/diagnostico-social-media.ts). */
+const GANHOS_DIAGNOSTICO = [
+  {
+    icon: Gauge,
+    t: "Seu momento",
+    d: "Em qual dos 4 momentos você está hoje, do celular parado a quem já é social media.",
+  },
+  {
+    icon: Radar,
+    t: "Seu painel",
+    d: "Um gráfico das 4 competências do trabalho: mentalidade, ferramentas, conteúdo que prende e vender e cobrar. Você vê onde é forte e o que mais te trava.",
+  },
+  {
+    icon: Target,
+    t: "Sua missão da semana",
+    d: "Um passo concreto pra dar agora, em vez de uma lista de teoria.",
+  },
+  {
+    icon: CalendarCheck,
+    t: "Seu plano de 30 dias",
+    d: "Semana a semana, rumo ao primeiro cliente.",
+  },
+  {
+    icon: Sparkles,
+    t: "Um comando de IA pronto",
+    d: "Feito pro seu objetivo: é só colar no ChatGPT ou no Claude.",
+  },
 ];
 
 const FORMA_GALERIA = {
@@ -574,6 +610,95 @@ export default function AulaoSocialMediaPage() {
               da qualidade do trabalho e das oportunidades disponíveis.
             </p>
           </Reveal>
+        </div>
+      </section>
+
+      {/* Diagnóstico: o que a pessoa ganha ao descobrir o próprio momento.
+          Os 4 momentos vêm da config do teste, pra falar a mesma língua do
+          resultado. */}
+      <section className="fold-light relative overflow-hidden">
+        <WaveDivider
+          className="absolute inset-x-0 top-0 rotate-180"
+          color="var(--ink)"
+        />
+        <div className="container-site relative section-padding">
+          <div className="grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-start">
+            <div>
+              <Reveal>
+                <p className="eyebrow mb-4">Antes do aulão</p>
+                <h2 className="headline-section max-w-xl">
+                  Em que trecho do rio{" "}
+                  <span className="text-floresta-deep">você está?</span>
+                </h2>
+                <p className="text-body mt-5 max-w-xl">
+                  Quem não sabe onde está rema pro lado errado. O{" "}
+                  <strong className="font-semibold">
+                    Diagnóstico de Social Media
+                  </strong>{" "}
+                  é gratuito: 10 perguntas, uns 4 minutos, e o resultado aparece
+                  na hora. Você descobre o seu momento e para de gastar energia
+                  no que ainda não é a sua vez.
+                </p>
+              </Reveal>
+              <ul className="mt-8 grid gap-4 sm:grid-cols-2">
+                {GANHOS_DIAGNOSTICO.map((g, i) => (
+                  <Reveal
+                    key={g.t}
+                    delay={i * 0.05}
+                    className={i === GANHOS_DIAGNOSTICO.length - 1 ? "sm:col-span-2" : ""}
+                  >
+                    <li className="card-surface flex h-full gap-4 p-5">
+                      <g.icon className="mt-0.5 shrink-0 text-rio" size={24} />
+                      <span>
+                        <span className="font-display block text-base">
+                          {g.t}
+                        </span>
+                        <span className="text-body mt-1 block text-sm">
+                          {g.d}
+                        </span>
+                      </span>
+                    </li>
+                  </Reveal>
+                ))}
+              </ul>
+            </div>
+
+            <Reveal delay={0.08}>
+              <div className="card-surface p-6 lg:p-8">
+                <p className="font-mono text-xs uppercase tracking-wide text-floresta-deep">
+                  Os 4 momentos do diagnóstico
+                </p>
+                <ol className="mt-5 space-y-4">
+                  {DIAGNOSTICO_SOCIAL_MEDIA.niveis.map((n, i) => (
+                    <li key={n.id} className="flex gap-4">
+                      <span
+                        className="grid h-9 w-9 shrink-0 place-items-center rounded-full font-display text-sm text-ink"
+                        style={{ background: n.cor }}
+                      >
+                        {i + 1}
+                      </span>
+                      <span>
+                        <span className="font-display block">{n.nome}</span>
+                        <span className="text-body block text-sm italic">
+                          “{n.frase}”
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ol>
+                <p className="text-body mt-6 border-t border-black/10 pt-5 text-sm">
+                  No aulão do dia 17 você chega sabendo no que prestar atenção, e
+                  entende qual parada da mentoria é a sua.
+                </p>
+                <Link
+                  href="/diagnostico/social-media"
+                  className="btn btn-primary mt-6 w-full justify-center"
+                >
+                  Fazer meu diagnóstico grátis <ArrowRight size={16} />
+                </Link>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 

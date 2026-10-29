@@ -1,4 +1,14 @@
-import { Check, GitMerge, Sailboat, Sprout, Waves } from "lucide-react";
+import type { ComponentType } from "react";
+import {
+  Check,
+  FileText,
+  LayoutTemplate,
+  ListChecks,
+  Sheet,
+  Sparkles,
+  Sprout,
+  Waves,
+} from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 
 /**
@@ -9,15 +19,85 @@ import { Reveal } from "@/components/ui/Reveal";
  * (`lib/PPC/`), com o que mudou no mercado: busca dentro das redes, vídeo curto
  * e IA como equipe.
  *
- * Cada parada tem a dor que fica pra trás, a transformação e quem a pessoa se
- * torna. O rio é desenhado em trechos, um por parada: cada trecho sai do centro
+ * Cada parada tem a dor que fica pra trás, a transformação, o que a pessoa leva
+ * (material que ataca aquela dor: prompt de IA, PDF, planilha, modelo ou
+ * atividade; nomes tirados dos materiais de apoio do PPC — precisam estar
+ * prontos antes da turma começar) e quem a pessoa se torna. O rio é desenhado em trechos, um por parada: cada trecho sai do centro
  * da parada e chega ao centro da próxima serpenteando, então as curvas ficam
  * fortes seja qual for a altura do cartão. Nasce na 1ª parada e se abre no fim,
  * como uma foz. Fica no centro no desktop (cartões alternando de lado) e à
  * esquerda no celular.
  */
 
-const PARADAS = [
+type Icone = ComponentType<{ size?: number }>;
+
+/**
+ * Encontro das Águas: dois rios descendo em Y e seguindo juntos. O braço da
+ * direita é mais claro, como o Solimões barrento ao lado do Negro escuro.
+ * Mesma grade e traço dos ícones lucide (24px, traço 2).
+ */
+function IconeEncontroDasAguas({ size = 24 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      aria-hidden
+    >
+      <path d="M4.5 3c0 5 2.8 8 7.5 10" />
+      <path d="M19.5 3c0 5-2.8 8-7.5 10" strokeOpacity={0.5} />
+      <path d="M12 13v8" />
+    </svg>
+  );
+}
+
+/** Foz: canoa de pontas erguidas, com o remo cruzando e a pá n'água. */
+function IconeCanoaRemo({ size = 24 }: { size?: number }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      width={size}
+      height={size}
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden
+    >
+      <path d="M2 10.5c1.6 3.6 5 5.5 10 5.5s8.4-1.9 10-5.5c-3.4 1.7-6.6 2.3-10 2.3s-6.6-.6-10-2.3Z" />
+      <path d="M6.5 2.5 15.5 17M5 3.4 8 1.6" />
+      <path d="M15.5 17c0 2 1.2 3.6 3 4.4 0-2-1.2-3.6-3-4.4Z" />
+    </svg>
+  );
+}
+
+/** Tipo de material entregue em cada parada. */
+const TIPOS = {
+  prompt: { rotulo: "Prompt de IA", icon: Sparkles },
+  pdf: { rotulo: "PDF", icon: FileText },
+  planilha: { rotulo: "Planilha", icon: Sheet },
+  modelo: { rotulo: "Modelo no Canva", icon: LayoutTemplate },
+  atividade: { rotulo: "Atividade", icon: ListChecks },
+} as const;
+
+type Leva = { tipo: keyof typeof TIPOS; t: string; d: string };
+
+const PARADAS: {
+  icon: Icone;
+  lugar: string;
+  semana: string;
+  t: string;
+  rio: string;
+  dor: string;
+  ganhos: string[];
+  leva: Leva[];
+  quem: string;
+}[] = [
   {
     icon: Sprout,
     lugar: "Nascente",
@@ -30,6 +110,11 @@ const PARADAS = [
       "Perfil vitrine, com bio, destaques e fixados que vendem o seu serviço",
       "Portfólio com 3 amostras feitas no celular, mesmo antes do primeiro cliente",
       "Seu perfil analisado ao vivo pela Tháscila",
+    ],
+    leva: [
+      { tipo: "prompt", t: "Assistente de Posicionamento", d: "A IA te entrevista e devolve a sua frase de posicionamento a partir do seu território." },
+      { tipo: "pdf", t: "Checklist do Perfil Vitrine", d: "Bio, destaques, fixados e link, item por item." },
+      { tipo: "atividade", t: "Três amostras em um dia", d: "Roteiro pra montar o portfólio antes do primeiro cliente." },
     ],
     quem: "Uma social media com nome, lugar e vitrine.",
   },
@@ -47,10 +132,15 @@ const PARADAS = [
       "IA como equipe pra pautas, roteiros e legendas, sem perder o seu jeito",
       "Calendário de 30 dias pronto pra um cliente real",
     ],
+    leva: [
+      { tipo: "pdf", t: "Banco de Ganchos", d: "Aberturas testadas pra açaiteria, salão, oficina e loja da feira." },
+      { tipo: "prompt", t: "Assistente de Pautas", d: "Gera 30 pautas a partir do perfil do cliente, na voz dele." },
+      { tipo: "planilha", t: "Calendário Ousado", d: "Um mês de conteúdo planejado em uma hora." },
+    ],
     quem: "Uma contadora de histórias que nunca mais fica sem pauta.",
   },
   {
-    icon: GitMerge,
+    icon: IconeEncontroDasAguas,
     lugar: "Encontro das Águas",
     semana: "Semana 3",
     t: "Métricas e relatório",
@@ -61,10 +151,15 @@ const PARADAS = [
       "Relatório de uma página que mostra o que o seu trabalho fez",
       "Ajuste de rota a partir dos números, não do achismo",
     ],
+    leva: [
+      { tipo: "modelo", t: "Relatório de uma página", d: "É só trocar os números e enviar ao cliente." },
+      { tipo: "planilha", t: "Ficha de Métricas", d: "Onde achar cada número no Instagram e no TikTok." },
+      { tipo: "prompt", t: "Tradutor de Métricas", d: "Cole os números e a IA explica o resultado em linguagem de dono de negócio." },
+    ],
     quem: "Uma profissional que prova resultado e é chamada de novo.",
   },
   {
-    icon: Sailboat,
+    icon: IconeCanoaRemo,
     lugar: "Foz",
     semana: "Semana 4",
     t: "Preço e prospecção",
@@ -75,6 +170,11 @@ const PARADAS = [
       "Scripts de abordagem e proposta pronta em 10 minutos com IA",
       "Prospecção na sua cidade e fora dela, pelo WhatsApp e pelo Direct",
       "Pacote mensal pra trocar o trabalho avulso por renda que se repete",
+    ],
+    leva: [
+      { tipo: "planilha", t: "Calculadora de Preço", d: "Sua tabela a partir de 5 concorrentes da sua região." },
+      { tipo: "pdf", t: "Scripts de Abordagem e Objeções", d: "O que dizer na primeira mensagem e no “tá caro”." },
+      { tipo: "prompt", t: "Proposta em 10 minutos", d: "Proposta e orçamento personalizados pra cada cliente." },
     ],
     quem: "Uma social media pronta pra viver do que faz, de onde estiver.",
   },
@@ -189,6 +289,34 @@ export function JornadaRio() {
                       </li>
                     ))}
                   </ul>
+
+                  <div className="mt-5 rounded-xl border border-amarelo/30 bg-amarelo/[.06] p-4">
+                    <p className="font-mono text-[11px] uppercase tracking-wide text-amarelo">
+                      Você leva
+                    </p>
+                    <ul className="mt-3 space-y-3">
+                      {p.leva.map((l) => {
+                        const tipo = TIPOS[l.tipo];
+                        return (
+                          <li key={l.t} className="flex gap-3">
+                            <tipo.icon
+                              size={18}
+                              className="mt-0.5 shrink-0 text-amarelo"
+                            />
+                            <span className="text-sm">
+                              <span className="font-semibold text-foreground">
+                                {l.t}
+                              </span>{" "}
+                              <span className="font-mono text-[10px] uppercase tracking-wide text-cinza-ink">
+                                · {tipo.rotulo}
+                              </span>
+                              <span className="text-body block text-sm">{l.d}</span>
+                            </span>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
 
                   <div className="mt-5 border-l-2 border-amarelo pl-4">
                     <p className="font-mono text-[11px] uppercase tracking-wide text-amarelo">
