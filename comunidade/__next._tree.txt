@@ -8,4 +8,4 @@
 :HL["/_next/static/media/ff2c3018cc098bc4-s.p.1yexyk_f9-p2r.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 2:[["children",{"s":"__PAGE__","h":160}]]
 1:[["children",{"s":"comunidade","h":64,"c":"$Q2"}]]
-0:{"b":"854631121d8c52828957904ab7d88e9a53e6ac87","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"c019c9ce1e07a86dbfeb8b510b98c5cb2a12487e","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
