@@ -103,6 +103,10 @@ const DEPOIMENTOS: { id: string | null; titulo: string }[] = [
     id: "9lTvGvyO8pI",
     titulo: "Depoimento em vídeo de aluna do curso de Social Media da Ousadia",
   },
+  {
+    id: "c9tVQ1CsFLc",
+    titulo: "Depoimento em vídeo de aluna do curso de Social Media da Ousadia",
+  },
 ];
 
 const SEMANAS_MENTORIA = [
@@ -471,7 +475,7 @@ export default function AulaoSocialMediaPage() {
               Alunas do curso de Social Media da Ousadia contando como foi.
             </p>
           </Reveal>
-          <div className="mx-auto mt-10 grid max-w-3xl gap-6 sm:grid-cols-3">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {DEPOIMENTOS.map((d, i) => (
               <Reveal key={d.id ?? i} delay={i * 0.08}>
                 {d.id ? (
