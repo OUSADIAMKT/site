@@ -24,6 +24,7 @@ const PAGINAS = [
   ["/diagnostico", "Diagnóstico de Maturidade Digital", "12 perguntas, ~4 minutos. Em que estágio da Escada Amazônica sua marca está (posicionamento, influência, planejamento, conteúdo e performance) e qual é o próximo passo."],
   ["/diagnostico/ia", "Diagnóstico de IA", "10 perguntas, ~4 minutos, resultado na hora: seu nível com a IA, um painel das 4 competências e um plano de 30 dias."],
   ["/diagnostico/social-media", "Diagnóstico de Social Media", "10 perguntas, ~4 minutos, resultado na hora: seu momento como social media e um plano de 30 dias."],
+  ["/aulao-social-media", "Aulão gratuito de Social Media", "Aula gratuita e ao vivo com Tháscila Lawanda, da Ousadia Marketing: como se posicionar a partir do seu território, conquistar os primeiros clientes e saber quanto cobrar como social media, só com celular e internet. Terça, 17 de novembro, às 20h (Brasília)."],
   ["/conteudo", "Conteúdo", "Artigos, podcast e cases, de dentro da floresta."],
   ["/contato", "Contato", "WhatsApp com atendimento humano, ou formulário."],
 ] as const;

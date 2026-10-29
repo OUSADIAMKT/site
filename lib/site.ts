@@ -141,6 +141,14 @@ export function waCurso(slug: string, nome: string) {
 export const GRUPO_MAPA_UGC = "https://chat.whatsapp.com/IFS158jFoeEEXqltGJMLCG";
 
 /**
+ * Grupo de WhatsApp do aulão de Social Media da Tháscila (17/11/2026, 20h).
+ * O link da transmissão e a condição de Black Friday da mentoria saem só ali,
+ * por isso as CTAs de `/aulao-social-media` caem no grupo.
+ */
+export const GRUPO_AULAO_SOCIAL_MEDIA =
+  "https://chat.whatsapp.com/Gg0SHIJYC4RA10k16jZgez";
+
+/**
  * Link de WhatsApp da Mentoria Viver do Digital — também cai na Juh.
  * Enquanto não houver checkout, a inscrição fecha na conversa (blueprint).
  */
@@ -407,6 +415,7 @@ export const NAV_LINKS: NavLink[] = [
     children: [
       { label: "Todos os cursos", href: "/escola" },
       { label: "Imersão Mapa do UGC", href: "/mapa-do-ugc" },
+      { label: "Aulão de Social Media", href: "/aulao-social-media" },
     ],
   },
   { label: "Agência", href: "/agencia" },
