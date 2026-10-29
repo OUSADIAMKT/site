@@ -244,7 +244,7 @@ const MENTORES: Mentor[] = [
   },
 ];
 
-/** Mosaico de quem já passou pela Ousadia (mesma regra de células da /aulao-social-media). */
+/** Mosaico de quem já passou pela Ousadia: 16 células (4 linhas no desktop), com grid-flow-dense pra não sobrar buraco. */
 const GALERIA: {
   src: string;
   w: number;
@@ -260,6 +260,8 @@ const GALERIA: {
   { src: "/sobre/oficina-fotografia-rio.webp", w: 1200, h: 800, forma: "largo", pos: "object-[50%_45%]", alt: "Jackson com alunos, crianças e educadores numa oficina de fotografia à sombra de uma árvore, na beira do rio" },
   { src: "/aulao-social-media/turma-certificados-1.webp", w: 900, h: 600, forma: "largo", pos: "object-[50%_40%]", alt: "Turma da Ousadia segurando os certificados de conclusão" },
   { src: "/sobre/turma-educom.webp", w: 1200, h: 1200, forma: "quadrado", alt: "Jackson com uma turma presencial" },
+  { src: "/aulao-social-media/turma-10.webp", w: 900, h: 900, forma: "quadrado", alt: "Turma de Social Media da Ousadia reunida na sala da Educorp" },
+  { src: "/aulao-social-media/turma-7.webp", w: 900, h: 900, forma: "quadrado", alt: "Turma de Social Media da Ousadia posando em duas fileiras na sala de aula" },
 ];
 
 const FORMA_GALERIA = {
@@ -537,7 +539,7 @@ export default function ComunidadePage() {
                       <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
                         Pilar {p.n} · {p.mentor}
                       </p>
-                      <h3 className="font-display text-2xl">{p.t}</h3>
+                      <h3 className="font-display text-2xl text-white">{p.t}</h3>
                     </div>
                   </div>
                   <p className="relative mt-5 text-white/80">{p.d}</p>
@@ -857,7 +859,7 @@ export default function ComunidadePage() {
               </div>
             </Reveal>
             <div className="@container">
-              <div className="grid auto-rows-[calc((100cqw-0.75rem)/2)] grid-cols-2 gap-3 md:auto-rows-[calc((100cqw-3rem)/4)] md:grid-cols-4 md:gap-4">
+              <div className="grid grid-flow-dense auto-rows-[calc((100cqw-0.75rem)/2)] grid-cols-2 gap-3 md:auto-rows-[calc((100cqw-3rem)/4)] md:grid-cols-4 md:gap-4">
                 {GALERIA.map((g) => (
                   <figure
                     key={g.src}
