@@ -109,52 +109,23 @@ const DEPOIMENTOS: { id: string | null; titulo: string }[] = [
   },
 ];
 
-/** Fotos das turmas (provisórias, até chegarem as da Tháscila). */
-const TURMA = [
-  {
-    src: "turma-1.webp",
-    alt: "Jackson com um grupo de alunas sorrindo na sala da Ousadia Marketing",
-    pos: "object-[50%_55%]",
-  },
-  {
-    src: "turma-2.webp",
-    alt: "Selfie do Jackson com alunas sorrindo durante uma aula da Ousadia",
-    pos: "object-[50%_30%]",
-  },
-  {
-    src: "turma-3.webp",
-    alt: "Selfie de uma turma da Ousadia reunida em volta da mesa de aula",
-    pos: "object-[50%_30%]",
-  },
-];
-
 /**
- * Histórico das turmas, em ordem cronológica. As duas primeiras fotos já vêm
- * com a legenda gravada na arte; a terceira não tem data conhecida, por isso a
- * legenda é genérica. Arquivos pequenos (~460px): não esticar além disso.
+ * Galeria das turmas, numa grade só (masonry em colunas) porque as fotos
+ * misturam retrato e paisagem. Ordem: as de certificado primeiro, que mostram
+ * quem conclui. As duas de "Primeira turma"/"Primeira aula" já trazem a
+ * legenda gravada na arte. Fotos antigas são pequenas (~460px): não esticar.
  */
-const HISTORICO = [
-  {
-    src: "historico-social-media.webp",
-    w: 463,
-    h: 400,
-    t: "Primeira turma de Social Media",
-    alt: "Primeira turma de Social Media da Ousadia reunida em volta da mesa de aula",
-  },
-  {
-    src: "historico-audiovisual.webp",
-    w: 456,
-    h: 516,
-    t: "Primeira aula de Audiovisual",
-    alt: "Alunos da primeira aula de Audiovisual da Ousadia posando juntos na sala",
-  },
-  {
-    src: "historico-estudio.webp",
-    w: 462,
-    h: 465,
-    t: "Mais uma turma da Ousadia",
-    alt: "Turma da Ousadia reunida diante do fundo verde do estúdio",
-  },
+const GALERIA = [
+  { src: "turma-certificados-1.webp", w: 900, h: 600, alt: "Turma da Ousadia segurando os certificados de conclusão, com a equipe da Ousadia sentada à frente" },
+  { src: "turma-1.webp", w: 900, h: 1600, alt: "Jackson com um grupo de alunas sorrindo na sala da Ousadia Marketing" },
+  { src: "turma-4.webp", w: 463, h: 400, alt: "Primeira turma de Social Media da Ousadia reunida em volta da mesa de aula" },
+  { src: "turma-certificados-2.webp", w: 900, h: 600, alt: "Alunos e alunas posando com os certificados em uma turma da Ousadia" },
+  { src: "turma-2.webp", w: 900, h: 1599, alt: "Selfie do Jackson com alunas sorrindo durante uma aula da Ousadia" },
+  { src: "turma-5.webp", w: 456, h: 516, alt: "Alunos da primeira aula de Audiovisual da Ousadia posando juntos na sala" },
+  { src: "turma-sala.webp", w: 900, h: 600, alt: "Alunos e alunas sorrindo na sala de aula da Ousadia" },
+  { src: "turma-3.webp", w: 900, h: 1599, alt: "Selfie de uma turma da Ousadia reunida em volta da mesa de aula" },
+  { src: "turma-6.webp", w: 462, h: 465, alt: "Turma da Ousadia reunida diante do fundo verde do estúdio" },
+  { src: "turma-grupo.webp", w: 900, h: 600, alt: "Cinco mulheres sorrindo lado a lado na sala da Ousadia" },
 ];
 
 const SEMANAS_MENTORIA = [
@@ -510,7 +481,7 @@ export default function AulaoSocialMediaPage() {
         </div>
       </section>
 
-      {/* A turma */}
+      {/* A turma: uma galeria só */}
       <section className="relative overflow-hidden bg-ink-void section-padding">
         <div className="container-site relative">
           <Reveal>
@@ -519,66 +490,28 @@ export default function AulaoSocialMediaPage() {
               Gente de verdade,{" "}
               <span className="text-amarelo">aprendendo junto.</span>
             </h2>
-          </Reveal>
-          <div className="mt-10 grid gap-5 sm:grid-cols-3">
-            {TURMA.map((t, i) => (
-              <Reveal key={t.src} delay={i * 0.08}>
-                <figure className="overflow-hidden rounded-2xl border-2 border-amarelo/55 shadow-[0_20px_50px_rgba(0,0,0,.35)]">
-                  <Image
-                    src={`/aulao-social-media/${t.src}`}
-                    alt={t.alt}
-                    width={900}
-                    height={1600}
-                    className={`aspect-[4/5] w-full object-cover ${t.pos}`}
-                  />
-                </figure>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Histórico das turmas */}
-      <section className="fold-light relative overflow-hidden">
-        <WaveDivider
-          className="absolute inset-x-0 top-0 rotate-180"
-          color="var(--ink-void)"
-        />
-        <div className="container-site relative section-padding">
-          <Reveal>
-            <p className="eyebrow mb-4">Histórico</p>
-            <h2 className="headline-section max-w-2xl">
-              Turma a turma, a Ousadia{" "}
-              <span className="text-floresta-deep">se formou em sala de aula</span>
-            </h2>
             <p className="text-body mt-5 max-w-2xl">
               A primeira Agência Escola do Norte do Brasil nasceu ensinando
               gente de carne e osso, uma turma de cada vez.
             </p>
           </Reveal>
-          <ol className="mt-12 grid items-start gap-6 md:grid-cols-3">
-            {HISTORICO.map((h, i) => (
-              <Reveal key={h.src} delay={i * 0.08}>
-                <li>
-                  <figure className="card-surface overflow-hidden p-0">
-                    <Image
-                      src={`/aulao-social-media/${h.src}`}
-                      alt={h.alt}
-                      width={h.w}
-                      height={h.h}
-                      className="h-auto w-full"
-                    />
-                    <figcaption className="flex items-baseline gap-3 px-5 py-4">
-                      <span className="font-display text-2xl text-floresta-deep">
-                        0{i + 1}
-                      </span>
-                      <span className="font-display text-base">{h.t}</span>
-                    </figcaption>
-                  </figure>
-                </li>
-              </Reveal>
+          <div className="mt-10 columns-2 gap-4 sm:gap-5 lg:columns-3">
+            {GALERIA.map((g) => (
+              <figure
+                key={g.src}
+                className="mb-4 break-inside-avoid overflow-hidden rounded-2xl border-2 border-amarelo/55 shadow-[0_20px_50px_rgba(0,0,0,.35)] sm:mb-5"
+              >
+                <Image
+                  src={`/aulao-social-media/${g.src}`}
+                  alt={g.alt}
+                  width={g.w}
+                  height={g.h}
+                  sizes="(min-width: 1024px) 380px, 50vw"
+                  className="h-auto w-full"
+                />
+              </figure>
             ))}
-          </ol>
+          </div>
         </div>
       </section>
 
