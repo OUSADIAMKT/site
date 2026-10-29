@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -33,6 +34,8 @@ type Camada = {
   para: string;
   itens: string[];
   nota: string;
+  /** Foto no topo do card, de ponta a ponta. */
+  foto?: { src: string; alt: string };
   links: { label: string; href: "/agencia" | "/escola" | "/mentoria" | "/comunidade" }[];
 };
 
@@ -63,16 +66,18 @@ const CAMADAS: Camada[] = [
     corEscura: "#128a52",
     para: "Para quem tá começando, profissionalizando ou quer acelerar.",
     itens: [
-      "ABC do Marketing",
-      "Destrave (vergonha de gravar? a gente quebra isso)",
       "Social Media Ousado",
-      "Mentoria high ticket com o Jackson e o time",
+      "UGC Creator",
+      "Destrave",
+      "IA para Iniciantes",
     ],
     nota: "Você aprende executando, não anotando. Sai com projeto real, não com PDF salvo no celular.",
-    links: [
-      { label: "Ver cursos", href: "/escola" },
-      { label: "Aplicar para a mentoria", href: "/mentoria" },
-    ],
+    // A turma com os certificados, com o Jackson no centro: a ousadia em pessoa.
+    foto: {
+      src: "/aulao-social-media/turma-certificados-1.webp",
+      alt: "Turma da Escola Ousadia com os certificados na mão, com o Jackson e o time ao centro",
+    },
+    links: [{ label: "Ver cursos", href: "/escola" }],
   },
   {
     id: "comunidade",
@@ -376,6 +381,16 @@ export function EcossistemaCamadas() {
                   style={{ background: c.cor, opacity: 0.16 }}
                   aria-hidden
                 />
+                {c.foto && (
+                  <Image
+                    src={c.foto.src}
+                    alt={c.foto.alt}
+                    width={900}
+                    height={600}
+                    sizes="(min-width: 768px) 33vw, 100vw"
+                    className="relative -mx-7 -mt-7 mb-6 aspect-[3/2] w-[calc(100%+3.5rem)] max-w-none object-cover"
+                  />
+                )}
                 <div className="flex items-center justify-between">
                   <span
                     className="grid h-12 w-12 place-items-center rounded-xl"

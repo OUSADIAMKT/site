@@ -85,7 +85,7 @@ const NAO_E_PRA_VOCE = [
   "Você quer só assistir aula sem aplicar",
   "Você acha que método não importa, “feeling resolve”",
   "Você odeia ser desafiado(a)",
-  "Você quer marketing de copia e cola. Aqui não tem.",
+  "Você quer marketing genérico. Aqui não tem.",
 ];
 
 const FAQ_TXT = [

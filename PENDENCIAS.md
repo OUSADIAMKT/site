@@ -78,7 +78,7 @@ conforme a regra do PRD 7.3.
 - [ ] Números de prova social confirmados pelo cliente *(publicados conforme PRD, aguardando validação)*
 - [ ] Ao menos 3 vídeos de aluno *(slots prontos, mídia pendente)*
 - [x] FAQ cobre vergonha, dinheiro e "é pra mim"
-- [x] A palavra **Mobral** aparece no site
+- [x] O conceito do antigo "Mobral" aparece no site como **marketing genérico** (Mobral era pejorativo; "copia e cola" foi o termo intermediário)
 - [x] Bandeira **Amazônia / Norte** com força no hero e no manifesto
 - [ ] Jackson com **rosto** e história *(história completa publicada; foto pendente)*
 - [x] Botão de WhatsApp flutuante em todas as páginas
