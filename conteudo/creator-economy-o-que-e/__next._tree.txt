@@ -1,5 +1,5 @@
 :HL["/_next/static/chunks/1ghed2-k2vnrm.css","style"]
-:HL["/_next/static/chunks/1vppmtxm4oy7_.css","style"]
+:HL["/_next/static/chunks/43tw2_sckvf2u.css","style"]
 :HL["/_next/static/media/0ae4ea64f35ab5f6-s.p.1d4mg4yt567i3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/3679aa72a9b9035f-s.p.0h6ig86gwutp4.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/4e437607573e1075-s.p.2fz20jxmyia8o.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
@@ -11,4 +11,4 @@
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"slug","t":"d","k":"creator-economy-o-que-e","s":[]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"conteudo","h":64,"c":"$Q2"}]]
-0:{"b":"f3787f2c21683517ab8cbdce44f220ddd6c31130","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"854631121d8c52828957904ab7d88e9a53e6ac87","t":{"t":{"s":"","h":16,"c":"$Q1"}}}

@@ -1,5 +1,5 @@
 :HL["/_next/static/chunks/1ghed2-k2vnrm.css","style"]
-:HL["/_next/static/chunks/1vppmtxm4oy7_.css","style"]
+:HL["/_next/static/chunks/43tw2_sckvf2u.css","style"]
 :HL["/_next/static/media/0ae4ea64f35ab5f6-s.p.1d4mg4yt567i3.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/4e437607573e1075-s.p.2fz20jxmyia8o.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
 :HL["/_next/static/media/53897e768d329f66-s.p.3t6q91iet4nsy.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
@@ -9,4 +9,4 @@
 3:[["children",{"s":"__PAGE__","h":160}]]
 2:[["children",{"s":{"n":"curso","t":"d","k":"ugc-creator","s":["destrave","ia-para-iniciantes","social-media-ousado"]},"h":96,"c":"$Q3"}]]
 1:[["children",{"s":"escola","h":64,"c":"$Q2"}]]
-0:{"b":"f3787f2c21683517ab8cbdce44f220ddd6c31130","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
+0:{"b":"854631121d8c52828957904ab7d88e9a53e6ac87","t":{"t":{"s":"","h":16,"c":"$Q1"}}}
