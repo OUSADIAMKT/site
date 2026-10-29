@@ -147,8 +147,8 @@ const FAQ = [
     a: "Sim. É gratuito e online, na terça, 17 de novembro de 2026, às 20h (horário de Brasília). Basta entrar no grupo do WhatsApp para receber o link. A inscrição não obriga a nenhuma compra.",
   },
   {
-    q: "Preciso assistir ao vivo?",
-    a: "O aulão foi feito pra ser assistido ao vivo: é na hora que você tira dúvidas, recebe o bônus de quem está presente e conhece a condição de Black Friday da mentoria. Separe a noite de 17/11 na agenda; os lembretes chegam no grupo.",
+    q: "O aulão fica gravado?",
+    a: "Fica. A gravação é enviada no grupo do WhatsApp. Mas vale assistir ao vivo: é na hora que você tira dúvidas, recebe o Kit Primeiras Amostras, o bônus de quem está presente, e conhece a condição de Black Friday da mentoria.",
   },
   {
     q: "Serve para a minha cidade?",
@@ -646,12 +646,13 @@ export default function AulaoSocialMediaPage() {
                   <Gift size={16} /> Bônus de quem está ao vivo
                 </p>
                 <p className="font-display mt-3 text-xl">
-                  Assistente de Posicionamento
+                  Kit Primeiras Amostras
                 </p>
                 <p className="text-body mt-2 text-sm">
-                  O prompt de IA que te entrevista e devolve a sua frase de
-                  posicionamento a partir do seu território. Liberado só durante
-                  o aulão.
+                  Seu portfólio começa na mesma noite: um prompt de IA que monta
+                  3 amostras pra um negócio do seu bairro (vídeo curto, post e
+                  carrossel) e um modelo de portfólio no Canva pra você mostrar
+                  o trabalho. Liberado só durante o aulão.
                 </p>
               </div>
             </Reveal>
