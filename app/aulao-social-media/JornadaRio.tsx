@@ -112,9 +112,21 @@ const PARADAS: {
       "Seu perfil analisado ao vivo pela Tháscila",
     ],
     leva: [
-      { tipo: "prompt", t: "Assistente de Posicionamento", d: "A IA te entrevista e devolve a sua frase de posicionamento a partir do seu território." },
-      { tipo: "pdf", t: "Checklist do Perfil Vitrine", d: "Bio, destaques, fixados e link, item por item." },
-      { tipo: "atividade", t: "Três amostras em um dia", d: "Roteiro pra montar o portfólio antes do primeiro cliente." },
+      {
+        tipo: "prompt",
+        t: "Assistente de Posicionamento",
+        d: "A IA te entrevista e devolve a sua frase de posicionamento a partir do seu território.",
+      },
+      {
+        tipo: "pdf",
+        t: "Checklist do Perfil Vitrine",
+        d: "Bio, destaques, fixados e link, item por item.",
+      },
+      {
+        tipo: "atividade",
+        t: "Três amostras em um dia",
+        d: "Roteiro pra montar o portfólio antes do primeiro cliente.",
+      },
     ],
     quem: "Uma social media com nome, lugar e vitrine.",
   },
@@ -133,9 +145,21 @@ const PARADAS: {
       "Calendário de 30 dias pronto pra um cliente real",
     ],
     leva: [
-      { tipo: "pdf", t: "Banco de Ganchos", d: "Aberturas testadas pra açaiteria, salão, oficina e loja da feira." },
-      { tipo: "prompt", t: "Assistente de Pautas", d: "Gera 30 pautas a partir do perfil do cliente, na voz dele." },
-      { tipo: "planilha", t: "Calendário Ousado", d: "Um mês de conteúdo planejado em uma hora." },
+      {
+        tipo: "pdf",
+        t: "Banco de Ganchos",
+        d: "Aberturas testadas pra açaiteria, salão, oficina e loja da feira.",
+      },
+      {
+        tipo: "prompt",
+        t: "Assistente de Pautas",
+        d: "Gera 30 pautas a partir do perfil do cliente, na voz dele.",
+      },
+      {
+        tipo: "planilha",
+        t: "Calendário Ousado",
+        d: "Um mês de conteúdo planejado em uma hora.",
+      },
     ],
     quem: "Uma contadora de histórias que nunca mais fica sem pauta.",
   },
@@ -152,9 +176,21 @@ const PARADAS: {
       "Ajuste de rota a partir dos números, não do achismo",
     ],
     leva: [
-      { tipo: "modelo", t: "Relatório de uma página", d: "É só trocar os números e enviar ao cliente." },
-      { tipo: "planilha", t: "Ficha de Métricas", d: "Onde achar cada número no Instagram e no TikTok." },
-      { tipo: "prompt", t: "Tradutor de Métricas", d: "Cole os números e a IA explica o resultado em linguagem de dono de negócio." },
+      {
+        tipo: "modelo",
+        t: "Relatório de uma página",
+        d: "É só trocar os números e enviar ao cliente.",
+      },
+      {
+        tipo: "planilha",
+        t: "Ficha de Métricas",
+        d: "Onde achar cada número no Instagram e no TikTok.",
+      },
+      {
+        tipo: "prompt",
+        t: "Tradutor de Métricas",
+        d: "Cole os números e a IA explica o resultado em linguagem de dono de negócio.",
+      },
     ],
     quem: "Uma profissional que prova resultado e é chamada de novo.",
   },
@@ -172,9 +208,21 @@ const PARADAS: {
       "Pacote mensal pra trocar o trabalho avulso por renda que se repete",
     ],
     leva: [
-      { tipo: "planilha", t: "Calculadora de Preço", d: "Sua tabela a partir de 5 concorrentes da sua região." },
-      { tipo: "pdf", t: "Scripts de Abordagem e Objeções", d: "O que dizer na primeira mensagem e no “tá caro”." },
-      { tipo: "prompt", t: "Proposta em 10 minutos", d: "Proposta e orçamento personalizados pra cada cliente." },
+      {
+        tipo: "planilha",
+        t: "Calculadora de Preço",
+        d: "Sua tabela a partir de 5 concorrentes da sua região.",
+      },
+      {
+        tipo: "pdf",
+        t: "Scripts de Abordagem e Objeções",
+        d: "O que dizer na primeira mensagem e no “tá caro”.",
+      },
+      {
+        tipo: "prompt",
+        t: "Proposta em 10 minutos",
+        d: "Proposta e orçamento personalizados pra cada cliente.",
+      },
     ],
     quem: "Uma social media pronta pra viver do que faz, de onde estiver.",
   },
@@ -235,7 +283,13 @@ function Rio({ className, foz }: { className: string; foz?: boolean }) {
   );
 }
 
-export function JornadaRio() {
+/**
+ * `completa`: mostra a transformação item a item e o que cada material faz —
+ * versão pra página da mentoria. Sem ela (padrão, usada no aulão) cada parada
+ * fica em "antes → depois" e os materiais viram uma linha: a página do aulão
+ * desperta o desejo, mas o pitch completo é feito ao vivo.
+ */
+export function JornadaRio({ completa = false }: { completa?: boolean }) {
   return (
     <div className="relative mx-auto mt-14 max-w-5xl">
       <ol className="relative">
@@ -244,7 +298,7 @@ export function JornadaRio() {
           return (
             <li
               key={p.lugar}
-              className="relative grid grid-cols-[3rem_1fr] gap-x-5 pb-12 lg:grid-cols-[1fr_5rem_1fr] lg:gap-x-8 lg:pb-6"
+              className={`relative grid grid-cols-[3rem_1fr] gap-x-5 lg:grid-cols-[1fr_5rem_1fr] lg:gap-x-8 ${completa ? "pb-12 lg:pb-6" : "pb-8 lg:pb-2"}`}
             >
               {/* trecho do rio do centro desta parada ao centro da próxima: a
                   parada fica à mesma distância do topo em todo <li>, então
@@ -273,59 +327,80 @@ export function JornadaRio() {
 
                   <div className="mt-5 rounded-xl border border-white/10 bg-ink-void/40 p-4">
                     <p className="font-mono text-[11px] uppercase tracking-wide text-cinza-ink">
-                      A dor que fica pra trás
+                      {completa ? "A dor que fica pra trás" : "Antes"}
                     </p>
                     <p className="text-body mt-1.5 text-sm">{p.dor}</p>
                   </div>
 
-                  <p className="mt-5 font-mono text-[11px] uppercase tracking-wide text-rio">
-                    A transformação
-                  </p>
-                  <ul className="mt-2 space-y-2">
-                    {p.ganhos.map((g) => (
-                      <li key={g} className="flex gap-2.5 text-sm text-foreground">
-                        <Check size={16} className="mt-0.5 shrink-0 text-floresta" />
-                        <span>{g}</span>
-                      </li>
-                    ))}
-                  </ul>
-
-                  <div className="mt-5 rounded-xl border border-amarelo/30 bg-amarelo/[.06] p-4">
-                    <p className="font-mono text-[11px] uppercase tracking-wide text-amarelo">
-                      Você leva
-                    </p>
-                    <ul className="mt-3 space-y-3">
-                      {p.leva.map((l) => {
-                        const tipo = TIPOS[l.tipo];
-                        return (
-                          <li key={l.t} className="flex gap-3">
-                            <tipo.icon
-                              size={18}
-                              className="mt-0.5 shrink-0 text-amarelo"
+                  {completa ? (
+                    <>
+                      <p className="mt-5 font-mono text-[11px] uppercase tracking-wide text-rio">
+                        A transformação
+                      </p>
+                      <ul className="mt-2 space-y-2">
+                        {p.ganhos.map((g) => (
+                          <li
+                            key={g}
+                            className="flex gap-2.5 text-sm text-foreground"
+                          >
+                            <Check
+                              size={16}
+                              className="mt-0.5 shrink-0 text-floresta"
                             />
-                            <span className="text-sm">
-                              <span className="font-semibold text-foreground">
-                                {l.t}
-                              </span>{" "}
-                              <span className="font-mono text-[10px] uppercase tracking-wide text-cinza-ink">
-                                · {tipo.rotulo}
-                              </span>
-                              <span className="text-body block text-sm">{l.d}</span>
-                            </span>
+                            <span>{g}</span>
                           </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
+                        ))}
+                      </ul>
+
+                      <div className="mt-5 rounded-xl border border-amarelo/30 bg-amarelo/[.06] p-4">
+                        <p className="font-mono text-[11px] uppercase tracking-wide text-amarelo">
+                          Você leva
+                        </p>
+                        <ul className="mt-3 space-y-3">
+                          {p.leva.map((l) => {
+                            const tipo = TIPOS[l.tipo];
+                            return (
+                              <li key={l.t} className="flex gap-3">
+                                <tipo.icon
+                                  size={18}
+                                  className="mt-0.5 shrink-0 text-amarelo"
+                                />
+                                <span className="text-sm">
+                                  <span className="font-semibold text-foreground">
+                                    {l.t}
+                                  </span>{" "}
+                                  <span className="font-mono text-[10px] uppercase tracking-wide text-cinza-ink">
+                                    · {tipo.rotulo}
+                                  </span>
+                                  <span className="text-body block text-sm">
+                                    {l.d}
+                                  </span>
+                                </span>
+                              </li>
+                            );
+                          })}
+                        </ul>
+                      </div>
+                    </>
+                  ) : null}
 
                   <div className="mt-5 border-l-2 border-amarelo pl-4">
                     <p className="font-mono text-[11px] uppercase tracking-wide text-amarelo">
-                      Quem você se torna
+                      {completa ? "Quem você se torna" : "Depois"}
                     </p>
                     <p className="font-display mt-1 text-lg leading-snug">
                       {p.quem}
                     </p>
                   </div>
+
+                  {!completa && (
+                    <p className="text-body mt-5 border-t border-white/10 pt-4 text-xs">
+                      <span className="font-mono uppercase tracking-wide text-amarelo">
+                        Você leva ·{" "}
+                      </span>
+                      {p.leva.map((l) => l.t).join(" · ")}
+                    </p>
+                  )}
                 </article>
               </Reveal>
             </li>
