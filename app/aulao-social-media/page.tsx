@@ -92,10 +92,6 @@ const PUBLICO = [
 /** Depoimentos em Shorts. `id: null` = vídeo ainda não subiu pro YouTube. */
 const DEPOIMENTOS: { id: string | null; titulo: string }[] = [
   {
-    id: "-7a5HE2UJ3U",
-    titulo: "Depoimento em vídeo de aluna do curso de Social Media da Ousadia",
-  },
-  {
     id: "mfOsmSyicGE",
     titulo: "Depoimento em vídeo de aluna do curso de Social Media da Ousadia",
   },
@@ -110,6 +106,25 @@ const DEPOIMENTOS: { id: string | null; titulo: string }[] = [
   {
     id: "FgYMthEKfCk",
     titulo: "Depoimento em vídeo de aluna do curso de Social Media da Ousadia",
+  },
+];
+
+/** Fotos das turmas (provisórias, até chegarem as da Tháscila). */
+const TURMA = [
+  {
+    src: "turma-1.webp",
+    alt: "Jackson com um grupo de alunas sorrindo na sala da Ousadia Marketing",
+    pos: "object-[50%_55%]",
+  },
+  {
+    src: "turma-2.webp",
+    alt: "Selfie do Jackson com alunas sorrindo durante uma aula da Ousadia",
+    pos: "object-[50%_30%]",
+  },
+  {
+    src: "turma-3.webp",
+    alt: "Selfie de uma turma da Ousadia reunida em volta da mesa de aula",
+    pos: "object-[50%_30%]",
   },
 ];
 
@@ -466,6 +481,34 @@ export default function AulaoSocialMediaPage() {
         </div>
       </section>
 
+      {/* A turma */}
+      <section className="relative overflow-hidden bg-ink-void section-padding">
+        <div className="container-site relative">
+          <Reveal>
+            <p className="eyebrow mb-4">A turma</p>
+            <h2 className="headline-section max-w-2xl">
+              Gente de verdade,{" "}
+              <span className="text-amarelo">aprendendo junto.</span>
+            </h2>
+          </Reveal>
+          <div className="mt-10 grid gap-5 sm:grid-cols-3">
+            {TURMA.map((t, i) => (
+              <Reveal key={t.src} delay={i * 0.08}>
+                <figure className="overflow-hidden rounded-2xl border-2 border-amarelo/55 shadow-[0_20px_50px_rgba(0,0,0,.35)]">
+                  <Image
+                    src={`/aulao-social-media/${t.src}`}
+                    alt={t.alt}
+                    width={900}
+                    height={1600}
+                    className={`aspect-[4/5] w-full object-cover ${t.pos}`}
+                  />
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Depoimentos */}
       <section className="relative overflow-hidden bg-ink section-padding">
         <div className="container-site relative">
@@ -479,7 +522,7 @@ export default function AulaoSocialMediaPage() {
               Alunas do curso de Social Media da Ousadia contando como foi.
             </p>
           </Reveal>
-          <div className="mx-auto mt-10 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-6 lg:grid-cols-5">
+          <div className="mx-auto mt-10 grid max-w-4xl grid-cols-2 gap-4 sm:gap-6 lg:grid-cols-4">
             {DEPOIMENTOS.map((d, i) => (
               <Reveal key={d.id ?? i} delay={i * 0.08}>
                 {d.id ? (
