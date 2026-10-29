@@ -7,9 +7,8 @@ import {
   CalendarDays,
   Gift,
   MapPin,
-  Smartphone,
+  Play,
   Users,
-  X,
 } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
@@ -17,7 +16,7 @@ import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { CtaFinal } from "@/components/sections/CtaFinal";
 import { FaqList, FaqJsonLd } from "@/components/sections/Faq";
 import { YouTubeLite } from "@/components/ui/YouTubeLite";
-import { GrafismoDiamonds, Paddle, RiverLines } from "@/components/ui/Motifs";
+import { GrafismoDiamonds, RiverLines } from "@/components/ui/Motifs";
 import { GRUPO_AULAO_SOCIAL_MEDIA, SITE } from "@/lib/site";
 import { DIAGNOSTICO_SOCIAL_MEDIA } from "@/lib/diagnostico-social-media";
 import { JornadaRio } from "./JornadaRio";
@@ -116,6 +115,14 @@ const FORMA_GALERIA = {
   quadrado: "",
   destaque: "col-span-2 row-span-2",
 } as const;
+
+/** Fotos da Tháscila na Vicinal 3 Barracas, antes do digital. */
+const ORIGENS: { src: string; w: number; h: number; pos?: string; alt: string }[] = [
+  { src: "origem-cavalo.webp", w: 700, h: 1131, pos: "object-[50%_30%]", alt: "Tháscila a cavalo, de chapéu de palha, com uma criança na garupa, num pasto da vicinal" },
+  { src: "origem-estrada.webp", w: 700, h: 875, alt: "Tháscila numa estrada de terra vermelha, cercada de mato, na vicinal" },
+  { src: "origem-comunidade.webp", w: 800, h: 710, pos: "object-[45%_50%]", alt: "Tháscila falando para um grupo de moradores reunidos à sombra de um caramanchão" },
+  { src: "origem-bezerro.webp", w: 700, h: 875, alt: "Tháscila agachada no curral, sorrindo, ao lado de um bezerro" },
+];
 
 const COMO_PARTICIPAR = [
   { t: "Entre no grupo do WhatsApp", d: "A inscrição é gratuita e sem obrigação de compra." },
@@ -234,118 +241,172 @@ export default function AulaoSocialMediaPage() {
       />
       <FaqJsonLd items={FAQ} />
 
-      {/* 1. Hero: a Tháscila aponta pro texto, por isso fica à esquerda */}
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 grid-lines opacity-50" aria-hidden />
+      {/* 1. Hero em tela cheia: a foto dela com o celular ocupa o fundo
+          (à direita no desktop, em cima no celular) e o texto vem por cima,
+          sobre um scrim na cor do fundo. Vídeo de fundo só com MP4 próprio
+          (ver HeroVideo) — iframe do YouTube como fundo pesa e mostra a marca. */}
+      <section className="relative isolate overflow-hidden bg-ink-void">
+        <div className="absolute inset-0 -z-10 lg:left-[38%]">
+          <Image
+            src="/aulao-social-media/thascila-celular.webp"
+            alt="Tháscila Lawanda, de camiseta da Ousadia Marketing, segurando o celular"
+            fill
+            priority
+            sizes="(min-width: 1024px) 62vw, 100vw"
+            className="object-cover object-[50%_15%]"
+          />
+        </div>
         <div
-          className="absolute -top-24 right-0 h-80 w-80 rounded-full bg-amarelo/15 blur-[120px]"
+          aria-hidden
+          className="absolute inset-0 -z-10 bg-gradient-to-t from-ink-void from-35% via-ink-void/70 via-55% to-ink-void/0 lg:bg-gradient-to-r lg:from-ink-void lg:from-[38%] lg:via-ink-void/60 lg:via-[55%] lg:to-ink-void/0"
+        />
+        <div className="absolute inset-0 -z-10 grid-lines opacity-30" aria-hidden />
+        <div
+          className="absolute -left-24 top-1/3 -z-10 h-96 w-96 rounded-full bg-amarelo/10 blur-[140px]"
           aria-hidden
         />
-        <RiverLines className="motif motif-soft text-rio inset-x-0 bottom-0 h-32 w-full" />
-        <div className="container-site relative pt-10 lg:pt-14">
-          <div className="grid items-end gap-10 lg:grid-cols-[.8fr_1.2fr]">
-            <Reveal className="order-2 lg:order-1">
-              <Image
-                src="/aulao-social-media/thascila-apontando.webp"
-                alt="Tháscila Lawanda, de camiseta da Ousadia Marketing, sorrindo e apontando com a mão aberta"
-                width={1000}
-                height={1323}
-                priority
-                className="mx-auto w-full max-w-sm rounded-t-full border border-b-0 border-amarelo/40 lg:max-w-none"
-                style={{
-                  maskImage: "linear-gradient(to bottom, #000 85%, transparent)",
-                }}
-              />
+
+        <div className="container-site relative flex min-h-[min(calc(100svh-4rem),58rem)] items-end pb-14 pt-[min(52vh,28rem)] lg:items-center lg:py-24">
+          <div className="max-w-xl">
+            <Reveal>
+              <p className="inline-flex items-center gap-2.5 rounded-full border border-amarelo/50 bg-ink-void/60 px-4 py-1.5 font-mono text-[11px] uppercase tracking-[0.18em] text-amarelo backdrop-blur">
+                <span className="relative flex h-2 w-2">
+                  <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-amarelo opacity-75" />
+                  <span className="relative inline-flex h-2 w-2 rounded-full bg-amarelo" />
+                </span>
+                Aulão gratuito e ao vivo
+              </p>
             </Reveal>
-            <div className="order-1 pb-4 lg:order-2 lg:pb-24">
-              <Reveal>
-                <p className="eyebrow mb-5">
-                  Aulão gratuito e ao vivo · Terça, 17/nov · 20h
-                </p>
-              </Reveal>
-              <Reveal delay={0.05}>
-                <h1 className="font-display text-[clamp(2.1rem,5.5vw,4rem)] leading-[1.02]">
-                  Viva de social media{" "}
-                  <span className="text-amarelo">de onde você está.</span>
-                </h1>
-              </Reveal>
-              <Reveal delay={0.1}>
-                <p className="text-body mt-6 max-w-2xl">
-                  No dia 17 de novembro, às 20h, a Tháscila mostra ao vivo como
-                  se posicionar a partir do seu território, conquistar os
-                  primeiros clientes e cobrar pelo seu trabalho, sem precisar
-                  morar em capital e sem precisar de seguidores.
-                </p>
-              </Reveal>
-              <Reveal delay={0.15}>
-                <div className="mt-9 flex flex-col gap-3">
-                  <div>
-                    <BotaoGrupo />
-                  </div>
-                  <p className="flex items-center gap-2 font-mono text-xs text-cinza-ink">
-                    <CalendarDays size={16} className="text-rio" />
-                    O link do aulão é enviado só no grupo do WhatsApp.
+            <Reveal delay={0.05}>
+              <h1 className="font-display mt-6 text-[clamp(2.4rem,6vw,4.6rem)] leading-[0.98]">
+                Viva de social media{" "}
+                <span className="text-amarelo">de onde você está.</span>
+              </h1>
+            </Reveal>
+            <Reveal delay={0.1}>
+              <p className="text-body mt-6 text-lg">
+                Ao vivo, a Tháscila mostra como se posicionar a partir do seu
+                território, conquistar os primeiros clientes e cobrar pelo seu
+                trabalho. Sem morar em capital e sem precisar de seguidores.
+              </p>
+            </Reveal>
+
+            <Reveal delay={0.15}>
+              <div className="mt-8 flex items-center gap-5 rounded-2xl border border-white/10 bg-ink-void/70 p-4 backdrop-blur">
+                <div className="grid h-16 w-16 shrink-0 place-items-center rounded-xl bg-amarelo text-ink">
+                  <span className="text-center leading-none">
+                    <span className="font-display block text-2xl">17</span>
+                    <span className="font-mono block text-[10px] uppercase tracking-widest">
+                      nov
+                    </span>
+                  </span>
+                </div>
+                <div className="text-sm">
+                  <p className="font-display text-base text-foreground">
+                    Terça-feira, às 20h (Brasília)
+                  </p>
+                  <p className="text-body">
+                    Online, pelo celular. O link sai no grupo do WhatsApp.
                   </p>
                 </div>
-              </Reveal>
-              <Reveal delay={0.2}>
-                <ul className="mt-8 flex flex-wrap gap-2">
-                  {[
-                    { icon: Gift, t: "Gratuito e ao vivo" },
-                    { icon: Users, t: "+100 alunas formadas" },
-                    { icon: Smartphone, t: "Só precisa de celular" },
-                  ].map((s) => (
-                    <li
-                      key={s.t}
-                      className="flex items-center gap-2 rounded-full border border-amarelo/40 bg-amarelo/10 px-4 py-1.5 font-mono text-xs text-amarelo"
-                    >
-                      <s.icon size={14} /> {s.t}
-                    </li>
-                  ))}
-                </ul>
-              </Reveal>
-            </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.2}>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <BotaoGrupo />
+                <a href="#aula" className="btn btn-secondary">
+                  <Play size={16} /> Ver a Tháscila em aula
+                </a>
+              </div>
+            </Reveal>
+
+            <Reveal delay={0.25}>
+              <dl className="mt-10 grid max-w-md grid-cols-3 divide-x divide-white/15 border-t border-white/15 pt-6">
+                {[
+                  { n: "+100", t: "alunas formadas" },
+                  { n: "1ª", t: "Agência Escola do Norte" },
+                  { n: "R$ 0", t: "pra participar" },
+                ].map((s, i) => (
+                  <div key={s.t} className={i === 0 ? "pr-4" : "px-4"}>
+                    <dt className="font-display text-2xl text-amarelo lg:text-3xl">
+                      {s.n}
+                    </dt>
+                    <dd className="text-body mt-1 text-xs leading-snug">
+                      {s.t}
+                    </dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
           </div>
         </div>
         <KeneStrip motif="iso" height={20} className="text-amarelo opacity-70" />
       </section>
 
-      {/* 2. Espelho da dor */}
+      {/* 2. Espelho da dor + a aula dela como prova de que ensina na prática */}
       <section className="relative overflow-hidden bg-ink section-padding">
-        <Paddle className="motif motif-soft text-amarelo right-[8%] top-12 hidden w-20 rotate-6 lg:block" />
-        <div className="container-site relative max-w-3xl">
-          <Reveal>
-            <p className="eyebrow mb-4">Isso é você?</p>
-            <h2 className="headline-section max-w-2xl">
-              Você passa horas nas redes. Por que isso{" "}
-              <span className="text-amarelo">ainda não virou dinheiro?</span>
-            </h2>
-          </Reveal>
-          <ul className="mt-10 space-y-3">
-            {DORES.map((d, i) => (
-              <Reveal key={d} delay={i * 0.05}>
-                <li className="flex items-start gap-4 rounded-xl border border-white/10 bg-white/[.03] px-5 py-4">
-                  <X size={18} className="mt-1 shrink-0 text-amarelo" />
-                  <span className="text-body text-lg">{d}</span>
-                </li>
+        <div className="container-site relative">
+          <div className="grid gap-14 lg:grid-cols-[1.05fr_.95fr] lg:items-start">
+            <div>
+              <Reveal>
+                <p className="eyebrow mb-4">Isso é você?</p>
+                <h2 className="headline-section max-w-xl">
+                  Você passa horas nas redes. Por que isso{" "}
+                  <span className="text-amarelo">ainda não virou dinheiro?</span>
+                </h2>
               </Reveal>
-            ))}
-          </ul>
-          <Reveal delay={0.1}>
-            <div className="mt-10 rounded-2xl border-2 border-amarelo bg-amarelo/[.07] p-7">
-              <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
-                A virada
-              </p>
-              <p className="font-display mt-3 text-2xl leading-snug">
-                O comércio do seu bairro posta mal. Isso não é problema:{" "}
-                <span className="text-amarelo">é vaga de trabalho.</span>
-              </p>
-              <p className="text-body mt-3">
-                Você não precisa de seguidores. Precisa de um cliente. E o
-                aulão mostra o caminho até ele.
-              </p>
+              <ol className="mt-10 divide-y divide-white/10 border-y border-white/10">
+                {DORES.map((d, i) => (
+                  <Reveal key={d} delay={i * 0.05}>
+                    <li className="flex items-baseline gap-5 py-4">
+                      <span className="font-display w-8 shrink-0 text-xl text-amarelo/60">
+                        0{i + 1}
+                      </span>
+                      <span className="text-body text-[1.05rem]">{d}</span>
+                    </li>
+                  </Reveal>
+                ))}
+              </ol>
+              <Reveal delay={0.1}>
+                <div className="mt-10 rounded-2xl border-l-4 border-amarelo bg-amarelo/[.07] p-7">
+                  <p className="font-mono text-xs uppercase tracking-wide text-amarelo">
+                    A virada
+                  </p>
+                  <p className="font-display mt-3 text-2xl leading-snug">
+                    O comércio do seu bairro posta mal. Isso não é problema:{" "}
+                    <span className="text-amarelo">é vaga de trabalho.</span>
+                  </p>
+                  <p className="text-body mt-3">
+                    Você não precisa de seguidores. Precisa de um cliente. E o
+                    aulão mostra o caminho até ele.
+                  </p>
+                </div>
+              </Reveal>
             </div>
-          </Reveal>
+
+            <Reveal delay={0.08} className="lg:sticky lg:top-24">
+              <div id="aula" className="scroll-mt-24">
+                <p className="eyebrow mb-4">Veja como ela ensina</p>
+                <div className="overflow-hidden rounded-2xl border-2 border-amarelo shadow-[0_28px_70px_rgba(0,0,0,.45)]">
+                  <YouTubeLite
+                    id="DJ4xkw4wD_E"
+                    titulo="Aula da Tháscila Lawanda sobre benchmarking"
+                  />
+                </div>
+                <p className="font-display mt-5 text-xl">
+                  Aula de benchmarking, com a Tháscila
+                </p>
+                <p className="text-body mt-2 text-sm">
+                  Direto ao ponto e com exemplo do comércio daqui. É assim no
+                  aulão do dia 17.
+                </p>
+                <div className="mt-6">
+                  <BotaoGrupo />
+                </div>
+              </div>
+            </Reveal>
+          </div>
         </div>
       </section>
 
@@ -471,17 +532,17 @@ export default function AulaoSocialMediaPage() {
         </div>
       </section>
 
-      {/* 5. Quem conduz */}
+      {/* 5. Quem conduz: foto de estúdio + de onde ela veio */}
       <section className="relative overflow-hidden bg-ink section-padding">
-        <RiverLines className="motif motif-soft text-rio inset-x-0 top-1/2 h-32 w-full" />
+        <RiverLines className="motif motif-soft text-rio inset-x-0 top-1/3 h-32 w-full" />
         <div className="container-site relative">
           <div className="grid items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
             <Reveal>
               <Image
-                src="/aulao-social-media/thascila-blazer.webp"
-                alt="Tháscila Lawanda de blazer preto e blusa marrom"
-                width={1000}
-                height={1499}
+                src="/aulao-social-media/thascila-sorrindo.webp"
+                alt="Tháscila Lawanda sorrindo, de braços cruzados, com a camiseta da Ousadia Marketing"
+                width={1100}
+                height={1363}
                 className="mx-auto w-full max-w-md rounded-2xl border-2 border-amarelo object-cover shadow-[0_24px_60px_rgba(0,0,0,.35)]"
               />
             </Reveal>
@@ -535,6 +596,31 @@ export default function AulaoSocialMediaPage() {
               </div>
             </Reveal>
           </div>
+
+          <Reveal delay={0.1}>
+            <p className="eyebrow mt-16 mb-5">Onde tudo começou</p>
+          </Reveal>
+          <div className="grid grid-cols-2 gap-3 md:grid-cols-4 md:gap-4">
+            {ORIGENS.map((o, i) => (
+              <Reveal key={o.src} delay={i * 0.06}>
+                <figure className="overflow-hidden rounded-2xl border border-amarelo/30">
+                  <Image
+                    src={`/aulao-social-media/${o.src}`}
+                    alt={o.alt}
+                    width={o.w}
+                    height={o.h}
+                    sizes="(min-width: 768px) 25vw, 50vw"
+                    className={`aspect-[4/5] w-full object-cover ${o.pos ?? ""}`}
+                  />
+                </figure>
+              </Reveal>
+            ))}
+          </div>
+          <Reveal delay={0.12}>
+            <p className="text-body mt-4 text-sm italic">
+              Anapu, no Pará: a vida na vicinal antes do digital.
+            </p>
+          </Reveal>
         </div>
       </section>
 
