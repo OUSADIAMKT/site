@@ -36,12 +36,12 @@ export const SITE = {
 /**
  * O fundador como entidade (JSON-LD do layout e da página /sobre). Um nome só,
  * sempre igual, é o que faz Google e IAs ligarem "Jackson" à Ousadia.
- * ATENÇÃO: o site usa "Jackson Queiroz" (curso de IA) e "Jackson Satoyiro"
- * (Destrave). Confirmar qual é o nome principal antes de publicar.
+ * Nome principal confirmado pelo usuário em 04/11/2026: "Jackson Satoyiro".
+ * "Jackson Queiroz" fica só como nome alternativo (turmas antigas e apostila).
  */
 export const FUNDADOR = {
-  nome: "Jackson Queiroz",
-  alternateName: ["Jackson Satoyiro"],
+  nome: "Jackson Satoyiro",
+  alternateName: ["Jackson Queiroz"],
   cargo: "Fundador da Ousadia Marketing",
   bio: "Fundador da Ousadia Marketing, a primeira Agência Escola de Marketing do Norte do Brasil. Foi servidor público por 18 anos antes de virar empreendedor no digital. Criador do Destrave e do Amazon Marketing Day.",
   foto: "/sobre/jackson-amd-palco.webp",
@@ -147,6 +147,27 @@ export const GRUPO_MAPA_UGC = "https://chat.whatsapp.com/IFS158jFoeEEXqltGJMLCG"
  */
 export const GRUPO_AULAO_SOCIAL_MEDIA =
   "https://chat.whatsapp.com/Gg0SHIJYC4RA10k16jZgez";
+
+/**
+ * Oficina Destrave do Jackson (domingo, 29/11/2026, das 9h às 19h), o
+ * lançamento semente. Links passados pelo usuário em 04/11/2026: a CTA
+ * principal de `/oficina-destrave` leva ao ingresso na HeroSpark (R$ 97,
+ * `PRECO_OFICINA_DESTRAVE`), o grupo do
+ * WhatsApp é a CTA secundária (sala de espera) e as dúvidas caem no WhatsApp
+ * da Ousadia (`waOficinaDestrave`).
+ */
+export const CHECKOUT_OFICINA_DESTRAVE =
+  "https://pay.herospark.com/oficina-destrave-10x-550775";
+export const PRECO_OFICINA_DESTRAVE = 97;
+export const GRUPO_OFICINA_DESTRAVE =
+  "https://chat.whatsapp.com/FYGSIJdH20mGxhKBpgp3Zh";
+
+/** Link de WhatsApp de dúvidas da Oficina Destrave, com a mensagem já preenchida. */
+export function waOficinaDestrave(
+  texto = "Oi! Tenho uma dúvida sobre a Oficina Destrave do dia 29/11.",
+) {
+  return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(texto)}`;
+}
 
 /**
  * Grupo de WhatsApp aberto da Comunidade Creators da Amazônia — a porta de
@@ -320,7 +341,7 @@ export const CAMPAIGN = {
  * Prova social — PRD 8.2. Só números confirmados pelo cliente.
  * ------------------------------------------------------------------ */
 export const STATS = [
-  { n: "50+", l: "marcas atendidas" },
+  { n: "80+", l: "marcas atendidas" },
   { n: "+1000", l: "pessoas impactadas" }, // cursos + palestras + eventos; formados são 500,
   { n: "2x", l: "congressos Amazon Marketing Day" },
   { n: "1x", l: "liderança do WCD, Dia Mundial da Criatividade" },
@@ -383,7 +404,7 @@ export const CURSOS: Curso[] = [
     promessa:
       "Do zero à prática em 30 horas: use IA no trabalho com autonomia e senso crítico, sem programação e só com planos gratuitos.",
     resumo:
-      "Pra quem nunca usou IA: assistentes, prompts, produtividade, conteúdo, negócios e automação sem código, com 70% de prática e Jackson Queiroz conduzindo.",
+      "Pra quem nunca usou IA: assistentes, prompts, produtividade, conteúdo, negócios e automação sem código, com 70% de prática e Jackson Satoyiro conduzindo.",
     detalhado: false,
     visivel: true,
   },

@@ -12,9 +12,9 @@ import { GrafismoDiamonds, Paddle } from "@/components/ui/Motifs";
 import { SITE, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Inteligência Artificial do Zero à Prática | Curso com Jackson Queiroz · Escola Ousadia",
+  title: "Inteligência Artificial do Zero à Prática | Curso com Jackson Satoyiro · Escola Ousadia",
   description:
-    "Curso de IA para quem nunca usou: 30 horas, 70% de prática e nenhuma programação. Em cada aula você sai com algo pronto: um texto, um plano, uma imagem, um fluxo de trabalho. Funciona no celular, com planos gratuitos. Com Jackson Queiroz.",
+    "Curso de IA para quem nunca usou: 30 horas, 70% de prática e nenhuma programação. Em cada aula você sai com algo pronto: um texto, um plano, uma imagem, um fluxo de trabalho. Funciona no celular, com planos gratuitos. Com Jackson Satoyiro.",
   alternates: { canonical: `${SITE.url}/escola/ia-para-iniciantes` },
 };
 
@@ -227,12 +227,12 @@ export default function IaParaIniciantesPage() {
       name: "Ousadia Marketing",
       sameAs: "https://instagram.com/ousadiamkt",
     },
-    instructor: { "@type": "Person", name: "Jackson Queiroz" },
+    instructor: { "@type": "Person", name: "Jackson Satoyiro" },
     hasCourseInstance: {
       "@type": "CourseInstance",
       courseMode: "Online",
       courseWorkload: "PT30H",
-      instructor: { "@type": "Person", name: "Jackson Queiroz" },
+      instructor: { "@type": "Person", name: "Jackson Satoyiro" },
     },
     inLanguage: "pt-BR",
   };
@@ -246,7 +246,7 @@ export default function IaParaIniciantesPage() {
       <FaqJsonLd items={FAQ_TEXTO} />
 
       <PageHero
-        eyebrow="Curso · 30 horas · 70% prática · com Jackson Queiroz"
+        eyebrow="Curso · 30 horas · 70% prática · com Jackson Satoyiro"
         motif="river"
         title={
           <>
@@ -400,7 +400,7 @@ export default function IaParaIniciantesPage() {
             <Reveal>
               <Image
                 src="/sobre/aula-revisao.webp"
-                alt="Jackson Queiroz dando aula diante de um flip chart com a revisão do dia"
+                alt="Jackson Satoyiro dando aula diante de um flip chart com a revisão do dia"
                 width={540}
                 height={675}
                 className="mx-auto w-full max-w-sm rounded-2xl border-2 border-amarelo object-cover shadow-[0_24px_60px_rgba(0,0,0,.35)]"
@@ -410,7 +410,7 @@ export default function IaParaIniciantesPage() {
               <div>
                 <p className="eyebrow mb-4">Quem conduz</p>
                 <h2 className="headline-section max-w-xl">
-                  Conheça <span className="text-amarelo">Jackson Queiroz</span>,
+                  Conheça <span className="text-amarelo">Jackson Satoyiro</span>,
                   quem vai conduzir o curso
                 </h2>
                 <div className="mt-6 flex flex-wrap gap-2">

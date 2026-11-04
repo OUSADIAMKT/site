@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { Reveal } from "@/components/ui/Reveal";
 import { Leaf, RiverLines } from "@/components/ui/Motifs";
 import { KeneStrip } from "@/components/ui/graphics/Kene";
+import { HeroVideo } from "@/components/ui/HeroVideo";
 
 /** Hero padrão das páginas internas — mesmo ritmo escuro da dobra 1 da Home. */
 export function PageHero({
@@ -10,15 +11,21 @@ export function PageHero({
   lead,
   children,
   motif = "leaf",
+  video,
 }: {
   eyebrow: string;
   title: ReactNode;
   lead?: ReactNode;
   children?: ReactNode;
   motif?: "leaf" | "river" | "none";
+  /** Vídeo de fundo (MP4 próprio em public/video, nunca iframe do YouTube). */
+  video?: { src: string; poster: string; opacity?: number };
 }) {
   return (
     <section className="relative overflow-hidden">
+      {video && (
+        <HeroVideo src={video.src} poster={video.poster} opacity={video.opacity ?? 0.35} />
+      )}
       <div className="absolute inset-0 grid-lines opacity-50" aria-hidden />
       <div
         className="absolute -top-24 right-0 h-80 w-80 rounded-full bg-amarelo/15 blur-[120px]"

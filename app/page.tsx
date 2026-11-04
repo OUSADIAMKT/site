@@ -192,7 +192,7 @@ export default function HomePage() {
         <div className="container-site relative section-padding !py-14">
           <Reveal>
             <p className="font-display text-xl sm:text-2xl leading-snug max-w-3xl">
-              Mais de 50 marcas atendidas. Mais de mil creators destravados. Uma
+              Mais de 80 marcas atendidas. Mais de mil creators destravados. Uma
               região inteira sendo{" "}
               <span className="text-amarelo">reposicionada no digital</span>.
             </p>

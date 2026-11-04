@@ -314,7 +314,7 @@ const FAQ = [
   },
   {
     q: "Quem são os mentores?",
-    a: "Jackson Queiroz, fundador da Ousadia e criador do Destrave, conduz os pilares de Destrave e IA. Tháscila Lawanda, sócia da Ousadia, conduz Social Media. Juliana Araújo, a Juh, UGC Creator com mais de 70 marcas atendidas, conduz UGC.",
+    a: "Jackson Satoyiro, fundador da Ousadia e criador do Destrave, conduz os pilares de Destrave e IA. Tháscila Lawanda, sócia da Ousadia, conduz Social Media. Juliana Araújo, a Juh, UGC Creator com mais de 70 marcas atendidas, conduz UGC.",
   },
   {
     q: "Preciso morar em Altamira ou no Pará?",
@@ -936,7 +936,7 @@ export default function ComunidadePage() {
               é a comunidade da Ousadia Marketing, a primeira Agência Escola de
               Marketing do Norte do Brasil, para creators, social medias e
               empreendedores. Tem encontros ao vivo a cada 15 dias em 4
-              pilares (UGC, Social Media, Destrave e IA), com Jackson Queiroz,
+              pilares (UGC, Social Media, Destrave e IA), com Jackson Satoyiro,
               Tháscila Lawanda e Juliana Araújo.
             </p>
           </Reveal>

@@ -28,6 +28,8 @@ type Ods = {
   Icon: LucideIcon;
   numero: string;
   rotulo: string;
+  /** Outros números em destaque, logo abaixo do principal. */
+  extras?: { numero: string; rotulo: string }[];
   texto: string;
 };
 
@@ -41,7 +43,7 @@ const PRINCIPAIS: Ods[] = [
     numero: "500",
     rotulo: "alunos formados desde 2020",
     texto:
-      "Metade em sala de aula, metade online. Método aplicado (Destrave, Mapa do UGC, Social Media) e oficinas de fotografia pra crianças.",
+      "Metade em sala de aula, metade online. Método aplicado (Destrave, Mapa do UGC, Social Media) e oficinas de fotografia para jovens e adultos. Todo curso, treinamento e imersão tem Projeto Pedagógico e certificado, com base no Guia Pronatec de Cursos FIC do Governo Federal.",
   },
   {
     n: 8,
@@ -52,7 +54,7 @@ const PRINCIPAIS: Ods[] = [
     numero: "+50",
     rotulo: "alunos já ganham dinheiro com o que aprenderam",
     texto:
-      "Campanhas pagas de UGC com marcas como Samsung, Oral-B e DIY, e alunos formados trabalhando nas coberturas dos grandes eventos da região.",
+      "Social media e videomakers formados pela Ousadia trabalham hoje prestando serviço, com negócio próprio ou com carteira assinada em empresas locais. Tem ainda campanhas pagas de UGC com marcas como Samsung, Oral-B e DIY, e alunos nas coberturas dos grandes eventos da região.",
   },
   {
     n: 10,
@@ -63,7 +65,7 @@ const PRINCIPAIS: Ods[] = [
     numero: "250",
     rotulo: "alunos presenciais no interior do Pará",
     texto:
-      "Turmas em Altamira e Brasil Novo e mais 250 alunos online pelo Norte. O mercado digital mora no eixo Rio–São Paulo; a gente traz ele pra cá.",
+      "Turmas em Altamira e Brasil Novo e mais 250 alunos online pelo Norte. O mercado digital mora no eixo Rio–São Paulo; a gente traz ele pra cá. E leva formações e palestras gratuitas de comunicação e marketing digital a coletivos de mulheres, associações de classe e sindicatos, sempre desenvolvendo o protagonismo amazônico.",
   },
 ];
 
@@ -85,7 +87,11 @@ const APOIO: Ods[] = [
     cor: "#19486A",
     Icon: Handshake,
     numero: "2",
-    rotulo: "edições do Amazon Marketing Day",
+    rotulo: "edições do Amazon Marketing Day (2022 e 2023)",
+    extras: [
+      { numero: "1", rotulo: "liderança do Dia Mundial da Criatividade (2024)" },
+      { numero: "2", rotulo: "co-realizações da FLIX, Feira Literária do Xingu (2025 e 2026)" },
+    ],
     texto: "E a Comunidade Creators da Amazônia, juntando marcas, creators e instituições da região.",
   },
 ];
@@ -176,6 +182,14 @@ export function OdsCompromisso() {
                     </strong>{" "}
                     <span className="font-semibold">{o.rotulo}</span>
                   </p>
+                  {o.extras?.map((x) => (
+                    <p key={x.rotulo} className="mt-1 text-sm text-[#241044]">
+                      <strong className="font-display text-xl" style={{ color: o.cor }}>
+                        {x.numero}
+                      </strong>{" "}
+                      <span className="font-semibold">{x.rotulo}</span>
+                    </p>
+                  ))}
                   <p className="text-body mt-1 text-sm">{o.texto}</p>
                 </div>
               </article>

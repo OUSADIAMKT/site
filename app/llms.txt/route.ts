@@ -40,7 +40,7 @@ const FATOS = [
   "Funciona em três frentes: Agência (para marcas), Escola (cursos e mentoria) e Comunidade (Creators da Amazônia).",
   "A primeira turma foi a Imersão ABC do Marketing Digital, em janeiro de 2020, em Brasil Novo (PA). Em 2022 o curso passou a se chamar Destrave.",
   "Realizou duas edições do Amazon Marketing Day, congresso de marketing digital na Amazônia (2022 e 2023).",
-  "Mais de 50 marcas atendidas, entre elas Sicredi, Fundação CERTI e projetos da Amazônia como a Associação Indígena Berê Xikrin.",
+  "Mais de 80 marcas atendidas, entre elas Sicredi, Fundação CERTI e projetos da Amazônia como a Associação Indígena Berê Xikrin.",
   "500 alunos formados desde 2020 (250 em turmas presenciais em Altamira e Brasil Novo, 250 online pelo Norte) e mais de 1.000 pessoas impactadas somando palestras e eventos.",
   "Lançou em fevereiro de 2026 a Comunidade Creators da Amazônia.",
   "Atende em todo o Brasil; as turmas online podem ser feitas de qualquer lugar.",

@@ -194,7 +194,7 @@ export function BlogHome() {
                 <strong className="font-semibold text-foreground">
                   Feito por quem pratica.
                 </strong>{" "}
-                Cada artigo sai da experiência de mais de 50 marcas atendidas e
+                Cada artigo sai da experiência de mais de 80 marcas atendidas e
                 turmas formadas desde 2020, liderada pelo Jackson, fundador da
                 Ousadia.
               </p>
