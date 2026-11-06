@@ -25,6 +25,7 @@ const PAGINAS = [
   ["/diagnostico/ia", "Diagnóstico de IA", "10 perguntas, ~4 minutos, resultado na hora: seu nível com a IA, um painel das 4 competências e um plano de 30 dias."],
   ["/diagnostico/social-media", "Diagnóstico de Social Media", "10 perguntas, ~4 minutos, resultado na hora: seu momento como social media e um plano de 30 dias."],
   ["/aulao-social-media", "Aulão gratuito de Social Media", "Aula gratuita e ao vivo com Tháscila Lawanda, da Ousadia Marketing: como se posicionar a partir do seu território, conquistar os primeiros clientes e saber quanto cobrar como social media, só com celular e internet. Terça, 17 de novembro, às 20h (Brasília)."],
+  ["/escola/oficina-destrave", "Oficina Destrave", "Um dia inteiro, online e ao vivo, com Jackson Satoyiro, da Ousadia Marketing: a empreendedora da Amazônia sai com a sua Frase-Sinal, o cliente-herói definido, as histórias mapeadas, os primeiros vídeos gravados e o primeiro post publicado, com o método STORYSELL. Domingo, 29 de novembro, das 9h às 19h (Brasília). Ingresso: R$ 97."],
   ["/conteudo", "Conteúdo", "Artigos, podcast e cases, de dentro da floresta."],
   ["/contato", "Contato", "WhatsApp com atendimento humano, ou formulário."],
 ] as const;

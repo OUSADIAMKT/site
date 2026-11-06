@@ -7,7 +7,7 @@ import { PageHero } from "@/components/sections/PageHero";
 import { CtaFinal } from "@/components/sections/CtaFinal";
 import { MediaSlot } from "@/components/ui/MediaSlot";
 import { Tree } from "@/components/ui/Motifs";
-import { CURSOS, wa } from "@/lib/site";
+import { CURSOS, PRECO_OFICINA_DESTRAVE, wa } from "@/lib/site";
 
 export const metadata: Metadata = {
   alternates: { canonical: "/escola" },
@@ -44,6 +44,42 @@ export default function EscolaPage() {
           Falar sobre os cursos no WhatsApp <ArrowRight size={16} />
         </a>
       </PageHero>
+
+      {/* Próximo evento ao vivo: a Oficina Destrave */}
+      <section className="relative bg-ink pt-12">
+        <div className="container-site">
+          <Reveal>
+            <Link
+              href="/escola/oficina-destrave"
+              className="card-surface group grid items-center gap-6 border-2 border-amarelo/60 p-6 transition-colors hover:border-amarelo sm:grid-cols-[auto_1fr_auto] sm:p-8"
+            >
+              <span className="grid h-20 w-20 place-items-center rounded-2xl bg-amarelo text-ink-void">
+                <span className="text-center leading-none">
+                  <span className="font-display block text-3xl">29</span>
+                  <span className="font-mono block text-xs uppercase tracking-widest">
+                    nov
+                  </span>
+                </span>
+              </span>
+              <span>
+                <span className="font-mono text-xs uppercase tracking-[0.18em] text-amarelo">
+                  Ao vivo · próximo evento da Escola
+                </span>
+                <span className="font-display mt-2 block text-2xl">
+                  Oficina Destrave com Jackson Satoyiro
+                </span>
+                <span className="text-body mt-2 block">
+                  Um dia, das 9h às 19h, pra sair do “eu travo” pro primeiro
+                  post no ar. Online, R$ {PRECO_OFICINA_DESTRAVE}.
+                </span>
+              </span>
+              <span className="btn btn-primary">
+                Ver a oficina <ArrowRight size={16} />
+              </span>
+            </Link>
+          </Reveal>
+        </div>
+      </section>
 
       {/* Cursos */}
       <section className="relative overflow-hidden bg-ink section-padding">

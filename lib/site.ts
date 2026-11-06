@@ -151,7 +151,7 @@ export const GRUPO_AULAO_SOCIAL_MEDIA =
 /**
  * Oficina Destrave do Jackson (domingo, 29/11/2026, das 9h às 19h), o
  * lançamento semente. Links passados pelo usuário em 04/11/2026: a CTA
- * principal de `/oficina-destrave` leva ao ingresso na HeroSpark (R$ 97,
+ * principal de `/escola/oficina-destrave` leva ao ingresso na HeroSpark (R$ 97,
  * `PRECO_OFICINA_DESTRAVE`), o grupo do
  * WhatsApp é a CTA secundária (sala de espera) e as dúvidas caem no WhatsApp
  * da Ousadia (`waOficinaDestrave`).
@@ -458,6 +458,7 @@ export const NAV_LINKS: NavLink[] = [
       { label: "Todos os cursos", href: "/escola" },
       { label: "Imersão Mapa do UGC", href: "/mapa-do-ugc" },
       { label: "Aulão de Social Media", href: "/aulao-social-media" },
+      { label: "Oficina Destrave", href: "/escola/oficina-destrave" },
     ],
   },
   { label: "Agência", href: "/agencia" },
