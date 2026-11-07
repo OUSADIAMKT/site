@@ -4,7 +4,6 @@ import type { Metadata } from "next";
 import { ArrowRight } from "lucide-react";
 import { Reveal } from "@/components/ui/Reveal";
 import { WaveDivider } from "@/components/ui/WaveDivider";
-import { MediaSlot } from "@/components/ui/MediaSlot";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { CasesVitrine } from "@/components/sections/Cases";
 import { PilaresSumauma } from "@/components/sections/PilaresSumauma";
@@ -147,7 +146,7 @@ export default function HomePage() {
         <Leaf className="motif motif-soft text-floresta -right-10 top-10 w-72 rotate-12" />
         <Paddle className="motif motif-soft text-amarelo left-[4%] bottom-8 w-20 -rotate-12 hidden xl:block" />
 
-        <div className="container-site relative z-10 section-padding grid gap-12 lg:grid-cols-[1.25fr_1fr] lg:items-center">
+        <div className="container-site relative z-10 section-padding grid gap-10 lg:grid-cols-[0.95fr_1.2fr] lg:items-center lg:gap-14">
           <div>
             <Reveal>
               <p className="eyebrow mb-5">
@@ -155,7 +154,10 @@ export default function HomePage() {
               </p>
             </Reveal>
             <Reveal delay={0.05}>
-              <h1 className="headline-hero max-w-3xl">
+              <h1
+                className="headline-hero max-w-2xl"
+                style={{ fontSize: "clamp(1.95rem, 3.9vw, 3.4rem)" }}
+              >
                 Marketing feito na <span className="text-floresta">Amazônia</span>,
                 com a força de quem nunca precisou de palco em São Paulo pra{" "}
                 <span className="text-amarelo">vender</span>.
@@ -172,15 +174,49 @@ export default function HomePage() {
                 com a alma de quem é da terra.
               </p>
             </Reveal>
+            <Reveal delay={0.15}>
+              <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+                <a href={wa("home")} className="btn btn-primary whitespace-nowrap">
+                  Quero entrar pra Ousadia <ArrowRight size={16} />
+                </a>
+                <Link href="/diagnostico" className="btn btn-secondary whitespace-nowrap">
+                  Fazer o diagnóstico
+                </Link>
+              </div>
+            </Reveal>
           </div>
 
           <Reveal delay={0.2}>
-            <MediaSlot
-              kind="vídeo"
-              ratio="aspect-[4/5]"
-              className="glow-amarelo"
-              label="Jackson em ambiente regional: beira do Tapajós ou palco do Amazon Marketing Day. Zero stock."
-            />
+            {/*
+              Foto da equipe em plano americano (da cabeça à cintura/quadril),
+              recortada em 3:2 de uma foto maior (`public/home/hero-equipe.webp`).
+              O contorno amarelo vazado fica deslocado atrás, pra dar volume
+              sem pesar.
+            */}
+            <figure className="relative">
+              <div
+                className="absolute -bottom-3 -right-3 h-full w-full rounded-2xl border border-amarelo/50"
+                aria-hidden
+              />
+              <div className="glow-amarelo relative overflow-hidden rounded-2xl">
+                <Image
+                  src="/home/hero-equipe.webp"
+                  alt="Equipe da Ousadia Marketing, de camisa preta e crachá de organização, sorrindo em um evento à noite"
+                  width={1000}
+                  height={667}
+                  priority
+                  sizes="(min-width: 1024px) 50vw, 100vw"
+                  className="h-auto w-full"
+                />
+                <div
+                  className="pointer-events-none absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/70 to-transparent"
+                  aria-hidden
+                />
+                <figcaption className="absolute bottom-3 left-4 right-4 font-mono text-[0.7rem] uppercase tracking-widest text-white/90">
+                  Quem faz a Ousadia acontecer, no chão do evento
+                </figcaption>
+              </div>
+            </figure>
           </Reveal>
         </div>
         <KeneStrip motif="iso" height={22} className="text-amarelo opacity-80" />
