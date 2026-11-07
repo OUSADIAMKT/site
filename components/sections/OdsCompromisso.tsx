@@ -90,7 +90,7 @@ const APOIO: Ods[] = [
     rotulo: "edições do Amazon Marketing Day (2022 e 2023)",
     extras: [
       { numero: "1", rotulo: "liderança do Dia Mundial da Criatividade (2024)" },
-      { numero: "2", rotulo: "co-realizações da FLIX, Feira Literária do Xingu (2025 e 2026)" },
+      { numero: "1", rotulo: "co-realização da FLIX, Feira Literária do Xingu (2026)" },
     ],
     texto: "E a Comunidade Creators da Amazônia, juntando marcas, creators e instituições da região.",
   },
