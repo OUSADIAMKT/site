@@ -42,7 +42,7 @@ export type TrilhaId = keyof typeof TRILHAS;
 
 export type Atividade = {
   h: string;
-  /** Rótulo pequeno acima do título (ex.: "Estação 1 · Sinal"). */
+  /** Rótulo pequeno acima do título (ex.: "Etapa 1"). */
   rotulo?: string;
   t: string;
   d?: string;
@@ -62,17 +62,17 @@ export const AGENDA: Atividade[] = [
   {
     h: "09h00",
     rotulo: "Abertura",
-    t: "Quem está na roda",
-    d: "Você se apresenta pra turma, conhece quem está na mesma caminhada e olha o seu perfil com outros olhos, como se fosse a primeira vez.",
+    t: "Conhecer a turma",
+    d: "Você se apresenta, conhece a turma e olha o seu Instagram como se fosse a primeira vez.",
     Icone: Users,
     trilhas: ["auto", "redes"],
     pts: 10,
   },
   {
     h: "09h40",
-    rotulo: "Estação 1 · Sinal",
-    t: "Quem é você quando ninguém está editando",
-    d: "Você descobre o que só você pode dizer e para de falar igual a todo mundo.",
+    rotulo: "Etapa 1",
+    t: "Descobrir o que você tem de especial",
+    d: "Você descobre o que te faz diferente e aprende a dizer isso numa frase.",
     Icone: Fingerprint,
     trilhas: ["auto", "conteudo"],
     pts: 20,
@@ -80,9 +80,9 @@ export const AGENDA: Atividade[] = [
   { h: "11h00", t: "Pausa", Icone: Coffee, pausa: true },
   {
     h: "11h15",
-    rotulo: "Estação 2 · Travessia",
-    t: "Pra quem você fala",
-    d: "Você descobre quem é a sua cliente de verdade e por que ela ainda não te encontrou.",
+    rotulo: "Etapa 2",
+    t: "Descobrir quem vai comprar de você",
+    d: "Você descobre quem é a pessoa que mais vai querer o seu produto.",
     Icone: Compass,
     trilhas: ["conteudo"],
     pts: 20,
@@ -91,25 +91,25 @@ export const AGENDA: Atividade[] = [
     h: "12h30",
     rotulo: "Almoço + desafio",
     t: "Story “tô na Oficina Destrave”",
-    d: "Publique um story marcando o Jackson. Ele reposta os primeiros.",
+    d: "Poste um story contando que você está na oficina. O Jackson reposta os primeiros.",
     Icone: UtensilsCrossed,
     trilhas: ["redes"],
     pts: 15,
   },
   {
     h: "13h30",
-    rotulo: "Estação 3 · Ossada",
-    t: "A história que só você tem",
-    d: "Você descobre que tem história, sim, e sai com assunto pra semanas, sem expor o que não quer.",
+    rotulo: "Etapa 3",
+    t: "Achar as suas histórias",
+    d: "Você descobre que tem muita história boa pra contar. E escolhe só o que quer mostrar.",
     Icone: BookOpen,
     trilhas: ["auto", "conteudo"],
     pts: 20,
   },
   {
     h: "15h00",
-    rotulo: "Estação 4 · Destrave",
+    rotulo: "Etapa 4",
     t: "Perder o medo da câmera",
-    d: "Você grava do seu jeito, no seu ritmo, com a gente do lado. E o seu perfil ganha cara de negócio.",
+    d: "Você grava do seu jeito, devagar, com a gente do lado. E deixa o seu perfil bonito.",
     Icone: Video,
     trilhas: ["auto", "redes"],
     pts: 25,
@@ -117,18 +117,18 @@ export const AGENDA: Atividade[] = [
   { h: "16h15", t: "Pausa", Icone: Coffee, pausa: true },
   {
     h: "16h30",
-    rotulo: "Estação 5 · Ritual",
-    t: "Postar sem depender de inspiração",
-    d: "Você para de depender de inspiração: sai com a semana planejada e vê o seu primeiro post ir ao ar junto com a turma.",
+    rotulo: "Etapa 5",
+    t: "Publicar o seu primeiro post",
+    d: "Você publica o seu post junto com a turma e sai sabendo o que postar na semana.",
     Icone: CalendarCheck,
     trilhas: ["conteudo", "redes"],
     pts: 30,
   },
   {
     h: "17h45",
-    rotulo: "Colheita",
-    t: "O plano de 90 dias",
-    d: "Você olha pra tudo o que fez no dia e sai com os próximos passos escritos, pros próximos 90 dias.",
+    rotulo: "Fechamento",
+    t: "Os seus próximos passos",
+    d: "Você olha tudo o que fez no dia e anota o que vem depois.",
     Icone: Sprout,
     trilhas: ["auto", "redes", "conteudo"],
     pts: 10,
@@ -147,9 +147,9 @@ function Trilha({ id }: { id: TrilhaId }) {
   const { nome, Icone, cor } = TRILHAS[id];
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 font-mono text-[11px] ${cor}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 font-mono text-sm ${cor}`}
     >
-      <Icone size={13} aria-hidden /> {nome}
+      <Icone size={16} aria-hidden /> {nome}
     </span>
   );
 }
@@ -192,7 +192,7 @@ export function GradeDoDia() {
           </span>
 
           {a.pausa ? (
-            <p className="pt-3 text-base text-cinza-ink">
+            <p className="pt-3 text-lg text-cinza-ink">
               <span className="font-display text-amarelo sm:hidden">
                 {a.h} ·{" "}
               </span>
@@ -201,14 +201,14 @@ export function GradeDoDia() {
           ) : (
             <div className="card-surface min-w-0 flex-1 p-5 sm:p-6">
               <div className="flex flex-wrap items-start justify-between gap-3">
-                <p className="font-mono text-xs uppercase tracking-[0.16em] text-floresta">
-                  <span className="font-display text-base normal-case tracking-normal text-amarelo sm:hidden">
+                <p className="font-mono text-sm uppercase tracking-[0.16em] text-floresta">
+                  <span className="font-display text-lg normal-case tracking-normal text-amarelo sm:hidden">
                     {a.h} ·{" "}
                   </span>
                   {a.rotulo}
                 </p>
                 {a.pts && (
-                  <span className="rounded-full bg-amarelo px-3 py-1 font-mono text-xs font-bold text-ink-void">
+                  <span className="rounded-full bg-amarelo px-3 py-1 font-mono text-sm font-bold text-ink-void">
                     +{a.pts} pts
                   </span>
                 )}
@@ -217,9 +217,7 @@ export function GradeDoDia() {
                 {a.t}
               </h3>
               {a.d && (
-                <p className="text-body mt-3 text-base leading-relaxed">
-                  {a.d}
-                </p>
+                <p className="text-body mt-3 text-lg leading-relaxed">{a.d}</p>
               )}
               {a.trilhas && (
                 <div className="mt-4 flex flex-wrap gap-2">

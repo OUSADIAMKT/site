@@ -184,7 +184,8 @@ A página tem um bloco "Reencontro" com um WhatsApp de mensagem própria. A conv
 ## 7. Pendências antes de rodar tráfego
 
 - [ ] **Case real** para a seção das estações (o exemplo da loja de cosméticos da LP saiu da página; o usuário vai buscar um case). E **depoimentos** de 2 ou 3 alunas empreendedoras, com nome, cidade, negócio e o antes e depois. Na página está como `ContentSlot`.
-- [ ] **Plataforma da transmissão e gravação**: se haverá replay e por quanto tempo. Na página está como `ContentSlot`.
+- [x] **Como assistir**: depois da compra, a pessoa entra no grupo do WhatsApp e recebe lá o link da transmissão (confirmado em 06/11/2026). A FAQ "Como eu assisto? Fica gravado?" diz isso e cita a gravação por + R$ 50 no checkout.
+- [ ] **Conferir no checkout da HeroSpark** se a opção de gravação por R$ 50 existe de fato, e por quanto tempo a gravação fica disponível.
 - [ ] **Análise de perfis ao vivo**: confirmar que vai acontecer, porque a página promete.
 - [ ] **Caderno da Oficina**: atualizar a apostila (a ficha de apresentação ainda cita "11 de agosto de 2024").
 - [x] **Oferta do fim do dia**: o **Destrave** (`/escola/destrave`), decidido em 04/11/2026. O Do Fio à Rede não vira produto nem mentoria paga: segue como base social da Ousadia. A oferta não aparece na página da Oficina de propósito.

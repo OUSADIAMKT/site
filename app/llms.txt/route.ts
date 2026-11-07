@@ -14,18 +14,66 @@ export const dynamic = "force-static";
  */
 /** Descrições copiadas do `metadata` de cada página: mudou lá, mude aqui. */
 const PAGINAS = [
-  ["/", "Início", "A primeira Agência Escola de Marketing do Norte do Brasil. Cursos, mentorias e comunidade para quem quer parar de postar no escuro e começar a vender com estratégia, criatividade e IA."],
-  ["/sobre", "Sobre", "Por que a primeira Agência Escola de Marketing do Norte existe, e por que ela tinha que nascer aqui. A história do Jackson, o manifesto e os valores da Ousadia."],
-  ["/escola", "Escola Ousadia", "Curso da Ousadia não termina com certificado na gaveta. Termina com projeto real publicado, perfil reposicionado e a primeira venda a caminho."],
-  ["/mentoria", "Mentoria", "Acompanhamento direto com o Jackson e o time: posicionamento, conteúdo, estratégia e venda desenhados pra você, não pra todo mundo. Vagas limitadas, aplicação obrigatória."],
-  ["/agencia", "Agência", "Estratégia, creators locais e conteúdo com identidade, medido por resultado, não por estética de portfólio."],
-  ["/portfolio", "Portfólio", "Campanhas de UGC, institucionais gravados em campo e turmas presenciais: o que a Ousadia já entregou para marcas, projetos e pessoas da Amazônia."],
-  ["/comunidade", "Comunidade Creators da Amazônia", "A comunidade de creators, social medias e empreendedores do Norte: 4 pilares (UGC, Social Media, Destrave e IA), encontros ao vivo a cada 15 dias com Jackson, Tháscila e Juh. Entrada gratuita no grupo, assinatura semestral de R$ 135 (12x de R$ 14) ou R$ 120 no Pix e convite para ex-alunos pagantes."],
-  ["/diagnostico", "Diagnóstico de Maturidade Digital", "12 perguntas, ~4 minutos. Em que estágio da Escada Amazônica sua marca está (posicionamento, influência, planejamento, conteúdo e performance) e qual é o próximo passo."],
-  ["/diagnostico/ia", "Diagnóstico de IA", "10 perguntas, ~4 minutos, resultado na hora: seu nível com a IA, um painel das 4 competências e um plano de 30 dias."],
-  ["/diagnostico/social-media", "Diagnóstico de Social Media", "10 perguntas, ~4 minutos, resultado na hora: seu momento como social media e um plano de 30 dias."],
-  ["/aulao-social-media", "Aulão gratuito de Social Media", "Aula gratuita e ao vivo com Tháscila Lawanda, da Ousadia Marketing: como se posicionar a partir do seu território, conquistar os primeiros clientes e saber quanto cobrar como social media, só com celular e internet. Terça, 17 de novembro, às 20h (Brasília)."],
-  ["/escola/oficina-destrave", "Oficina Destrave", "Um dia inteiro, online e ao vivo, com Jackson Satoyiro, da Ousadia Marketing: a empreendedora da Amazônia sai com a sua Frase-Sinal, o cliente-herói definido, as histórias mapeadas, os primeiros vídeos gravados e o primeiro post publicado, com o método STORYSELL. Domingo, 29 de novembro, das 9h às 19h (Brasília). Ingresso: R$ 97."],
+  [
+    "/",
+    "Início",
+    "A primeira Agência Escola de Marketing do Norte do Brasil. Cursos, mentorias e comunidade para quem quer parar de postar no escuro e começar a vender com estratégia, criatividade e IA.",
+  ],
+  [
+    "/sobre",
+    "Sobre",
+    "Por que a primeira Agência Escola de Marketing do Norte existe, e por que ela tinha que nascer aqui. A história do Jackson, o manifesto e os valores da Ousadia.",
+  ],
+  [
+    "/escola",
+    "Escola Ousadia",
+    "Curso da Ousadia não termina com certificado na gaveta. Termina com projeto real publicado, perfil reposicionado e a primeira venda a caminho.",
+  ],
+  [
+    "/mentoria",
+    "Mentoria",
+    "Acompanhamento direto com o Jackson e o time: posicionamento, conteúdo, estratégia e venda desenhados pra você, não pra todo mundo. Vagas limitadas, aplicação obrigatória.",
+  ],
+  [
+    "/agencia",
+    "Agência",
+    "Estratégia, creators locais e conteúdo com identidade, medido por resultado, não por estética de portfólio.",
+  ],
+  [
+    "/portfolio",
+    "Portfólio",
+    "Campanhas de UGC, institucionais gravados em campo e turmas presenciais: o que a Ousadia já entregou para marcas, projetos e pessoas da Amazônia.",
+  ],
+  [
+    "/comunidade",
+    "Comunidade Creators da Amazônia",
+    "A comunidade de creators, social medias e empreendedores do Norte: 4 pilares (UGC, Social Media, Destrave e IA), encontros ao vivo a cada 15 dias com Jackson, Tháscila e Juh. Entrada gratuita no grupo, assinatura semestral de R$ 135 (12x de R$ 14) ou R$ 120 no Pix e convite para ex-alunos pagantes.",
+  ],
+  [
+    "/diagnostico",
+    "Diagnóstico de Maturidade Digital",
+    "12 perguntas, ~4 minutos. Em que estágio da Escada Amazônica sua marca está (posicionamento, influência, planejamento, conteúdo e performance) e qual é o próximo passo.",
+  ],
+  [
+    "/diagnostico/ia",
+    "Diagnóstico de IA",
+    "10 perguntas, ~4 minutos, resultado na hora: seu nível com a IA, um painel das 4 competências e um plano de 30 dias.",
+  ],
+  [
+    "/diagnostico/social-media",
+    "Diagnóstico de Social Media",
+    "10 perguntas, ~4 minutos, resultado na hora: seu momento como social media e um plano de 30 dias.",
+  ],
+  [
+    "/aulao-social-media",
+    "Aulão gratuito de Social Media",
+    "Aula gratuita e ao vivo com Tháscila Lawanda, da Ousadia Marketing: como se posicionar a partir do seu território, conquistar os primeiros clientes e saber quanto cobrar como social media, só com celular e internet. Terça, 17 de novembro, às 20h (Brasília).",
+  ],
+  [
+    "/escola/oficina-destrave",
+    "Oficina Destrave",
+    "Um dia inteiro, online e ao vivo, com Jackson Satoyiro, da Ousadia Marketing: a empreendedora da Amazônia que trava na hora de postar sai sabendo o que falar, com os primeiros vídeos gravados e o primeiro post publicado. Domingo, 29 de novembro, das 9h às 19h (Brasília). Ingresso: R$ 97.",
+  ],
   ["/conteudo", "Conteúdo", "Artigos, podcast e cases, de dentro da floresta."],
   ["/contato", "Contato", "WhatsApp com atendimento humano, ou formulário."],
 ] as const;
@@ -61,12 +109,30 @@ const TEMAS = [
 
 /** As mesmas dúvidas do FAQ da home, em versão curta. */
 const PERGUNTAS: [string, string][] = [
-  ["O que é a Ousadia Marketing?", "Uma agência escola de marketing de Altamira (PA): atende marcas como agência e forma creators, social medias e empreendedores em cursos, mentoria e comunidade."],
-  ["Preciso ter seguidores para começar?", "Não. Os cursos partem do zero e ensinam a construir público com estratégia."],
-  ["E se eu tiver vergonha de gravar?", "O curso Destrave é dedicado a isso: técnica, passo a passo, para perder o medo da câmera."],
-  ["Os cursos têm garantia?", "Sim. Os cursos da Escola têm garantia de 7 dias."],
-  ["Precisa morar na Amazônia?", "Não. A bandeira é regional, mas o método vale para qualquer lugar, e as turmas online são abertas a todo o Brasil."],
-  ["Como falar com a Ousadia?", `Pelo WhatsApp com atendimento humano, ou pelo e-mail ${SITE.email}.`],
+  [
+    "O que é a Ousadia Marketing?",
+    "Uma agência escola de marketing de Altamira (PA): atende marcas como agência e forma creators, social medias e empreendedores em cursos, mentoria e comunidade.",
+  ],
+  [
+    "Preciso ter seguidores para começar?",
+    "Não. Os cursos partem do zero e ensinam a construir público com estratégia.",
+  ],
+  [
+    "E se eu tiver vergonha de gravar?",
+    "O curso Destrave é dedicado a isso: técnica, passo a passo, para perder o medo da câmera.",
+  ],
+  [
+    "Os cursos têm garantia?",
+    "Sim. Os cursos da Escola têm garantia de 7 dias.",
+  ],
+  [
+    "Precisa morar na Amazônia?",
+    "Não. A bandeira é regional, mas o método vale para qualquer lugar, e as turmas online são abertas a todo o Brasil.",
+  ],
+  [
+    "Como falar com a Ousadia?",
+    `Pelo WhatsApp com atendimento humano, ou pelo e-mail ${SITE.email}.`,
+  ],
 ];
 
 export function GET() {
@@ -93,7 +159,9 @@ export function GET() {
     ...PERGUNTAS.flatMap(([q, a]) => [`### ${q}`, "", a, ""]),
     "## Páginas principais",
     "",
-    ...PAGINAS.map(([caminho, nome, sobre]) => `- [${nome}](${url(caminho)}): ${sobre}`),
+    ...PAGINAS.map(
+      ([caminho, nome, sobre]) => `- [${nome}](${url(caminho)}): ${sobre}`,
+    ),
     "",
     "## Cursos",
     "",

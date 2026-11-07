@@ -90,7 +90,7 @@ export async function GET() {
             color: COR.roxo,
           }}
         >
-          Online e ao vivo · método STORYSELL
+          Online e ao vivo
         </div>
         <div
           style={{
