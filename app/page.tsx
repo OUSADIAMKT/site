@@ -7,7 +7,7 @@ import { WaveDivider } from "@/components/ui/WaveDivider";
 import { FaqList, FaqJsonLd, type FaqItem } from "@/components/sections/Faq";
 import { CasesVitrine } from "@/components/sections/Cases";
 import { PilaresSumauma } from "@/components/sections/PilaresSumauma";
-import { EcossistemaCamadas } from "@/components/sections/EcossistemaCamadas";
+import { EcossistemaLinhas } from "@/components/sections/EcossistemaLinhas";
 import { BlogHome } from "@/components/sections/BlogHome";
 import { Depoimentos } from "@/components/sections/Depoimentos";
 import { MatchComunidade } from "@/components/sections/MatchComunidade";
@@ -308,8 +308,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ============ 6 · ECOSSISTEMA (camadas) ============ */}
-      <EcossistemaCamadas />
+      {/* ============ 6 · ECOSSISTEMA (mapa de linhas) ============ */}
+      <EcossistemaLinhas />
 
       {/* ============ 7 · BLOG (escuro) ============ */}
       {/* Entrou no lugar de "Quem lidera" (27/10/2026); o Jackson segue
