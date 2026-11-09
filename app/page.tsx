@@ -10,11 +10,11 @@ import { PilaresSumauma } from "@/components/sections/PilaresSumauma";
 import { EcossistemaCamadas } from "@/components/sections/EcossistemaCamadas";
 import { BlogHome } from "@/components/sections/BlogHome";
 import { Depoimentos } from "@/components/sections/Depoimentos";
+import { MatchComunidade } from "@/components/sections/MatchComunidade";
 import {
   Leaf,
   Paddle,
   Canoe,
-  RiverLines,
 } from "@/components/ui/Motifs";
 import {
   KeneField,
@@ -50,25 +50,6 @@ const MARCAS = [
   { src: "gem-tv-pa", nome: "Gem TV Pará", w: 426 },
   { src: "rio-xingu-pousada-lodge", nome: "Rio Xingu Pousada · Lodge", w: 836 },
   { src: "viver-de-amazonia", nome: "Viver de Amazônia", w: 527 },
-];
-
-const DORES = [
-  {
-    t: "“Eu sei que tenho potencial, mas não sei o caminho.”",
-    d: "Conhecimento de sobra. Direção, zero. Você consome 8h de Reels por dia e termina mais perdido do que começou.",
-  },
-  {
-    t: "“Posto e ninguém vê. Quando vê, ninguém compra.”",
-    d: "Bio sem estratégia é igual currículo sem nome: ninguém entende quem você é, então ninguém aperta o botão.",
-  },
-  {
-    t: "“Trava na hora de gravar.”",
-    d: "Você sabe o que falar. Mas quando o celular acende a luz vermelha, vira outra pessoa. (Spoiler: isso tem técnica. Não tem nada a ver com talento.)",
-  },
-  {
-    t: "“Vejo todo mundo crescendo, menos eu.”",
-    d: "Calma. Esse “todo mundo” é uma curadoria de quem o algoritmo te entrega. A maioria também tá perdida, só posta com mais cara de quem não tá.",
-  },
 ];
 
 const E_PRA_VOCE = [
@@ -279,40 +260,8 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* ============ 3 · A DOR (escuro) ============ */}
-      <section
-        id="a-dor"
-        className="relative overflow-hidden section-padding scroll-mt-20"
-      >
-        <RiverLines className="motif motif-soft text-rio inset-x-0 top-1/2 h-40 w-full -translate-y-1/2" />
-        <div className="container-site relative">
-          <Reveal>
-            <p className="eyebrow mb-4">O problema</p>
-            <h2 className="headline-section max-w-3xl">
-              Você tem conteúdo. Você tem vontade. Mas o resultado{" "}
-              <span className="text-floresta">não vem</span>.
-            </h2>
-          </Reveal>
-          <div className="mt-12 grid gap-5 md:grid-cols-2">
-            {DORES.map((d, i) => (
-              <Reveal key={d.t} delay={i * 0.06}>
-                <div className="card-surface h-full p-6">
-                  <h3 className="font-display text-lg leading-snug text-amarelo">
-                    {d.t}
-                  </h3>
-                  <p className="text-body mt-3 text-[0.95rem]">{d.d}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <Reveal delay={0.1}>
-            <p className="text-body mt-10 max-w-2xl border-l-2 border-floresta pl-5">
-              Se bateu em pelo menos duas dessas, continua rolando. A gente vai
-              resolver, sem enrolação.
-            </p>
-          </Reveal>
-        </div>
-      </section>
+      {/* ============ 3 · MATCH DA COMUNIDADE (escuro) ============ */}
+      <MatchComunidade />
 
       {/* ============ 4 · A VIRADA (claro) ============ */}
       <section className="fold-light relative overflow-hidden">
@@ -355,66 +304,6 @@ export default function HomePage() {
                 <ArrowRight size={14} />
               </Link>
             </div>
-          </Reveal>
-        </div>
-      </section>
-
-      {/* ============ 5 · MANIFESTO (escuro profundo) ============ */}
-      <section className="relative overflow-hidden bg-ink-void section-padding">
-        <RiverLines className="motif text-rio inset-0 h-full w-full opacity-[0.07]" />
-        <KeneStrip
-          motif="pushu"
-          height={20}
-          className="absolute inset-x-0 top-0 text-floresta opacity-70"
-        />
-        <div className="container-site relative max-w-3xl">
-          <Reveal>
-            <p className="eyebrow mb-6">Movimento Ousadia</p>
-            <h2 className="font-display text-4xl leading-[1.05] sm:text-5xl">
-              Por um marketing maior.
-              <br />
-              <span className="text-floresta">
-                A Amazônia não vai ficar de fora dessa.
-              </span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <div className="text-body mt-10 space-y-6 text-lg">
-              <p>
-                Durante anos a gente ouviu que pra “estourar no digital”
-                precisava ser de São Paulo. Falar bonito. Ostentar carro. Ter a
-                barba aparada na foto preto e branco.
-              </p>
-              <p className="font-display text-2xl text-foreground">
-                A Ousadia nasceu pra provar o contrário.
-              </p>
-              <p>
-                A gente acredita que{" "}
-                <strong className="font-semibold text-amarelo">
-                  a verdade vende
-                </strong>
-                . Que sotaque do Norte vende. Que história de quem foi servidor
-                público por 18 anos vende. Que mãe que tem vergonha de gravar,
-                mas tem conhecimento de sobra, vende.
-              </p>
-              <p>
-                Não é preciso matar partes de si pra caber no padrão de sucesso
-                de ninguém.
-              </p>
-              <p>
-                A gente tá construindo a{" "}
-                <strong className="font-semibold text-foreground">
-                  Plataforma de Creators da Amazônia
-                </strong>,{" "}
-                uma nova geração de criadores autênticos, estratégicos e
-                prontos pro mercado. E queremos você dentro.
-              </p>
-            </div>
-          </Reveal>
-          <Reveal delay={0.15}>
-            <a href={wa("comunidade")} className="btn btn-primary mt-10">
-              Faço parte desse movimento <ArrowRight size={16} />
-            </a>
           </Reveal>
         </div>
       </section>

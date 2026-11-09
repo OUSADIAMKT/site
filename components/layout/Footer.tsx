@@ -11,7 +11,7 @@ const COLUMNS = [
       { label: "Escola", href: "/escola" as const },
       { label: "Mentoria", href: "/mentoria" as const },
       { label: "Agência", href: "/agencia" as const },
-      { label: "Comunidade", href: "/comunidade" as const },
+      { label: "Comunidade", href: "https://comunidade.ousadiamarketing.com.br" as const },
     ],
   },
   {

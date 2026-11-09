@@ -462,7 +462,7 @@ export const NAV_LINKS: NavLink[] = [
     ],
   },
   { label: "Agência", href: "/agencia" },
-  { label: "Comunidade", href: "/comunidade" },
+  { label: "Comunidade", href: "https://comunidade.ousadiamarketing.com.br" },
   { label: "Blog", href: "/conteudo" },
   {
     // Um teste por área (pedido de 18/10/2026).
