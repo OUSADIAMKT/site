@@ -15,7 +15,8 @@ import {
   KeneRule,
   KeneStrip,
 } from "@/components/ui/graphics/Kene";
-import { CHECKOUT_COMUNIDADE } from "@/lib/site";
+/** Plataforma Creators da Amazônia (marketplace de talentos), em outro projeto. */
+const COMUNIDADE_URL = "https://comunidade.ousadiamarketing.com.br";
 
 /**
  * O ecossistema da Ousadia em três camadas (proposta 2 de 27/10/2026): a
@@ -91,15 +92,15 @@ const CAMADAS: Camada[] = [
     Icon: Users,
     cor: "#18a5c9",
     corEscura: "#0e6f88",
-    para: "Para quem quer estar onde as coisas acontecem antes de virarem tendência.",
+    para: "Para creators, social medias e especialistas em IA da Amazônia, e para as empresas que contratam esse talento.",
     itens: [
-      "Encontros presenciais e online",
-      "Conteúdo exclusivo",
-      "Networking real",
-      "Bastidor do que a gente tá construindo",
+      "Perfil e portfólio na vitrine de talentos",
+      "Match entre empresas e creators",
+      "Selo Creators, a certificação técnica",
+      "Cadastro grátis, sem cartão",
     ],
-    nota: "Creators da Amazônia: a base que sustenta tudo o que a Ousadia faz.",
-    links: [{ label: "Quero entrar", href: CHECKOUT_COMUNIDADE, externo: true }],
+    nota: "Creators da Amazônia: a Amazônia tem voz, agora tem match.",
+    links: [{ label: "Quero entrar", href: COMUNIDADE_URL, externo: true }],
   },
 ];
 
