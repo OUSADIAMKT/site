@@ -4,7 +4,6 @@ import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { ChevronDown, Menu, X } from "lucide-react";
-import { Logo } from "@/components/ui/Logo";
 import { NAV_LINKS, REDES, SOCIAL, type NavItem } from "@/lib/site";
 import { SocialIcon } from "@/components/ui/SocialIcon";
 
@@ -107,8 +106,16 @@ export function Header() {
     <header className="sticky top-0 z-50 border-b border-border bg-ink-deep/80 backdrop-blur-md">
       <div className="container-site flex h-16 items-center justify-between">
         <Link href="/" aria-label="Ousadia Marketing, início">
-          {/* A trava oficial é larga: abaixo de ~h-10 o "MARKETING" some. */}
-          <Logo className="h-10" priority />
+          {/* Símbolo oficial (fundo escuro), pedido de 09/11/2026. A trava
+              horizontal completa segue no rodapé. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/marca/simbolo-escuro.svg"
+            alt="Ousadia Marketing"
+            width={884}
+            height={774}
+            className="h-10 w-auto"
+          />
         </Link>
 
         <nav className="hidden items-center gap-4 whitespace-nowrap lg:flex xl:gap-6">
