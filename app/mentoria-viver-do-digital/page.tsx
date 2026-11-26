@@ -28,7 +28,7 @@ export const metadata: Metadata = {
  * já usada no site, até chegarem os materiais próprios desta turma.
  */
 
-const INFO = ["6 encontros ao vivo", "Aprendizado em turma", "Conteúdo prático"];
+const INFO = ["6 encontros ao vivo", "Turma 04 · 12 vagas", "Lista de espera aberta"];
 
 const DORES = [
   "Trabalha de carteira assinada e sente que o dia não sobra tempo nem coragem pra começar algo novo.",
@@ -167,9 +167,9 @@ const DIFERENCIAIS = [
 
 const PROVAS = [
   { n: "70+", l: "marcas atendidas" },
-  { n: "16 mil", l: "seguidores no Instagram" },
-  { n: "76 mil+", l: "visualizações num único Reels" },
-  { n: "COP30", l: "e Expo Xingu no currículo" },
+  { n: "21 mil", l: "seguidores no Instagram" },
+  { n: "30 mil", l: "seguidores no TikTok" },
+  { n: "1 milhão+", l: "visualizações num único Reels" },
 ];
 
 /** Prints do aulão (mídia já usada em `/mapa-do-ugc` — PENDENCIAS #20 vale aqui também). */
@@ -237,12 +237,16 @@ const FAQ = [
     a: "Ninguém pode garantir isso, e desconfie de quem garante. O que a mentoria oferece é método, orientação de perto e as ferramentas pra você desenvolver suas próprias oportunidades.",
   },
   {
-    q: "Quando são as turmas e como funciona o pagamento?",
-    a: "Data, horário e forma de pagamento são combinados direto com a Juh no WhatsApp, ao confirmar sua vaga.",
+    q: "Quando abre a Turma 04?",
+    a: "Ainda não tem data definida. Entrando na lista de espera pelo WhatsApp, você é avisada em primeira mão quando a Turma 04 abrir, com data, horário e forma de pagamento.",
+  },
+  {
+    q: "Como funciona a lista de espera?",
+    a: "Você manda uma mensagem pra Juh no WhatsApp e entra na fila. Como são só 12 vagas, quem está na lista de espera é chamada primeiro quando a turma abrir.",
   },
   {
     q: "Como recebo o acesso?",
-    a: "Depois de falar com a Juh pelo WhatsApp e confirmar sua vaga, você recebe as instruções e a agenda dos encontros.",
+    a: "Depois de entrar na lista de espera e confirmar sua vaga com a Juh, você recebe as instruções e a agenda dos encontros.",
   },
 ];
 
@@ -253,7 +257,7 @@ function BotaoVaga({ href, label }: { href: string; label: string }) {
         {label} <ArrowRight size={16} />
       </a>
       <span className="font-mono text-xs text-cinza-ink">
-        Vagas confirmadas direto com a Juh, pelo WhatsApp
+        Lista de espera · Turma 04 · 12 vagas
       </span>
     </div>
   );
@@ -278,6 +282,7 @@ export default function MentoriaViverDoDigitalPage() {
       "@type": "Offer",
       price: "697",
       priceCurrency: "BRL",
+      availability: "https://schema.org/PreOrder",
     },
   };
 
@@ -333,10 +338,11 @@ export default function MentoriaViverDoDigitalPage() {
               <Reveal delay={0.15}>
                 <div className="mt-9">
                   <a href={waHref} className="btn btn-primary">
-                    Quero minha vaga na mentoria <ArrowRight size={16} />
+                    Quero entrar na lista de espera <ArrowRight size={16} />
                   </a>
                   <p className="mt-4 font-mono text-xs text-cinza-ink">
-                    Fale com a Juh no WhatsApp e confirme sua vaga na turma.
+                    Turma 04 · só 12 vagas. Entre na lista e seja avisada
+                    primeiro quando abrir.
                   </p>
                 </div>
               </Reveal>
@@ -511,7 +517,7 @@ export default function MentoriaViverDoDigitalPage() {
 
           <Reveal delay={0.1}>
             <div className="mt-10">
-              <BotaoVaga href={waHref} label="Quero minha vaga na mentoria" />
+              <BotaoVaga href={waHref} label="Quero entrar na lista de espera" />
             </div>
           </Reveal>
         </div>
@@ -682,7 +688,7 @@ export default function MentoriaViverDoDigitalPage() {
                 />
                 <div className="relative">
                   <p className="font-mono text-xs uppercase tracking-wide text-[var(--amarelo)]">
-                    Mentoria em Turma
+                    Turma 04 · apenas 12 vagas
                   </p>
                   <p className="font-display mt-5 text-6xl leading-none text-[var(--amarelo)]">
                     R$ 697
@@ -690,13 +696,13 @@ export default function MentoriaViverDoDigitalPage() {
                   <p className="mt-2 text-sm text-white/80">pelos 6 encontros</p>
                   <ContentSlot
                     className="mt-3 text-left border-white/25! text-white/75!"
-                    label="Data, horário e condições de pagamento — ainda não definidos. Combinar com a Juh no WhatsApp."
+                    label="Data, horário e condições de pagamento — ainda não definidos. Quem entrar na lista de espera é avisada primeiro."
                   />
                   <a
                     href={waHref}
                     className="btn btn-primary mt-7 w-full justify-center"
                   >
-                    Quero minha vaga na mentoria <ArrowRight size={16} />
+                    Quero entrar na lista de espera <ArrowRight size={16} />
                   </a>
                 </div>
               </div>
@@ -709,12 +715,11 @@ export default function MentoriaViverDoDigitalPage() {
                 </h3>
                 <p className="text-body mt-3">
                   Os encontros acontecem em grupo, com a Juh acompanhando a
-                  evolução de cada participante. Antes de entrar, fale com ela
-                  pra ver se é o momento certo pra você.
+                  evolução de cada participante. São só 12 vagas na Turma 04.
                 </p>
                 <p className="text-body mt-auto pt-6 text-sm">
-                  Data, horário e vagas da próxima turma são combinados direto
-                  no WhatsApp.
+                  Data e horário ainda não foram definidos. Entrando na lista
+                  de espera, você é avisada em primeira mão.
                 </p>
               </div>
             </Reveal>
@@ -753,10 +758,10 @@ export default function MentoriaViverDoDigitalPage() {
             </span>
           </>
         }
-        ctaLabel="Quero minha vaga na mentoria"
+        ctaLabel="Quero entrar na lista de espera"
         href={waHref}
         waveColor="var(--ink)"
-        microcopy="Mentoria em Turma · 6 encontros ao vivo · data e vagas direto com a Juh no WhatsApp"
+        microcopy="Mentoria em Turma · Turma 04 · 12 vagas · lista de espera aberta no WhatsApp"
       />
     </>
   );

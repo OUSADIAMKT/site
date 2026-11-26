@@ -195,7 +195,7 @@ export function waComunidade(
  * Não há checkout definido ainda; a inscrição fecha na conversa.
  */
 export function waMentoriaUgc(
-  texto = "Oi, Juh! Quero minha vaga na Mentoria em Turma.",
+  texto = "Oi, Juh! Quero entrar na lista de espera da Turma 04 da Mentoria em Turma.",
 ) {
   return waAulaoUgc(texto);
 }
