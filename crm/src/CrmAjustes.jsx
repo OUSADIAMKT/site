@@ -302,11 +302,11 @@ function EditorCadastro({ cliente, config, tipo, item, aoFechar, aoSalvar }) {
     formularios: item.formularios ? item.formularios.join(", ") : "",
     herospark_ids: item.herospark_ids ? item.herospark_ids.join(", ") : "",
   } : {
-    formularios: "", herospark_ids: "", responsavel_id: "", funil_id: "",
+    formularios: "", herospark_ids: "", responsavel_id: "",
     nome: "", ativo: true, tipo: tipo === "campos" ? "texto" : tipo === "motivos" ? "perdido" : undefined,
     cor: tipo === "etiquetas" ? CORES[config.etiquetas.length % CORES.length] : undefined,
     valor: tipo === "produtos" ? "" : undefined, descricao: "", obrigatorio: false,
-    palavras: "", funil_id: config.funis[0]?.id || "", etapa_id: config.funis[0]?.etapas[0]?.id || "",
+    palavras: "", funil_id: tipo === "produtos" ? "" : (config.funis[0]?.id || ""), etapa_id: config.funis[0]?.etapas[0]?.id || "",
   });
   const [erro, setErro] = useState("");
   const [salvando, setSalvando] = useState(false);
