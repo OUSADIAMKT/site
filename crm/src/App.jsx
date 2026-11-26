@@ -16,6 +16,7 @@ import Atendentes from "./Atendentes.jsx";
 import Frentes from "./Frentes.jsx";
 import Desempenho from "./Desempenho.jsx";
 import Relatorios from "./Relatorios.jsx";
+import Receita from "./Receita.jsx";
 import Campanhas from "./Campanhas.jsx";
 import Conexoes from "./Conexoes.jsx";
 import Canais from "./Canais.jsx";
@@ -28,7 +29,7 @@ import BarraSuperior from "./BarraSuperior.jsx";
 import { lerTema, aplicarTema, guardarTema } from "./tema.js";
 
 // A visão geral e a fila são densas e pedem mais largura que um formulário.
-const LARGAS = ["visao", "fila", "quadro", "desempenho", "relatorios", "campanhas", "conexoes"];
+const LARGAS = ["visao", "fila", "quadro", "desempenho", "relatorios", "campanhas", "conexoes", "receita"];
 
 // O kanban e as conversas em três colunas usam a tela inteira.
 const CHEIAS = ["crm", "conversas", "paginas"];
@@ -323,6 +324,7 @@ export default function App() {
               )}
               {abaAtual === "crm-ajustes" && <CrmAjustes cliente={cliente} />}
               {abaAtual === "comercial"  && <Comercial cliente={cliente} podeConfigurar={podeConfigurar} />}
+              {abaAtual === "receita"    && <Receita cliente={cliente} />}
               {abaAtual === "contatos"   && <Contatos cliente={cliente} />}
               {abaAtual === "disparos"   && <Disparos cliente={cliente} />}
               {abaAtual === "relatorios" && <Relatorios irPara={setAba} />}

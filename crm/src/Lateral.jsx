@@ -3,7 +3,7 @@ import {
   LayoutDashboard, ListChecks, Inbox, Building2, BookOpenText, Images,
   CalendarDays, Users, MessagesSquare, TrendingUp,
   BarChart3, Megaphone, Plug, Smartphone, KanbanSquare, Contact, Send,
-  Workflow, SlidersHorizontal, Split, ChevronRight, X, Gauge, FileCode2,
+  Workflow, SlidersHorizontal, Split, ChevronRight, X, Gauge, FileCode2, CircleDollarSign,
 } from "lucide-react";
 import { TIPOS_DE_CANAL, nomeDoCanal } from "./canal.js";
 
@@ -32,6 +32,7 @@ const ITENS = {
   "crm-ajustes": { Icone: SlidersHorizontal, cor: "#437EE5", nome: "Configurações", resumo: "Funis, campos, produtos" },
   frentes:    { Icone: Split,           cor: "#fb923c", nome: "Frentes",     resumo: "Recortes de atendimento" },
   paginas:    { Icone: FileCode2,       cor: "#38bdf8", nome: "Landing Pages", resumo: "Páginas de campanha do cliente" },
+  receita:    { Icone: CircleDollarSign, cor: "#FFC61A", nome: "Receita",     resumo: "Quanto cada campanha vendeu" },
 };
 
 // Três menus, um por papel.
@@ -53,7 +54,7 @@ const MENUS = {
       // Landing page não é implantação: implantação é o que se faz uma vez
       // para o cliente entrar no ar. Página de campanha nasce e morre junto
       // com a campanha, e quem mexe nela está fazendo marketing.
-      { titulo: "Marketing",   itens: ["paginas"] },
+      { titulo: "Marketing",   itens: ["receita", "paginas"] },
       { titulo: "Agência",     itens: ["relatorios", "campanhas", "conexoes"] },
     ],
   },
@@ -63,6 +64,7 @@ const MENUS = {
       { titulo: "Gestão",      itens: ["agenda", "frentes"] },
       { titulo: "Atendimento", itens: ["fila", "quadro", "hoje", "conversas"] },
       { titulo: "CRM",         itens: ["crm", "comercial", "crm-ajustes"] },
+      { titulo: "Marketing",   itens: ["receita"] },
     ],
   },
   // O atendente não tem painel de abertura: nem Visão geral, que traz custo

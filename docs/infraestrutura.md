@@ -45,9 +45,19 @@ VPS, passo a passo: `crm/README.md`, seção "Instalar na VPS".
   `CRM_DEPLOY_ATIVO = true`. O deploy do site ignora mudanças em `crm/`.
 - Ambiente e segredos: `/etc/ousadia-crm.env` (gerado por
   `crm/scripts/gerar-ambiente.js`). A `CHAVE_CIFRA` de lá não pode se perder.
+- Código no ar: `/opt/ousadia-crm/atual` (atalho para
+  `/opt/ousadia-crm/releases/<versao>`). Voltar versão:
+  `sudo -u deploy sh /opt/ousadia-crm/atual/infra/voltar.sh`.
 - Banco: Postgres 16 local, banco `crm`, acessado pelo PostgREST em
   `127.0.0.1:3000` (o Caddy expõe só em `127.0.0.1:3102/rest/v1`). Backup
-  diário em `/var/backups/crm` (14 dias).
+  diário às 3h: 7 dias em `/var/backups/crm` e cópia cifrada (age) no
+  Cloudflare R2. A chave privada do backup fica fora da VPS.
+- Relógio do CRM: fila de tarefas dentro do próprio processo (automações de
+  tempo, coleta da Meta, vendas e comunidade). Saúde em
+  `https://crm.ousadiamarketing.com.br/api/saude` (monitor externo).
+- Integrações que chamam o CRM: HeroSpark (`/api/vendas`, webhook de venda) e
+  comunidade (`/api/comunidade`, Database Webhooks do Supabase dela). Chaves
+  em `/etc/ousadia-crm.env` (`VENDAS_CHAVE`, `COMUNIDADE_CHAVE`).
 - Formulários do site mandam cópia do lead para
   `https://crm.ousadiamarketing.com.br/api/lead` (`lib/crm.ts`), em paralelo
   com as planilhas.
@@ -92,7 +102,12 @@ Caddy ignora esse arquivo. Edite o `/etc/caddy/Caddyfile` na VPS e rode
 - [ ] Tirar snapshot da VPS depois do primeiro deploy bem-sucedido.
 - [ ] CRM: criar o registro `A` de `crm` no Registro.br e seguir
       `crm/README.md` ("Instalar na VPS"). Depois, `CRM_DEPLOY_ATIVO = true`.
-- [ ] CRM: preencher os valores dos produtos e revisar a persona da IA.
+- [ ] CRM: cadastrar Jackson, Juh e Thascila (gestores); preencher preço,
+      dono e formulários dos produtos; revisar a persona da IA.
+- [ ] CRM: gerar a chave do backup (age) no PC, criar o bucket R2 e o monitor
+      externo (`crm/README.md`, passo 10).
+- [ ] CRM: webhook da HeroSpark + venda de teste; webhooks do Supabase da
+      comunidade (`crm/README.md`, seções HeroSpark e Comunidade).
 - [ ] CRM: WhatsApp, quando houver número (ver `crm/README.md`).
 - [ ] Migrar o site do Instituto Xingu (projeto separado, em
       `D:\CLAUDE\CLIENTES\instituto-xingu`) para a mesma VPS: outra pasta em

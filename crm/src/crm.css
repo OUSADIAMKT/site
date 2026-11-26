@@ -646,3 +646,12 @@
 .respostas-item{position:relative;padding-right:72px;}
 .respostas-acoes{display:flex;gap:6px;justify-content:flex-end;}
 .respostas-item .respostas-acoes{position:absolute;top:8px;right:8px;}
+
+/* Receita por campanha */
+.receita-periodo{display:flex;flex-wrap:wrap;gap:6px;align-items:center;}
+.receita-periodo input[type="date"]{height:32px;padding:0 8px;font-size:12.5px;}
+.receita-cartoes{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:18px 0;}
+.receita-cartoes .cartao{display:flex;flex-direction:column;gap:4px;padding:14px 16px;}
+.receita-cartoes span{color:var(--sutil);font-size:var(--t-sm);}
+.receita-cartoes strong{font-size:var(--t-lg);font-weight:600;}
+.receita-tipo{color:var(--sutil);font-size:11px;}

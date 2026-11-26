@@ -11,7 +11,7 @@
 // Imprime na tela só o que precisa ir para outro lugar:
 //   - o segredo do PostgREST (vai em /etc/postgrest/crm.conf, jwt-secret)
 //   - a senha do operador do painel (vai para o gerenciador de senhas)
-//   - o CRON_SECRET (vai em /etc/cron.d/ousadia-crm)
+//   - o endereço do webhook da HeroSpark
 //   - o WA_VERIFY_TOKEN (vai no app da Meta, quando houver número)
 //
 // Sem dependência nenhuma: roda antes de qualquer npm install.
@@ -140,8 +140,8 @@ console.log(`
      gerenciador de senhas:
        ${v.PAINEL_SENHA}
 
-  3. CRON_SECRET, para /etc/cron.d/ousadia-crm:
-       ${v.CRON_SECRET}
+  3. (O CRON_SECRET fica só no arquivo: a coleta da Meta roda pela fila
+     de tarefas do próprio CRM.)
 
   4. Endereço do webhook da HeroSpark (Configurações > Webhooks):
        https://crm.ousadiamarketing.com.br/api/vendas?fonte=herospark&chave=${v.VENDAS_CHAVE}

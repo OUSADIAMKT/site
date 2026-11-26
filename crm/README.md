@@ -40,9 +40,54 @@ um `.env` copiado de `.env.exemplo` apontando para um banco de teste.
   e uma nota com tudo o que a pessoa preencheu. Quem preenche de novo ganha
   nota nova, não negócio duplicado. A rota só aceita origem
   `ousadiamarketing.com.br`, tem freio por IP e campo-isca (`_gotcha`).
+- **Dono do produto.** Em Comercial > Configurações > Produtos, cada produto
+  tem dono (Jackson, Juh, Thascila...), funil e a lista de formulários do site
+  que o vendem. Lead que chega por um deles nasce com o produto e o dono, e o
+  dono ganha uma tarefa "Primeiro contato", vencendo em 2 horas. Formulário da
+  agência vai para o funil Agência. Quem atende abre o funil em "Minhas".
+- **Vendas da HeroSpark.** `POST /api/vendas?fonte=herospark&chave=...`.
+  Aprovada: o negócio da pessoa vai para ganho com o valor pago (ou nasce
+  ganho) e ganha a etiqueta "aluno". Reembolso: vai para perdido. Pendente
+  (boleto/Pix): tarefa "Recuperar pagamento" para o dono. Ver "HeroSpark".
+- **Comunidade (Creators da Amazônia).** `POST /api/comunidade`: membro novo
+  vira contato com a etiqueta "comunidade"; empresa cadastrada vira lead no
+  funil Agência; certificado de curso grátis vira lead quente (+20 de score).
+  Ver "Comunidade".
 - **WhatsApp e Instagram.** Ainda sem número: tudo pronto e desligado. Ver
   "WhatsApp, depois" abaixo.
 - **Importação.** Em Contatos > Importar, CSV ou colado.
+
+## O relógio do CRM (fila de tarefas)
+
+O próprio servidor dá uma volta por minuto na tabela `tarefas_sistema`
+(`api/_fila_tarefas.js`), sem cron, Redis ou n8n:
+
+| O quê | Quando |
+|---|---|
+| automações "Contato novo", "Ficou sem interação" e "Tarefa venceu" | a cada 5 min |
+| conversa esquecida na mão de alguém volta para a IA | a cada 15 min |
+| coleta dos anúncios da Meta | 1x por dia, a partir das 9h |
+| processar venda da HeroSpark e evento da comunidade | assim que chegam, com novas tentativas |
+
+O follow-up é uma automação: "Ficou sem interação há N dias" → "Criar tarefa"
+para o responsável. Mensagem automática no WhatsApp continua desligada de
+propósito (janela de 24h e modelo aprovado da Meta).
+
+## Receita por campanha
+
+Marketing > Receita (gestão e operador). Junta o gasto da Meta, os leads do
+CRM e as vendas pagas da HeroSpark (sem reembolsos) no período: investimento,
+leads, custo por lead, vendas, conversão, receita e ROAS por campanha. Cada
+negócio conta para o anúncio de clique para WhatsApp de onde veio, ou para a
+`utm_campaign` do formulário (que casa com o id ou o nome da campanha na
+Meta), ou para a origem dele no CRM. Para a atribuição funcionar, use
+`utm_campaign={{campaign.id}}` nos links dos anúncios.
+
+## Respostas rápidas
+
+Digite `/` na conversa: aparecem as respostas da equipe e as suas. `{nome}`
+vira o primeiro nome da pessoa. O botão de raio abre a lista para criar e
+editar. Só a gestão cria respostas da equipe; cada um cria as próprias.
 
 ## Assuntos da fila
 
@@ -119,22 +164,38 @@ chmod 440 /etc/sudoers.d/deploy-crm && visudo -c
 Da sua máquina, na raiz do repositório (ou deixe o deploy automático fazer,
 passo 10, e volte aqui):
 
+Cada versão mora em `/opt/ousadia-crm/releases/<versao>` e
+`/opt/ousadia-crm/atual` é um atalho para a que está no ar (é o que o serviço e
+o cron usam). `infra/publicar.sh` instala, troca o atalho, reinicia e, se a
+versão nova não responder em 30 segundos, volta sozinho para a anterior.
+
 ```bash
 cd crm && npm ci && npm run build
-rsync -rltz --delete --exclude node_modules/ --exclude test/ ./ deploy@189.24.18.136:/opt/ousadia-crm/
-ssh deploy@189.24.18.136 'cd /opt/ousadia-crm && npm ci --omit=dev'
+V=inicial
+rsync -rltz --exclude node_modules/ --exclude test/ --rsync-path="mkdir -p /opt/ousadia-crm/releases && rsync" \
+  ./ deploy@189.24.18.136:/opt/ousadia-crm/releases/$V/
+ssh deploy@189.24.18.136 "cd /opt/ousadia-crm/releases/$V && npm ci --omit=dev && ln -sfn /opt/ousadia-crm/releases/$V /opt/ousadia-crm/atual"
+```
+
+(Na primeira vez o serviço ainda não existe, por isso o atalho é criado à mão.
+Do segundo deploy em diante quem faz tudo é o `publicar.sh`.)
+
+Voltar para a versão anterior, a qualquer momento:
+
+```bash
+sudo -u deploy sh /opt/ousadia-crm/atual/infra/voltar.sh
 ```
 
 ### 5. Ambiente e segredos
 
 ```bash
-cd /opt/ousadia-crm
+cd /opt/ousadia-crm/atual
 node scripts/gerar-ambiente.js /etc/ousadia-crm.env
 chown root:crm /etc/ousadia-crm.env && chmod 640 /etc/ousadia-crm.env
 ```
 
 Ele imprime o **segredo do PostgREST**, a **senha do operador** e o
-**CRON_SECRET**. Depois:
+**endereço do webhook da HeroSpark**. Depois:
 
 - abra `/etc/ousadia-crm.env` e preencha `IP_PUBLICO=189.24.18.136`;
 - guarde a senha do operador no gerenciador de senhas;
@@ -145,13 +206,13 @@ Ele imprime o **segredo do PostgREST**, a **senha do operador** e o
 ```bash
 sudo -u postgres createdb crm
 for f in 00-base 01-esquema 02-ousadia 03-permissoes 04-semente-ousadia; do
-  sudo -u postgres psql -v ON_ERROR_STOP=1 -d crm -f /opt/ousadia-crm/banco/$f.sql || break
+  sudo -u postgres psql -v ON_ERROR_STOP=1 -d crm -f /opt/ousadia-crm/atual/banco/$f.sql || break
 done
 sudo -u postgres psql -c "alter role authenticator password 'UMA_SENHA_FORTE_NOVA'"
 ```
 
 Os cinco arquivos foram testados em Postgres 16 limpo (`test/banco-vps.test.js`
-roda o mesmo no PGlite). O banco nasce com 56 tabelas, RLS em todas, e só a
+roda o mesmo no PGlite). O banco nasce com 59 tabelas, RLS em todas, e só a
 Ousadia como empresa: funis Alunos e Agência, origens, motivos, produtos
 (valor zero, preencher na tela), etiquetas e frentes. Nenhuma pessoa.
 
@@ -159,10 +220,10 @@ Ousadia como empresa: funis Alunos e Agência, origens, motivos, produtos
 
 ```bash
 install -d -o postgrest -m 750 /etc/postgrest
-cp /opt/ousadia-crm/infra/postgrest.conf.exemplo /etc/postgrest/crm.conf
+cp /opt/ousadia-crm/atual/infra/postgrest.conf.exemplo /etc/postgrest/crm.conf
 chown postgrest /etc/postgrest/crm.conf && chmod 600 /etc/postgrest/crm.conf
 nano /etc/postgrest/crm.conf   # trocar a senha do authenticator e o jwt-secret
-cp /opt/ousadia-crm/infra/postgrest.service /etc/systemd/system/
+cp /opt/ousadia-crm/atual/infra/postgrest.service /etc/systemd/system/
 systemctl daemon-reload && systemctl enable --now postgrest
 curl -s http://127.0.0.1:3000/ -o /dev/null -w '%{http_code}\n'   # 200
 ```
@@ -180,7 +241,7 @@ caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
 ### 9. O serviço do CRM
 
 ```bash
-cp /opt/ousadia-crm/infra/ousadia-crm.service /etc/systemd/system/
+cp /opt/ousadia-crm/atual/infra/ousadia-crm.service /etc/systemd/system/
 systemctl daemon-reload && systemctl enable --now ousadia-crm
 journalctl -u ousadia-crm -n 20 --no-pager
 ```
@@ -195,36 +256,94 @@ curl -s -o /dev/null -w '%{http_code}\n' https://crm.ousadiamarketing.com.br/api
 
 Entrar: abra o endereço, deixe o **email vazio** e use a senha do operador.
 
-### 10. Cron, backup e deploy automático
+### 10. Backup, monitoramento e deploy automático
+
+**Backup cifrado fora da VPS.** O backup é cifrado com `age` para uma chave
+pública; a chave privada fica **só no seu computador** (e num cofre), nunca
+na VPS. Quem invadir a máquina não lê o backup.
+
+1. No seu computador (Windows: `winget install FiloSottile.age`):
+   ```bash
+   age-keygen -o ousadia-crm-backup.key
+   ```
+   Guarde `ousadia-crm-backup.key` no gerenciador de senhas. A linha
+   `# public key: age1...` é a pública.
+2. Na VPS:
+   ```bash
+   apt install -y age
+   install -d -m 700 /etc/ousadia-crm
+   echo 'age1...a-chave-publica...' > /etc/ousadia-crm/backup.pub
+   ```
+3. No Cloudflare: crie um bucket R2 (`ousadia-crm`), uma chave de API com
+   acesso a ele, e preencha `R2_*` em `/etc/ousadia-crm.env`. Em Settings >
+   Object lifecycle rules, apague `backups/` depois de 30 dias.
+4. O cron:
+   ```bash
+   cp /opt/ousadia-crm/atual/infra/cron.exemplo /etc/cron.d/ousadia-crm
+   sh /opt/ousadia-crm/atual/infra/backup.sh   # primeiro backup, na mão
+   ```
+
+Ele roda às 3h, guarda 7 dias em `/var/backups/crm` e manda a cópia cifrada
+para o R2. Teste a restauração uma vez (no seu computador, com a chave
+privada):
 
 ```bash
-cp /opt/ousadia-crm/infra/cron.exemplo /etc/cron.d/ousadia-crm
-nano /etc/cron.d/ousadia-crm   # colar o CRON_SECRET
-chmod 600 /etc/cron.d/ousadia-crm
+age -d -i ousadia-crm-backup.key crm-AAAA-MM-DD.dump.age > crm.dump
+pg_restore -d um_banco_de_teste crm.dump
 ```
 
-No GitHub: Settings > Secrets and variables > Actions > **Variables** > New
-repository variable: `CRM_DEPLOY_ATIVO` = `true`. A partir daí todo merge que
-mexe em `crm/` roda `.github/workflows/deploy-crm.yml`: testes, build, envio,
-`npm ci`, reinício e conferência no ar. Se teste ou build falhar, nada é
-enviado.
+**Monitoramento externo.** Em UptimeRobot (grátis), um monitor HTTP para
+`https://crm.ousadiamarketing.com.br/api/saude`, a cada 5 minutos, com alerta
+por e-mail. Ele responde 503 se o banco ou a fila de tarefas pararem.
 
-### Backup
+**Deploy automático.** No GitHub: Settings > Secrets and variables > Actions >
+**Variables** > New repository variable: `CRM_DEPLOY_ATIVO` = `true`. A partir
+daí todo merge que mexe em `crm/` roda `.github/workflows/deploy-crm.yml`:
+testes, build, envio para uma pasta nova em `releases/` e `publicar.sh`. Se
+teste ou build falhar, nada é enviado; se a versão nova não subir, a anterior
+volta sozinha.
 
-`infra/backup.sh` roda às 3h (cron acima) e guarda 14 dias em
-`/var/backups/crm`. Teste a restauração uma vez, num banco à parte:
+### 11. A equipe e os produtos
 
-```bash
-sudo -u postgres createdb crm_teste
-sudo -u postgres pg_restore -d crm_teste /var/backups/crm/crm-AAAA-MM-DD.dump
-sudo -u postgres psql -d crm_teste -c 'select count(*) from crm_negocios'
-sudo -u postgres dropdb crm_teste
-```
-
-O backup fica na mesma máquina: copie de tempos em tempos para fora (o
-snapshot semanal da Hostinger também cobre).
+No painel, como operador: **Atendentes** → cadastre Jackson, Juh e Thascila com
+papel **gestor** (cada um entra com o próprio e-mail e senha). Depois,
+**Comercial > Configurações > Produtos**: preço, dono e formulários de cada
+produto.
 
 ---
+
+## HeroSpark
+
+1. HeroSpark > Configurações > Webhooks > novo webhook, com o endereço que o
+   `gerar-ambiente.js` imprimiu:
+   `https://crm.ousadiamarketing.com.br/api/vendas?fonte=herospark&chave=<VENDAS_CHAVE>`
+   e os eventos de venda (aprovada, reembolso/estorno, boleto/Pix gerado).
+2. Em cada produto do CRM, preencha "Ids do produto na HeroSpark" (ou deixe o
+   nome igual ao da HeroSpark).
+3. Faça uma venda de teste. O evento chega inteiro em `vendas_eventos`. Se
+   ficar como `ignorado` (formato que a leitura não conhecia), mande o
+   conteúdo do campo `bruto` para ajustar `api/_vendas.js` e rode:
+   ```bash
+   cd /opt/ousadia-crm/atual
+   node --env-file=/etc/ousadia-crm.env scripts/reprocessar-vendas.js --confirmar
+   ```
+
+## Comunidade
+
+No Supabase da comunidade (Creators da Amazônia): Database > Webhooks > Create
+a new hook, três vezes, todos com:
+
+- Tipo: HTTP Request, método POST
+- URL: `https://crm.ousadiamarketing.com.br/api/comunidade`
+- Cabeçalho HTTP: `x-ousadia-chave` = o `COMUNIDADE_CHAVE` de `/etc/ousadia-crm.env`
+
+| Tabela | Eventos |
+|---|---|
+| `users` | Insert, Update |
+| `company_profiles` | Insert |
+| `certificates` | Insert |
+
+Nada muda no código da comunidade.
 
 ## WhatsApp, depois
 
