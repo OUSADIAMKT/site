@@ -1,0 +1,33 @@
+www.ousadiamarketing.com.br {
+	redir https://ousadiamarketing.com.br{uri} permanent
+}
+
+ousadiamarketing.com.br {
+	root * /var/www/ousadia
+	encode zstd gzip
+
+	redir /escola/video-maker-e-edicao /escola/ permanent
+	redir /escola/video-maker-e-edicao/ /escola/ permanent
+	@postantigo path_regexp postantigo ^/conteudo/marketing-(mobral|copia-e-cola)-o-que-e/?$
+	redir @postantigo /conteudo/marketing-generico-o-que-e/ permanent
+
+	header {
+		Strict-Transport-Security "max-age=31536000"
+		X-Content-Type-Options "nosniff"
+		X-Frame-Options "SAMEORIGIN"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+		Content-Security-Policy "upgrade-insecure-requests; frame-ancestors 'self'; base-uri 'self'; object-src 'none'"
+	}
+
+	@estatico path *.js *.css *.woff2 *.woff *.ttf *.otf *.svg *.png *.jpg *.jpeg *.gif *.webp *.avif *.mp4 *.webm
+	header @estatico Cache-Control "public, max-age=31536000, immutable"
+	@html path *.html / */
+	header @html Cache-Control "public, max-age=0, must-revalidate"
+
+	handle_errors {
+		rewrite * /404.html
+		file_server
+	}
+	file_server
+}

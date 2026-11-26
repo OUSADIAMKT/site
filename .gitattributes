@@ -1,0 +1,7 @@
+# O Caddyfile vai para a VPS (Linux) por scp: sempre LF, mesmo com core.autocrlf no Windows.
+docs/Caddyfile text eol=lf
+
+# Scripts e configurações do CRM rodam na VPS (Linux): sempre LF. Com CRLF,
+# o `sh` falha com "$'\r': command not found".
+crm/infra/** text eol=lf
+*.sh text eol=lf

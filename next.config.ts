@@ -13,15 +13,15 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /**
    * Exportação estática: `next build` gera HTML/CSS/JS puro em `out/`, sem
-   * precisar de servidor Node. É o que a Hostinger consegue servir.
+   * precisar de servidor Node: a VPS só serve arquivos (Caddy).
    */
   output: "export",
 
   /**
    * Faz cada rota virar uma pasta com `index.html` (`/agencia/index.html`) em
-   * vez de um arquivo solto (`/agencia.html`). Sem isso, o servidor da
-   * Hostinger recebe `/agencia`, não acha um diretório com índice e devolve
-   * 404 — só a home funcionaria.
+   * vez de um arquivo solto (`/agencia.html`). Sem isso, o servidor recebe
+   * `/agencia`, não acha um diretório com índice e devolve 404 — só a home
+   * funcionaria.
    */
   trailingSlash: true,
 
@@ -44,9 +44,9 @@ const nextConfig: NextConfig = {
 
   /**
    * Por padrão o Next sorteia um `buildId` novo a cada build e o embute em
-   * todo HTML gerado. Como o site publicado é versionado na branch `deploy`,
-   * isso fazia os ~130 arquivos aparecerem como alterados a cada publicação,
-   * mesmo sem nenhuma mudança real — escondendo o diff de verdade.
+   * todo HTML gerado. Isso fazia os ~130 arquivos aparecerem como alterados a
+   * cada build, mesmo sem nenhuma mudança real (e era o que sujava a antiga
+   * branch `deploy`, que guardava o site pronto).
    *
    * Amarrando o id ao commit do código, dois builds do mesmo commit produzem
    * exatamente os mesmos arquivos. Fora de um repositório git (ou se o git não

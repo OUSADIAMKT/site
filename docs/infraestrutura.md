@@ -35,6 +35,15 @@ Segredos do repositório (Settings > Secrets and variables > Actions):
 O workflow confere a impressão digital da chave do servidor; se a VPS for
 recriada, atualize `VPS_HOST_FINGERPRINT` no workflow.
 
+A chave privada fica em `~/.ssh/deploy_ousadia` no PC do administrador (a
+pública, `github-deploy`, está em `/home/deploy/.ssh/authorized_keys` na VPS).
+O workflow remove `\r` (caso o secret tenha sido colado com CRLF) e testa a
+chave antes do `rsync`. Se o passo "Configurar SSH" falhar com "VPS_SSH_KEY
+invalida", cole o arquivo inteiro de novo, de `BEGIN` a `END`. No log da VPS,
+`journalctl -u ssh` mostra `Accepted publickey for deploy` quando funciona e
+`Connection closed by authenticating user deploy ... [preauth]` quando a chave
+é recusada.
+
 ## CRM
 
 Projeto separado em `crm/` (React + Vite + Node, não é Next). Instalação na
@@ -75,11 +84,21 @@ VPS, passo a passo: `crm/README.md`, seção "Instalar na VPS".
 
 ## Caddyfile
 
-Traduz o antigo `public/.htaccess` (Apache): redireciona `www` para o domínio
-sem `www`, os redirects de páginas antigas, cabeçalhos de segurança, cache e a
-página 404. **Mudou uma regra em `public/.htaccess`? Ela não vale mais**: o
-Caddy ignora esse arquivo. Edite o `/etc/caddy/Caddyfile` na VPS e rode
-`caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy`.
+Traduz o antigo `.htaccess` (Apache, já removido do repositório): redireciona
+`www` para o domínio sem `www`, os redirects de páginas antigas, cabeçalhos de
+segurança, cache, compressão e a página 404.
+
+A cópia versionada está em [`docs/Caddyfile`](Caddyfile), idêntica à da VPS em
+26/11/2026. **Quem manda é o arquivo da VPS** (`/etc/caddy/Caddyfile`): o
+deploy não o envia, só publica o `out/`. Para mudar uma regra, edite
+`docs/Caddyfile` aqui, commite, e aplique na VPS:
+
+```bash
+scp docs/Caddyfile root@189.24.18.136:/etc/caddy/Caddyfile
+ssh root@189.24.18.136 'caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy'
+```
+
+Se mexer direto na VPS, copie o resultado de volta para `docs/Caddyfile`.
 
 ## E-mail e DNS
 
@@ -97,8 +116,10 @@ Caddy ignora esse arquivo. Edite o `/etc/caddy/Caddyfile` na VPS e rode
 
 - [ ] Renovar o e-mail da Hostinger antes de 10/12.
 - [ ] Copiar os arquivos do Premium Web Hosting antes de ele expirar.
-- [ ] Remover `scripts/deploy.mjs`, o script `deploy` do `package.json` e a
-      branch `deploy` (eram da Hostinger) e `public/.htaccess` (era Apache).
+- [x] Remover `scripts/deploy.mjs`, o script `deploy` do `package.json`,
+      `public/.htaccess` e a branch `deploy` (feito em 26/11/2026; a branch
+      terminava no commit `f7ae523`, e o site antigo se reconstrói da `main`).
+- [x] Guardar uma cópia do Caddyfile no repositório (`docs/Caddyfile`).
 - [ ] Tirar snapshot da VPS depois do primeiro deploy bem-sucedido.
 - [ ] CRM: criar o registro `A` de `crm` no Registro.br e seguir
       `crm/README.md` ("Instalar na VPS"). Depois, `CRM_DEPLOY_ATIVO = true`.
