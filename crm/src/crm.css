@@ -624,3 +624,25 @@
    no painel de por no funil. Herda a cor do aviso de proposito. */
 .lista-seca{list-style:none;margin:6px 0;padding:0;display:grid;gap:3px;font-size:12.5px;}
 .lista-seca > li{overflow-wrap:anywhere;}
+
+/* Respostas rápidas: a lista que abre ao digitar "/" no campo. */
+.compor-respostas{
+  display:flex;flex-direction:column;gap:2px;max-height:260px;overflow-y:auto;
+  margin:0 0 6px;padding:6px;border:1px solid var(--linha);border-radius:var(--raio);
+  background:var(--cartao);box-shadow:var(--sombra-painel);
+}
+.compor-respostas button[role="option"]{
+  display:grid;grid-template-columns:auto auto 1fr;align-items:baseline;gap:8px;
+  padding:7px 9px;border:0;border-radius:8px;background:transparent;color:var(--tinta);
+  text-align:left;font:inherit;cursor:pointer;
+}
+.compor-respostas button[role="option"]:hover,
+.compor-respostas button.escolhida{background:var(--marca-suave);}
+.compor-respostas strong{font-family:var(--mono);font-size:12.5px;font-weight:500;}
+.compor-respostas-tag{font-size:11px;color:var(--sutil);}
+.compor-respostas-texto{color:var(--sutil);font-size:12.5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.compor-respostas-vazio{margin:4px 8px;color:var(--sutil);font-size:12.5px;}
+.compor-respostas-gerenciar{align-self:flex-start;margin:4px 8px 2px;font-size:12.5px;}
+.respostas-item{position:relative;padding-right:72px;}
+.respostas-acoes{display:flex;gap:6px;justify-content:flex-end;}
+.respostas-item .respostas-acoes{position:absolute;top:8px;right:8px;}

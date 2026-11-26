@@ -1,6 +1,6 @@
 -- 03 · a Ousadia, para o painel não abrir vazio
 --
--- Rodar uma vez, depois do 02-permissoes.sql. Pode rodar de novo: o que já
+-- Rodar uma vez, depois do 03-permissoes.sql. Pode rodar de novo: o que já
 -- existe não é duplicado nem sobrescrito (quem mudou um nome na tela não
 -- perde a mudança).
 --
@@ -123,21 +123,27 @@ where c.slug = 'ousadia'
 
 -- ---------------------------------------------------------------------------
 -- 5. O que a Ousadia vende (valor em zero: preencher na tela)
+--
+-- `formularios` são os nomes que o site manda (lib/crm.ts): o lead que chega
+-- por um deles nasce com o produto e com o dono do produto. O dono (Jackson,
+-- Juh, Thascila) é escolhido na tela depois de cadastrar a equipe. A agência
+-- entra no funil Agência; o resto, no funil de entrada (Alunos).
 
-insert into public.crm_produtos (cliente_id, nome, descricao, valor)
-select c.id, v.nome, v.descricao, 0
+insert into public.crm_produtos (cliente_id, nome, descricao, valor, formularios, funil_id)
+select c.id, v.nome, v.descricao, 0, v.formularios,
+       (select f.id from public.crm_funis f where f.cliente_id = c.id and f.nome = v.funil)
 from public.clientes c
 cross join (values
-  ('Escola Ousadia',               'escola de marketing digital'),
-  ('Mentoria',                     'acompanhamento individual'),
-  ('Mentoria Viver do Digital',    'mentoria'),
-  ('Método Satoyiro',              'curso'),
-  ('Aulão Social Media',           'aula ao vivo'),
-  ('Mapa do UGC',                  'curso'),
-  ('Momento UGC',                  'curso'),
-  ('Agência: gestão de redes',     'serviço mensal'),
-  ('Agência: tráfego pago',        'serviço mensal')
-) as v(nome, descricao)
+  ('Escola Ousadia',            'escola de marketing digital', array['diagnostico-ia'],          null),
+  ('Mentoria',                  'acompanhamento individual',   array['mentoria', 'diagnostico'],  null),
+  ('Mentoria Viver do Digital', 'mentoria',                    array[]::text[],                   null),
+  ('Método Satoyiro',           'curso',                       array['metodo-satoyiro'],          null),
+  ('Aulão Social Media',        'aula ao vivo',                array['diagnostico-social-media'], null),
+  ('Mapa do UGC',               'curso',                       array[]::text[],                   null),
+  ('Momento UGC',               'curso',                       array['momento-ugc'],              null),
+  ('Agência: gestão de redes',  'serviço mensal',              array['agencia'],                  'Agência'),
+  ('Agência: tráfego pago',     'serviço mensal',              array[]::text[],                   'Agência')
+) as v(nome, descricao, formularios, funil)
 where c.slug = 'ousadia'
   and not exists (select 1 from public.crm_produtos p where p.cliente_id = c.id and p.nome = v.nome);
 

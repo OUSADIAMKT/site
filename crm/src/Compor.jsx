@@ -1,11 +1,12 @@
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Paperclip, Smile, Mic, Pause, Play, Trash2, X, Send } from "lucide-react";
+import { Paperclip, Smile, Mic, Pause, Play, Trash2, X, Send, Zap } from "lucide-react";
 import {
   conferirArquivo, paraBase64, subirParaCofre, rotuloDoTipo, tamanhoLegivel,
   LIMITE_UPLOAD,
   formatoDeGravacao, gravacaoDisponivel, prepararAudio, relogio,
 } from "./midia.js";
 import { GRUPOS, procurar } from "./emojis.js";
+import { buscaDeAtalho, filtrarRespostas, preencherResposta } from "./respostas.js";
 
 // O campo de escrever, com tudo que não é texto.
 //
@@ -39,6 +40,11 @@ export default function Compor({
   ocupado = false,
   podeEnviarTexto = false,
   desativado = false,
+  // Respostas rápidas: a lista (equipe + pessoais), o nome do contato para
+  // preencher {nome}, e quem abre a tela de gerenciar. Sem lista, nada aparece.
+  respostas = null,
+  nomeDoContato = "",
+  aoGerenciarRespostas = null,
 }) {
   const [anexo, setAnexo] = useState(null);       // { arquivo, tipo, url, legenda }
   const [subindo, setSubindo] = useState(false);
@@ -47,6 +53,18 @@ export default function Compor({
   const [progresso, setProgresso] = useState(0);  // 0 a 1, só durante o upload
   const [emojisAbertos, setEmojisAbertos] = useState(false);
   const [arrastando, setArrastando] = useState(false);
+  const [escolhida, setEscolhida] = useState(0);
+
+  // "/mat" no campo: mostra as respostas que casam. Some quando a pessoa
+  // escreve um espaço, porque aí ela está escrevendo, não procurando.
+  const termo = respostas ? buscaDeAtalho(texto) : null;
+  const sugestoes = termo === null ? [] : filtrarRespostas(respostas, termo);
+  useEffect(() => { setEscolhida(0); }, [termo]);
+
+  function usarResposta(r) {
+    aoMudarTexto(preencherResposta(r.texto, { nome: nomeDoContato }));
+    requestAnimationFrame(() => campo.current?.focus());
+  }
 
   const campo = useRef(null);
   const seletor = useRef(null);
@@ -280,6 +298,30 @@ export default function Compor({
         <Emojis aoEscolher={inserirEmoji} aoFechar={() => setEmojisAbertos(false)} />
       )}
 
+      {termo !== null && (
+        <div className="compor-respostas" role="listbox" aria-label="Respostas rápidas">
+          {sugestoes.length ? sugestoes.map((r, i) => (
+            <button
+              key={r.id} type="button" role="option" aria-selected={i === escolhida}
+              className={i === escolhida ? "escolhida" : ""}
+              onMouseDown={(e) => { e.preventDefault(); usarResposta(r); }}
+            >
+              <strong>/{r.atalho}</strong>
+              {r.atendente_id && <span className="compor-respostas-tag">sua</span>}
+              <span className="compor-respostas-texto">{r.texto}</span>
+            </button>
+          )) : (
+            <p className="compor-respostas-vazio">Nenhuma resposta com "/{termo}".</p>
+          )}
+          {aoGerenciarRespostas && (
+            <button type="button" className="link-botao compor-respostas-gerenciar"
+                    onMouseDown={(e) => { e.preventDefault(); aoGerenciarRespostas(); }}>
+              Gerenciar respostas rápidas
+            </button>
+          )}
+        </div>
+      )}
+
       <div className={compacto ? "responder at-compor" : "responder"}>
         <input
           ref={seletor}
@@ -310,6 +352,16 @@ export default function Compor({
           <Smile size={18} aria-hidden="true" />
         </button>
 
+        {aoGerenciarRespostas && (
+          <button
+            type="button" className="compor-icone" title="Respostas rápidas (digite / no campo)"
+            aria-label="Respostas rápidas" disabled={travado}
+            onClick={aoGerenciarRespostas}
+          >
+            <Zap size={18} aria-hidden="true" />
+          </button>
+        )}
+
         <textarea
           ref={campo}
           aria-label="Escrever mensagem"
@@ -326,6 +378,16 @@ export default function Compor({
             if (arquivo && !travado) { e.preventDefault(); receber(arquivo); }
           }}
           onKeyDown={(e) => {
+            if (sugestoes.length) {
+              if (e.key === "ArrowDown") { e.preventDefault(); setEscolhida((i) => (i + 1) % sugestoes.length); return; }
+              if (e.key === "ArrowUp") { e.preventDefault(); setEscolhida((i) => (i - 1 + sugestoes.length) % sugestoes.length); return; }
+              if ((e.key === "Enter" || e.key === "Tab") && !e.shiftKey) {
+                e.preventDefault();
+                usarResposta(sugestoes[escolhida] || sugestoes[0]);
+                return;
+              }
+            }
+            if (termo !== null && e.key === "Escape") { e.preventDefault(); aoMudarTexto(""); return; }
             if (e.key === "Enter" && !e.shiftKey && !e.nativeEvent.isComposing) {
               e.preventDefault();
               if (podeEnviarTexto && !travado) aoEnviarTexto();

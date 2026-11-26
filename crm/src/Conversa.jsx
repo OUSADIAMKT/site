@@ -3,6 +3,7 @@ import { Play, Image as ImageIcon, FileText, Video, Download, X, Sticker } from 
 import { chamar, baixar } from "./api.js";
 import Compor from "./Compor.jsx";
 import Modelos from "./Modelos.jsx";
+import RespostasRapidas from "./RespostasRapidas.jsx";
 import { AvisoSemResposta } from "./semResposta.jsx";
 import { semOAviso } from "./midia.js";
 
@@ -213,6 +214,9 @@ export default function Conversa({
   const [sessao, setSessao] = useState(null);
   const [passando, setPassando] = useState(false);
   const [modelos, setModelos] = useState(false);
+  const [respostas, setRespostas] = useState(null);
+  const [podeEquipe, setPodeEquipe] = useState(false);
+  const [gerenciarRespostas, setGerenciarRespostas] = useState(false);
   const [paraQuem, setParaQuem] = useState("");
   const [motivoPassar, setMotivoPassar] = useState("");
   const fim = useRef(null);
@@ -287,6 +291,22 @@ export default function Conversa({
       })
       .catch(() => { if (valendo) setEquipe([]); });
     return () => { valendo = false; };
+  }, [conversaId]);
+
+  // As respostas rápidas da empresa desta conversa (equipe + as minhas).
+  async function carregarRespostas() {
+    try {
+      const d = await chamar(`painel-respostas?conversa=${conversaId}`);
+      setRespostas(d.respostas || []);
+      setPodeEquipe(Boolean(d.pode_equipe));
+    } catch {
+      setRespostas([]);
+    }
+  }
+  useEffect(() => {
+    if (conversaId) carregarRespostas();
+    setGerenciarRespostas(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [conversaId]);
 
   // A conversa aberta se atualiza sozinha.
@@ -564,8 +584,21 @@ export default function Conversa({
             )
           )}
 
+          {comigo && gerenciarRespostas && (
+            <RespostasRapidas
+              conversaId={conversaId}
+              respostas={respostas}
+              podeEquipe={podeEquipe}
+              aoMudar={carregarRespostas}
+              aoFechar={() => setGerenciarRespostas(false)}
+            />
+          )}
+
           {comigo ? (
             <Compor
+              respostas={respostas}
+              nomeDoContato={estado?.canal === "instagram" ? "" : estado?.nome_contato || ""}
+              aoGerenciarRespostas={() => setGerenciarRespostas(true)}
               compacto={rolagemInterna}
               texto={texto}
               aoMudarTexto={setTexto}

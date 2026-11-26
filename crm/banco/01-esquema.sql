@@ -17,7 +17,6 @@ create extension if not exists pgcrypto with schema extensions;
 create extension if not exists "uuid-ossp" with schema extensions;
 
 -- 1. sequencias
-create sequence if not exists public.pesquisa_votos_id_seq;
 create sequence if not exists public.report_acoes_id_seq;
 create sequence if not exists public.report_coletas_id_seq;
 create sequence if not exists public.uso_id_seq;
@@ -597,22 +596,7 @@ create table if not exists public.paginas (
 );
 
 
-create table if not exists public.pesquisa_campanhas (
-  slug text not null,
-  candidato text not null,
-  instagram_url text,
-  chave_hash text not null,
-  criado_em timestamp with time zone default now() not null
-);
 
-create table if not exists public.pesquisa_votos (
-  id bigint not null,
-  campanha text not null,
-  voto boolean not null,
-  cliente_id text not null,
-  ip_hash text,
-  criado_em timestamp with time zone default now() not null
-);
 
 create table if not exists public.profissionais (
   id uuid default gen_random_uuid() not null,
@@ -832,8 +816,6 @@ alter table public.pagina_dominios add constraint pagina_dominios_pkey PRIMARY K
 alter table public.pagina_eventos_dia add constraint pagina_eventos_dia_pkey PRIMARY KEY (id);
 alter table public.pagina_versoes add constraint pagina_versoes_pkey PRIMARY KEY (id);
 alter table public.paginas add constraint paginas_pkey PRIMARY KEY (id);
-alter table public.pesquisa_campanhas add constraint pesquisa_campanhas_pkey PRIMARY KEY (slug);
-alter table public.pesquisa_votos add constraint pesquisa_votos_pkey PRIMARY KEY (id);
 alter table public.profissionais add constraint profissionais_pkey PRIMARY KEY (id);
 alter table public.report_acoes add constraint report_acoes_pkey PRIMARY KEY (id);
 alter table public.report_anuncios_diarios add constraint report_anuncios_diarios_pkey PRIMARY KEY (conta_id, data, anuncio_id);
@@ -869,7 +851,6 @@ alter table public.links add constraint links_cliente_id_chave_key UNIQUE (clien
 alter table public.midias add constraint midias_cliente_id_chave_key UNIQUE (cliente_id, chave);
 alter table public.pagina_eventos_dia add constraint pagina_eventos_dia_pagina_id_dia_key UNIQUE (pagina_id, dia);
 alter table public.pagina_versoes add constraint pagina_versoes_pagina_id_numero_key UNIQUE (pagina_id, numero);
-alter table public.pesquisa_votos add constraint pesquisa_votos_campanha_cliente_id_key UNIQUE (campanha, cliente_id);
 alter table public.profissionais add constraint profissionais_cliente_id_nome_key UNIQUE (cliente_id, nome);
 alter table public.report_clientes add constraint report_clientes_slug_key UNIQUE (slug);
 alter table public.report_conexoes add constraint report_conexoes_provedor_usuario_id_key UNIQUE (provedor, usuario_id);
@@ -998,7 +979,6 @@ alter table public.pagina_eventos_dia add constraint pagina_eventos_dia_pagina_i
 alter table public.pagina_versoes add constraint pagina_versoes_pagina_id_fkey FOREIGN KEY (pagina_id) REFERENCES paginas(id) ON DELETE CASCADE;
 alter table public.paginas add constraint paginas_cliente_id_fkey FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE;
 alter table public.paginas add constraint paginas_versao_publicada_fk FOREIGN KEY (versao_publicada_id) REFERENCES pagina_versoes(id) ON DELETE RESTRICT;
-alter table public.pesquisa_votos add constraint pesquisa_votos_campanha_fkey FOREIGN KEY (campanha) REFERENCES pesquisa_campanhas(slug) ON DELETE CASCADE;
 alter table public.profissionais add constraint profissionais_cliente_id_fkey FOREIGN KEY (cliente_id) REFERENCES clientes(id) ON DELETE CASCADE;
 alter table public.report_acoes add constraint report_acoes_conta_id_fkey FOREIGN KEY (conta_id) REFERENCES report_contas(id) ON DELETE SET NULL;
 alter table public.report_anuncios_diarios add constraint report_anuncios_diarios_conta_id_fkey FOREIGN KEY (conta_id) REFERENCES report_contas(id) ON DELETE CASCADE;
@@ -1087,7 +1067,6 @@ CREATE INDEX IF NOT EXISTS pagina_versoes_pagina ON public.pagina_versoes USING 
 CREATE INDEX IF NOT EXISTS paginas_cliente ON public.paginas USING btree (cliente_id);
 CREATE INDEX IF NOT EXISTS paginas_cliente_ativas ON public.paginas USING btree (cliente_id) WHERE (arquivada_em IS NULL);
 CREATE UNIQUE INDEX paginas_slug ON public.paginas USING btree (slug);
-CREATE INDEX IF NOT EXISTS pesquisa_votos_ip_idx ON public.pesquisa_votos USING btree (campanha, ip_hash, criado_em);
 CREATE INDEX IF NOT EXISTS report_acoes_conta ON public.report_acoes USING btree (conta_id, criado_em DESC);
 CREATE INDEX IF NOT EXISTS report_acoes_objeto ON public.report_acoes USING btree (objeto_id, criado_em DESC);
 CREATE INDEX IF NOT EXISTS report_anuncios_campanha ON public.report_anuncios_diarios USING btree (conta_id, campanha_id, data);
@@ -1516,95 +1495,6 @@ AS $function$
 $function$
 ;
 
-CREATE OR REPLACE FUNCTION public.pesquisa_publico(p_campanha text)
- RETURNS json
- LANGUAGE sql
- STABLE SECURITY DEFINER
- SET search_path TO 'public'
-AS $function$
-  select json_build_object('candidato', candidato, 'instagram_url', instagram_url)
-  from pesquisa_campanhas where slug = p_campanha;
-$function$
-;
-
-CREATE OR REPLACE FUNCTION public.pesquisa_resultado(p_campanha text, p_chave text)
- RETURNS json
- LANGUAGE plpgsql
- STABLE SECURITY DEFINER
- SET search_path TO 'public', 'extensions'
-AS $function$
-declare
-  c pesquisa_campanhas;
-begin
-  select * into c from pesquisa_campanhas where slug = p_campanha;
-  if c is null or c.chave_hash <> encode(digest(coalesce(p_chave, ''), 'sha256'), 'hex') then
-    return json_build_object('ok', false);
-  end if;
-  return json_build_object(
-    'ok', true,
-    'instagram_url', c.instagram_url,
-    'sim', (select count(*) from pesquisa_votos where campanha = p_campanha and voto),
-    'nao', (select count(*) from pesquisa_votos where campanha = p_campanha and not voto),
-    'por_dia', coalesce((
-      select json_agg(d order by d.dia desc) from (
-        select (criado_em at time zone 'America/Belem')::date as dia,
-               count(*) filter (where voto) as sim,
-               count(*) filter (where not voto) as nao
-        from pesquisa_votos where campanha = p_campanha group by 1
-      ) d), '[]'::json)
-  );
-end;
-$function$
-;
-
-CREATE OR REPLACE FUNCTION public.pesquisa_salvar_video(p_campanha text, p_chave text, p_url text)
- RETURNS json
- LANGUAGE plpgsql
- SECURITY DEFINER
- SET search_path TO 'public', 'extensions'
-AS $function$
-begin
-  update pesquisa_campanhas set instagram_url = nullif(trim(p_url), '')
-  where slug = p_campanha and chave_hash = encode(digest(coalesce(p_chave, ''), 'sha256'), 'hex');
-  return json_build_object('ok', found);
-end;
-$function$
-;
-
-CREATE OR REPLACE FUNCTION public.pesquisa_votar(p_campanha text, p_voto boolean, p_cliente text)
- RETURNS json
- LANGUAGE plpgsql
- SECURITY DEFINER
- SET search_path TO 'public', 'extensions'
-AS $function$
-declare
-  v_ip text;
-  v_ip_hash text;
-  v_recentes int;
-begin
-  if p_cliente is null or length(p_cliente) < 16 or length(p_cliente) > 64 then
-    return json_build_object('ok', false, 'erro', 'cliente');
-  end if;
-  if not exists (select 1 from pesquisa_campanhas where slug = p_campanha) then
-    return json_build_object('ok', false, 'erro', 'campanha');
-  end if;
-  v_ip := split_part(coalesce(current_setting('request.headers', true)::json->>'x-forwarded-for', ''), ',', 1);
-  if v_ip <> '' then
-    v_ip_hash := encode(digest(v_ip || ':' || p_campanha, 'sha256'), 'hex');
-    select count(*) into v_recentes from pesquisa_votos
-      where campanha = p_campanha and ip_hash = v_ip_hash and criado_em > now() - interval '1 hour';
-    if v_recentes >= 30 then
-      return json_build_object('ok', false, 'erro', 'limite');
-    end if;
-  end if;
-  insert into pesquisa_votos (campanha, voto, cliente_id, ip_hash)
-  values (p_campanha, p_voto, p_cliente, v_ip_hash)
-  on conflict (campanha, cliente_id) do nothing;
-  return json_build_object('ok', true);
-end;
-$function$
-;
-
 CREATE OR REPLACE FUNCTION public.previa_das_conversas(ids uuid[])
  RETURNS TABLE(conversa_id uuid, papel text, conteudo jsonb, criado_em timestamp with time zone)
  LANGUAGE sql
@@ -1871,8 +1761,6 @@ alter table public.pagina_dominios enable row level security;
 alter table public.pagina_eventos_dia enable row level security;
 alter table public.pagina_versoes enable row level security;
 alter table public.paginas enable row level security;
-alter table public.pesquisa_campanhas enable row level security;
-alter table public.pesquisa_votos enable row level security;
 alter table public.profissionais enable row level security;
 alter table public.report_acoes enable row level security;
 alter table public.report_anuncios_diarios enable row level security;

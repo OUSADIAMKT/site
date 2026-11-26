@@ -70,7 +70,9 @@ export default function Crm({ cliente, podeConfigurar, irPara, eu = null, irPara
   const [vista, setVista] = useState(() => {
     try { return localStorage.getItem("ousadia_crm_vista") || "kanban"; } catch { return "kanban"; }
   });
-  const [filtro, setFiltro] = useState(FILTRO_VAZIO);
+  // Quem atende abre o funil nos negócios DELE: cada um cuida dos próprios
+  // lançamentos e leads, e a visão da equipe está a um clique, em "De quem".
+  const [filtro, setFiltro] = useState(() => (eu ? { ...FILTRO_VAZIO, vista: "meus" } : FILTRO_VAZIO));
   // Quais informações o cartão mostra. `null` é "ainda não sei": o quadro
   // espera a resposta em vez de desenhar com o padrão e piscar quando a
   // preferência chegar.

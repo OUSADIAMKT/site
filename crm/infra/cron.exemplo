@@ -1,10 +1,10 @@
-# /etc/cron.d/ousadia-crm  (permissão 600: tem o CRON_SECRET)
-# Troque TROCAR_CRON_SECRET pelo mesmo valor de CRON_SECRET em /etc/ousadia-crm.env.
+# /etc/cron.d/ousadia-crm
+# A coleta da Meta, as automações de tempo e a devolução de conversas rodam
+# dentro do próprio CRM (fila de tarefas, api/_fila_tarefas.js). Aqui fica só
+# o que precisa rodar fora dele: o backup.
 SHELL=/bin/sh
 TZ=America/Sao_Paulo
 
-# Métricas de anúncios da Meta, todo dia às 9h.
-0 9 * * * crm curl -fsS -m 300 -H "Authorization: Bearer TROCAR_CRON_SECRET" http://127.0.0.1:3100/api/report-coletar > /dev/null
-
-# Backup do banco todo dia às 3h (ver backup.sh).
-0 3 * * * postgres /opt/ousadia-crm/infra/backup.sh
+# Backup do banco todo dia às 3h (ver backup.sh). flock impede duas cópias
+# rodando ao mesmo tempo se uma travar.
+0 3 * * * root flock -n /tmp/backup-crm.lock sh /opt/ousadia-crm/atual/infra/backup.sh

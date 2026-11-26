@@ -14,7 +14,7 @@ própria VPS.
 | `src/` | o painel (React). `npm run build` gera `dist/` |
 | `api/` | as rotas. Cada arquivo sem `_` é uma rota `/api/<nome>` |
 | `servidor.js` | o processo Node que serve `dist/` e as rotas na VPS |
-| `banco/` | o banco do zero, em quatro arquivos, na ordem do nome |
+| `banco/` | o banco do zero, em cinco arquivos, na ordem do nome |
 | `sql/` | histórico de migrações da origem. **Não usar para instalar**; os testes usam |
 | `infra/` | Caddy, PostgREST, systemd, cron e backup para a VPS |
 | `scripts/` | utilitários: gerar ambiente, conectar WhatsApp, diagnósticos |
@@ -144,13 +144,13 @@ Ele imprime o **segredo do PostgREST**, a **senha do operador** e o
 
 ```bash
 sudo -u postgres createdb crm
-for f in 00-base 01-esquema 02-permissoes 03-semente-ousadia; do
+for f in 00-base 01-esquema 02-ousadia 03-permissoes 04-semente-ousadia; do
   sudo -u postgres psql -v ON_ERROR_STOP=1 -d crm -f /opt/ousadia-crm/banco/$f.sql || break
 done
 sudo -u postgres psql -c "alter role authenticator password 'UMA_SENHA_FORTE_NOVA'"
 ```
 
-Os quatro arquivos foram testados em Postgres 16 limpo (`test/banco-vps.test.js`
+Os cinco arquivos foram testados em Postgres 16 limpo (`test/banco-vps.test.js`
 roda o mesmo no PGlite). O banco nasce com 56 tabelas, RLS em todas, e só a
 Ousadia como empresa: funis Alunos e Agência, origens, motivos, produtos
 (valor zero, preencher na tela), etiquetas e frentes. Nenhuma pessoa.
@@ -262,5 +262,5 @@ certificado sozinho na primeira visita; ele só emite para domínio cadastrado
 - **Não desligar o RLS** nem criar política: só o `service_role` (servidor)
   lê e escreve. Política aberta expõe o banco.
 - **Não aplicar migração depois do código que a lê.** Primeiro o banco, depois
-  o deploy. Depois de migração nova, rode `banco/02-permissoes.sql` de novo.
+  o deploy. Depois de migração nova, rode `banco/03-permissoes.sql` de novo.
 - **Não perder a `CHAVE_CIFRA`.**

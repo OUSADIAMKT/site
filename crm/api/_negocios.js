@@ -9,6 +9,7 @@
 // mais de um negócio (comprou, voltou meses depois), e um negócio pode existir
 // sem conversa nenhuma (lead que chegou por telefone).
 
+import { slugDaOrigem } from "./_slug.js";
 import { paraE164, chaveTelefone } from "./_telefone.js";
 import { dispararGatilho, proximasTarefas, listarTarefas, listarNotas, score } from "./_comercial.js";
 import { lerNaoLidas, quemLe, NADA_NAO_LIDO } from "./_leitura.js";
@@ -45,7 +46,7 @@ function instante(v) {
 const CADASTROS = {
   origens:   { tabela: "crm_origens",   colunas: ["nome", "ativo", "ordem"], ordem: "ordem" },
   motivos:   { tabela: "crm_motivos",   colunas: ["nome", "tipo", "ativo", "ordem"], ordem: "ordem" },
-  produtos:  { tabela: "crm_produtos",  colunas: ["nome", "descricao", "valor", "ativo"], ordem: "nome" },
+  produtos:  { tabela: "crm_produtos",  colunas: ["nome", "descricao", "valor", "ativo", "responsavel_id", "formularios", "herospark_ids", "funil_id"], ordem: "nome" },
   campos:    { tabela: "crm_campos",    colunas: ["nome", "chave", "tipo", "obrigatorio", "ordem", "ativo"], ordem: "ordem" },
   etiquetas: { tabela: "crm_etiquetas", colunas: ["nome", "cor"], ordem: "nome" },
   regras:    { tabela: "crm_regras_palavras", colunas: ["nome", "palavras", "funil_id", "etapa_id", "ativo"], ordem: "criado_em" },
@@ -108,7 +109,7 @@ export async function configuracao(sb, clienteId) {
     sb.from("crm_etapas").select("id, funil_id, nome, cor, ordem, tipo, limite_dias").eq("cliente_id", clienteId).order("ordem"),
     sb.from("crm_origens").select("id, nome, ativo, ordem").eq("cliente_id", clienteId).order("ordem").order("nome"),
     sb.from("crm_motivos").select("id, nome, tipo, ativo, ordem").eq("cliente_id", clienteId).order("ordem").order("nome"),
-    sb.from("crm_produtos").select("id, nome, descricao, valor, ativo").eq("cliente_id", clienteId).order("nome"),
+    sb.from("crm_produtos").select("id, nome, descricao, valor, ativo, responsavel_id, formularios, herospark_ids, funil_id").eq("cliente_id", clienteId).order("nome"),
     sb.from("crm_campos").select("id, nome, chave, tipo, obrigatorio, ordem, ativo").eq("cliente_id", clienteId).order("ordem"),
     sb.from("crm_etiquetas").select("id, nome, cor").eq("cliente_id", clienteId).order("nome"),
     sb.from("crm_regras_palavras").select("id, nome, palavras, funil_id, etapa_id, ativo").eq("cliente_id", clienteId).order("criado_em"),
@@ -213,6 +214,28 @@ export async function salvarCadastro(sb, clienteId, tipo, corpo) {
   if (!corpo.id && !linha.nome) throw new Error("Preencha o nome.");
 
   if (tipo === "produtos" && linha.valor !== undefined) linha.valor = numero(linha.valor);
+  if (tipo === "produtos") {
+    // Listas escritas na tela separadas por vírgula. Formulário é o nome que o
+    // site manda (ver lib/crm.ts e _lead.js); id da HeroSpark é texto livre.
+    for (const c of ["formularios", "herospark_ids"]) {
+      if (linha[c] === undefined) continue;
+      const bruto = Array.isArray(linha[c]) ? linha[c] : String(linha[c] || "").split(/[,;\n]/);
+      linha[c] = [...new Set(bruto.map((x) => String(x).trim()).filter(Boolean))].slice(0, 30);
+      if (c === "formularios") linha[c] = linha[c].map((x) => slugDaOrigem(x));
+    }
+    if (linha.responsavel_id === "") linha.responsavel_id = null;
+    if (linha.funil_id === "") linha.funil_id = null;
+    if (linha.funil_id) {
+      const { data } = await sb.from("crm_funis").select("id")
+        .eq("id", linha.funil_id).eq("cliente_id", clienteId).maybeSingle();
+      if (!data) throw new Error("Funil não encontrado nesta empresa.");
+    }
+    if (linha.responsavel_id) {
+      const { data } = await sb.from("atendentes").select("id")
+        .eq("id", linha.responsavel_id).eq("cliente_id", clienteId).maybeSingle();
+      if (!data) throw new Error("Responsável não encontrado nesta empresa.");
+    }
+  }
   if (tipo === "etiquetas" && linha.nome) linha.nome = linha.nome.toLowerCase();
   if (tipo === "campos") {
     if (linha.tipo && !TIPOS_DE_CAMPO.includes(linha.tipo)) throw new Error("Tipo de campo inválido.");

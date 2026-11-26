@@ -15,49 +15,7 @@ Object.assign(process.env, {
 const { lerLead, slugDaOrigem, chaveDaOrigem, registrarLead, QUEM } = await import("../api/_lead.js");
 const { default: handler } = await import("../api/lead.js");
 
-// ---------------------------------------------------------------------------
-// Um banco em memória com a forma do supabase-js: from().select().eq()...
-// Só o que o caminho do lead usa.
-
-function bancoDeMentira(tabelas) {
-  let seq = 0;
-  const t = (nome) => (tabelas[nome] ||= []);
-
-  function consulta(nome) {
-    const filtros = [];
-    let acao = "select";
-    let carga = null;
-    let limite = null;
-    const q = {
-      select() { return q; },
-      eq(col, v) { filtros.push((l) => l[col] === v); return q; },
-      in(col, vs) { filtros.push((l) => vs.includes(l[col])); return q; },
-      order() { return q; },
-      limit(n) { limite = n; return q; },
-      insert(linhas) { acao = "insert"; carga = [].concat(linhas); return q; },
-      update(obj) { acao = "update"; carga = obj; return q; },
-      maybeSingle() { return executar().then((r) => ({ data: r.data[0] || null, error: null })); },
-      single() { return executar().then((r) => ({ data: r.data[0], error: r.data[0] ? null : { message: "nada" } })); },
-      then(ok, erro) { return executar().then(ok, erro); },
-    };
-    async function executar() {
-      if (acao === "insert") {
-        const novas = carga.map((l) => ({ id: `id-${++seq}`, criado_em: new Date().toISOString(), ...l }));
-        t(nome).push(...novas);
-        return { data: novas, error: null };
-      }
-      const achadas = t(nome).filter((l) => filtros.every((f) => f(l)));
-      if (acao === "update") {
-        for (const l of achadas) Object.assign(l, carga);
-        return { data: achadas, error: null };
-      }
-      return { data: limite ? achadas.slice(0, limite) : achadas, error: null };
-    }
-    return q;
-  }
-
-  return { tabelas, from: consulta };
-}
+const { bancoDeMentira } = await import("./bancoMemoria.js");
 
 const OUSADIA = "cli-ousadia";
 
@@ -77,6 +35,7 @@ function mundo(extra = {}) {
       { id: "o-diag", cliente_id: OUSADIA, chave: "diagnostico" },
     ],
     crm_negocios: [], crm_notas: [], contatos: [], crm_historico: [], crm_automacoes: [],
+    crm_produtos: [], crm_tarefas: [], crm_negocio_produtos: [],
     ...extra,
   });
 }
@@ -209,4 +168,39 @@ test("rajada do mesmo IP é freada", async () => {
     ultimo = res.code;
   }
   assert.equal(ultimo, 429);
+});
+
+// ---------------------------------------------------------------------------
+// O dono do produto
+
+test("formulário de um produto: o lead nasce com o produto, o dono e a tarefa de primeiro contato", async () => {
+  const sb = mundo({
+    crm_produtos: [{ id: "p-ugc", cliente_id: OUSADIA, ativo: true, nome: "Momento UGC", valor: 197,
+      responsavel_id: "juh", formularios: ["momento-ugc"], funil_id: null }],
+  });
+  const lead = lerLead({ origem: "momento-ugc", dados: { nome: "Bia", whatsapp: "11988887777" } });
+
+  const r = await registrarLead(sb, "ousadia", lead);
+
+  const [n] = sb.tabelas.crm_negocios;
+  assert.equal(r.responsavel_id, "juh");
+  assert.equal(n.responsavel_id, "juh");
+  assert.equal(n.funil_id, "f-alunos");
+  assert.deepEqual(sb.tabelas.crm_negocio_produtos.map((p) => p.produto_id), ["p-ugc"]);
+  const [tarefa] = sb.tabelas.crm_tarefas;
+  assert.equal(tarefa.responsavel_id, "juh");
+  assert.match(tarefa.titulo, /Primeiro contato: Bia \(Momento UGC\)/);
+});
+
+test("formulário da agência vai para o funil da agência", async () => {
+  const sb = mundo({
+    crm_produtos: [{ id: "p-ag", cliente_id: OUSADIA, ativo: true, nome: "Agência", valor: 0,
+      responsavel_id: null, formularios: ["agencia"], funil_id: "f-agencia" }],
+  });
+  sb.tabelas.crm_etapas.push({ id: "e-ag", cliente_id: OUSADIA, funil_id: "f-agencia", nome: "Novo contato", tipo: "aberta", ordem: 0 });
+
+  await registrarLead(sb, "ousadia", lerLead({ origem: "agência", dados: { email: "dono@empresa.com" } }));
+
+  assert.equal(sb.tabelas.crm_negocios[0].funil_id, "f-agencia");
+  assert.equal(sb.tabelas.crm_tarefas.length, 0, "sem dono, sem tarefa");
 });

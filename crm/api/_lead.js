@@ -18,6 +18,8 @@
 
 import { paraE164 } from "./_telefone.js";
 import { salvarNegocio } from "./_negocios.js";
+import { salvarTarefa } from "./_comercial.js";
+import { slugDaOrigem } from "./_slug.js";
 
 export const QUEM = "formulário do site";
 
@@ -42,11 +44,7 @@ function primeiro(dados, chaves) {
   return "";
 }
 
-/** O formulário vira um identificador curto: "diagnostico-ia", "contato". */
-export function slugDaOrigem(origem) {
-  return texto(origem).normalize("NFD").replace(/[̀-ͯ]/g, "")
-    .toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "").slice(0, 40) || "site";
-}
+export { slugDaOrigem };
 
 /** Qual origem do CRM este formulário representa (chave de crm_origens). */
 export function chaveDaOrigem(slug) {
@@ -105,6 +103,14 @@ function nota(lead) {
   return linhas.join("\n").slice(0, 4000);
 }
 
+/** O produto que este formulário vende, com o dono dele. */
+export async function produtoDoFormulario(sb, clienteId, formulario) {
+  const { data } = await sb.from("crm_produtos")
+    .select("id, nome, valor, responsavel_id, formularios, funil_id")
+    .eq("cliente_id", clienteId).eq("ativo", true);
+  return (data || []).find((p) => (p.formularios || []).includes(formulario)) || null;
+}
+
 /**
  * Grava o lead. `sb` é o cliente do banco; `slugCliente`, a empresa dona do
  * site (a Ousadia).
@@ -116,11 +122,15 @@ export async function registrarLead(sb, slugCliente, lead) {
   if (!cliente) throw new Error(`Cliente "${slugCliente}" não encontrado.`);
   const clienteId = cliente.id;
 
-  // O funil que recebe sozinho; sem nenhum marcado, o primeiro ativo.
+  const produto = await produtoDoFormulario(sb, clienteId, lead.origem);
+
+  // O funil: o do produto, se ele tiver um; senão o de entrada automática;
+  // sem nenhum marcado, o primeiro ativo.
   const { data: funis, error: e2 } = await sb.from("crm_funis")
     .select("id, entrada_automatica, ordem").eq("cliente_id", clienteId).eq("ativo", true).order("ordem");
   if (e2) throw new Error(e2.message);
-  const funil = (funis || []).find((f) => f.entrada_automatica) || (funis || [])[0];
+  const funil = (funis || []).find((f) => produto?.funil_id && f.id === produto.funil_id)
+    || (funis || []).find((f) => f.entrada_automatica) || (funis || [])[0];
   if (!funil) throw new Error("Nenhum funil ativo para receber o lead.");
 
   const { data: etapas, error: e3 } = await sb.from("crm_etapas")
@@ -150,9 +160,25 @@ export async function registrarLead(sb, slugCliente, lead) {
       telefone: lead.telefone || undefined,
       email: lead.email || undefined,
       origem_id: origem?.id || null,
+      responsavel_id: produto?.responsavel_id || null,
       etiquetas: ["veio do site", lead.origem],
       campos: { formulario: lead.origem, ...lead.utms },
+      ...(produto ? {
+        produtos: [{ produto_id: produto.id, nome: produto.nome, quantidade: 1, valor_unitario: produto.valor }],
+      } : {}),
     }, QUEM);
+
+    // O aviso para o dono do produto: uma tarefa de primeiro contato, que
+    // aparece em "Comercial > Tarefas" dele e vence em 2 horas.
+    if (produto?.responsavel_id) {
+      await salvarTarefa(sb, clienteId, {
+        titulo: `Primeiro contato: ${negocio.titulo} (${produto.nome})`,
+        tipo: "mensagem",
+        vence_em: new Date(Date.now() + 2 * 3600_000).toISOString(),
+        negocio_id: negocio.id,
+        responsavel_id: produto.responsavel_id,
+      }, QUEM).catch((e) => console.error("[lead] tarefa do dono:", e.message));
+    }
   }
 
   const { error: e4 } = await sb.from("crm_notas").insert({
@@ -164,5 +190,5 @@ export async function registrarLead(sb, slugCliente, lead) {
   });
   if (e4) throw new Error(e4.message);
 
-  return { negocio_id: negocio.id, novo: !existente };
+  return { negocio_id: negocio.id, novo: !existente, responsavel_id: negocio.responsavel_id || null };
 }

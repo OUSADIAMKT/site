@@ -155,7 +155,11 @@ function Linha({ secao, item, config }) {
     return (
       <div className="ajustes-linha">
         <strong>{item.nome} {!item.ativo && <Ficha texto="inativo" />}</strong>
-        <small>{dinheiro(item.valor)}{item.descricao ? ` · ${item.descricao}` : ""}</small>
+        <small>
+          {dinheiro(item.valor)}{item.descricao ? ` · ${item.descricao}` : ""}
+          {item.responsavel_id ? ` · dono: ${config.atendentes.find((a) => a.id === item.responsavel_id)?.nome || "removido"}` : " · sem dono"}
+          {item.formularios?.length ? ` · formulários: ${item.formularios.join(", ")}` : ""}
+        </small>
       </div>
     );
   }
@@ -295,7 +299,10 @@ function EditorCadastro({ cliente, config, tipo, item, aoFechar, aoSalvar }) {
     ...item,
     valor: item.valor !== undefined ? Number(item.valor).toFixed(2).replace(".", ",") : undefined,
     palavras: item.palavras ? item.palavras.join(", ") : undefined,
+    formularios: item.formularios ? item.formularios.join(", ") : "",
+    herospark_ids: item.herospark_ids ? item.herospark_ids.join(", ") : "",
   } : {
+    formularios: "", herospark_ids: "", responsavel_id: "", funil_id: "",
     nome: "", ativo: true, tipo: tipo === "campos" ? "texto" : tipo === "motivos" ? "perdido" : undefined,
     cor: tipo === "etiquetas" ? CORES[config.etiquetas.length % CORES.length] : undefined,
     valor: tipo === "produtos" ? "" : undefined, descricao: "", obrigatorio: false,
@@ -311,7 +318,13 @@ function EditorCadastro({ cliente, config, tipo, item, aoFechar, aoSalvar }) {
     const dados = { id: item?.id, nome: f.nome };
     if (["origens", "motivos", "produtos", "campos", "regras"].includes(tipo)) dados.ativo = !!f.ativo;
     if (tipo === "motivos") dados.tipo = f.tipo;
-    if (tipo === "produtos") Object.assign(dados, { valor: f.valor, descricao: f.descricao || null });
+    if (tipo === "produtos") {
+      Object.assign(dados, {
+        valor: f.valor, descricao: f.descricao || null,
+        responsavel_id: f.responsavel_id || "", funil_id: f.funil_id || "",
+        formularios: f.formularios || "", herospark_ids: f.herospark_ids || "",
+      });
+    }
     if (tipo === "campos") Object.assign(dados, { tipo: f.tipo, obrigatorio: !!f.obrigatorio });
     if (tipo === "etiquetas") dados.cor = f.cor;
     if (tipo === "regras") Object.assign(dados, { palavras: f.palavras, funil_id: f.funil_id, etapa_id: f.etapa_id });
@@ -360,6 +373,30 @@ function EditorCadastro({ cliente, config, tipo, item, aoFechar, aoSalvar }) {
             <label className="campo">
               <span>Descrição</span>
               <input type="text" value={f.descricao || ""} onChange={pega("descricao")} placeholder="opcional" />
+            </label>
+            <label className="campo">
+              <span>Dono do produto</span>
+              <select value={f.responsavel_id || ""} onChange={pega("responsavel_id")}>
+                <option value="">Ninguém (lead fica sem responsável)</option>
+                {config.atendentes.map((a) => <option key={a.id} value={a.id}>{a.nome}</option>)}
+              </select>
+            </label>
+            <label className="campo">
+              <span>Funil do lead</span>
+              <select value={f.funil_id || ""} onChange={pega("funil_id")}>
+                <option value="">O de entrada automática</option>
+                {config.funis.map((x) => <option key={x.id} value={x.id}>{x.nome}</option>)}
+              </select>
+            </label>
+            <label className="campo largo">
+              <span>Formulários do site que vendem este produto</span>
+              <input type="text" value={f.formularios || ""} onChange={pega("formularios")}
+                     placeholder="momento-ugc, diagnostico-social-media" />
+            </label>
+            <label className="campo largo">
+              <span>Ids do produto na HeroSpark</span>
+              <input type="text" value={f.herospark_ids || ""} onChange={pega("herospark_ids")}
+                     placeholder="opcional: liga a venda da HeroSpark a este produto" />
             </label>
           </>
         )}

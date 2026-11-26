@@ -334,6 +334,9 @@ function condicaoBate(condicoes = {}, contexto = {}) {
       if (!esperado.map(String).includes(String(atual))) return false;
     } else if (chave === "score_minimo") {
       if (Number(contexto.score || 0) < Number(esperado)) return false;
+    } else if (chave === "dias_sem_interacao") {
+      // Mínimo, não igualdade: "parado há 3 dias ou mais".
+      if (Number(contexto.dias_sem_interacao || 0) < Number(esperado)) return false;
     } else if (String(atual) !== String(esperado)) {
       return false;
     }

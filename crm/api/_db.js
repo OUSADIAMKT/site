@@ -3,6 +3,14 @@ import { decifrar } from "./_cifra.js";
 
 let cliente;
 
+/**
+ * Troca o cliente do banco. Só para testes: permite exercitar uma rota com
+ * o banco em memória de test/bancoMemoria.js. Passe null para voltar ao real.
+ */
+export function usarBanco(sb) {
+  cliente = sb || undefined;
+}
+
 export function db() {
   if (!cliente) {
     const url = process.env.SUPABASE_URL;

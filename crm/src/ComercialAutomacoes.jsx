@@ -50,14 +50,13 @@ const CAMPOS_EDITAVEIS = [
   { valor: "observacoes", rotulo: "Observações" },
 ];
 
-// Os gatilhos que ninguém dispara ainda. Dizer isto na tela é mais honesto do
-// que deixar a pessoa montar uma regra que nunca vai rodar: `sem_interacao` e
-// `tarefa_vencida` precisam de alguém olhando o relógio, e esse alguém (um
-// cron) não existe neste módulo.
+// Os gatilhos de relógio rodam pela fila de tarefas do servidor
+// (api/_fila_tarefas.js), a cada 5 minutos. A tela avisa o atraso, para
+// ninguém esperar reação no mesmo segundo.
 const SEM_DISPARO = {
-  contato_novo: "Nenhuma tela dispara este gatilho ainda.",
-  sem_interacao: "Precisa de uma rotina de relógio, que ainda não existe.",
-  tarefa_vencida: "Precisa de uma rotina de relógio, que ainda não existe.",
+  contato_novo: "Roda a cada 5 minutos, para contatos criados nas últimas 24 horas.",
+  sem_interacao: "Roda a cada 5 minutos, para negócios abertos parados há tantos dias quanto o campo abaixo (3, se vazio).",
+  tarefa_vencida: "Roda a cada 5 minutos, para tarefas abertas que venceram nos últimos 7 dias.",
 };
 
 /** As condições em português, não em chave de banco. */
@@ -68,6 +67,7 @@ function descreverCondicoes(condicoes, config) {
     if (chave === "etapa_anterior") return `só saindo de "${etapas.find((e) => e.id === valor)?.nome || "apagada"}"`;
     if (chave === "prioridade") return `só prioridade ${valor}`;
     if (chave === "score_minimo") return `só score ${valor} ou mais`;
+    if (chave === "dias_sem_interacao") return `parado há ${valor} dias ou mais`;
     if (chave === "responsavel_id") return `só de ${config.atendentes.find((a) => a.id === valor)?.nome || "pessoa removida"}`;
     return `${chave}=${valor}`;
   }).join(" · ");
@@ -294,7 +294,7 @@ function EditorAutomacao({ cliente, config, automacao, gatilhos, acoesPossiveis,
 
       {SEM_DISPARO[f.gatilho] && (
         <div className="aviso atencao">
-          {SEM_DISPARO[f.gatilho]} A automação fica gravada e não roda até alguém disparar esse gatilho.
+          {SEM_DISPARO[f.gatilho]}
         </div>
       )}
 
@@ -330,6 +330,13 @@ function EditorAutomacao({ cliente, config, automacao, gatilhos, acoesPossiveis,
             <option value="urgente">Urgente</option>
           </select>
         </label>
+        {f.gatilho === "sem_interacao" && (
+          <label className="campo">
+            <span>Parado há pelo menos (dias)</span>
+            <input type="number" min={1} max={365} value={f.condicoes.dias_sem_interacao || ""}
+                   onChange={(e) => mudarCondicao("dias_sem_interacao", e.target.value)} placeholder="3" />
+          </label>
+        )}
         <label className="campo">
           <span>Só se o score for pelo menos</span>
           <input type="number" min={0} max={100} value={f.condicoes.score_minimo || ""}

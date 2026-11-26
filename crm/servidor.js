@@ -296,6 +296,14 @@ if (ehPrincipal) {
   http.createServer(atenderInterno).listen(PORTA_INTERNA, "127.0.0.1", () => {
     console.log(`[servidor] porta interna em http://127.0.0.1:${PORTA_INTERNA}`);
   });
+
+  // O relógio do CRM: automações de tempo, conversas esquecidas, coleta da
+  // Meta. FILA=desligada serve para rodar um segundo processo só de leitura.
+  if (process.env.FILA !== "desligada") {
+    const { ligarFila } = await import("./api/_fila_tarefas.js");
+    ligarFila();
+    console.log("[servidor] fila de tarefas ligada");
+  }
 }
 
 export { carregarHandlers, handlers };

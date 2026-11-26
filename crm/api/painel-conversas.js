@@ -85,7 +85,7 @@ export default async function handler(req, res) {
       // inteira, aperta enviar e recebe um erro cru da Meta.
       sb.from("conversas")
         .select("id, modo, canal, atendente_id, assumida_em, motivo_fila, ultima_em,"
-          + " janela_expira_em, atendentes(nome)")
+          + " janela_expira_em, nome_contato, atendentes(nome)")
         .eq("id", conversaId).maybeSingle(),
     ]);
 

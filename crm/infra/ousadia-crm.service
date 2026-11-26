@@ -5,7 +5,7 @@ After=network.target postgrest.service
 
 [Service]
 User=crm
-WorkingDirectory=/opt/ousadia-crm
+WorkingDirectory=/opt/ousadia-crm/atual
 EnvironmentFile=/etc/ousadia-crm.env
 Environment=NODE_ENV=production
 ExecStart=/usr/bin/node servidor.js
