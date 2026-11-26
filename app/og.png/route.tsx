@@ -10,7 +10,7 @@ import { SITE } from "@/lib/site";
  * `OG_IMAGEM` (`lib/site.ts`).
  *
  * É uma rota com extensão, e não o `opengraph-image.tsx` do Next, porque na
- * exportação estática aquele vira um arquivo sem extensão, que a Hostinger
+ * exportação estática aquele vira um arquivo sem extensão, que o servidor
  * não serviria como imagem.
  */
 

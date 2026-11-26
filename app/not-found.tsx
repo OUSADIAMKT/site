@@ -5,8 +5,8 @@ import { Canoe, RiverLines } from "@/components/ui/Motifs";
 import { KeneStrip } from "@/components/ui/graphics/Kene";
 
 /**
- * Página 404. Na exportação estática vira `out/404.html`, que o `.htaccess`
- * serve para qualquer endereço que não existe. Sem ela, o Next usava a página
+ * Página 404. Na exportação estática vira `out/404.html`, que o Caddy da VPS
+ * (`docs/Caddyfile`) serve para qualquer endereço que não existe. Sem ela, o Next usava a página
  * padrão em inglês ("This page could not be found").
  */
 export const metadata: Metadata = {
