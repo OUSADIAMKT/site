@@ -191,19 +191,20 @@ export function waComunidade(
 }
 
 /**
- * Link de WhatsApp da Mentoria Viver do Digital — também cai na Juh.
- * Enquanto não houver checkout, a inscrição fecha na conversa (blueprint).
+ * Link de WhatsApp da Mentoria em Turma (Juliana Araújo) — também cai na Juh.
+ * Não há checkout definido ainda; a inscrição fecha na conversa.
  */
 export function waMentoriaUgc(
-  texto = "Oi, Juh! Quero minha vaga na Mentoria Viver do Digital (Turma 1).",
+  texto = "Oi, Juh! Quero minha vaga na Mentoria em Turma.",
 ) {
   return waAulaoUgc(texto);
 }
 
 /**
  * A página `/mentoria-viver-do-digital` está no ar para quem recebe o link, mas
- * fica fora do Google (sem sitemap e com `noindex`) até o lançamento da Turma 1,
- * previsto para 10/nov. No lançamento, troque para `true`.
+ * fica fora do Google (sem sitemap e com `noindex`) até a Juh confirmar data,
+ * forma de pagamento e demais pendências (ver PENDENCIAS #21). No lançamento,
+ * troque para `true`.
  */
 export const MENTORIA_UGC_NO_GOOGLE = false;
 
