@@ -209,6 +209,8 @@ const PRINTS = [
 const DEPOIMENTOS = [
   { id: "3iVry7h2C8U", titulo: "Depoimento em vídeo de aluna da Juh" },
   { id: "ZQgKyvz7UOE", titulo: "Depoimento em vídeo de aluna da Juh" },
+  { id: "t57qogTvwPI", titulo: "Depoimento em vídeo de aluna da Juh" },
+  { id: "N-q6r4jSZNU", titulo: "Depoimento em vídeo de aluna da Juh" },
 ];
 
 const FAQ = [
@@ -564,7 +566,7 @@ export default function MentoriaViverDoDigitalPage() {
             </h2>
           </Reveal>
 
-          <div className="mx-auto mt-10 grid max-w-2xl gap-6 sm:grid-cols-2">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {DEPOIMENTOS.map((d, i) => (
               <Reveal key={d.id} delay={i * 0.08}>
                 <div className="overflow-hidden rounded-2xl border-2 border-amarelo shadow-[0_20px_50px_rgba(0,0,0,.35)]">
