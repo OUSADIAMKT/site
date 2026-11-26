@@ -1,0 +1,2 @@
+# O Caddyfile vai para a VPS (Linux) por scp: sempre LF, mesmo com core.autocrlf no Windows.
+docs/Caddyfile text eol=lf
