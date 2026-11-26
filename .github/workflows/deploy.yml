@@ -1,0 +1,84 @@
+# Publica o site na VPS sempre que algo entra na `main`.
+#
+# Fluxo: build (next build -> out/) -> rsync de out/ para /var/www/ousadia.
+# Se o build falhar, nada e enviado e o site no ar continua intacto.
+#
+# Segredos (Settings > Secrets and variables > Actions):
+#   VPS_HOST     IP da VPS
+#   VPS_USER     usuario de deploy (sem root)
+#   VPS_SSH_KEY  chave privada desse usuario
+
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Um deploy por vez; um novo nao interrompe o que ja esta enviando arquivos.
+concurrency:
+  group: deploy
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  # Impressao digital da chave do servidor (ED25519). Se a VPS for recriada,
+  # ela muda e o deploy para de propósito, em vez de falar com um host falso.
+  VPS_HOST_FINGERPRINT: "SHA256:hRlyYd0YqOgpvt6PdQ94CuiIVnMcUQbkvKUAbjx3RrY"
+  DEST: /var/www/ousadia/
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Conferir saida do build
+        run: |
+          test -f out/index.html || { echo "out/index.html nao foi gerado"; exit 1; }
+          test -f out/404.html || { echo "out/404.html nao foi gerado"; exit 1; }
+          echo "Arquivos em out/: $(find out -type f | wc -l)"
+
+      - name: Configurar SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -t ed25519 "$VPS_HOST" > ~/.ssh/known_hosts 2>/dev/null
+          found=$(ssh-keygen -lf ~/.ssh/known_hosts | awk '{print $2}')
+          if [ "$found" != "$VPS_HOST_FINGERPRINT" ]; then
+            echo "Chave do servidor diferente da esperada: $found"
+            exit 1
+          fi
+
+      - name: Enviar para a VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          rsync -rltz --delete --chmod=D755,F644 \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            out/ "$VPS_USER@$VPS_HOST:$DEST"
+
+      - name: Conferir o site no ar
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' https://ousadiamarketing.com.br/)
+          echo "HTTP $code"
+          test "$code" = "200"
