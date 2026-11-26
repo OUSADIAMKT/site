@@ -1,0 +1,433 @@
+/* ============================================================
+   CRM OUSADIA · temas
+   ------------------------------------------------------------
+   Etapa 1 da integração visual. Esta folha só declara fichas.
+   Não cria componente, não muda marcação, não toca em
+   App.jsx, Lateral.jsx nem Dashboard.jsx.
+
+   Carregada por último em main.jsx, depois de index.css,
+   plataforma.css e crm.css. É a última palavra sobre cor.
+
+   CINCO TEMAS, DOIS GRUPOS
+   ------------------------
+   Legados, definidos em plataforma.css e NÃO tocados aqui:
+     claro    plataforma.css:12-87
+     escuro   plataforma.css:89-126
+   Novos, definidos abaixo:
+     ousadia  carvão arroxeado e amarelo, as cores do site (padrão)
+     gold     preto e grafite, dourado champanhe
+     blue     azul-marinho, azul elétrico e ciano
+     light    branco, com a lateral azul-marinho
+
+   Mexer num tema legado é mudar o que está no ar. Por isso
+   nenhuma regra deste arquivo nomeia "claro" ou "escuro",
+   com uma exceção declarada: o bloco de resguardo no fim,
+   que só age em valores que NÃO são nenhum dos cinco.
+
+   O QUE NÃO ESTÁ AQUI, DE PROPÓSITO
+   ---------------------------------
+   Escala tipográfica, pesos, raios e espaçamentos continuam
+   vindo de plataforma.css:75-86. A etapa 1 preserva a escala
+   atual, então um tema não tem direito de mexer em tamanho.
+
+   Os apelidos antigos (--fundo, --painel, --campo, --borda,
+   --texto, --acento-fraco e companhia) continuam declarados
+   em plataforma.css:38-49 como var() das fichas de base.
+   Eles seguem o tema sozinhos: trocar --papel aqui troca
+   --fundo lá, sem repetir nada.
+
+   MAPEAMENTO PARA OS NOMES DA ESPECIFICAÇÃO (seção 10)
+   ----------------------------------------------------
+     --papel        background        --acento      accent
+     --cartao       surface           --marca       accent (preenchimento)
+     --superficie2  surface-elevated  --ok          success
+     --linha        border            --alerta      warning
+     --tinta        text-primary      --erro        danger
+     --sutil        text-secondary
+
+   Os nomes ficam em português porque são 617 usos de var()
+   espalhados pelas três folhas. Renomear não muda um pixel
+   e multiplica a chance de errar.
+
+   CONTRASTE
+   ---------
+   Todo par de texto sobre fundo declarado aqui foi medido e
+   passa de 4,5:1. Séries de gráfico e estados passam de 3:1.
+   Três valores do protótipo foram corrigidos por reprovarem:
+     light --fraco   #8A97AE  2,95  ->  #5E6B80  5,40
+     light --ok      #15A05B  3,38  ->  #0F7A45  5,40
+     gold  --fraco   #7C7A75  4,10  ->  #9A9792  6,04
+   ============================================================ */
+
+
+/* ============================================================
+   0. OUSADIA · carvão arroxeado, amarelo Ousadia (padrão)
+   ------------------------------------------------------------
+   As cores do site ousadiamarketing.com.br (app/globals.css):
+   --ink-deep #100a1c, --ink #16102a, --amarelo #ffc61a,
+   --floresta #23b26f, --rio #18a5c9, --paper #f4f1ea.
+   O amarelo é preenchimento e acento; texto sobre ele é o roxo
+   escuro do site (#1a0b2e), que é o par que o site já usa.
+   ============================================================ */
+
+:root[data-tema="ousadia"]{
+  color-scheme:dark;
+
+  /* superfícies */
+  --papel:#100A1C;
+  --cartao:#1A1230;
+  --superficie2:#241B3A;
+  --linha:#2C2245;
+  --linha-suave:#211936;
+  --linha-forte:#3B2F58;
+
+  /* texto */
+  --tinta:#F4F1EA;
+  --corpo:#DCD6E8;
+  --sutil:#B3AAC6;
+  --fraco:#A89FBC;
+  --apagado:#9A91AF;
+
+  /* marca e ação */
+  --marca:#FFC61A;
+  --marca-texto:#FFDD66;
+  --marca-suave:rgba(255,198,26,.12);
+  --acento:#FFC61A;
+  --btn-texto:#1A0B2E;
+  --chip:rgba(255,198,26,.10);
+
+  /* painel escuro dentro da página */
+  --bloco-fundo:#241044;
+  --bloco-tinta:#F4F1EA;
+  --bloco-sutil:#C9BFE0;
+
+  /* espera: do calmo ao crítico */
+  --espera-1:#9A91AF;
+  --espera-2:#FFC61A;
+  --espera-3:#F59E5B;
+  --espera-4:#FF6B81;
+
+  /* estados */
+  --alerta:#FFC61A;
+  --alerta-fraco:#2E2410;
+  --erro:#FF6B81;
+  --erro-fraco:#35182A;
+  --ok:#23B26F;
+  --ok-fraco:#0F2A1F;
+
+  /* gráficos */
+  --serie-a:#FFC61A;
+  --serie-b:#58D3EC;
+  --sit-atendido:#C9A8F0;
+
+  /* profundidade */
+  --sombra:none;
+  --sombra-painel:0 24px 60px -24px rgba(0,0,0,.70);
+  --fundo-modal:rgba(11,7,19,.66);
+  --rolagem:rgba(244,241,234,.28);
+  --rolagem-hover:rgba(244,241,234,.44);
+
+  /* lateral */
+  --lat-fundo:#0B0713;
+  --lat-borda:#211936;
+  --lat-marca:#F4F1EA;
+  --lat-texto:#C9BFE0;
+  --lat-titulo:#9A91AF;
+  --lat-hover:#1A1230;
+  --lat-ativo-fundo:rgba(255,198,26,.12);
+  --lat-ativo-texto:#FFDD66;
+  --lat-campo:#16102A;
+
+  --inverter-icone:1;
+}
+
+
+/* ============================================================
+   1. GOLD · preto e grafite, dourado champanhe
+   ============================================================ */
+
+:root[data-tema="gold"]{
+  color-scheme:dark;
+
+  /* superfícies */
+  --papel:#0C0D11;
+  --cartao:#17191F;
+  --superficie2:#22242B;
+  --linha:#262830;
+  --linha-suave:#1F2128;
+  --linha-forte:#33363F;
+
+  /* texto */
+  --tinta:#F5F1E9;
+  --corpo:#D6D1C7;
+  --sutil:#A8A5A0;
+  --fraco:#9A9792;
+  --apagado:#8E8B86;
+
+  /* marca e ação */
+  --marca:#D8BB83;
+  --marca-texto:#E8CF9E;
+  --marca-suave:rgba(216,187,131,.12);
+  --acento:#D8BB83;
+  --btn-texto:#1A1508;
+  --chip:rgba(216,187,131,.10);
+
+  /* painel escuro dentro da página */
+  --bloco-fundo:#131519;
+  --bloco-tinta:#F5F1E9;
+  --bloco-sutil:#B6B2AA;
+
+  /* espera: do calmo ao crítico */
+  --espera-1:#8E8B86;
+  --espera-2:#F2C25C;
+  --espera-3:#F0A23C;
+  --espera-4:#F87171;
+
+  /* estados */
+  --alerta:#F2C25C;
+  --alerta-fraco:#2A2312;
+  --erro:#F87171;
+  --erro-fraco:#2E1F1F;
+  --ok:#4ADE80;
+  --ok-fraco:#12291C;
+
+  /* gráficos */
+  --serie-a:#E8B964;
+  --serie-b:#9B7FD4;
+  --sit-atendido:#C9A8F0;
+
+  /* profundidade */
+  --sombra:none;
+  --sombra-painel:0 24px 60px -24px rgba(0,0,0,.70);
+  --fundo-modal:rgba(6,6,8,.66);
+  --rolagem:rgba(245,241,233,.28);
+  --rolagem-hover:rgba(245,241,233,.44);
+
+  /* lateral. Consumidas pela tela de entrada hoje; a casca do
+     painel passa a usá-las na etapa 3. */
+  --lat-fundo:#0A0B0E;
+  --lat-borda:#23252C;
+  --lat-marca:#F5F1E9;
+  --lat-texto:#B6B2AA;
+  --lat-titulo:#8E8B86;
+  --lat-hover:#17191F;
+  --lat-ativo-fundo:rgba(216,187,131,.10);
+  --lat-ativo-texto:#F1DEB8;
+  --lat-campo:#131519;
+
+  --inverter-icone:1;
+}
+
+
+/* ============================================================
+   2. BLUE · azul-marinho, azul elétrico e ciano
+   ============================================================ */
+
+:root[data-tema="blue"]{
+  color-scheme:dark;
+
+  --papel:#060C20;
+  --cartao:#101D39;
+  --superficie2:#16274A;
+  --linha:#1D3159;
+  --linha-suave:#17284A;
+  --linha-forte:#27406F;
+
+  --tinta:#F4F7FF;
+  --corpo:#CBD8EE;
+  --sutil:#A6B5D0;
+  --fraco:#7A89A6;
+  --apagado:#8294BA;
+
+  /* --marca é o azul de preenchimento da identidade.
+     --acento é o mesmo azul clareado, porque além de pintar
+     botão ele também vira TEXTO de link sobre cartão escuro,
+     e nessa função o #246BFF fica em 3,68:1. */
+  --marca:#246BFF;
+  --marca-texto:#8FB6FF;
+  --marca-suave:rgba(36,107,255,.18);
+  --acento:#5E97FF;
+  --btn-texto:#06142E;
+  --chip:rgba(25,200,232,.12);
+
+  --bloco-fundo:#071B49;
+  --bloco-tinta:#F4F7FF;
+  --bloco-sutil:#AFC0E0;
+
+  --espera-1:#8294BA;
+  --espera-2:#F5B544;
+  --espera-3:#F59E5B;
+  --espera-4:#F87171;
+
+  --alerta:#F5B544;
+  --alerta-fraco:#2B2412;
+  --erro:#F87171;
+  --erro-fraco:#2C1E22;
+  --ok:#34D399;
+  --ok-fraco:#0E2E2A;
+
+  --serie-a:#19C8E8;
+  --serie-b:#246BFF;
+  --sit-atendido:#C4A6FF;
+
+  --sombra:none;
+  --sombra-painel:0 24px 60px -24px rgba(1,5,18,.75);
+  --fundo-modal:rgba(3,7,20,.66);
+  --rolagem:rgba(244,247,255,.28);
+  --rolagem-hover:rgba(244,247,255,.44);
+
+  --lat-fundo:#040818;
+  --lat-borda:#15295A;
+  --lat-marca:#F4F7FF;
+  --lat-texto:#AFC0E0;
+  --lat-titulo:#8294BA;
+  --lat-hover:#0B1733;
+  --lat-ativo-fundo:#246BFF;
+  --lat-ativo-texto:#FFFFFF;
+  --lat-campo:#071B49;
+
+  --inverter-icone:1;
+}
+
+
+/* ============================================================
+   3. LIGHT · branco, com a lateral azul-marinho
+   ============================================================ */
+
+:root[data-tema="light"]{
+  color-scheme:light;
+
+  --papel:#F5F7FC;
+  --cartao:#FFFFFF;
+  --superficie2:#EDF1F9;
+  --linha:#DEE5F0;
+  --linha-suave:#E9EEF7;
+  --linha-forte:#C7D3E6;
+
+  --tinta:#111C38;
+  --corpo:#36455F;
+  --sutil:#4E5C75;
+  --fraco:#5E6B80;
+  --apagado:#5E6B80;
+
+  --marca:#1557D2;
+  --marca-texto:#1248B4;
+  --marca-suave:#E7EDFB;
+  --acento:#1557D2;
+  --btn-texto:#FFFFFF;
+  --chip:rgba(21,87,210,.07);
+
+  --bloco-fundo:#071B49;
+  --bloco-tinta:#FFFFFF;
+  --bloco-sutil:#B9C8E6;
+
+  --espera-1:#5E6B80;
+  --espera-2:#A15C07;
+  --espera-3:#C2410C;
+  --espera-4:#B42318;
+
+  --alerta:#A15C07;
+  --alerta-fraco:#FBF1E1;
+  --erro:#B42318;
+  --erro-fraco:#FDECEA;
+  /* o verde do tema claro legado (#16A34A) fica em 3,08:1 sobre
+     branco. Aqui entra escurecido. O tema claro legado não é
+     tocado nesta etapa. */
+  --ok:#0F7A45;
+  --ok-fraco:#E7F5EC;
+
+  --serie-a:#1557D2;
+  --serie-b:#2E86F0;
+  --sit-atendido:#6D28D9;
+
+  --sombra:0 1px 2px rgba(17,28,56,.06);
+  --sombra-painel:0 24px 60px -24px rgba(7,27,73,.34);
+  --fundo-modal:rgba(7,27,73,.30);
+  --rolagem:rgba(17,28,56,.28);
+  --rolagem-hover:rgba(17,28,56,.44);
+
+  /* a assinatura do Light: a área de trabalho clareia, a
+     lateral continua azul-marinho. */
+  --lat-fundo:#071B49;
+  --lat-borda:#102A63;
+  --lat-marca:#FFFFFF;
+  --lat-texto:#B9C8E6;
+  --lat-titulo:#8FA3C9;
+  --lat-hover:#102A63;
+  --lat-ativo-fundo:#1557D2;
+  --lat-ativo-texto:#FFFFFF;
+  --lat-campo:#0B2255;
+
+  --inverter-icone:0;
+}
+
+
+/* ============================================================
+   4. Exceções por tema
+   ------------------------------------------------------------
+   A navegação é o único componente que pede cor própria: nos três
+   temas Signature o trilho e o submenu não acompanham o cartão da
+   página, eles têm a sua própria superfície. No Light isso é a
+   assinatura do tema: a área de trabalho clareia e a lateral
+   continua azul-marinho.
+
+   As fichas --nav-* só existem aqui. Em claro e escuro elas não
+   são declaradas, e cada uso em plataforma.css cai no valor de
+   reserva, que é a cor que a navegação já tinha. É assim que esta
+   etapa não toca nos dois temas que estão no ar.
+
+   Os valores vêm das fichas --lat-* criadas na etapa 1, para não
+   existir a mesma cor escrita em dois lugares.
+   ============================================================ */
+
+:root[data-tema="ousadia"],
+:root[data-tema="gold"],
+:root[data-tema="blue"],
+:root[data-tema="light"]{
+  --nav-fundo:var(--lat-fundo);
+  --nav-borda:var(--lat-borda);
+  --nav-texto:var(--lat-texto);
+  --nav-forte:var(--lat-marca);
+  --nav-titulo:var(--lat-titulo);
+  --nav-hover:var(--lat-hover);
+  --nav-ativo-fundo:var(--lat-ativo-fundo);
+  --nav-ativo-texto:var(--lat-ativo-texto);
+  --nav-campo:var(--lat-campo);
+}
+
+/* A borda do campo dentro da navegação. Em gold e blue a borda forte da
+   página serve, porque a navegação é escura como o resto. No Light não:
+   lá --linha-forte é um cinza claro, que sobre azul-marinho desaparece. */
+:root[data-tema="ousadia"],
+:root[data-tema="gold"],
+:root[data-tema="blue"]{ --nav-borda-forte:var(--linha-forte); }
+:root[data-tema="light"]{ --nav-borda-forte:#204377; }
+
+
+/* ============================================================
+   5. Resguardo
+   ------------------------------------------------------------
+   Dois modos de falha, dois resguardos.
+
+   a) O valor de data-tema não é nenhum dos cinco, por erro de
+      digitação ou por uma escolha antiga guardada no
+      localStorage de alguém. O bloco abaixo pega esse caso e
+      afirma o tema claro, de forma explícita, em vez de deixar
+      a tela depender do :root sem condição de plataforma.css.
+
+   b) Esta folha não carrega. Nenhuma regra daqui roda, e o
+      :root de plataforma.css:12 pinta tudo de claro. A tela
+      fica legível e com a marca certa. É o resultado que se
+      quer: degradar para claro, nunca para ilegível.
+
+   O bloco repete os quatro valores que seguram a leitura.
+   Os demais continuam vindo de plataforma.css:12-87.
+   ============================================================ */
+
+:root:not([data-tema="ousadia"]):not([data-tema="claro"]):not([data-tema="escuro"]):not([data-tema="gold"]):not([data-tema="blue"]):not([data-tema="light"]){
+  color-scheme:light;
+  --papel:#F5F6F7;
+  --cartao:#FFFFFF;
+  --tinta:#1E2128;
+  --corpo:#38404C;
+}

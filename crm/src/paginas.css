@@ -1,0 +1,1066 @@
+/* ============================================================
+   O compositor de landing pages.
+
+   Usa as fichas do plataforma.css, como todo o resto do painel, e
+   segue a regra de uma camada de caixa só: a tela é um quadro, e
+   dentro dele nada ganha borda própria sem necessidade.
+
+   A tela é alta de propósito: editor e prévia precisam de altura,
+   e esta é a terceira tela do painel que usa a janela inteira,
+   junto com Conversas e o CRM.
+   ============================================================ */
+
+.lp {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* A barra superior do painel e a margem do conteúdo já comeram altura;
+     o resto é do compositor. */
+  height: calc(100vh - 150px);
+  min-height: 520px;
+}
+
+/* ------------------------------------------------------------ a galeria
+
+   A tela de entrada do módulo: cabeçalho padrão, uma linha de ferramentas,
+   cinco indicadores e os cartões.
+
+   Três regras que valem no arquivo inteiro, e que são as que mantêm esta
+   tela parecida com o resto do CRM Ousadia:
+
+   1. Raio pequeno. `--raio` (8px) nos cartões e nos campos, `--raio-g` só
+      onde já era. Canto muito redondo é o que faz tela de produto parecer
+      brinquedo.
+   2. Uma camada de caixa. O cartão tem borda; o que está dentro dele não
+      tem. Miniatura, números e ações são separados por espaço, não por
+      traço.
+   3. Tipografia do painel. Nada de tamanho inventado aqui: `--t-sm`,
+      `--t-base` e os pesos que o index.css já declara.
+   ------------------------------------------------------------ */
+
+.lp-ferramentas {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+/* O botão de criar fica na direita, sozinho: é a única ação que cria coisa
+   nesta tela, e empurrá-lo para a ponta é o que o separa dos filtros. */
+.lp-ferramentas .lp-nova-botao {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.lp-busca {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1 1 200px;
+  max-width: 300px;
+  min-width: 170px;
+  height: 32px;
+  padding: 0 10px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--painel);
+  color: var(--apagado);
+}
+
+.lp-busca input {
+  border: 0;
+  background: none;
+  padding: 0;
+  height: 100%;
+  flex: 1;
+  min-width: 0;
+  color: var(--texto);
+  font-size: var(--t-sm);
+}
+
+.lp-busca input:focus { outline: none; }
+.lp-busca:focus-within { border-color: var(--borda-forte); }
+
+/* O `select` do painel nasce com width:100%, que é o certo dentro de um
+   campo de formulário e o errado numa barra de ferramentas: cada filtro
+   ocuparia uma linha inteira. Aqui ele volta a ter a largura do conteúdo. */
+.lp-ferramentas select {
+  width: auto;
+  min-width: 142px;
+  flex: none;
+  height: 32px;
+  padding: 0 8px;
+  font-size: var(--t-sm);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--painel);
+  color: var(--texto);
+}
+
+.lp-visao {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+}
+
+/* ---------------------------------------------------------- indicadores */
+
+.lp-indicadores {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 1px;
+  background: var(--borda);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+  margin-top: 14px;
+}
+
+/* O fio de 1px entre os indicadores é o próprio fundo aparecendo pela
+   fresta do grid. Cinco caixas com borda própria seriam cinco camadas. */
+.lp-indicador {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 11px 14px;
+  background: var(--painel);
+  min-width: 0;
+}
+
+.lp-indicador-valor {
+  font-size: 19px;
+  font-weight: var(--peso-forte);
+  letter-spacing: -.02em;
+  color: var(--texto);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lp-indicador[data-chave="taxa"] .lp-indicador-valor { color: var(--acento); }
+
+.lp-indicador-nome {
+  font-size: var(--t-sm);
+  color: var(--apagado);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lp-indicadores-nota {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 6px 14px;
+  background: var(--painel);
+  font-size: var(--t-sm);
+  color: var(--apagado);
+}
+
+@media (max-width: 900px) {
+  .lp-indicadores { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+/* --------------------------------------------------------- ativas/arquivo */
+
+.lp-abas-arquivo {
+  display: flex;
+  gap: 4px;
+  margin: 16px 0 10px;
+}
+
+.lp-aba {
+  border: 0;
+  background: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: var(--raio);
+  font-size: var(--t-sm);
+  font-weight: var(--peso-forte);
+  color: var(--apagado);
+}
+
+.lp-aba:hover { background: var(--painel-2); color: var(--texto); }
+.lp-aba.ativo { background: var(--painel-2); color: var(--texto); }
+
+/* ------------------------------------------------------------- os cartões */
+
+.lp-galeria { display: grid; gap: 12px; }
+
+.lp-galeria.grade {
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+}
+
+.lp-galeria.lista { grid-template-columns: 1fr; }
+
+.lp-cartao {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  overflow: hidden;
+}
+
+.lp-cartao:hover { border-color: var(--borda-forte); }
+
+/* A miniatura é a página de verdade dentro de um iframe. O iframe é
+   desenhado em tamanho de tela e encolhido por transform: trocar a largura
+   do iframe mudaria o layout responsivo da página do cliente, e a miniatura
+   mostraria a versão de celular de uma página de desktop. */
+.lp-mini {
+  position: relative;
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--borda);
+  background: var(--painel-2);
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.lp-mini iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1280px;
+  height: 800px;
+  border: 0;
+  transform: scale(.25);
+  transform-origin: 0 0;
+  pointer-events: none;
+}
+
+.lp-mini-vazia {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--apagado);
+  font-size: var(--t-sm);
+}
+
+.lp-cartao-corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 12px 14px 13px;
+  min-width: 0;
+}
+
+.lp-cartao-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-width: 0;
+}
+
+.lp-cartao-nome {
+  border: 0;
+  background: none;
+  padding: 0;
+  cursor: pointer;
+  text-align: left;
+  font-size: var(--t-base);
+  font-weight: var(--peso-forte);
+  color: var(--texto);
+  letter-spacing: -.01em;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+}
+
+.lp-cartao-nome:hover { color: var(--acento); }
+
+.lp-cartao-endereco {
+  font-size: var(--t-sm);
+  color: var(--apagado);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lp-cartao-numeros {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+  margin: 2px 0 0;
+}
+
+.lp-cartao-numeros div { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+
+.lp-cartao-numeros dt {
+  font-size: var(--t-sm);
+  color: var(--apagado);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.lp-cartao-numeros dd {
+  margin: 0;
+  font-size: var(--t-base);
+  font-weight: var(--peso-forte);
+  color: var(--texto);
+  font-variant-numeric: tabular-nums;
+}
+
+.lp-cartao-data {
+  margin: 0;
+  font-size: var(--t-sm);
+  color: var(--apagado);
+}
+
+.lp-cartao-acoes {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  margin-top: 2px;
+}
+
+.lp-cartao-acoes .btn.pequeno { margin-right: auto; }
+
+.lp-cartao-acoes .ed-icone.desligado {
+  opacity: .35;
+  pointer-events: none;
+}
+
+/* Na lista o cartão deita e encolhe: miniatura estreita à esquerda e o resto
+   em duas linhas curtas, numa altura fixa. É a mesma marcação da grade, e por
+   isso a mesma informação; o que muda é só onde cada parte cai. */
+.lp-cartao.lista {
+  flex-direction: row;
+  align-items: stretch;
+  height: 104px;
+}
+
+.lp-cartao.lista .lp-mini {
+  width: 166px;
+  height: 100%;
+  flex: none;
+  aspect-ratio: auto;
+  border-bottom: 0;
+  border-right: 1px solid var(--borda);
+}
+
+.lp-cartao.lista .lp-mini iframe { transform: scale(.13); }
+
+.lp-cartao.lista .lp-cartao-corpo {
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto auto;
+  grid-template-rows: auto auto;
+  align-items: center;
+  column-gap: 20px;
+  row-gap: 2px;
+  padding: 10px 14px;
+}
+
+.lp-cartao.lista .lp-cartao-topo { grid-area: 1 / 1; justify-content: flex-start; }
+.lp-cartao.lista .lp-cartao-nome { flex: 0 1 auto; }
+.lp-cartao.lista .lp-cartao-endereco { grid-area: 2 / 1; }
+
+.lp-cartao.lista .lp-cartao-numeros {
+  grid-area: 1 / 2 / 3 / 3;
+  grid-template-columns: repeat(3, minmax(0, 86px));
+  margin: 0;
+}
+
+.lp-cartao.lista .lp-cartao-data { grid-area: 1 / 3; justify-self: end; }
+
+.lp-cartao.lista .lp-cartao-acoes {
+  grid-area: 2 / 3;
+  justify-self: end;
+  margin-top: 0;
+  flex-wrap: nowrap;
+}
+
+.lp-cartao.lista .lp-cartao-acoes .btn.pequeno { margin-right: 0; }
+
+@media (max-width: 760px) {
+  .lp-cartao.lista { flex-direction: column; }
+  .lp-cartao.lista .lp-mini {
+    width: 100%;
+    aspect-ratio: 16 / 10;
+    border-right: 0;
+    border-bottom: 1px solid var(--borda);
+  }
+  .lp-cartao.lista .lp-mini iframe { transform: scale(.25); }
+}
+
+/* ------------------------------------------------------------ nada aqui */
+
+.lp-vazio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 54px 24px;
+  border: 1px dashed var(--borda-forte);
+  border-radius: var(--raio);
+  color: var(--apagado);
+  text-align: center;
+}
+
+.lp-vazio strong {
+  font-size: var(--t-md, 15px);
+  color: var(--texto);
+  letter-spacing: -.01em;
+}
+
+.lp-vazio p {
+  margin: 0;
+  max-width: 44ch;
+  font-size: var(--t-sm);
+  line-height: 1.5;
+}
+
+.lp-vazio .btn { margin-top: 6px; display: inline-flex; align-items: center; gap: 6px; }
+
+.lp-galeria-vazia {
+  padding: 40px;
+  text-align: center;
+  color: var(--apagado);
+  font-size: var(--t-sm);
+}
+
+/* --------------------------------------------------------- a janela de criar */
+
+.lp-janela-fundo {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, .45);
+}
+
+.lp-janela {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding: 18px;
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: var(--raio-g);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, .35);
+}
+
+.lp-janela-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.lp-janela-topo strong {
+  font-size: var(--t-md, 15px);
+  letter-spacing: -.01em;
+  color: var(--texto);
+}
+
+/* O prefixo mora dentro do campo: endereço é uma coisa só, e mostrar o
+   /p/ fora da caixa faria a pessoa digitar ele de novo. */
+.lp-url {
+  display: flex;
+  align-items: center;
+  border: 1px solid var(--borda);
+  border-radius: var(--raio);
+  background: var(--painel);
+  overflow: hidden;
+}
+
+.lp-url span {
+  padding: 0 2px 0 10px;
+  font-size: var(--t-sm);
+  color: var(--apagado);
+  font-family: var(--mono, ui-monospace, monospace);
+}
+
+.lp-url input {
+  flex: 1;
+  min-width: 0;
+  border: 0;
+  background: none;
+  height: 34px;
+  padding: 0 10px 0 2px;
+  color: var(--texto);
+  font-family: var(--mono, ui-monospace, monospace);
+  font-size: var(--t-sm);
+}
+
+.lp-url input:focus { outline: none; }
+.lp-url:focus-within { border-color: var(--borda-forte); }
+
+.lp-janela-pe {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+/* ------------------------------------------------------- a barra de cima */
+
+.lp-barra {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  flex: none;
+}
+
+.lp-nome {
+  font-size: var(--t-md, 15px);
+  letter-spacing: -.01em;
+}
+
+.lp-endereco,
+.lp-medida {
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  color: var(--sutil);
+}
+
+.lp-estado {
+  font-size: var(--t-xs);
+  color: var(--apagado);
+}
+
+.lp-barra-acoes {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-left: auto;
+}
+
+.lp-modos,
+.lp-formatos {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 2px;
+  background: var(--painel-2);
+  border-radius: 999px;
+}
+
+/* O aviso que mais evita confusão na tela: o que está no editor não é o que
+   o público vê. Cor de alerta, não de erro: não é falha, é estado. */
+.lp-nao-publicado {
+  flex: none;
+  padding: 9px 14px;
+  border-radius: 10px;
+  background: var(--alerta-fraco);
+  color: var(--alerta);
+  font-size: var(--t-sm);
+}
+
+/* ------------------------------------------------------------ o miolo */
+
+.lp-miolo {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  gap: 0;
+  background: var(--painel);
+  border: 1px solid var(--borda);
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.lp-lado {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.lp-miolo[data-modo="editor"] .lp-editor,
+.lp-miolo[data-modo="previa"] .lp-previa {
+  flex: 1;
+  width: auto !important;
+}
+
+.lp-miolo[data-modo="dividido"] .lp-previa {
+  flex: 1;
+}
+
+/* A divisória é fina, mas a área de pegar é larga: 3px de linha com 9px de
+   alvo, senão só pega quem tem mão firme. */
+.lp-divisoria {
+  flex: none;
+  width: 9px;
+  cursor: col-resize;
+  background:
+    linear-gradient(to right, transparent 3px, var(--borda) 3px, var(--borda) 6px, transparent 6px);
+  touch-action: none;
+}
+
+.lp-divisoria:hover,
+.lp-divisoria:focus-visible {
+  background:
+    linear-gradient(to right, transparent 3px, var(--marca) 3px, var(--marca) 6px, transparent 6px);
+  outline: none;
+}
+
+/* ---------------------------------------------------------- as abas */
+
+.lp-abas {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--borda);
+  overflow-x: auto;
+}
+
+.lp-aba {
+  background: none;
+  border: 0;
+  padding: 5px 11px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--sutil);
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  white-space: nowrap;
+}
+
+.lp-aba:hover { background: var(--painel-2); }
+
+.lp-aba.ativa {
+  background: var(--acento-fraco);
+  color: var(--acento);
+}
+
+.lp-vazia { opacity: .55; }
+
+.lp-importar { margin-left: auto; }
+
+/* ====================================================================
+   O EDITOR: três camadas alinhadas
+
+   Números, texto colorido e campo TÊM que usar a mesma fonte, o mesmo
+   tamanho e a mesma altura de linha. Qualquer diferença entre eles
+   descola o cursor da cor, e o sintoma é sutil: só aparece na linha
+   trinta. Não mexa em uma destas três sem mexer nas outras duas.
+   ==================================================================== */
+
+.ed {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 0;
+}
+
+.ed-barra {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-bottom: 1px solid var(--borda-suave, var(--borda));
+  font-size: var(--t-xs);
+}
+
+.ed-arquivo {
+  font-family: var(--mono);
+  color: var(--sutil);
+}
+
+.ed-botoes {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+}
+
+.ed-conta {
+  margin-left: auto;
+  color: var(--apagado);
+  font-variant-numeric: tabular-nums;
+}
+
+.ed-icone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 28px;
+  height: 26px;
+  padding: 0 7px;
+  border: 0;
+  border-radius: 999px;
+  background: none;
+  color: var(--sutil);
+  cursor: pointer;
+  font-size: var(--t-xs);
+}
+
+.ed-icone:hover { background: var(--painel-2); color: var(--texto); }
+
+.ed-icone.ativo,
+.btn.secundario.ativo {
+  background: var(--acento-fraco);
+  color: var(--acento);
+}
+
+/* Rótulo que existe para o leitor de tela e para quem navega por teclado,
+   e que não ocupa espaço na tela. */
+.ed-oculto {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.ed-importar {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--painel-2);
+  color: var(--sutil);
+  cursor: pointer;
+  font-size: var(--t-xs);
+}
+
+.ed-importar:hover { color: var(--texto); }
+.ed-importar input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+
+.ed-procura {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 7px 10px;
+  background: var(--painel-2);
+  font-size: var(--t-xs);
+}
+
+.ed-procura input[type="text"] {
+  width: 180px;
+  padding: 4px 8px;
+  font-size: var(--t-xs);
+}
+
+.ed-achados {
+  color: var(--apagado);
+  font-variant-numeric: tabular-nums;
+  min-width: 68px;
+}
+
+.ed-caixa,
+.lp-caixa {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 400;
+  color: var(--sutil);
+}
+
+.ed-area {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  overflow: hidden;
+}
+
+.ed-numeros,
+.ed-colorido,
+.ed-campo {
+  /* As três camadas. Uma métrica só. */
+  font-family: var(--mono);
+  font-size: 13px;
+  line-height: 1.55;
+  tab-size: 2;
+}
+
+.ed-numeros {
+  flex: none;
+  padding: 10px 8px 10px 12px;
+  text-align: right;
+  color: var(--apagado);
+  background: var(--painel-2);
+  overflow: hidden;
+  user-select: none;
+  font-variant-numeric: tabular-nums;
+}
+
+.ed-pilha {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+}
+
+.ed-colorido,
+.ed-campo {
+  position: absolute;
+  inset: 0;
+  margin: 0;
+  padding: 10px 14px;
+  border: 0;
+  white-space: pre;
+  overflow: auto;
+  overflow-wrap: normal;
+  word-break: normal;
+}
+
+.ed-colorido {
+  pointer-events: none;
+  background: var(--painel);
+  color: var(--texto);
+}
+
+.ed-campo {
+  resize: none;
+  background: transparent;
+  /* O texto do campo é invisível: quem mostra o texto é o <pre> atrás. O
+     cursor e a seleção continuam visíveis, e é isso que faz a ilusão. */
+  color: transparent;
+  caret-color: var(--texto);
+  min-height: 0;
+}
+
+.ed-campo::selection { background: var(--acento-fraco); color: transparent; }
+.ed-campo:focus { outline: none; box-shadow: none; }
+
+.ed-recado {
+  flex: none;
+  padding: 5px 12px;
+  font-size: var(--t-xs);
+  color: var(--sutil);
+  background: var(--painel-2);
+}
+
+/* As cores do destaque. Saem das fichas do tema, para o editor ser legível
+   no claro e no escuro sem uma segunda paleta para manter. */
+.re-comentario { color: var(--apagado); font-style: italic; }
+.re-cadeia { color: var(--ok); }
+.re-numero { color: var(--espera-2); }
+.re-palavra { color: var(--marca-texto, var(--acento)); font-weight: 600; }
+.re-literal { color: var(--espera-3); }
+.re-funcao { color: var(--acento); }
+.re-tag { color: var(--marca-texto, var(--acento)); }
+.re-atributo { color: var(--espera-2); }
+.re-propriedade { color: var(--acento); }
+.re-cor { color: var(--espera-3); }
+.re-pontuacao { color: var(--apagado); }
+
+/* ---------------------------------------------------------- a prévia */
+
+.lp-previa {
+  flex: 1;
+  border-left: 1px solid var(--borda);
+  background: var(--painel-2);
+}
+
+.lp-miolo[data-modo="previa"] .lp-previa { border-left: 0; }
+
+.lp-previa-barra {
+  flex: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--borda);
+  background: var(--painel);
+  font-size: var(--t-xs);
+}
+
+.lp-selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--alerta-fraco);
+  color: var(--alerta);
+  font-weight: 600;
+}
+
+.lp-largura {
+  width: 76px;
+  padding: 3px 6px;
+  font-size: var(--t-xs);
+}
+
+.lp-zoom {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--sutil);
+}
+
+.lp-zoom input { width: 90px; }
+
+/* O palco rola nos dois sentidos: um desktop de 1440 em zoom 100% não cabe
+   na metade da tela, e forçar caber seria mentir sobre o tamanho. */
+.lp-palco {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.lp-moldura {
+  flex: none;
+  transform-origin: top center;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: var(--sombra-painel, 0 10px 30px rgba(0, 0, 0, .18));
+  overflow: hidden;
+}
+
+.lp-moldura iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  display: block;
+  background: #fff;
+}
+
+.lp-bloqueios {
+  flex: none;
+  max-height: 25%;
+  overflow: auto;
+  padding: 8px 12px;
+  border-top: 1px solid var(--borda);
+  background: var(--painel);
+  font-size: var(--t-xs);
+  color: var(--sutil);
+}
+
+.lp-bloqueios p { margin: 4px 0 0; }
+.lp-bloqueios ul { margin: 6px 0 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+.lp-bloqueios li { display: flex; align-items: center; gap: 8px; }
+.lp-bloqueios code { font-size: var(--t-xs); color: var(--apagado); }
+
+/* ---------------------------------------------------------- as gavetas */
+
+.lp-gaveta {
+  flex: none;
+  width: 380px;
+  max-width: 100%;
+  overflow: auto;
+  padding: 14px 16px 24px;
+  border-left: 1px solid var(--borda);
+  background: var(--painel);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.lp-gaveta-topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.lp-risco { border: 0; border-top: 1px solid var(--borda); margin: 2px 0; }
+
+.lp-versoes,
+.lp-dominios {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 12px;
+}
+
+.lp-versoes li,
+.lp-dominios li {
+  display: grid;
+  gap: 6px;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--painel-2);
+}
+
+.lp-versoes li.no-ar { outline: 1px solid var(--ok); }
+
+.lp-versao-linha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.lp-quando { margin-left: auto; color: var(--apagado); font-size: var(--t-xs); }
+.lp-rotulo { color: var(--sutil); font-size: var(--t-sm); }
+
+.lp-versao-acoes { display: flex; gap: 6px; flex-wrap: wrap; }
+
+.lp-vazio { margin: 0; color: var(--apagado); font-size: var(--t-sm); }
+.lp-aviso-leve { margin: 0; color: var(--apagado); font-size: var(--t-xs); }
+
+.lp-dominio-novo { display: flex; gap: 8px; }
+.lp-dominio-novo input { flex: 1; min-width: 0; }
+
+.lp-dns { font-size: var(--t-xs); color: var(--sutil); }
+.lp-dns table { width: 100%; }
+.lp-dns code { word-break: break-all; }
+
+.lp-versao-vista {
+  flex: none;
+  max-height: 40vh;
+  overflow: auto;
+  padding: 12px 14px;
+  border: 1px solid var(--borda);
+  border-radius: 12px;
+  background: var(--painel);
+  display: grid;
+  gap: 8px;
+}
+
+.lp-versao-vista pre {
+  margin: 6px 0 0;
+  padding: 10px;
+  border-radius: 8px;
+  background: var(--painel-2);
+  font-family: var(--mono);
+  font-size: var(--t-xs);
+  white-space: pre-wrap;
+  max-height: 240px;
+  overflow: auto;
+}
+
+/* No estreito a divisão lado a lado não cabe: vira uma coisa por vez, e a
+   gaveta ocupa a tela toda. */
+@media (max-width: 900px) {
+  .lp { height: auto; }
+  .lp-miolo { flex-direction: column; }
+  .lp-miolo[data-modo="dividido"] .lp-editor,
+  .lp-miolo[data-modo="dividido"] .lp-previa { width: 100% !important; min-height: 60vh; }
+  .lp-divisoria { display: none; }
+  .lp-gaveta { width: 100%; border-left: 0; border-top: 1px solid var(--borda); }
+  .lp-previa { border-left: 0; border-top: 1px solid var(--borda); }
+}

@@ -1,0 +1,671 @@
+/* ============================================================
+   PLATAFORMA CRM Ousadia · camada visual nova (docs/DESIGN.md)
+
+   Carregada depois de index.css. Troca as fichas (o resto do CSS
+   já usa só fichas, então tudo muda junto) e redesenha as peças
+   que mudam de forma: a lateral, a barra superior, o título da
+   página, cartões, botões em pílula, campos e barras de rolagem.
+
+   O tema padrão e os cinco identificadores vivem em src/tema.js;
+   as cores de gold, blue e light vivem em temas.css.
+   ============================================================ */
+
+:root,
+:root[data-tema="claro"]{
+  color-scheme:light;
+  --papel:#F5F6F7;
+  --cartao:#FFFFFF;
+  --superficie2:#EEEFF1;
+  --linha:#E3E4E8;
+  --linha-suave:#ECEDF0;
+  --linha-forte:#CACED4;
+  --tinta:#1E2128;
+  --corpo:#38404C;
+  --sutil:#5E6573;
+  --fraco:#9DA4AF;
+  --marca:#437EE5;
+  --marca-texto:#1651B6;
+  --marca-suave:#E7EDF8;
+  --bloco-fundo:#0C1F40;
+  --bloco-tinta:#FFFFFF;
+  --bloco-sutil:#B9C7DF;
+  --chip:rgba(24,87,195,.06);
+  --sombra-painel:0 24px 60px -24px rgba(12,31,64,.38);
+  --fundo-modal:rgba(12,31,64,.28);
+  --rolagem:rgba(0,0,0,.3);
+  --rolagem-hover:rgba(0,0,0,.45);
+
+  /* Fichas antigas, agora com os valores novos. */
+  --fundo:var(--papel);
+  --painel:var(--cartao);
+  --painel-2:var(--superficie2);
+  --campo:var(--cartao);
+  --borda:var(--linha);
+  --borda-forte:var(--linha-forte);
+  --texto:var(--tinta);
+  --texto-2:var(--corpo);
+  --apagado:#808997;
+  --acento:#1857C3;
+  --acento-fraco:var(--marca-suave);
+  --btn-texto:#FFFFFF;
+
+  --espera-1:#808997;
+  --espera-2:#A15C07;
+  --espera-3:#C2410C;
+  --espera-4:#B42318;
+  --alerta:#A15C07;
+  --alerta-fraco:#FBF1E1;
+  --erro:#B42318;
+  --erro-fraco:#FDECEA;
+  --ok:#16A34A;
+  --ok-fraco:#E7F5EC;
+  --sombra:none;
+  --serie-a:#1857C3;
+  --serie-b:#A15C07;
+
+  --lat-fundo:var(--cartao);
+  --lat-borda:var(--linha);
+  --lat-marca:var(--tinta);
+  --lat-texto:var(--corpo);
+  --lat-titulo:var(--fraco);
+  --lat-hover:var(--superficie2);
+  --lat-ativo-fundo:var(--marca-suave);
+  --lat-ativo-texto:var(--tinta);
+  --lat-campo:var(--cartao);
+
+  --fonte:"Geist",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"Geist Mono",ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  --t-xs:11.5px;
+  --t-sm:12.5px;
+  --t-base:13.5px;
+  --t-md:15px;
+  --t-lg:18px;
+  --t-xl:24px;
+  --t-2xl:32px;
+  --raio:12px;
+  --raio-g:18px;
+  --inverter-icone:0;
+}
+
+:root[data-tema="escuro"]{
+  color-scheme:dark;
+  --papel:#131519;
+  --cartao:#1A1E23;
+  --superficie2:#20252C;
+  --linha:#2B313B;
+  --linha-suave:#242830;
+  --linha-forte:#39404D;
+  --tinta:#ECEDEF;
+  --corpo:#C8CCD2;
+  --sutil:#979DAA;
+  --fraco:#5A626F;
+  --marca:#588ADF;
+  --marca-texto:#86AAEA;
+  --marca-suave:#192538;
+  --bloco-fundo:#112A55;
+  --chip:rgba(134,170,234,.08);
+  --sombra-painel:0 24px 60px -24px rgba(0,0,0,.65);
+  --fundo-modal:rgba(3,12,14,.6);
+  --rolagem:rgba(255,255,255,.3);
+  --rolagem-hover:rgba(255,255,255,.45);
+
+  --apagado:#757F8E;
+  --acento:#2C6DDD;
+  --espera-1:#757F8E;
+  --espera-2:#F0B45A;
+  --espera-3:#F59E5B;
+  --espera-4:#F28B82;
+  --alerta:#F0B45A;
+  --alerta-fraco:#33260F;
+  --erro:#F28B82;
+  --erro-fraco:#3A3336;
+  --ok:#34D399;
+  --ok-fraco:#12332A;
+  --serie-a:#588ADF;
+  --serie-b:#F0B45A;
+  --inverter-icone:1;
+}
+
+/* ---------- base ---------- */
+
+body{font-size:var(--t-base);line-height:1.5;letter-spacing:0;}
+h1,h2,h3{font-weight:500;letter-spacing:-.01em;}
+
+/* Barra de rolagem fina, igual em todo o sistema. */
+*{scrollbar-width:thin;scrollbar-color:var(--rolagem) transparent;}
+::-webkit-scrollbar{width:3px;height:3px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background-color:var(--rolagem);border-radius:9999px;}
+::-webkit-scrollbar-thumb:hover{background-color:var(--rolagem-hover);}
+
+/* ---------- casca: lateral + conteúdo ---------- */
+
+.app{display:flex;min-height:100vh;gap:0;background:var(--papel);}
+
+/* Uma barra só, da altura da janela, grudada no topo. Dentro dela: a marca,
+   os seletores, o item solto de abertura e os grupos em acordeão.
+
+   As fichas --nav-* existem só nos temas gold, blue e light. Em claro e
+   escuro elas não são declaradas, e cada uso cai no valor de reserva, que é
+   exatamente a cor de antes. É assim que a navegação ganha identidade nova
+   sem mexer um pixel nos dois temas que estão no ar. */
+.navegacao{
+  position:sticky;top:0;align-self:flex-start;
+  flex:none;width:252px;height:100vh;
+  display:flex;flex-direction:column;
+  background:var(--nav-fundo,var(--cartao));
+  border-right:.8px solid var(--nav-borda,var(--linha));
+  z-index:30; /* abaixo da gaveta (60) e dos véus de modal (70) */
+}
+
+/* ---- marca ---- */
+
+/* 55px é a altura da barra superior. Os dois topos ficam na mesma linha. */
+.nav-topo{
+  flex:none;height:55px;
+  display:flex;align-items:center;gap:10px;
+  padding:0 16px;
+  border-bottom:.8px solid var(--nav-borda,var(--linha));
+}
+.nav-logo{
+  width:30px;height:30px;flex:none;border-radius:50%;
+  display:grid;place-items:center;overflow:hidden;
+  background:var(--bloco-fundo);
+}
+.nav-logo img{width:20px;height:20px;display:block;}
+.nav-marca{
+  font-size:15.5px;font-weight:600;letter-spacing:-.015em;
+  color:var(--nav-forte,var(--tinta));
+}
+.nav-fechar{
+  display:none; /* só na gaveta do estreito */
+  margin-left:auto;width:36px;height:36px;
+  align-items:center;justify-content:center;
+  border-radius:10px;border:0;background:transparent;
+  color:var(--nav-texto,var(--corpo));cursor:pointer;
+}
+.nav-fechar:hover{background:var(--nav-hover,var(--superficie2));}
+
+/* ---- seletores ---- */
+
+.nav-seletores{
+  flex:none;display:flex;flex-direction:column;gap:12px;
+  padding:14px 12px 13px;
+  border-bottom:.8px solid var(--nav-borda,var(--linha));
+}
+.nav-seletores .seletor{padding:0;gap:6px;}
+.nav-seletores .seletor label{
+  color:var(--nav-titulo,var(--sutil));padding-left:2px;
+  font:500 10.5px/1.4 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+}
+.nav-seletores select{
+  width:100%;
+  background:var(--nav-campo,var(--cartao));
+  color:var(--nav-forte,var(--tinta));
+  border:1px solid var(--nav-borda-forte,var(--linha-forte));border-radius:10px;
+  height:38px;padding:0 10px;font-size:13.5px;
+}
+.nav-seletores .quem-sou{color:var(--nav-forte,var(--tinta));font-weight:500;font-size:13.5px;padding-left:2px;}
+
+/* ---- miolo rolável ---- */
+
+/* A rolagem é só daqui para baixo: a marca e os seletores ficam sempre à
+   vista, mesmo com menu longo em tela baixa. */
+.nav-rolagem{
+  flex:1;min-height:0;overflow-y:auto;
+  padding:12px 12px 18px;
+  display:flex;flex-direction:column;gap:3px;
+}
+
+/* ---- item ---- */
+
+.nav-item{
+  width:100%;height:36px;flex:none;
+  display:flex;align-items:center;gap:10px;
+  padding:0 10px;border:0;border-radius:10px;
+  background:transparent;color:var(--nav-texto,var(--corpo));
+  font-size:13.5px;letter-spacing:-.005em;text-align:left;cursor:pointer;
+  transition:background-color .12s ease,color .12s ease;
+}
+.nav-item-icone{display:grid;place-items:center;flex:none;}
+.nav-item-nome{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nav-item .sino{margin-left:auto;}
+.nav-item:hover{background:var(--nav-hover,var(--superficie2));color:var(--nav-forte,var(--tinta));}
+.nav-item.ativo{
+  background:var(--nav-ativo-fundo,var(--marca-suave));
+  color:var(--nav-ativo-texto,var(--tinta));
+  font-weight:600;
+}
+
+/* O icone do item ativo veste a cor do texto ativo. A cor propria de cada
+   icone vem de estilo em linha no JSX, entao so !important ganha aqui, e
+   isto vale so para o item ativo: os outros continuam com a cor deles.
+   Medido antes: no blue o icone proprio ficava em 2,37 de contraste sobre o
+   azul cheio do item selecionado, ilegivel. */
+.nav-item.ativo .nav-item-icone{color:var(--nav-ativo-texto,var(--tinta))!important;}
+
+/* O item de abertura e um degrau acima dos itens de grupo: e a pagina para
+   onde a pessoa volta, nao uma opcao entre outras. */
+.nav-item.solto{font-size:14px;font-weight:500;margin-bottom:0;}
+
+/* O fio que separa o item solto dos grupos. Esta no grupo, e nao no item,
+   porque o atendente nao tem item solto: sem ele, nenhum fio solto sobra. */
+.nav-item.solto + .nav-grupo{
+  margin-top:12px;padding-top:12px;
+  border-top:.8px solid var(--nav-borda,var(--linha));
+}
+
+/* ---- grupo ---- */
+
+.nav-grupo{display:flex;flex-direction:column;}
+.nav-grupo + .nav-grupo{margin-top:8px;}
+.nav-grupo-cabeca{margin:0;}
+.nav-grupo-titulo{
+  width:100%;height:34px;
+  display:flex;align-items:center;gap:8px;
+  padding:0 10px;border:0;border-radius:10px;
+  background:transparent;color:var(--nav-titulo,var(--sutil));
+  font:500 11px/1 var(--mono);letter-spacing:.14em;text-transform:uppercase;
+  text-align:left;cursor:pointer;
+  transition:color .12s ease,background-color .12s ease;
+}
+
+/* Grupo aberto tem o titulo mais forte. E a diferenca que se le de longe,
+   antes mesmo de reparar na seta. */
+.nav-grupo[data-aberto="1"] > .nav-grupo-cabeca .nav-grupo-titulo{
+  color:var(--nav-forte,var(--tinta));
+}
+.nav-grupo-titulo:hover{background:var(--nav-hover,var(--superficie2));color:var(--nav-forte,var(--tinta));}
+.nav-grupo-titulo span{flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+.nav-grupo-titulo .sino{margin-left:auto;}
+.nav-seta{flex:none;opacity:.6;transition:transform .16s ease,opacity .12s ease;}
+.nav-grupo[data-aberto="1"] .nav-seta{transform:rotate(90deg);opacity:1;}
+
+/* O acordeão anima por linha de grade, não por altura: 0fr a 1fr mede o
+   conteúdo sozinho, sem número fixo que erra quando o grupo cresce. */
+.nav-grupo-itens{
+  display:grid;grid-template-rows:0fr;
+  transition:grid-template-rows .18s ease;
+}
+.nav-grupo[data-aberto="1"] .nav-grupo-itens{grid-template-rows:1fr;}
+.nav-grupo-lista{
+  min-height:0;overflow:hidden;
+  display:flex;flex-direction:column;gap:3px;
+  padding-left:8px;
+}
+.nav-grupo[data-aberto="1"] .nav-grupo-lista{padding-top:4px;padding-bottom:6px;}
+
+/* O fio da esquerda amarra os itens ao grupo a que pertencem. */
+.nav-grupo-lista{border-left:1px solid var(--nav-borda,var(--linha));margin-left:13px;}
+
+@media (prefers-reduced-motion:reduce){
+  .nav-grupo-itens,.nav-seta,.nav-item{transition:none;}
+}
+
+/* ---- véu da gaveta ---- */
+
+.nav-veu{display:none;}
+
+/* Sem hover não existe espiar: tudo é toque, e os alvos crescem para o
+   mínimo confortável. */
+@media (hover:none){
+  .nav-item{height:44px;}
+  .nav-grupo-titulo{height:42px;}
+  .nav-seletores select{height:44px;}
+  .nav-fechar{width:44px;height:44px;}
+}
+.conteudo{padding:0 36px 72px;}
+
+/* ---------- barra superior ---------- */
+
+/* A barra mora dentro de `.conteudo`, não por cima da lateral: a lateral
+   continua sendo a coluna de altura cheia da esquerda. Por isso a barra
+   nunca cobre a lateral, e no estreito a gaveta, com z-index 65, passa
+   por cima da barra.
+
+   `--barra-altura` é o espaço vertical que ela tira do miolo. Telas que se
+   medem pela altura da janela (o kanban, as colunas, as conversas) descontam
+   essa ficha. Sem ela, cada uma dessas telas passaria da dobra pela altura
+   exata da barra e a página ganharia uma rolagem que não tinha.
+
+   O valor é o que a barra ACRESCENTA, não a altura dela: 55 de barra mais
+   16 de respiro abaixo, menos os 22 de respiro de topo que `.conteudo`
+   tinha e que a barra passou a dar. 49. No estreito, 52 + 12 - 18 = 46. */
+:root{--barra-altura:0px;}
+.conteudo{--barra-altura:49px;}
+
+.barra-topo{
+  position:sticky;top:0;z-index:25;
+  margin:0 -36px 16px;padding:0 36px;
+  height:55px;flex:none;
+  display:flex;align-items:center;gap:16px;
+  background:var(--papel);
+  border-bottom:.8px solid var(--linha);
+}
+.barra-onde{display:flex;flex-direction:column;gap:1px;min-width:0;flex:0 1 auto;}
+.barra-modulo{
+  font:400 10px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--fraco);
+}
+.barra-titulo{
+  font-size:14px;font-weight:500;letter-spacing:-.01em;color:var(--tinta);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+
+/* A busca ainda não existe. Esta casca é inerte de propósito: não é campo,
+   não recebe foco, não escuta Ctrl+K. Um campo que aceita digitação e não
+   busca nada faz a pessoa concluir que o sistema está quebrado. */
+.barra-busca{
+  flex:1 1 320px;max-width:420px;
+  display:flex;align-items:center;gap:8px;
+  height:34px;padding:0 12px;border-radius:999px;
+  border:1px solid var(--linha);background:var(--superficie2);
+  color:var(--fraco);cursor:default;user-select:none;
+}
+.barra-busca-texto{flex:1;font-size:13px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.barra-busca-nota{
+  flex:none;font:400 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--fraco);border:1px solid var(--linha);border-radius:999px;padding:2px 7px;
+}
+
+.barra-acoes{margin-left:auto;display:flex;align-items:center;gap:6px;flex:none;}
+.barra-icone{
+  width:36px;height:36px;flex:none;position:relative;
+  display:grid;place-items:center;
+  border:0;border-radius:12px;background:none;cursor:pointer;
+  color:var(--sutil);
+  transition:background-color .12s ease,color .12s ease;
+}
+/* Depois de `.barra-icone` de propósito: o botão da gaveta também é um
+   `.barra-icone`, e as duas regras têm o mesmo peso. Quem vem por último
+   ganha. No desktop a lateral está sempre à vista e não há o que abrir. */
+.barra-menu{display:none;margin-right:-4px;}
+
+.barra-icone:hover{background:var(--superficie2);color:var(--tinta);}
+
+/* O botao de recolher a navegacao. Mora aqui e nao no index.css porque
+   quem decide o display do icone da barra e o .barra-icone logo acima, e
+   uma regra de mesma especificidade escrita antes dele perderia calada.
+   No estreito a lateral ja e gaveta, aberta pelo botao de menu, entao o de
+   recolher so existe do 820 para cima. */
+.barra-icone.at-alternar-lateral{display:none;}
+@media (width > 820px){
+  .barra-icone.at-alternar-lateral{display:grid;}
+}
+.barra-icone .sino{position:absolute;top:2px;right:2px;}
+
+/* ---------- menu do usuário ---------- */
+
+.menu-usuario{position:relative;}
+.conta{
+  display:flex;align-items:center;gap:8px;
+  height:36px;padding:0 8px 0 4px;
+  border:0;border-radius:999px;background:none;cursor:pointer;
+  color:var(--sutil);
+  transition:background-color .12s ease;
+}
+.conta:hover{background:var(--superficie2);}
+.conta-avatar{
+  width:28px;height:28px;flex:none;border-radius:50%;
+  display:grid;place-items:center;
+  background:var(--acento);color:var(--btn-texto);
+  font:500 10.5px/1 var(--mono);letter-spacing:.02em;
+}
+.conta-quem{display:flex;flex-direction:column;gap:0;min-width:0;text-align:left;}
+.conta-quem strong{
+  font-size:12.5px;font-weight:500;color:var(--tinta);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;
+}
+.conta-quem small{
+  font:400 9.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--fraco);
+}
+
+.menu-caixa{
+  position:absolute;right:0;top:calc(100% + 8px);z-index:40;
+  width:272px;padding:6px;
+  display:flex;flex-direction:column;gap:2px;
+  background:var(--cartao);
+  border:.8px solid var(--linha);border-radius:16px;
+  box-shadow:var(--sombra-painel);
+}
+.menu-cabeca{
+  display:flex;align-items:center;gap:10px;
+  padding:8px 8px 10px;margin-bottom:2px;
+  border-bottom:.8px solid var(--linha-suave);
+}
+.menu-cabeca strong{display:block;font-size:13px;font-weight:500;color:var(--tinta);}
+.menu-cabeca small{
+  display:block;font:400 9.5px/1.4 var(--mono);letter-spacing:.1em;text-transform:uppercase;
+  color:var(--fraco);
+}
+.menu-secao{display:flex;flex-direction:column;gap:1px;}
+.menu-secao-fim{margin-top:4px;padding-top:5px;border-top:.8px solid var(--linha-suave);}
+.menu-titulo{
+  display:flex;align-items:center;gap:6px;padding:7px 10px 4px;
+  font:400 9.5px/1.4 var(--mono);letter-spacing:.12em;text-transform:uppercase;
+  color:var(--fraco);
+}
+.menu-item{
+  display:flex;align-items:center;gap:10px;
+  min-height:38px;padding:5px 10px;width:100%;
+  border:0;border-radius:11px;background:none;cursor:pointer;text-align:left;
+  color:var(--corpo);font-size:13px;
+  transition:background-color .12s ease,color .12s ease;
+}
+.menu-item:hover{background:var(--superficie2);color:var(--tinta);}
+.menu-item.escolhido{background:var(--marca-suave);color:var(--tinta);font-weight:500;}
+.menu-item.escolhido svg{color:var(--acento);flex:none;margin-left:auto;}
+.menu-item-texto{display:flex;flex-direction:column;gap:1px;min-width:0;}
+.menu-item-texto small{font-size:11px;color:var(--fraco);font-weight:400;}
+.menu-item-sair{color:var(--erro);}
+.menu-item-sair:hover{background:var(--erro-fraco);color:var(--erro);}
+.menu-item-sair svg{flex:none;}
+
+/* Sem ponteiro os alvos crescem, como no trilho. */
+@media (hover:none){
+  .barra-icone{width:44px;height:44px;}
+  .conta{height:44px;}
+  .menu-item{min-height:44px;}
+}
+
+/* Barra estreita: o nome e o perfil saem, fica o avatar; a busca sai inteira,
+   porque sem ela ainda não se perde nada. */
+@media (max-width:1080px){
+  .barra-busca{display:none;}
+}
+@media (max-width:820px){
+  .conteudo{--barra-altura:46px;}
+  .barra-topo{margin:0 -16px 12px;padding:0 16px;height:52px;gap:10px;}
+  .conta-quem{display:none;}
+  .conta{padding:0 4px;}
+  .menu-caixa{width:min(272px,calc(100vw - 32px));}
+}
+
+/* ---------- cabeçalho da tela ---------- */
+
+.cabecalho{border-bottom:0;padding-bottom:4px;display:flex;flex-direction:column;gap:10px;}
+.cabecalho h1{
+  font-size:var(--t-2xl);font-weight:500;letter-spacing:-.02em;line-height:1.06;
+  color:var(--tinta);margin:0;
+}
+.cabecalho h1 .estado{display:block;color:var(--apagado);}
+.cabecalho p{color:var(--sutil);font-size:14px;}
+
+/* ---------- cartões ---------- */
+
+.cartao,.bloco{
+  background:var(--cartao);
+  border:.8px solid var(--linha);
+  border-radius:18px;
+  box-shadow:none;
+}
+.cartao h2,.bloco-topo h2{font-weight:500;letter-spacing:-.01em;color:var(--tinta);}
+
+.kpi{border-radius:18px;border:.8px solid var(--linha);background:var(--cartao);box-shadow:none;}
+.kpis > .kpi:first-child{background:var(--bloco-fundo);border-color:var(--bloco-fundo);color:var(--bloco-tinta);}
+.kpis > .kpi:first-child *{color:inherit;}
+.kpis > .kpi:first-child small,.kpis > .kpi:first-child .apagado{color:var(--bloco-sutil);}
+
+/* ---------- visão geral ---------- */
+
+/* A grade dos indicadores continua `auto-fit`. A de seis colunas fixas do
+   protótipo quebra os rótulos abaixo de 1100px, e aqui o protótipo está
+   errado: a tela real tem que caber em 1024 e em 390. */
+.kpis{gap:14px;grid-template-columns:repeat(auto-fit,minmax(164px,1fr));}
+.kpi{padding:16px 18px;min-height:104px;gap:4px;}
+.kpi .rotulo{color:var(--sutil);letter-spacing:.01em;}
+/* Algarismo tabular: seis números em fila que mudam a cada carga não podem
+   dançar de largura. É para isto que a Plex Mono existe na família. */
+.kpi .valor{font-variant-numeric:tabular-nums;letter-spacing:-.025em;}
+.kpi .pe{color:var(--sutil);font-family:var(--mono);font-size:11px;letter-spacing:.01em;}
+
+.bloco{padding:18px 20px;gap:16px;}
+.bloco-topo .canto{
+  color:var(--sutil);font-size:10.5px;
+  letter-spacing:.1em;text-transform:uppercase;
+}
+/* O texto de apoio dentro de um bloco. Antes era estilo em linha no JSX. */
+.bloco-nota{margin:0;font-size:12.5px;line-height:1.5;color:var(--sutil);}
+
+.compacta .item{padding:10px 0;gap:12px;border-top-color:var(--linha);}
+.compacta .item:first-child{padding-top:0;}
+.compacta .item:last-child{padding-bottom:0;}
+.compacta .lado{font-variant-numeric:tabular-nums;color:var(--sutil);}
+.compacta .lado.forte{color:var(--corpo);}
+.compacta .princ span{color:var(--sutil);}
+
+.somatorio{gap:13px;}
+.som-topo .n{font-variant-numeric:tabular-nums;color:var(--corpo);}
+.trilho{height:6px;border-radius:999px;background:var(--superficie2);}
+.trilho > span{border-radius:999px;}
+
+.rosca-legenda{gap:10px;}
+.rosca-cor{width:10px;height:10px;border-radius:3px;}
+.rosca-item .n{font-variant-numeric:tabular-nums;color:var(--sutil);}
+
+.grafico .grade{stroke:var(--linha);}
+.grafico .eixo{fill:var(--sutil);font-family:var(--mono);}
+.grafico .trilha{stroke:var(--superficie2);}
+.grafico .numero-centro{fill:var(--tinta);}
+.grafico .rotulo-centro{fill:var(--sutil);}
+
+/* ---------- esqueleto de carregamento ---------- */
+
+/* Mostra a forma da tela enquanto os números não chegam, em vez da palavra
+   "carregando". Vale também na troca de cliente, que apaga os dados do
+   cliente anterior de propósito: número de uma empresa sob o nome de outra
+   é pior do que esperar. */
+.esqueleto{display:flex;flex-direction:column;gap:20px;}
+.esqueleto .kpi{justify-content:center;}
+/* O primeiro indicador é o único pintado de escuro. No esqueleto ele não
+   deve ser, senão a tela vazia já anuncia um destaque que ainda não existe. */
+.esqueleto .kpis > .kpi:first-child{
+  background:var(--cartao);border-color:var(--linha);color:var(--corpo);
+}
+.esq{
+  background:var(--superficie2);border-radius:8px;
+  position:relative;overflow:hidden;
+}
+.esq::after{
+  content:"";position:absolute;inset:0;
+  transform:translateX(-100%);
+  background:linear-gradient(90deg,transparent,var(--cartao),transparent);
+  opacity:.5;animation:esq-brilho 1.3s ease-in-out infinite;
+}
+@keyframes esq-brilho{to{transform:translateX(100%);}}
+@media (prefers-reduced-motion:reduce){.esq::after{animation:none;}}
+
+.esq-titulo{height:26px;width:min(340px,70%);}
+.esq-linha{height:13px;width:min(520px,90%);}
+.esq-rotulo{height:11px;width:92px;}
+.esq-valor{height:26px;width:62px;margin:3px 0 1px;}
+.esq-pe{height:11px;width:74px;}
+.esq-corpo{height:168px;}
+
+/* ---------- botões e campos ---------- */
+
+.btn{
+  height:38px;padding:0 16px;border-radius:999px;
+  background:var(--acento);color:var(--btn-texto);border:1px solid var(--acento);
+  font-size:13.5px;font-weight:500;box-shadow:none;
+}
+.btn.secundario{background:var(--cartao);color:var(--corpo);border:1px solid var(--linha-forte);}
+.btn.secundario:hover{background:var(--superficie2);}
+.btn.perigo{background:var(--cartao);color:var(--erro);border:1px solid var(--linha-forte);}
+.btn.pequeno{height:32px;padding:0 12px;font-size:12.5px;}
+
+input[type=text],input[type=password],input[type=number],input[type=url],
+input[type=email],input[type=tel],input[type=time],input[type=date],textarea,select{
+  background:var(--cartao);color:var(--tinta);
+  border:1px solid var(--linha-forte);border-radius:12px;
+}
+input:focus,textarea:focus,select:focus{
+  outline:none;border-color:var(--acento);box-shadow:0 0 0 3px var(--marca-suave);
+}
+
+.etiqueta{border-radius:999px;}
+.aviso{border-radius:12px;}
+.aviso.atencao{background:var(--alerta-fraco);}
+
+/* ---------- entrada ---------- */
+
+.entrar{background:var(--papel);}
+.entrar form{border:.8px solid var(--linha);border-radius:18px;box-shadow:none;background:var(--cartao);}
+.entrar .marca{background:var(--bloco-fundo);padding:14px 18px;border-radius:14px;}
+
+/* ---------- telas estreitas ---------- */
+
+/* Abaixo de 820 px a mesma lateral vira gaveta: sai do fluxo, fica escondida
+   à esquerda e entra por cima do conteúdo quando alguém pede pelo botão da
+   barra superior. Empilhá-la acima do conteúdo, como era antes, deixaria
+   meia tela de menu na frente de quem só quer ver a página. */
+@media (max-width:820px){
+  .navegacao{
+    position:fixed;top:0;left:0;bottom:0;height:100dvh;
+    width:min(284px,86vw);
+    z-index:65; /* acima do véu, abaixo dos véus de modal (70) */
+    transform:translateX(-100%);
+    transition:transform .2s ease;
+    box-shadow:var(--sombra-painel);
+  }
+  .navegacao[data-aberta="1"]{transform:none;}
+  .nav-fechar{display:flex;}
+
+  .nav-veu{
+    display:block;position:fixed;inset:0;z-index:60;
+    background:rgba(8,10,16,.52);
+    opacity:0;pointer-events:none;transition:opacity .2s ease;
+  }
+  .nav-veu[data-aberta="1"]{opacity:1;pointer-events:auto;}
+
+  .barra-menu{display:inline-flex;}
+  .conteudo{padding:0 16px 48px;}
+}
+
+@media (prefers-reduced-motion:reduce){
+  .navegacao,.nav-veu{transition:none;}
+}
+
+/* Aqui moravam quatro regras que existiam só para apagar o fio colorido
+   da esquerda que index.css pintava por métrica. O fio saiu de lá, e com
+   ele saiu a necessidade destas: a borda dos indicadores é a de `.kpi`,
+   logo acima, e o destaque do primeiro é `.kpis > .kpi:first-child`. */
+
+/* O nome do contato na fila, que agora abre a conversa.
+   Herda a fonte da célula de propósito: a fila é uma tabela de leitura e um
+   link com cara de botão nela viraria ruído em dez linhas seguidas. O que
+   muda é a cor e o cursor, e o sublinhado só aparece quando o ponteiro está
+   em cima. */
+.link-conversa {
+  border: 0;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  color: var(--acento);
+  text-align: left;
+  cursor: pointer;
+}
+.link-conversa:hover { text-decoration: underline; }
+.link-conversa:focus-visible { outline: 2px solid var(--acento); outline-offset: 2px; border-radius: 2px; }

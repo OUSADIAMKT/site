@@ -1,0 +1,1639 @@
+/* ============================================================
+   CRM Ousadia · sistema visual
+   ============================================================
+
+   Três regras governam tudo aqui. Se uma tela nova precisar
+   quebrar alguma, é sinal de que ela está pedindo um componente
+   que ainda não existe, não de que a regra está errada.
+
+   1. CALOR SIGNIFICA TEMPO.
+      Âmbar, laranja e coral só aparecem quando alguém está
+      esperando resposta, ou quando a janela de 24h vai fechar.
+      Nada mais na tela tem direito de ser quente. É isso que faz
+      a fila saltar aos olhos sem precisar piscar.
+
+   2. TEAL SIGNIFICA AÇÃO.
+      O verde-água só aparece no que se clica: botão, link, aba
+      ativa, foco de teclado. Estado nunca usa teal, senão a cor
+      deixa de querer dizer "pode mexer aqui".
+
+   3. UMA CAMADA DE CAIXA SÓ.
+      Cartão não mora dentro de cartão. Dentro de um cartão, o
+      que separa é espaço e fio, não outra borda.
+
+   A profundidade cresce na direção do trabalho: o menu é o lugar
+   mais escuro da tela, a página vem acima dele, e o cartão acima
+   da página. O olho sobe até onde a tarefa está.
+   ============================================================ */
+
+/* ---------- 1. fichas ---------- */
+
+:root{
+  /* Superfícies, do mais fundo ao mais alto. Os degraus são
+     largos de propósito: três tons quase iguais não se leem
+     como camadas, se leem como sujeira. */
+  --lat-fundo:#000A1E;
+  --fundo:#001230;
+  --painel:#06224A;
+  --painel-2:#0C2F60;
+  --campo:#000E27;
+
+  --borda:#0F2C57;
+  --borda-forte:#1A447F;
+
+  --texto:#EAF1FB;
+  --texto-2:#AFC4E0;
+  --apagado:#8299BC;
+
+  /* Ação. Único teal do sistema. */
+  --acento:#3FDCBA;
+  --acento-fraco:#073A33;
+  --btn-texto:#00231C;
+
+  /* Espera. A rampa de calor, do morno ao urgente.
+     É a mesma escala na fila, na lista de conversas, no painel
+     e, mais pra frente, no kanban. */
+  --espera-1:#8299BC;
+  --espera-2:#F2C25C;
+  --espera-3:#F0944F;
+  --espera-4:#EE6B5C;
+
+  --alerta:#F2C25C;
+  --alerta-fraco:#36290E;
+  --erro:#F2766A;
+  --erro-fraco:#3C1917;
+  --ok:#5FCB91;
+  --ok-fraco:#0C3124;
+
+  --sombra:none;
+  --serie-a:#3FDCBA;
+  --serie-b:#F2C25C;
+
+  /* Paleta categórica dos gráficos. Nenhuma cor nova: são as cores que
+     cada tema já escolheu, postas em ordem de uso. Como o valor é um
+     var(), ele resolve com as fichas do tema ativo, então as seis
+     categorias acompanham Blue, Gold, Light, claro e escuro sem que
+     exista a mesma cor escrita em cinco lugares. */
+  --cat-1:var(--serie-a);
+  --cat-2:var(--serie-b);
+  --cat-3:var(--ok);
+  --cat-4:var(--alerta);
+  --cat-5:var(--erro);
+  --cat-6:var(--apagado);
+
+  /* Situação do agendamento. Estas são semânticas, não decorativas:
+     confirmado é bom, faltou é problema, cancelado saiu do caminho.
+     Por isso cada uma aponta para a ficha de significado correspondente
+     e não para um slot da paleta acima. Atendido é a única que precisa
+     de valor próprio: nenhuma ficha existente sobra num tom que não
+     colida com marcado ou com em atendimento. */
+  --sit-marcado:var(--acento);
+  --sit-confirmado:var(--ok);
+  --sit-atendimento:var(--alerta);
+  --sit-atendido:#A78BFA;
+  --sit-faltou:var(--erro);
+  --sit-cancelado:var(--apagado);
+
+  /* Origem do primeiro contato. Veio de anúncio tem cor; chegou direto
+     é o estado comum e fica apagado, para o olho ir no que foi pago. */
+  --origem-anuncio:var(--serie-b);
+  --origem-direto:var(--apagado);
+
+  /* O menu é escuro nos dois temas: ele é a âncora da tela. */
+  --lat-borda:#0A2043;
+  --lat-marca:#F2F7FD;
+  --lat-texto:#A6BBD8;
+  --lat-titulo:#6E87AC;
+  --lat-hover:#061A3A;
+  --lat-ativo-fundo:#0B2E63;
+  --lat-ativo-texto:#FFFFFF;
+  --lat-campo:#00071A;
+
+  /* Tipografia.
+
+     IBM Plex no lugar da Inter. A Inter é a fonte padrão de todo
+     painel de SaaS: correta e sem rosto nenhum. A Plex foi
+     desenhada para interface e para dado, tem algarismo tabular
+     de verdade, e a Mono é da mesma família, então número e texto
+     não parecem vir de dois lugares diferentes. O tom que ela dá
+     é de instrumento de trabalho, que é o que o CRM é. */
+  --fonte:"IBM Plex Sans",-apple-system,"Segoe UI",Roboto,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"Cascadia Mono",Consolas,monospace;
+
+  /* Escala. Antes eram dez tamanhos soltos, de 10.5 a 26, cada
+     tela escolhendo o seu. Agora são sete, e nada fora deles. */
+  --t-xs:11.5px;
+  --t-sm:12.5px;
+  --t-base:14px;
+  --t-md:15.5px;
+  --t-lg:19px;
+  --t-xl:24px;
+  --t-2xl:31px;
+
+  /* Três pesos. O 800 de antes gritava em tela cheia o dia todo. */
+  --peso-forte:600;
+  --peso-meio:500;
+
+  --raio:8px;
+  --raio-g:12px;
+  --inverter-icone:1;
+}
+
+/* No claro só a área de trabalho clareia. O menu continua azul
+   profundo: é ele que dá o contraste e segura a marca. */
+:root[data-tema="claro"]{
+  --fundo:#EEF2F8;
+  --painel:#FFFFFF;
+  --painel-2:#E6EDF6;
+  --campo:#F7F9FC;
+
+  --borda:#DCE4F0;
+  --borda-forte:#C2CEE0;
+
+  --texto:#0B1B33;
+  --texto-2:#3F5270;
+  --apagado:#546786;
+
+  --acento:#0E7D6B;
+  --acento-fraco:#D6F0E9;
+  --btn-texto:#FFFFFF;
+
+  --espera-1:#546786;
+  --espera-2:#85570C;
+  --espera-3:#A85A1C;
+  --espera-4:#B23D2C;
+
+  --alerta:#85570C;
+  --alerta-fraco:#FBEFD6;
+  --erro:#B23D2C;
+  --erro-fraco:#FBE0DA;
+  --ok:#11794B;
+  --ok-fraco:#D7F0E2;
+
+  --sombra:0 1px 2px rgba(10,25,50,.05),0 2px 10px rgba(10,25,50,.04);
+  --serie-a:#0E7D6B;
+  --serie-b:#9A6611;
+
+  /* Violeta escurecido: sobre fundo claro o tom do escuro desaparece. */
+  --sit-atendido:#6D28D9;
+
+  --inverter-icone:0;
+}
+
+/* ---------- 2. base ---------- */
+
+*{box-sizing:border-box;}
+
+body{
+  margin:0;
+  background:var(--fundo);
+  color:var(--texto);
+  font-family:var(--fonte);
+  font-size:var(--t-base);
+  font-weight:400;
+  line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+  text-rendering:optimizeLegibility;
+}
+
+button,input,textarea,select{font-family:inherit;font-size:inherit;color:inherit;}
+
+/* Título nunca deixa uma palavra sozinha na última linha. */
+h1,h2,h3{text-wrap:balance;}
+
+/* Todo número do sistema é tabular: coluna alinha e contador não
+   treme quando o valor muda. */
+.num,.valor,.contador,.lado,.canto,.n,td.num,
+input[type=time],input[type=date]{font-variant-numeric:tabular-nums;}
+
+/* ---------- 3. entrada ---------- */
+
+.entrar{
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:22px;
+  padding:24px;
+  background:var(--lat-fundo);
+}
+.entrar form{
+  width:100%;
+  max-width:352px;
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-radius:var(--raio-g);
+  padding:34px 30px;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+  box-shadow:var(--sombra);
+}
+.entrar p{margin:0;color:var(--apagado);font-size:var(--t-sm);}
+
+/* O logotipo é imagem, não texto, e não tem fundo próprio: depende de a
+   superfície atrás dele ser escura. Vale na lateral e na página de entrada,
+   que são escuras nos dois temas, e não valeria dentro de um cartão. */
+.marca img{display:block;width:100%;height:auto;}
+.entrar .marca{width:236px;max-width:100%;}
+
+.marca{
+  font-size:var(--t-xl);
+  font-weight:700;
+  letter-spacing:-.035em;
+  margin:0;
+}
+/* O "tus" era teal, e teal aqui e mentira: a regra 2 diz que verde-agua e o
+   que se clica, e a marca nao se clica. No logo de verdade a palavra inteira
+   e branca, e quem carrega a cor e o simbolo. */
+.marca span{color:inherit;}
+
+/* ---------- 4. estrutura ---------- */
+
+.app{display:flex;min-height:100vh;}
+
+/* Recolher a navegacao vale em TODO modulo, nao so em Conversas: a
+   lateral e a mesma coluna em todas as telas, e um botao que aparece numa
+   e some na outra ensina a pessoa que ele e daquela tela. No estreito a
+   lateral ja e gaveta e quem abre e o botao de menu, entao o de recolher
+   so existe do 820 para cima. */
+@media (width > 820px){
+  .app[data-lateral-recolhida="true"] > .navegacao{display:none;}
+}
+
+.lateral{
+  width:248px;
+  flex:none;
+  background:var(--lat-fundo);
+  border-right:1px solid var(--lat-borda);
+  padding:22px 12px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.lateral .marca{padding:0 6px;color:var(--lat-marca);}
+.lateral .marca span{color:inherit;}
+
+.conteudo{flex:1;min-width:0;padding:26px 34px 72px;}
+.conteudo-largura{
+  max-width:880px;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+}
+.conteudo-largura.larga{max-width:1240px;}
+
+/* O cabeçalho da tela é uma faixa, não um bloco solto. O fio
+   embaixo dele é o que diz "daqui pra baixo é o trabalho". */
+/* O cabecalho de pagina, um so para todos os modulos. A forma e a da
+   pagina Conversas: titulo grande, resumo na mesma linha de base, a
+   direita, descricao embaixo e nenhuma linha divisoria. Quem escreve a
+   marcacao e CabecalhoPagina.jsx; estas classes nao se escrevem a mao. */
+.pagina-titulo{display:grid;gap:4px;}
+.pagina-titulo-linha{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:4px 16px;
+}
+.pagina-titulo h1{
+  margin:0;
+  /* Empurra resumo e ações para a direita sem precisar de space-between,
+     que se perderia quando a linha tem os dois. */
+  margin-inline-end:auto;
+  font-size:var(--t-xl);
+  font-weight:var(--peso-forte);
+  letter-spacing:-.02em;
+  color:var(--tinta);
+}
+/* Dado: quantos, quantas, quanto. */
+.pagina-resumo{margin:0;color:var(--sutil);font-size:var(--t-sm);}
+/* Explicacao: o que esta tela faz. */
+.pagina-descricao{margin:0;color:var(--apagado);font-size:var(--t-sm);max-width:66ch;}
+/* Controle que e do cabecalho: forma de ver, periodo, criar. Linha propria,
+   com um respiro maior em cima, para nao colar no titulo. */
+.pagina-acoes{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:4px;}
+
+/* O lugar do cabecalho enquanto os numeros nao chegaram. Mesma metrica, para
+   a tela nao pular de altura quando eles chegam. */
+.esqueleto-titulo{display:grid;gap:4px;}
+
+/* No estreito o titulo cede, que e o que a tela do CRM ja fazia. */
+@media (max-width:820px){
+  .pagina-titulo h1{font-size:var(--t-lg);}
+}
+
+/* ---------- 5. menu ---------- */
+
+.grupo{display:flex;flex-direction:column;gap:2px;}
+
+/* Sem caixa alta e sem entreletra aberta. Rótulo de grupo é
+   sinalização, não anúncio. */
+.grupo-titulo{
+  font-size:var(--t-xs);
+  font-weight:var(--peso-meio);
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--lat-titulo);
+  padding:0 10px 6px;
+}
+
+.aba{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  background:none;
+  border:none;
+  border-radius:var(--raio);
+  padding:8px 10px;
+  text-align:left;
+  cursor:pointer;
+  color:var(--lat-texto);
+  width:100%;
+  font-weight:var(--peso-meio);
+  transition:background-color .12s ease,color .12s ease;
+}
+.aba:hover{background:var(--lat-hover);color:var(--lat-marca);}
+.aba.ativa{
+  background:var(--lat-ativo-fundo);
+  color:var(--lat-ativo-texto);
+  font-weight:var(--peso-forte);
+}
+.aba small,.rotulo-menu small{
+  display:block;
+  font-size:var(--t-xs);
+  color:var(--lat-titulo);
+  font-weight:400;
+  letter-spacing:0;
+}
+.aba.ativa small,.aba.ativa .rotulo-menu small{color:var(--lat-texto);}
+.aba .passo{font-family:var(--mono);font-size:var(--t-xs);opacity:.65;flex:none;width:14px;}
+
+.rotulo-menu{min-width:0;line-height:1.3;letter-spacing:-.005em;}
+
+.icone-menu{
+  flex:none;
+  width:17px;
+  height:17px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  /* Cada seção guarda a sua cor, mas apagada enquanto não é a
+     aba aberta. Quinze ícones saturados de uma vez viram arco-íris
+     e cansam; apagados, o olho ainda aprende "o rosa é mídia". */
+  opacity:.5;
+  transition:opacity .12s ease;
+}
+.aba:hover .icone-menu{opacity:.8;}
+.aba.ativa .icone-menu{opacity:1;}
+
+.seletor{display:flex;flex-direction:column;gap:5px;padding:0 10px;}
+.seletor label{
+  font-size:var(--t-xs);
+  font-weight:var(--peso-meio);
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--lat-titulo);
+}
+.lateral select{
+  background:var(--lat-campo);
+  border:1px solid var(--lat-borda);
+  color:var(--lat-marca);
+  border-radius:var(--raio);
+  padding:8px 10px;
+}
+
+.tema{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  background:none;
+  border:none;
+  border-radius:var(--raio);
+  padding:8px 10px;
+  width:100%;
+  text-align:left;
+  cursor:pointer;
+  color:var(--lat-texto);
+  font-size:var(--t-sm);
+}
+.tema:hover{background:var(--lat-hover);color:var(--lat-marca);}
+.tema .icone{width:14px;flex:none;text-align:center;}
+
+/* ---------- 6. campos ---------- */
+
+.campo{display:flex;flex-direction:column;gap:6px;}
+.campo > label{
+  font-size:var(--t-sm);
+  font-weight:var(--peso-forte);
+  color:var(--texto);
+  letter-spacing:-.005em;
+}
+.campo .dica{
+  font-size:var(--t-sm);
+  color:var(--apagado);
+  line-height:1.45;
+  margin:0;
+}
+
+input[type=text],input[type=password],input[type=number],input[type=url],
+input[type=email],input[type=tel],textarea,select{
+  background:var(--campo);
+  border:1px solid var(--borda);
+  border-radius:var(--raio);
+  padding:9px 12px;
+  width:100%;
+  outline:none;
+  transition:border-color .12s ease;
+}
+input::placeholder,textarea::placeholder{color:var(--apagado);opacity:.75;}
+input:hover,textarea:hover,select:hover{border-color:var(--borda-forte);}
+textarea{resize:vertical;line-height:1.6;min-height:92px;}
+textarea.grande{min-height:280px;font-family:var(--mono);font-size:var(--t-sm);}
+select{cursor:pointer;}
+
+.contador{
+  font-size:var(--t-xs);
+  color:var(--apagado);
+  font-family:var(--mono);
+  text-align:right;
+}
+.contador.perto{color:var(--alerta);}
+
+/* ---------- 7. botões ---------- */
+
+.btn{
+  background:var(--acento);
+  color:var(--btn-texto);
+  border:1px solid transparent;
+  border-radius:var(--raio);
+  padding:9px 16px;
+  font-size:var(--t-base);
+  font-weight:var(--peso-forte);
+  letter-spacing:-.005em;
+  cursor:pointer;
+  transition:background-color .12s ease,border-color .12s ease,color .12s ease;
+}
+.btn:hover{filter:brightness(1.07);}
+.btn:active{filter:brightness(.95);}
+.btn:disabled{opacity:.45;cursor:default;filter:none;}
+
+.btn.secundario{
+  background:transparent;
+  color:var(--texto);
+  border-color:var(--borda-forte);
+}
+.btn.secundario:hover{background:var(--painel-2);filter:none;}
+
+.btn.perigo{
+  background:transparent;
+  color:var(--erro);
+  border-color:var(--erro);
+}
+.btn.perigo:hover{background:var(--erro-fraco);filter:none;}
+
+.btn.pequeno{padding:5px 11px;font-size:var(--t-sm);}
+
+.acoes{display:flex;gap:9px;align-items:center;flex-wrap:wrap;}
+
+/* ---------- 8. cartões ---------- */
+
+.cartao,.bloco{
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-radius:var(--raio-g);
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  box-shadow:var(--sombra);
+}
+.cartao{padding:20px;gap:16px;}
+.bloco{padding:16px 18px;gap:14px;}
+
+/* Regra 3: cartão não mora dentro de cartão. */
+.cartao .cartao,.cartao .bloco,.bloco .cartao,.bloco .bloco{
+  background:none;
+  border:none;
+  border-radius:0;
+  box-shadow:none;
+  padding:0;
+}
+
+.cartao h2,.bloco-topo h2{
+  font-size:var(--t-md);
+  font-weight:var(--peso-forte);
+  letter-spacing:-.015em;
+  margin:0;
+}
+.cartao > p{margin:0;color:var(--apagado);font-size:var(--t-sm);}
+
+.bloco-topo{display:flex;align-items:baseline;gap:10px;}
+.bloco-topo .canto{
+  margin-left:auto;
+  font-size:var(--t-xs);
+  color:var(--apagado);
+  font-family:var(--mono);
+  font-weight:400;
+}
+
+.linha{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;}
+.malha-3{display:grid;grid-template-columns:1.35fr 1fr 1fr;gap:14px;align-items:start;}
+.malha-2{display:grid;grid-template-columns:1fr 1fr;gap:14px;align-items:start;}
+@media (max-width:1080px){.malha-3,.malha-2{grid-template-columns:1fr;}}
+
+/* ---------- 9. tabelas ---------- */
+
+table{width:100%;border-collapse:collapse;font-size:var(--t-base);}
+th{
+  text-align:left;
+  font-size:var(--t-sm);
+  font-weight:var(--peso-meio);
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--apagado);
+  padding:7px 10px;
+  border-bottom:1px solid var(--borda);
+}
+td{padding:10px;border-bottom:1px solid var(--borda);vertical-align:middle;}
+tr:last-child td{border-bottom:none;}
+.num{font-family:var(--mono);text-align:right;white-space:nowrap;}
+.clicavel{cursor:pointer;}
+.clicavel:hover td{background:var(--painel-2);}
+
+/* ---------- 10. etiquetas e espera ---------- */
+
+.etiqueta{
+  display:inline-block;
+  font-size:var(--t-xs);
+  font-weight:var(--peso-meio);
+  padding:2px 8px;
+  border-radius:5px;
+  background:var(--painel-2);
+  color:var(--texto-2);
+  margin-right:5px;
+  white-space:nowrap;
+}
+/* A rampa de calor. Só ela tem licença para ser quente. */
+.etiqueta.frio{background:var(--painel-2);color:var(--espera-1);}
+.etiqueta.morno{background:var(--alerta-fraco);color:var(--espera-2);}
+.etiqueta.quente{background:var(--erro-fraco);color:var(--espera-4);}
+.etiqueta.humano{background:var(--acento-fraco);color:var(--acento);}
+
+/* ---------- 11. avisos ---------- */
+
+/* Fundo discreto e um fio grosso na borda que começa a mensagem.
+   O bloco inteiro colorido competia com o conteúdo da tela. */
+.aviso{
+  border-radius:var(--raio);
+  padding:11px 14px;
+  font-size:var(--t-sm);
+  border:1px solid var(--borda);
+  border-left:3px solid var(--borda-forte);
+  background:var(--painel);
+  color:var(--texto);
+}
+.aviso.erro{background:var(--erro-fraco);border-color:transparent;border-left-color:var(--erro);color:var(--erro);}
+.aviso.ok{background:var(--ok-fraco);border-color:transparent;border-left-color:var(--ok);color:var(--ok);}
+.aviso.atencao{background:var(--alerta-fraco);border-color:transparent;border-left-color:var(--alerta);color:var(--alerta);}
+.aviso strong{font-weight:var(--peso-forte);}
+
+/* Tela vazia é convite, não buraco. Sem borda tracejada, que
+   parece área de arrastar arquivo e não é. */
+.vazio{
+  padding:40px 24px;
+  color:var(--apagado);
+  font-size:var(--t-sm);
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-radius:var(--raio-g);
+  text-align:center;
+}
+.mini-vazio{padding:20px 4px;color:var(--apagado);font-size:var(--t-sm);text-align:center;}
+
+/* ---------- 12. indicadores ---------- */
+
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(156px,1fr));gap:12px;}
+
+/* Antes cada indicador era um retângulo com degradê e uma bola
+   branca no canto. Vistos em fila, seis degradês viram enfeite e
+   o número, que é o que importa, fica em segundo plano. Depois
+   veio um fio colorido de 3px na esquerda, uma cor por métrica.
+
+   Esse fio também já era: o sistema novo destaca só o primeiro
+   indicador, em azul-marinho, e plataforma.css:242 redesenha a
+   borda inteira. As seis classes de cor (.kpi.teal e as outras)
+   continuam saindo do React e continuam servindo de gancho, mas
+   não pintam nada desde então. */
+.kpi{
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-left:3px solid var(--borda-forte);
+  border-radius:var(--raio);
+  padding:14px 16px;
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+  min-height:96px;
+  color:var(--texto);
+  box-shadow:var(--sombra);
+}
+.kpi .rotulo{
+  font-size:var(--t-xs);
+  font-weight:var(--peso-meio);
+  color:var(--apagado);
+  letter-spacing:0;
+}
+.kpi .valor{
+  font-size:var(--t-xl);
+  font-weight:var(--peso-forte);
+  letter-spacing:-.03em;
+  line-height:1.15;
+  color:var(--texto);
+  margin-top:2px;
+}
+.kpi .pe{font-size:var(--t-xs);color:var(--apagado);font-weight:400;}
+
+/* ---------- 13. gráficos ---------- */
+
+.grafico{width:100%;height:auto;display:block;overflow:visible;}
+.grafico .grade{stroke:var(--borda);}
+.grafico .eixo{fill:var(--apagado);}
+.grafico .rotulo-centro{fill:var(--apagado);}
+.grafico .numero-centro{fill:var(--texto);}
+.grafico .trilha{stroke:var(--painel-2);}
+.grafico .linha-a{stroke:var(--serie-a);}
+.grafico .linha-b{stroke:var(--serie-b);}
+.grafico .ponta{fill:var(--serie-a);}
+.grafico .area-topo{stop-color:var(--serie-a);}
+.grafico .area-base{stop-color:var(--serie-a);}
+
+.rosca-legenda{display:flex;flex-direction:column;gap:9px;}
+.rosca-item{display:flex;align-items:center;gap:9px;font-size:var(--t-sm);font-weight:400;}
+.rosca-cor{width:9px;height:9px;border-radius:2px;flex:none;}
+.rosca-item .n{margin-left:auto;font-family:var(--mono);color:var(--texto-2);}
+
+/* ---------- 14. listas ---------- */
+
+.somatorio{display:flex;flex-direction:column;gap:11px;}
+.som-linha{display:flex;flex-direction:column;gap:5px;}
+.som-topo{display:flex;align-items:baseline;gap:8px;font-size:var(--t-sm);font-weight:400;}
+.som-topo .n{margin-left:auto;font-family:var(--mono);font-weight:var(--peso-meio);color:var(--texto);}
+.trilho{height:5px;border-radius:3px;background:var(--painel-2);overflow:hidden;}
+.trilho > span{display:block;height:100%;border-radius:3px;}
+
+.compacta{display:flex;flex-direction:column;}
+.compacta .item{
+  display:flex;align-items:center;gap:10px;
+  padding:9px 0;border-top:1px solid var(--borda);font-size:var(--t-sm);
+}
+.compacta .item:first-child{border-top:none;}
+.compacta .princ{min-width:0;flex:1;}
+.compacta .princ b{
+  display:block;
+  font-weight:var(--peso-forte);
+  color:var(--texto);
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+.compacta .princ span{display:block;font-size:var(--t-xs);color:var(--apagado);font-family:var(--mono);}
+.compacta .lado{font-family:var(--mono);font-size:var(--t-sm);color:var(--texto-2);white-space:nowrap;font-weight:var(--peso-meio);}
+
+/* ---------- 15. conversa ---------- */
+
+.conversa{display:flex;flex-direction:column;gap:10px;}
+.balao{
+  max-width:72%;
+  padding:9px 13px;
+  border-radius:var(--raio-g);
+  font-size:var(--t-base);
+  white-space:pre-wrap;
+  line-height:1.5;
+}
+.balao.user{
+  align-self:flex-start;
+  background:var(--painel-2);
+  border-bottom-left-radius:3px;
+}
+.balao.assistant{
+  align-self:flex-end;
+  background:var(--acento-fraco);
+  color:var(--texto);
+  border-bottom-right-radius:3px;
+}
+.acao-ia{
+  align-self:flex-end;
+  font-family:var(--mono);
+  font-size:var(--t-xs);
+  color:var(--apagado);
+  padding:2px 8px;
+}
+
+/* ---------- 16. rótulo de seção ---------- */
+
+/* Dentro de um cartão, o que separa assunto é este rótulo e o
+   espaço em volta dele. Sem caixa alta: o tamanho e a cor já
+   dizem que ele é apoio. */
+p.rotulo-secao{
+  margin:0 0 10px;
+  font-size:var(--t-sm);
+  font-weight:var(--peso-forte);
+  letter-spacing:0;
+  text-transform:none;
+  color:var(--texto-2);
+}
+
+/* ---------- 17. quadro de atendimento ---------- */
+
+/* O alto do quadro: título, números e filtro, juntos e apertados.
+   Antes cada um trazia a sua própria margem e sobravam quase cem
+   pixels entre o título e o primeiro cartão, numa tela em que a
+   altura é o que falta. */
+.quadro-topo{display:grid;gap:8px;}
+.quadro-topo .filtros{margin-top:2px;}
+
+/* Os números do atendimento, numa linha só. Texto e não fichas de
+   caixa: cinco caixas aqui seriam uma segunda camada em cima da
+   coluna, que já é caixa. */
+.quadro-numeros{
+  display:flex;
+  flex-wrap:wrap;
+  gap:4px 14px;
+  align-items:baseline;
+}
+.quadro-numero{
+  font-size:var(--t-xs);
+  color:var(--apagado);
+  white-space:nowrap;
+}
+.quadro-numero b{
+  font-variant-numeric:tabular-nums;
+  font-size:var(--t-sm);
+  font-weight:var(--peso-forte);
+  color:var(--tinta);
+}
+/* Zero não merece cor: amarelo em "0 aguardando" treina a pessoa a
+   ignorar o amarelo. A cor entra só quando há o que olhar. */
+.quadro-numero[data-tom="amarelo"] b{color:var(--espera-2);}
+.quadro-numero[data-tom="vermelho"] b{color:var(--espera-4);}
+
+/* Quatro colunas que dividem a largura disponível e vão até o pé da
+   janela. Rolar acontece DENTRO da coluna, nunca na página: a altura
+   igual nas quatro é o que deixa comparar as filas de relance, e
+   coluna que cresce com a quantidade de cartão faz a vizinha vazia
+   parecer um erro de desenho. */
+.quadro{
+  display:flex;
+  gap:14px;
+  align-items:stretch;
+  overflow-x:auto;
+  padding-bottom:12px;
+  margin-top:12px;
+  height:var(--quadro-alto, calc(100vh - 260px - var(--barra-altura, 0px)));
+  min-height:300px;
+}
+.quadro-coluna{
+  flex:1 1 0;
+  min-width:252px;
+  display:flex;
+  flex-direction:column;
+  background:var(--painel-2);
+  border:1px solid var(--borda);
+  border-radius:var(--raio-g);
+  padding:12px;
+  overflow:hidden;
+}
+/* A pilha é o que rola. A coluna fica parada para o título dela não
+   sair de vista quando a pessoa desce quarenta cartões. */
+.quadro-pilha{flex:1 1 auto;overflow-y:auto;min-height:0;}
+
+/* O quadro pede a largura inteira. O teto de 1240 serve para texto,
+   que fica ilegível em linha larga; aqui ele só deixava uma faixa
+   vazia dos dois lados com quatro colunas apertadas no meio. */
+.conteudo-largura.larga:has(.quadro){max-width:none;}
+
+/* A coluna que vai receber o cartão. Teal porque é ação, tracejado
+   porque ainda não aconteceu. */
+.quadro-coluna.alvo{outline:2px dashed var(--acento);outline-offset:-2px;}
+
+.quadro-coluna-topo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:8px;
+  margin-bottom:10px;
+}
+.quadro-coluna-topo h2{
+  margin:0;
+  font-size:var(--t-sm);
+  font-weight:var(--peso-forte);
+  color:var(--texto);
+}
+.quadro-conta{
+  font-variant-numeric:tabular-nums;
+  font-size:var(--t-xs);
+  font-weight:var(--peso-meio);
+  color:var(--apagado);
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-radius:5px;
+  padding:1px 7px;
+}
+
+/* Regra da camada única: a coluna é a caixa, o cartão é a camada de
+   dentro. Nada de sombra nem degradê. */
+.quadro-cartao{
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-radius:var(--raio);
+  padding:8px 10px;
+  margin-bottom:7px;
+  cursor:grab;
+}
+.quadro-cartao:last-child{margin-bottom:0;}
+.quadro-cartao[aria-busy="true"]{opacity:.5;cursor:default;}
+.quadro-cartao-topo{
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.quadro-cartao-topo strong{flex:1 1 auto;min-width:0;}
+.quadro-cartao-topo strong{
+  font-size:13px;
+  font-weight:var(--peso-forte);
+  color:var(--texto);
+  overflow-wrap:anywhere;
+}
+/* O canal como marca de duas letras, num canto. "WhatsApp" escrito
+   em cada cartão ocupava a largura de um nome e repetia o que é igual
+   em quase todo cartão. */
+.quadro-canal{
+  flex:none;
+  font:600 9px/1 var(--mono);
+  letter-spacing:.08em;
+  color:var(--apagado);
+  background:var(--painel-2);
+  border:1px solid var(--borda);
+  border-radius:4px;
+  padding:3px 4px;
+  white-space:nowrap;
+}
+.quadro-canal[data-canal="instagram"]{color:var(--espera-1);}
+
+/* As fichas de situação: verde é não lida (a bolinha, no alto do
+   cartão), amarelo é janela perto de fechar, vermelho é janela
+   fechada ou atendimento atrasado. Fundo fraco e não cheio, para a
+   ficha não virar uma terceira camada de caixa dentro do cartão. */
+.quadro-fichas{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 0;}
+.quadro-ficha{
+  font:500 10px/1 var(--mono);
+  letter-spacing:.04em;
+  border-radius:4px;
+  padding:4px 6px;
+  white-space:nowrap;
+}
+.quadro-ficha[data-tom="amarelo"]{background:var(--alerta-fraco);color:var(--espera-2);}
+.quadro-ficha[data-tom="vermelho"]{background:var(--erro-fraco);color:var(--espera-4);}
+
+/* A interrogação do motivo da transferência. O texto inteiro é a
+   dica: no cartão ele empurrava etiqueta e prévia para fora. */
+.quadro-porque{color:var(--apagado);cursor:help;}
+
+.quadro-linha{margin:4px 0 0;font-size:var(--t-xs);color:var(--texto-2);}
+
+/* Mensagem com link não quebra sozinha: um endereço de 70 caracteres é uma
+   palavra só para o navegador. Sem isto ele vazava da coluna e empurrava a
+   página inteira para o lado no celular. Link em conversa é rotina, não
+   exceção. */
+.quadro-motivo,.quadro-previa{overflow-wrap:anywhere;}
+
+.quadro-motivo{margin:6px 0 0;font-size:var(--t-xs);color:var(--apagado);}
+.quadro-previa{
+  margin:6px 0 0;
+  font-size:var(--t-xs);
+  color:var(--texto-2);
+  border-left:2px solid var(--borda-forte);
+  padding-left:8px;
+}
+
+/* A janela de 24h do WhatsApp. É o único elemento quente do quadro:
+   depois que ela fecha, responder exige modelo aprovado pela Meta, e a
+   cor é o que diz quanto tempo ainda dá para responder de graça. */
+.quadro-janela{margin-top:8px;}
+.quadro-janela-texto{
+  display:block;
+  font-size:var(--t-xs);
+  font-variant-numeric:tabular-nums;
+  margin-bottom:4px;
+}
+.quadro-janela-texto[data-calor="1"]{color:var(--espera-1);}
+.quadro-janela-texto[data-calor="2"]{color:var(--espera-2);}
+.quadro-janela-texto[data-calor="3"]{color:var(--espera-3);}
+.quadro-janela-texto[data-calor="4"]{color:var(--espera-4);}
+
+.quadro-calor{
+  display:block;
+  height:3px;
+  border-radius:2px;
+  background:var(--borda);
+  overflow:hidden;
+}
+.quadro-calor i{display:block;height:100%;border-radius:2px;}
+.quadro-calor[data-calor="1"] i{background:var(--espera-1);}
+.quadro-calor[data-calor="2"] i{background:var(--espera-2);}
+.quadro-calor[data-calor="3"] i{background:var(--espera-3);}
+.quadro-calor[data-calor="4"] i{background:var(--espera-4);}
+
+/* Arrastar não existe no celular, e nem todo mundo arrasta no
+   computador. O menu faz as mesmas três coisas. */
+.quadro-acoes{margin-top:9px;}
+
+/* O menu abre dentro do cartão, empurrando o que vem abaixo, em vez de
+   flutuar por cima. Flutuando ele era cortado: a coluna rola por dentro
+   (`overflow-y:auto`), e isso faz o navegador cortar os dois eixos. Nos
+   últimos cartões de uma coluna cheia o menu abria inteiro fora da área
+   visível, e a pessoa clicava em Mover e não via nada acontecer. */
+.quadro-menu{
+  margin-top:6px;
+  background:var(--painel-2);
+  border:1px solid var(--borda-forte);
+  border-radius:var(--raio);
+  padding:4px;
+}
+.quadro-menu button{
+  display:block;
+  width:100%;
+  text-align:left;
+  background:none;
+  border:none;
+  border-radius:5px;
+  padding:7px 9px;
+  font:inherit;
+  font-size:var(--t-sm);
+  color:var(--texto);
+  cursor:pointer;
+}
+.quadro-menu button:hover{background:var(--painel);}
+.quadro-menu button:disabled{opacity:.45;cursor:default;background:none;}
+
+.quadro-vazio{margin:0;padding:14px 2px;font-size:var(--t-xs);color:var(--apagado);}
+.quadro-corte{
+  margin:8px 0 0;
+  font-size:var(--t-xs);
+  font-variant-numeric:tabular-nums;
+  color:var(--apagado);
+  text-align:center;
+}
+
+/* A barra de filtro, a mesma no Quadro e em Conversas. Fica numa
+   linha só e quebra quando não cabe: filtro que rola de lado some
+   e a pessoa esquece que aplicou. */
+.filtros{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  align-items:center;
+  margin-top:14px;
+}
+.filtros .filtro-busca{flex:1 1 260px;min-width:0;max-width:420px;}
+.filtros select{flex:0 0 auto;width:auto;}
+
+.quadro-etiquetas{display:flex;flex-wrap:wrap;gap:4px;margin:7px 0 0;}
+
+/* A gaveta: a conversa por cima do quadro. O fundo escurece o que
+   está atrás sem esconder, porque o ponto é justamente não perder
+   o quadro de vista enquanto se responde. */
+.gaveta-fundo{
+  position:fixed;
+  inset:0;
+  background:rgba(0,6,20,.55);
+  display:flex;
+  justify-content:flex-end;
+  z-index:60;
+}
+.gaveta{
+  width:min(560px,100%);
+  height:100%;
+  background:var(--fundo);
+  border-left:1px solid var(--borda-forte);
+  display:flex;
+  flex-direction:column;
+  box-shadow:-18px 0 40px rgba(0,0,0,.35);
+}
+.gaveta-topo{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  padding:14px 18px;
+  border-bottom:1px solid var(--borda);
+  flex:none;
+}
+.gaveta-topo strong{font-size:var(--t-base);font-weight:var(--peso-forte);}
+.gaveta-topo .quadro-canal{margin-left:8px;}
+.gaveta-corpo{flex:1;overflow-y:auto;padding:16px 18px 20px;}
+
+/* Em tela de celular a gaveta ocupa tudo: 560px numa tela de 390
+   deixaria uma faixa do quadro inútil na lateral. */
+@media (max-width:620px){
+  .gaveta{width:100%;border-left:none;}
+}
+
+/* ---------- ficha comercial do contato (migração 037) ----------
+   Mora dentro da gaveta do contato, que já é uma caixa: aqui são só campos
+   sobre o fundo dela, sem abrir cartão dentro de cartão. */
+
+.ficha-contato{display:flex;flex-direction:column;gap:12px;}
+.ficha-grade{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px 12px;}
+.ficha-grade label{display:flex;flex-direction:column;gap:5px;min-width:0;}
+.ficha-grade label.largo{grid-column:1 / -1;}
+.ficha-grade label > span{
+  font-size:var(--t-xs);color:var(--apagado);
+  letter-spacing:.04em;text-transform:uppercase;
+}
+@media (max-width:620px){
+  .ficha-grade{grid-template-columns:1fr;}
+}
+
+.conversa-painel{display:flex;flex-direction:column;gap:14px;}
+.conversa-painel .conversa{max-height:52vh;overflow-y:auto;padding-right:4px;}
+.responder{display:flex;gap:10px;align-items:flex-end;}
+.responder textarea{flex:1;}
+.conversa-travada{
+  margin:0;
+  font-size:var(--t-sm);
+  color:var(--apagado);
+  line-height:1.5;
+}
+
+/* Abaixo de 820px as colunas empilham e cada uma rola junto com a
+   página. Faixa que rola de lado em tela de celular é armadilha:
+   a pessoa perde as colunas que não cabem. */
+@media (max-width:820px){
+  .quadro{flex-direction:column;overflow-x:visible;height:auto;min-height:0;}
+  .quadro-coluna{flex:none;min-width:0;max-width:none;width:100%;overflow:visible;}
+  .quadro-pilha{overflow-y:visible;}
+}
+
+/* ---------- 18. telas estreitas ---------- */
+
+@media (max-width:820px){
+  .app{flex-direction:column;}
+  .lateral{width:auto;border-right:none;border-bottom:1px solid var(--lat-borda);}
+  /* No celular a lateral vira barra de cima e ocupa a largura toda. Sem
+     este teto o logotipo esticaria de ponta a ponta e comeria o topo da
+     tela, que é onde a pessoa quer ver a fila, não a marca. */
+  .lateral .marca{width:196px;}
+  .conteudo{padding:20px 16px 48px;}
+  .conteudo-largura,.conteudo-largura.larga{max-width:none;}
+  .balao{max-width:88%;}
+}
+.rotulo-secao .leve{
+  display:block;
+  text-transform:none;
+  letter-spacing:0;
+  font-size:12.5px;
+  font-weight:400;
+  color:var(--apagado);
+  margin-top:3px;
+}
+
+/* Dia, hora e data são o dado que a pessoa procura na tabela. */
+.forte{font-weight:var(--peso-forte);color:var(--texto);}
+td.forte,.num.forte{font-weight:var(--peso-forte);color:var(--texto);}
+
+/* ---------- campos de hora e data ---------- */
+
+/* Hora e data tinham borda de 2px e canto de 10px, enquanto o
+   resto dos campos usava 1px e 8px. Lado a lado no mesmo
+   formulário a diferença aparecia. Agora todos os campos do
+   sistema têm o mesmo acabamento. */
+input[type=time],input[type=date]{
+  background:var(--campo);
+  border:1px solid var(--borda);
+  border-radius:var(--raio);
+  padding:9px 12px;
+  color:var(--texto);
+  width:100%;
+  outline:none;
+  transition:border-color .12s ease;
+}
+input[type=time]:hover,input[type=date]:hover{border-color:var(--borda-forte);}
+
+/* O ícone de relógio e de calendário do Chrome nasce escuro e
+   some no tema escuro. */
+input[type=time]::-webkit-calendar-picker-indicator,
+input[type=date]::-webkit-calendar-picker-indicator{
+  filter:invert(var(--inverter-icone));
+  opacity:.7;
+  cursor:pointer;
+}
+input[type=time]::-webkit-calendar-picker-indicator:hover,
+input[type=date]::-webkit-calendar-picker-indicator:hover{opacity:1;}
+
+/* ============================================================
+   Peso onde faltava. Etiqueta e score herdavam o 400 do corpo
+   e apareciam mais leves que o texto ao redor.
+   ============================================================ */
+
+.etiqueta{font-weight:var(--peso-forte);letter-spacing:.01em;}
+
+/* A primeira coluna é sempre quem identifica a linha: nome, dia, hora,
+   apelido. Ela carrega o peso; o que estiver aninhado nela é apoio. */
+tbody td:first-child{font-weight:var(--peso-forte);color:var(--texto);}
+tbody td:first-child div{font-weight:400;}
+/* A etiqueta é exceção: ela guarda o peso mesmo dentro da primeira coluna. */
+tbody td:first-child span.etiqueta{font-weight:var(--peso-forte);}
+
+/* Números em tabela: data, hora, valor. São dado, não decoração. */
+tbody td.num{font-weight:var(--peso-forte);color:var(--texto);}
+tbody td.num .btn{font-weight:var(--peso-forte);}
+
+
+/* ---------- fila: aviso de espera no menu e identificação do atendente ---------- */
+.sino{
+  margin-left:auto;
+  flex:none;
+  min-width:20px;
+  padding:1px 6px;
+  border-radius:10px;
+  background:#f97362;
+  color:#2a0d08;
+  font-size:11px;
+  font-weight:var(--peso-forte);
+  font-variant-numeric:tabular-nums;
+  text-align:center;
+}
+.quem-sou{
+  padding:9px 12px;
+  border-radius:10px;
+  border:2px solid var(--lat-borda);
+  background:var(--lat-campo);
+  color:var(--lat-marca);
+  font-weight:var(--peso-forte);
+  font-size:14px;
+}
+
+/* ---------- formulário embutido no cartão ---------- */
+.sub-form{
+  border-top:1px solid var(--borda);
+  padding-top:18px;
+  margin-top:2px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+/* Par de datas com o "até" no meio, sem quebrar em telas estreitas. */
+.par-datas{display:flex;align-items:center;gap:9px;}
+.par-datas span{color:var(--apagado);font-size:13px;flex:none;}
+
+/* Caixa de marcar com área de clique grande e texto legível. */
+.marcador{
+  display:flex;
+  align-items:center;
+  gap:11px;
+  font-size:14.5px;
+  font-weight:var(--peso-forte);
+  cursor:pointer;
+  padding:11px 14px;
+  border:2px solid var(--borda-forte);
+  border-radius:10px;
+  background:var(--campo);
+  width:fit-content;
+  max-width:100%;
+}
+.marcador:hover{border-color:var(--acento);}
+.marcador input[type=checkbox]{
+  width:18px;height:18px;flex:none;margin:0;
+  accent-color:var(--acento);cursor:pointer;
+}
+
+/* O formulário da agenda respira mais que os demais: são muitos campos. */
+.sub-form .campo > label{font-size:13px;}
+.sub-form input[type=time],
+.sub-form input[type=date],
+.sub-form select{font-size:15px;padding:11px 13px;}
+
+/* Linha do formulário da agenda: o período precisa de duas datas lado a lado,
+   então ele ganha coluna mais larga em vez de disputar com Estado e Cidade. */
+.linha-agenda{
+  display:grid;
+  grid-template-columns:minmax(290px,1.7fr) minmax(120px,.6fr) minmax(180px,1.1fr);
+  gap:14px;
+  align-items:start;
+}
+@media (max-width:820px){
+  .linha-agenda{grid-template-columns:1fr;}
+}
+
+/* Cada data ocupa metade do espaço e encolhe junto, sem estourar a coluna. */
+.par-datas input{flex:1 1 0;min-width:0;}
+
+/* ---------------------------------------------------------------
+   REPORT · relatórios e campanhas da agência
+   --------------------------------------------------------------- */
+.rp-barra{display:flex;flex-wrap:wrap;gap:12px 16px;align-items:flex-end;}
+.rp-cliente{min-width:240px;flex:0 1 320px;}
+.rp-periodos{display:inline-flex;border:1px solid var(--borda-forte);border-radius:9px;overflow:hidden;background:var(--painel);}
+.rp-periodos button{border:0;background:transparent;color:var(--texto-2);font:inherit;font-size:13px;padding:8px 13px;cursor:pointer;}
+.rp-periodos button + button{border-left:1px solid var(--borda-forte);}
+.rp-periodos button:hover{background:var(--painel-2);color:var(--texto);}
+.rp-periodos button.ativo{background:var(--acento-fraco);color:var(--acento);font-weight:var(--peso-forte);}
+.rp-datas{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--apagado);}
+.rp-datas input{width:auto;}
+.rp-busca{flex:1 1 200px;max-width:320px;}
+
+.rp-var{font-size:11.5px;font-weight:600;white-space:nowrap;}
+.rp-var.bom{color:var(--ok);}
+.rp-var.ruim{color:var(--erro);}
+.rp-var.neutra{opacity:.8;}
+.kpi .rp-var{color:#fff;background:rgba(255,255,255,.18);padding:1px 6px;border-radius:5px;}
+.kpi .rp-var.ruim{background:rgba(120,0,0,.28);}
+.kpi .rp-var.bom{background:rgba(0,70,30,.28);}
+
+.rp-rolagem{overflow-x:auto;margin:0 -4px;padding:0 4px;}
+.rp-nome{display:flex;align-items:center;gap:7px;font-weight:var(--peso-forte);max-width:420px;}
+.rp-sub{display:block;font-size:12px;color:var(--apagado);margin-top:2px;}
+.rp-seta{display:inline-block;width:12px;color:var(--apagado);font-size:11px;}
+.rp-link{border:0;background:none;padding:0;color:var(--acento);font:inherit;text-decoration:underline;cursor:pointer;}
+.rp-check{display:flex;gap:9px;align-items:center;font-size:13.5px;color:var(--texto-2);}
+.rp-check input{width:auto;}
+.rp-linha-link{display:flex;gap:10px;align-items:center;flex-wrap:wrap;}
+.rp-linha-link a{color:inherit;word-break:break-all;}
+.rp-legenda{flex-direction:row;flex-wrap:wrap;gap:8px 22px;}
+.rp-plataforma{font-size:10.5px;font-weight:var(--peso-forte);letter-spacing:.04em;text-transform:uppercase;
+  border:1px solid;border-radius:5px;padding:1px 6px;flex:none;}
+
+.rp-arvore td{vertical-align:middle;}
+.rp-arvore .rp-filho > td{padding:4px 0 10px 22px;background:var(--painel-2);}
+.rp-arvore .rp-filho table{font-size:13.5px;}
+.rp-status{display:flex;align-items:center;gap:9px;white-space:nowrap;}
+.rp-efetivo{font-size:12px;}
+.rp-efetivo.ok{color:var(--ok);}
+.rp-efetivo.atencao{color:var(--alerta);}
+.rp-efetivo.erro{color:var(--erro);}
+.rp-efetivo.neutro{color:var(--apagado);}
+.rp-chave{position:relative;width:36px;height:20px;border-radius:20px;border:0;padding:0;cursor:pointer;
+  background:var(--borda-forte);transition:background .15s;flex:none;}
+.rp-chave span{position:absolute;top:3px;left:3px;width:14px;height:14px;border-radius:50%;background:#fff;transition:left .15s;}
+.rp-chave.ligada{background:var(--ok);}
+.rp-chave.ligada span{left:19px;}
+.rp-chave:disabled{opacity:.5;cursor:default;}
+.rp-orcamento{border:1px dashed transparent;background:none;color:inherit;font:inherit;font-family:var(--mono);
+  padding:3px 6px;border-radius:6px;cursor:pointer;white-space:nowrap;}
+.rp-orcamento:hover{border-color:var(--borda-forte);background:var(--painel-2);}
+.rp-orcamento small{color:var(--apagado);font-size:11px;}
+.rp-editar{display:inline-flex;gap:6px;align-items:center;}
+.rp-editar input{width:92px;text-align:right;font-family:var(--mono);padding:5px 8px;}
+
+.rp-posts{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+.rp-post{display:flex;flex-direction:column;border:1px solid var(--borda);border-radius:10px;overflow:hidden;
+  color:inherit;text-decoration:none;background:var(--painel);}
+.rp-post:hover{border-color:var(--borda-forte);}
+.rp-post img,.rp-post-sem{width:100%;aspect-ratio:1;object-fit:cover;background:var(--painel-2);}
+.rp-post-sem{display:grid;place-items:center;color:var(--apagado);font-size:12px;text-transform:lowercase;}
+.rp-post-info{display:flex;flex-direction:column;gap:2px;padding:8px 10px;font-size:12px;color:var(--apagado);}
+.rp-post-info b{color:var(--texto);font-size:13px;}
+
+/* Página pública do relatório */
+.publico{max-width:1040px;margin:0 auto;padding:36px 20px 64px;display:flex;flex-direction:column;gap:22px;}
+.publico-topo{position:relative;display:flex;flex-direction:column;gap:4px;padding-bottom:6px;}
+.publico-topo h1{margin:0;font-size:30px;font-weight:var(--peso-forte);letter-spacing:-.03em;}
+.publico-topo p{margin:0;color:var(--apagado);}
+.publico-selo{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--acento);font-weight:var(--peso-forte);}
+.publico-imprimir{position:absolute;right:0;top:0;}
+.publico-analise p,.publico-analise li{margin:0;font-size:15px;line-height:1.65;color:var(--texto);max-width:75ch;}
+.publico-analise ul{margin:0;padding-left:20px;display:flex;flex-direction:column;gap:6px;}
+.publico-rodape{font-size:12px;color:var(--apagado);text-align:center;}
+
+@media (max-width:640px){
+  .publico-imprimir{position:static;align-self:flex-start;margin-top:6px;}
+  .rp-periodos{flex-wrap:wrap;}
+}
+@media print{
+  .publico{padding:0;}
+  .publico-imprimir{display:none;}
+  .bloco,.kpi{break-inside:avoid;}
+  .kpi{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+}
+.kpi .valor.rp-longo{font-size:clamp(17px,1.6vw,22px);}
+
+/* ============================================================
+   Acabamento de interface.
+
+   Auditoria contra as Web Interface Guidelines apontou quatro
+   buracos que valem para o painel inteiro. Ficam aqui no fim,
+   num bloco só, em vez de espalhados: são regras transversais,
+   não estilo de uma tela.
+   ============================================================ */
+
+/* 1. Foco de teclado.
+
+   Antes: os campos faziam `outline:none` e trocavam só a cor da
+   borda, e os botões não tinham foco nenhum. Quem navega de Tab
+   ficava perdido no painel, sem saber onde estava. Hora e data já
+   tinham anel; o resto não.
+
+   `:focus-visible` em vez de `:focus` para o anel não aparecer
+   quando a pessoa clica com o mouse, só quando chega pelo teclado. */
+/*
+   `:where()` nao serve aqui: ele zera a especificidade, e o
+   `input[type=text]{outline:none}` la de cima (0,1,1) ganharia do anel
+   (0,1,0). Seletor explicito da (0,2,0) e passa na frente. */
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+textarea:focus-visible,
+select:focus-visible,
+summary:focus-visible,
+[tabindex]:focus-visible{
+  outline:2px solid var(--acento);
+  outline-offset:2px;
+  border-radius:7px;
+}
+/* Dentro do menu, o acento teal some no azul quase preto. */
+.lateral button:focus-visible,
+.lateral select:focus-visible,
+.lateral a:focus-visible{
+  outline-color:var(--lat-ativo-texto);
+}
+/* Campo focado ganha anel e borda, que é o que já valia em hora/data. */
+input:focus-visible,textarea:focus-visible,select:focus-visible{
+  border-color:var(--acento);
+}
+
+/* 2. color-scheme.
+
+   Sem isto o navegador desenha barra de rolagem, menu suspenso do
+   <select> e calendário nativo em claro, mesmo com o painel escuro.
+   Fica uma faixa branca no canto e um popup branco no meio do azul. */
+:root{ color-scheme:dark; }
+:root[data-tema="claro"]{ color-scheme:light; }
+
+/* 3. Movimento reduzido.
+
+   Quem liga "reduzir movimento" no sistema costuma ter enxaqueca ou
+   vertigem. Hoje o painel quase não anima, mas a regra tem que nascer
+   junto com a primeira animação, não depois. */
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{
+    animation-duration:.01ms !important;
+    animation-iteration-count:1 !important;
+    transition-duration:.01ms !important;
+    scroll-behavior:auto !important;
+  }
+}
+
+/* 4. Toque.
+
+   `manipulation` tira o atraso de 300ms que o navegador espera para
+   ver se o toque vira duplo-toque de zoom. No celular o painel
+   responde na hora em vez de parecer travado. */
+button,a,select,summary,[role="button"]{
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+}
+
+/* Escolher várias etiquetas de uma vez. Caixinha que acende em teal
+   porque marcar é ação, e é a ação que decide quem recebe. */
+.escolhas{display:flex;flex-wrap:wrap;gap:6px;}
+.escolhas button{
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-radius:5px;
+  padding:5px 11px;
+  font:inherit;
+  font-size:var(--t-sm);
+  color:var(--texto-2);
+  cursor:pointer;
+}
+.escolhas button small{color:var(--apagado);margin-left:5px;font-size:11.5px;}
+.escolhas button.ativo{
+  background:var(--acento-fraco);
+  border-color:var(--acento);
+  color:var(--texto);
+  font-weight:var(--peso-meio);
+}
+
+/* A conta do disparo, sempre visível enquanto ele corre. */
+.progresso-disparo{
+  display:flex;
+  flex-wrap:wrap;
+  gap:16px;
+  padding:11px 14px;
+  background:var(--painel);
+  border:1px solid var(--borda);
+  border-radius:var(--raio);
+  font-size:var(--t-sm);
+  color:var(--texto-2);
+}
+.progresso-disparo strong{
+  color:var(--texto);
+  font-family:var(--mono);
+  font-size:var(--t-base);
+  margin-right:3px;
+}
+
+/* ---------- 19. conversas lado a lado ---------- */
+
+/* A tela Conversas no formato de aplicativo de mensagem: a lista à
+   esquerda, a conversa aberta ao lado. Antes era uma tabela que
+   trocava de tela inteira a cada clique, e quem estava operando
+   perdia a lista de vista toda vez que ia ler alguém. */
+.caixa-conversas{
+  display:grid;
+  grid-template-columns:340px 1fr;
+  gap:0;
+  margin-top:14px;
+  height:calc(100vh - 230px - var(--barra-altura, 0px));
+  min-height:460px;
+  border:1px solid var(--borda);
+  border-radius:var(--raio-g);
+  background:var(--painel);
+  overflow:hidden;
+}
+
+.conversas-barra{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  border-right:1px solid var(--borda);
+  background:var(--painel-2);
+}
+
+/* Os filtros encolhem aqui: na coluna estreita cada seletor cai numa
+   linha, e três linhas de seletor comem a lista que importa. */
+.conversas-filtros{padding:10px 12px;border-bottom:1px solid var(--borda);}
+.conversas-filtros .filtros{margin-top:0;gap:6px;}
+.conversas-filtros .filtro-busca{flex:1 1 100%;max-width:none;}
+.conversas-filtros select{flex:1 1 calc(50% - 3px);width:auto;min-width:0;font-size:var(--t-sm);}
+
+.conversas-rolagem{flex:1;overflow-y:auto;}
+
+.item-conversa{
+  display:flex;
+  gap:10px;
+  width:100%;
+  padding:10px 12px;
+  background:none;
+  border:none;
+  border-bottom:1px solid var(--borda);
+  text-align:left;
+  cursor:pointer;
+  color:inherit;
+  font:inherit;
+}
+.item-conversa:hover{background:var(--painel);}
+.item-conversa.ativa{background:var(--painel);box-shadow:inset 3px 0 0 var(--acento);}
+
+.avatar-conversa{
+  flex:0 0 auto;
+  width:38px;
+  height:38px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:var(--acento-fraco);
+  color:var(--acento);
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.3px;
+}
+.avatar-conversa.ig{background:#3B1D4A;color:#E879F9;}
+
+.item-corpo{display:flex;flex-direction:column;gap:2px;min-width:0;flex:1;}
+.item-linha{display:flex;align-items:baseline;gap:8px;}
+.item-nome{
+  flex:1;
+  min-width:0;
+  font-size:var(--t-base);
+  font-weight:500;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+.item-hora{flex:0 0 auto;font-size:11.5px;color:var(--apagado);}
+
+/* Uma linha só, com reticências. Prévia que quebra em duas empurra a
+   lista para baixo e some com metade das conversas da tela. */
+.item-previa{
+  font-size:var(--t-sm);
+  color:var(--apagado);
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+}
+
+.item-marcas{display:flex;flex-wrap:wrap;gap:4px;}
+.item-marcas:empty{display:none;}
+.item-marcas .etiqueta{font-size:10.5px;padding:1px 6px;}
+
+.conversas-aberta{
+  display:flex;
+  flex-direction:column;
+  min-width:0;
+  overflow-y:auto;
+  padding:14px 18px 18px;
+}
+.conversas-nenhuma{margin:auto;}
+
+.conversas-topo{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  padding-bottom:12px;
+  margin-bottom:4px;
+  border-bottom:1px solid var(--borda);
+}
+.conversas-topo h2{margin:0;font-size:16px;}
+.conversas-topo p{margin:3px 0 0;font-size:var(--t-sm);color:var(--apagado);}
+
+/* Aqui a conversa tem a altura da coluna, não 52vh: a coluna já rola
+   sozinha e dois limites de altura brigando deixam a caixa de escrever
+   fora da tela. */
+.conversas-aberta .conversa-painel{flex:1;min-height:0;}
+.conversas-aberta .conversa-painel .conversa{max-height:none;flex:1;}
+
+/* Abaixo de 900px não cabem as duas colunas. A lista vira a tela
+   inteira e a conversa aparece embaixo dela, empilhada: faixa que rola
+   de lado em celular esconde justamente o que a pessoa foi ler. */
+@media (max-width:900px){
+  .caixa-conversas{
+    grid-template-columns:1fr;
+    height:auto;
+    min-height:0;
+  }
+  .conversas-barra{border-right:none;border-bottom:1px solid var(--borda);}
+  .conversas-rolagem{max-height:46vh;}
+  .conversas-aberta{overflow:visible;}
+}
+
+/* ---- Mensagem sem resposta ----------------------------------------------
+   A bolinha com o número é a única marca de urgência fora da barra da janela
+   de 24h, e usa a mesma escala de calor: quente é tempo passando, não ação.
+   Fundo fraco em vez de cheio para não virar segunda camada de caixa em cima
+   do cartão. */
+.pendente{
+  display:inline-block;
+  flex:none;
+  min-width:18px;
+  padding:1px 5px;
+  border:1px solid var(--erro);
+  border-radius:999px;
+  background:var(--erro-fraco);
+  color:var(--erro);
+  font:var(--peso-forte) var(--t-xs)/1.45 var(--mono);
+  text-align:center;
+  vertical-align:middle;
+}
+
+/* A frase inteira, embaixo do nome, para quem está lendo e não contando. */
+.quadro-pendente,.fila-pendente{
+  margin:4px 0 0;
+  font-size:var(--t-xs);
+  font-weight:var(--peso-forte);
+  color:var(--erro);
+}
+
+/* O cartão que tem gente esperando resposta se distingue de longe, pela
+   borda. Sem fundo colorido: a coluna inteira acesa não diz mais nada. */
+.quadro-cartao[data-pendente="sim"]{border-color:var(--erro);}
+
+.selo-espera{
+  display:inline-block;
+  padding:1px 7px;
+  border:1px solid var(--alerta);
+  border-radius:999px;
+  background:var(--alerta-fraco);
+  color:var(--alerta);
+  font-size:var(--t-xs);
+  font-weight:var(--peso-forte);
+}
+
+.aviso.sem-resposta{margin-bottom:10px;}
+
+
+/* ---- Não lidas ---------------------------------------------------------
+   Mora aqui, e não no CSS da tela de atendimento, porque a bolinha também
+   aparece nos cartões do quadro, que carrega sem aquele arquivo.
+   O verde é o --ok do tema, que tem par no claro e no escuro. */
+.at-marca {
+  display: flex;
+  flex: none;
+  align-items: center;
+  align-self: center;
+}
+.nao-lido {
+  display: grid;
+  place-items: center;
+  min-width: 19px;
+  height: 19px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--ok);
+  color: var(--cartao);
+  font: 700 11px/1 var(--mono);
+  font-variant-numeric: tabular-nums;
+}

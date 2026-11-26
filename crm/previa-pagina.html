@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex, nofollow" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <title>Prévia da página</title>
+    <style>
+      html, body { margin: 0; height: 100%; background: #0b1220; color: #e6ebf5; }
+      body { font-family: ui-sans-serif, system-ui, sans-serif; display: flex; flex-direction: column; }
+      .faixa {
+        flex: none; display: flex; align-items: center; gap: 10px;
+        padding: 8px 14px; font-size: 13px; background: #111a2e;
+        border-bottom: 1px solid rgba(255, 255, 255, .08);
+      }
+      .ponto { width: 8px; height: 8px; border-radius: 50%; background: #f5b544; }
+      iframe { flex: 1; width: 100%; border: 0; background: #fff; }
+      .recado { padding: 24px; line-height: 1.6; max-width: 60ch; }
+    </style>
+  </head>
+  <body>
+    <div class="faixa">
+      <span class="ponto" aria-hidden="true"></span>
+      <strong>Prévia em modo de teste.</strong>
+      <span>Nada sai desta aba: nenhum lead, nenhuma mensagem de WhatsApp e nenhuma conversão.</span>
+    </div>
+    <div id="recado" class="recado">Esperando o conteúdo da aba do painel…</div>
+    <script type="module" src="/src/previaPagina.js"></script>
+  </body>
+</html>
