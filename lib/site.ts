@@ -315,6 +315,16 @@ export const SHEET_ENDPOINT_DIAGNOSTICO_SOCIAL_MEDIA =
   process.env.NEXT_PUBLIC_SHEET_ENDPOINT_DIAGNOSTICO_SOCIAL_MEDIA ??
   "https://script.google.com/macros/s/AKfycbxJH9I5FC4H1U4nvJpVwWnI5hif6U0BHjGcsdqL_yn5nuGUKluj4ad5Rdf2taxFNN0/exec";
 
+/**
+ * Entrada de leads do CRM da Ousadia (`crm/`, em crm.ousadiamarketing.com.br).
+ * Todo formulário manda uma cópia para cá, em paralelo com as planilhas, e o
+ * CRM cria o negócio no funil "Alunos" com a origem certa. Envio em segundo
+ * plano e sem esperar resposta (ver `lib/crm.ts`). Vazio = desliga.
+ */
+export const CRM_LEAD_ENDPOINT =
+  process.env.NEXT_PUBLIC_CRM_LEAD_ENDPOINT ??
+  "https://crm.ousadiamarketing.com.br/api/lead";
+
 export const SOCIAL = {
   instagram: "https://instagram.com/ousadiamkt",
   tiktok: "https://www.tiktok.com/@ousadiamkt",

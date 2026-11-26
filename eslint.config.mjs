@@ -14,6 +14,8 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     // Materiais de referência das versões antigas — não são código do projeto.
     "legado/**",
+    // O CRM é um projeto separado (Vite + Node), com lint e testes próprios.
+    "crm/**",
   ]),
 ]);
 

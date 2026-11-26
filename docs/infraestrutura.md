@@ -12,6 +12,7 @@ Estado em 26/11/2026. Sem senhas nem chaves: só endereços e procedimentos.
 | DNS | Registro.br (zona avançada). Domínio `ousadiamarketing.com.br` |
 | E-mail | Hostinger Email (`contato@ousadiamarketing.com.br`). Continua na Hostinger |
 | Comunidade | `comunidade.ousadiamarketing.com.br`, CNAME para a Vercel. Não mexer |
+| CRM | `crm.ousadiamarketing.com.br`, na mesma VPS: Node em `/opt/ousadia-crm` (serviço `ousadia-crm`), Postgres local (banco `crm`) + PostgREST. Código em `crm/` |
 
 O site é **exportação estática** (`output: "export"` em `next.config.ts`): o
 `next build` gera `out/` e não há Node rodando no servidor.
@@ -42,6 +43,34 @@ invalida", cole o arquivo inteiro de novo, de `BEGIN` a `END`. No log da VPS,
 `journalctl -u ssh` mostra `Accepted publickey for deploy` quando funciona e
 `Connection closed by authenticating user deploy ... [preauth]` quando a chave
 é recusada.
+
+## CRM
+
+Projeto separado em `crm/` (React + Vite + Node, não é Next). Instalação na
+VPS, passo a passo: `crm/README.md`, seção "Instalar na VPS".
+
+- Deploy próprio: `.github/workflows/deploy-crm.yml`, só quando muda algo em
+  `crm/`. Fica desligado até existir a variável de repositório
+  `CRM_DEPLOY_ATIVO = true`. O deploy do site ignora mudanças em `crm/`.
+- Ambiente e segredos: `/etc/ousadia-crm.env` (gerado por
+  `crm/scripts/gerar-ambiente.js`). A `CHAVE_CIFRA` de lá não pode se perder.
+- Código no ar: `/opt/ousadia-crm/atual` (atalho para
+  `/opt/ousadia-crm/releases/<versao>`). Voltar versão:
+  `sudo -u deploy sh /opt/ousadia-crm/atual/infra/voltar.sh`.
+- Banco: Postgres 16 local, banco `crm`, acessado pelo PostgREST em
+  `127.0.0.1:3000` (o Caddy expõe só em `127.0.0.1:3102/rest/v1`). Backup
+  diário às 3h: 7 dias em `/var/backups/crm` e cópia cifrada (age) no
+  Cloudflare R2. A chave privada do backup fica fora da VPS.
+- Relógio do CRM: fila de tarefas dentro do próprio processo (automações de
+  tempo, coleta da Meta, vendas e comunidade). Saúde em
+  `https://crm.ousadiamarketing.com.br/api/saude` (monitor externo).
+- Integrações que chamam o CRM: HeroSpark (`/api/vendas`, webhook de venda) e
+  comunidade (`/api/comunidade`, Database Webhooks do Supabase dela). Chaves
+  em `/etc/ousadia-crm.env` (`VENDAS_CHAVE`, `COMUNIDADE_CHAVE`).
+- Formulários do site mandam cópia do lead para
+  `https://crm.ousadiamarketing.com.br/api/lead` (`lib/crm.ts`), em paralelo
+  com as planilhas.
+- WhatsApp: ainda sem número. Tudo pronto e desligado (ver `crm/README.md`).
 
 ## Acesso à VPS
 
@@ -92,6 +121,15 @@ Se mexer direto na VPS, copie o resultado de volta para `docs/Caddyfile`.
       terminava no commit `f7ae523`, e o site antigo se reconstrói da `main`).
 - [x] Guardar uma cópia do Caddyfile no repositório (`docs/Caddyfile`).
 - [ ] Tirar snapshot da VPS depois do primeiro deploy bem-sucedido.
+- [ ] CRM: criar o registro `A` de `crm` no Registro.br e seguir
+      `crm/README.md` ("Instalar na VPS"). Depois, `CRM_DEPLOY_ATIVO = true`.
+- [ ] CRM: cadastrar Jackson, Juh e Thascila (gestores); preencher preço,
+      dono e formulários dos produtos; revisar a persona da IA.
+- [ ] CRM: gerar a chave do backup (age) no PC, criar o bucket R2 e o monitor
+      externo (`crm/README.md`, passo 10).
+- [ ] CRM: webhook da HeroSpark + venda de teste; webhooks do Supabase da
+      comunidade (`crm/README.md`, seções HeroSpark e Comunidade).
+- [ ] CRM: WhatsApp, quando houver número (ver `crm/README.md`).
 - [ ] Migrar o site do Instituto Xingu (projeto separado, em
       `D:\CLAUDE\CLIENTES\instituto-xingu`) para a mesma VPS: outra pasta em
       `/var/www/` e outro bloco no Caddyfile. O e-mail do Xingu foi descartado.

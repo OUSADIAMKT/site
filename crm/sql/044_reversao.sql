@@ -1,0 +1,12 @@
+-- Reversão da 044.
+--
+-- Desfaz a trava. O código volta a poder criar dois negócios para a mesma
+-- conversa quando duas mensagens chegam juntas.
+--
+-- NÃO desfaz a limpeza do item 1. Os negócios duplicados foram apagados, e com
+-- eles o histórico que cascateou; isto não volta por SQL. O que existe é o
+-- retrato de antes, salvo em `docs/044-negocios-duplicados.csv` na hora de
+-- aplicar: uma linha por negócio apagado, com a conversa, o título e a data.
+-- Recriar é trabalho manual de propósito, porque desfazer uma limpeza nunca
+-- deveria ser um comando solto.
+drop index if exists crm_negocios_conversa_automatica;

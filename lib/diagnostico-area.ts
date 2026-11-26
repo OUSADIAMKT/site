@@ -22,6 +22,7 @@
  * gravado (LGPD, art. 14).
  */
 
+import { enviarAoCrm } from "@/lib/crm";
 import { POLITICA_VERSAO } from "@/lib/site";
 
 export type OpcaoArea = {
@@ -293,6 +294,7 @@ export function salvarNaPlanilhaArea(
   endpoint: string,
   payload: Record<string, string>,
 ): boolean {
+  enviarAoCrm(`diagnostico-${payload.teste || "area"}`, payload);
   if (!endpoint) return false;
   const corpo = JSON.stringify(payload);
   try {

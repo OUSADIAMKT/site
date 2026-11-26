@@ -32,5 +32,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules", "legado"]
+  "exclude": ["node_modules", "legado", "crm"]
 }

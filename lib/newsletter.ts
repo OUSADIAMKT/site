@@ -1,3 +1,4 @@
+import { enviarAoCrm } from "@/lib/crm";
 import { NEWSLETTER_ENDPOINT, POLITICA_VERSAO } from "@/lib/site";
 
 /**
@@ -10,6 +11,7 @@ import { NEWSLETTER_ENDPOINT, POLITICA_VERSAO } from "@/lib/site";
  * sem beacon. Confirmação real fica pela planilha ou pelo e-mail de aviso.
  */
 export function inscreverNewsletter(email: string): boolean {
+  enviarAoCrm("newsletter", { email });
   if (!NEWSLETTER_ENDPOINT) return false;
   const corpo = JSON.stringify({
     email,

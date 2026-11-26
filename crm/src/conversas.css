@@ -1,0 +1,437 @@
+.signature-conversas {
+  min-width: 0;
+  display: grid;
+  gap: 8px;
+}
+
+@media (max-width: 820px) {
+  .conversas-shell > .navegacao {
+    width: min(320px, calc(100vw - 40px));
+    padding-block: env(safe-area-inset-top) env(safe-area-inset-bottom);
+    visibility: hidden;
+    transition: transform .2s ease, visibility .2s;
+  }
+  .conversas-shell > .navegacao[data-aberta="1"] { visibility: visible; }
+  .conversas-shell .nav-rolagem { min-height: 0; overscroll-behavior: contain; }
+  .conversas-shell .nav-topo, .conversas-shell .nav-seletores { flex-shrink: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .conversas-shell > .navegacao { transition: none; }
+}
+
+.atendimento {
+  display: grid;
+  grid-template-columns: clamp(230px, 28%, 290px) minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  height: max(500px, calc(100dvh - 154px));
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-g);
+  background: var(--cartao);
+}
+
+.atendimento[data-detalhes="true"] {
+  grid-template-columns: clamp(230px, 23%, 280px) minmax(0, 1fr) clamp(250px, 23%, 290px);
+}
+
+.at-lista, .at-chat, .at-chat-corpo {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.at-lista { border-inline-end: 1px solid var(--linha); }
+.at-lista-topo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+  padding: 10px;
+  border-bottom: 1px solid var(--linha);
+}
+
+.at-lista-topo .busca-pilula { max-width: none; min-width: 0; }
+.at-lista-topo input { min-width: 0; }
+/* As abas quebram linha em vez de rolar para o lado.
+   Rolagem horizontal sem barra visível (era o que estava aqui) esconde a
+   última aba: a pessoa vê "IA" cortada na borda e conclui que a tela está
+   quebrada, porque nada diz que dá para arrastar. Em duas linhas, todas
+   aparecem, em qualquer largura e nos dois temas. */
+.at-filtros {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  min-width: 0;
+  padding-block: 2px;
+}
+.at-filtros button {
+  flex-shrink: 0;
+  white-space: nowrap;
+  min-height: 32px;
+  padding: 4px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--raio);
+  background: var(--superficie2);
+  color: var(--corpo);
+  font: inherit;
+  font-size: var(--t-xs);
+  cursor: pointer;
+}
+.at-filtros button:focus-visible { outline: 2px solid var(--acento); outline-offset: -2px; }
+.at-filtros button:disabled { color: var(--sutil); cursor: default; }
+.at-filtros button[aria-pressed="true"] {
+  border-color: var(--linha-forte);
+  background: var(--marca-suave);
+  color: var(--tinta);
+  font-weight: 600;
+}
+.at-filtros button span { font-variant-numeric: tabular-nums; }
+.at-canais {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: 10px;
+  color: var(--sutil);
+  font-size: var(--t-sm);
+}
+.at-canais select { min-width: 0; min-height: 34px; }
+
+.at-rolagem, .at-lead-corpo {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  overscroll-behavior: contain;
+  scrollbar-gutter: stable;
+}
+.at-rolagem { padding: 5px; }
+.at-rolagem > .nota { padding: 8px; overflow-wrap: anywhere; }
+.at-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  border-radius: var(--raio);
+  background: none;
+  color: var(--tinta);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+.at-item:hover { background: var(--superficie2); }
+.at-item.ativa { background: var(--marca-suave); }
+.at-item:focus-visible { outline: 2px solid var(--acento); outline-offset: -2px; }
+.at-avatar {
+  position: relative;
+  display: grid;
+  place-items: center;
+  flex: none;
+  width: 32px;
+  height: 32px;
+  border: 1px solid var(--linha);
+  border-radius: 50%;
+  background: var(--superficie2);
+  color: var(--tinta);
+  font: 500 12px/1 var(--mono);
+}
+.at-avatar .canal {
+  position: absolute;
+  inset: auto -3px -3px auto;
+  display: grid;
+  place-items: center;
+  width: 17px;
+  height: 17px;
+  background: var(--cartao);
+  border: 1px solid var(--linha-forte);
+  border-radius: 50%;
+  color: var(--acento);
+}
+.at-corpo { display: grid; flex: 1; min-width: 0; gap: 3px; }
+.at-linha { display: flex; align-items: baseline; justify-content: space-between; gap: 4px 8px; flex-wrap: wrap; }
+.at-nome { min-width: 0; flex: 1 1 7ch; overflow-wrap: anywhere; font-size: var(--t-base); }
+.at-hora { flex: none; color: var(--sutil); font: 400 11px/1 var(--mono); }
+.at-previa {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+  color: var(--sutil);
+  font-size: var(--t-sm);
+}
+.at-fichas { display: flex; flex-wrap: wrap; gap: 4px; }
+.at-fichas:empty { display: none; }
+.signature-conversas .ficha { white-space: normal; overflow-wrap: anywhere; line-height: 1.35; }
+
+.at-chat { background: var(--papel); border-radius: inherit; }
+.at-chat-topo, .at-lead-topo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--linha);
+  background: var(--cartao);
+}
+.at-chat-topo { flex: none; padding-block: 6px; }
+.at-chat-identidade { flex: 1 1 12ch; min-width: 0; }
+.at-chat-topo h2, .at-lead-topo h2 { margin: 0; font-size: var(--t-md); color: var(--tinta); }
+.at-chat-topo p { margin: 2px 0 0; color: var(--sutil); font-size: var(--t-sm); line-height: 1.25; }
+.at-chat-topo h2, .at-chat-topo p { overflow-wrap: anywhere; }
+.at-detalhes-acao, .at-voltar, .at-lead-topo button { flex: none; min-height: 40px; }
+.at-detalhes-acao[aria-expanded="true"] { background: var(--marca-suave); }
+.at-chat-corpo {
+  flex: 1;
+  padding: 8px 12px;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+.at-chat-corpo > .conversa-painel { flex: 1; min-height: 0; gap: 6px; }
+.at-chat-corpo .conversa-painel > .conversa {
+  flex: 1 1 0;
+  min-height: 80px;
+  max-height: none;
+  overflow: auto;
+  overscroll-behavior: contain;
+  gap: 7px;
+  padding: 6px;
+}
+.at-chat-corpo .balao, .at-chat-corpo .acao-ia, .at-chat-corpo .anexo {
+  min-width: 0;
+  flex: none;
+  max-width: min(88%, 680px);
+  overflow-wrap: anywhere;
+}
+.at-chat-corpo .anexo img, .at-chat-corpo .anexo video { max-width: min(280px, 100%); object-fit: contain; }
+.at-chat-corpo .anexo-botao { max-width: 100%; height: auto; min-height: 36px; text-align: left; }
+.at-chat-corpo .acoes { display: flex; flex-wrap: wrap; gap: 5px; min-width: 0; }
+.at-chat-corpo .acoes:empty { display: none; }
+.at-chat-corpo .acoes .btn { max-width: 100%; white-space: normal; overflow-wrap: anywhere; }
+.at-chat-corpo > .conversa-painel > .acoes { flex: none; }
+.at-chat-corpo .acoes .btn { height: auto; min-height: 36px; padding: 4px 11px; }
+.at-aviso-ia {
+  flex: none;
+  padding: 3px 9px;
+  background: var(--marca-suave);
+  color: var(--tinta);
+  border-radius: var(--raio);
+  font-size: var(--t-xs);
+}
+.at-aviso-ia summary { padding-block: 4px; cursor: pointer; }
+.at-aviso-ia p { margin: 0 0 5px; overflow-wrap: anywhere; }
+.at-chat-corpo .campo { min-width: 0; }
+.at-chat-corpo .at-compor {
+  flex: none;
+  align-items: flex-end;
+  gap: 4px;
+  margin: 0;
+  padding: 3px 5px;
+  border: 1px solid var(--linha-forte);
+  border-radius: 22px;
+}
+.at-chat-corpo .at-compor:focus-within { border-color: var(--acento); }
+.at-chat-corpo .at-compor textarea {
+  min-width: 0;
+  width: 0;
+  min-height: 40px;
+  max-height: min(6.6em, max(40px, 23vh), max(40px, calc(var(--at-viewport, 100dvh) * .23)));
+  field-sizing: content;
+  overflow: auto;
+  overflow-wrap: anywhere;
+  padding: 9px 9px;
+  background: transparent;
+  color: var(--tinta);
+  font: inherit;
+  font-size: var(--t-base);
+  line-height: 1.4;
+}
+.at-enviar {
+  flex: none;
+  display: grid;
+  place-items: center;
+  min-height: 44px;
+  padding: 0 13px;
+  border: 1px solid transparent;
+  border-radius: 18px;
+  background: var(--acento);
+  color: var(--btn-texto);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.at-enviar:hover:not(:disabled) { filter: brightness(.93); }
+.at-enviar:focus-visible { outline: 2px solid var(--acento); }
+.at-enviar:disabled {
+  border-color: var(--linha);
+  background: var(--superficie2);
+  color: var(--sutil);
+  cursor: default;
+}
+.at-nenhuma { margin: auto; padding: 16px; }
+
+.at-lead {
+  padding: 0;
+  border: 0;
+  background: var(--cartao);
+  color: var(--tinta);
+  overflow: visible;
+}
+.at-lead[open] { display: flex; flex-direction: column; }
+.at-lead[data-gaveta="false"] {
+  position: static;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  min-height: 0;
+  margin: 0;
+  border-inline-start: 1px solid var(--linha);
+  border-radius: inherit;
+}
+.at-lead[data-gaveta="true"] {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(420px, 100%);
+  height: 100dvh;
+  max-width: 100%;
+  max-height: 100dvh;
+  margin: 0;
+  border-inline-start: 1px solid var(--linha);
+}
+.at-lead::backdrop { background: var(--fundo-modal, rgba(4, 12, 24, .55)); }
+.at-lead-topo { flex: none; justify-content: space-between; }
+.at-bloco { display: grid; gap: 10px; min-width: 0; padding: 14px; border-bottom: 1px solid var(--linha); }
+.at-bloco:last-child { border-bottom: 0; }
+.at-bloco h3 { margin: 0; color: var(--tinta); font-size: var(--t-sm); }
+.at-bloco p, .at-bloco small, .at-bloco strong { overflow-wrap: anywhere; }
+.at-dados { display: grid; grid-template-columns: minmax(62px, auto) minmax(0, 1fr); gap: 7px 12px; margin: 0; font-size: var(--t-sm); }
+.at-dados dt { color: var(--sutil); }
+.at-dados dd { margin: 0; overflow-wrap: anywhere; }
+.at-negocio { display: grid; gap: 8px; min-width: 0; padding: 10px; border: 1px solid var(--linha); border-radius: var(--raio); background: var(--papel); }
+.at-negocio-topo { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 5px 10px; }
+.at-negocio-topo strong { min-width: 0; }
+.at-negocio-topo span { font: 400 12px/1 var(--mono); }
+.at-bloco select, .at-bloco input { width: 100%; min-width: 0; min-height: 36px; }
+.at-negocio .link-botao { display: flex; align-items: center; gap: 6px; }
+
+.atendimento[data-compacto="true"] {
+  grid-template-columns: minmax(0, 1fr);
+  height: max(360px, calc(var(--at-viewport, 100dvh) - 135px));
+}
+.atendimento[data-compacto="true"][data-chat="true"] {
+  height: max(235px, calc(var(--at-viewport, 100dvh) - 106px));
+}
+.atendimento[data-compacto="true"] .at-lista { border-inline-end: 0; }
+.atendimento[data-compacto="true"][data-chat="true"] .at-lista,
+.atendimento[data-compacto="true"][data-chat="false"] .at-chat { display: none; }
+
+@media (max-width: 520px) {
+  .at-lead[data-gaveta="true"] { width: 100%; border: 0; }
+  .at-chat-topo, .at-chat-corpo { padding-inline: 9px; }
+  .at-chat-topo { gap: 7px; }
+  .at-chat-identidade { flex-basis: 0; }
+  .at-chat-topo h2 { font-size: var(--t-base); line-height: 1.2; }
+  .at-chat-topo p { font-size: var(--t-xs); }
+  .at-chat-topo .btn { width: 40px; padding-inline: 0; }
+  .at-detalhes-acao span { display: none; }
+  .at-filtros button, .at-canais select { min-height: 36px; }
+  .at-chat-corpo .at-compor textarea { font-size: 16px; }
+}
+
+/* O campo de escrever virou um bloco com ficha de anexo e quadro de emojis por
+   cima. Na gaveta ele não pode esticar: quem estica é o histórico. */
+.at-chat-corpo > .conversa-painel > .compor-tudo { flex: none; min-width: 0; }
+.at-chat-corpo .compor-ficha, .at-chat-corpo .compor-emojis { max-width: 100%; }
+.at-chat-corpo .compor-emojis { max-height: min(240px, calc(var(--at-viewport, 100dvh) * .34)); }
+.at-chat-corpo .anexo-vazio { width: min(200px, 100%); }
+
+/* ---------- modelos aprovados, dentro da conversa ----------
+   Uma camada de caixa só: a lista mora no painel da conversa, não numa
+   segunda moldura por cima dele. O botão de abrir fica discreto com a janela
+   aberta e vira ação cheia quando ela fecha, porque aí é a única saída. */
+
+.modelos-abrir { align-self: flex-start; margin: 0 0 8px; }
+
+.modelos {
+  display: flex; flex-direction: column; gap: 10px;
+  border: 1px solid var(--borda); border-radius: var(--raio);
+  background: var(--painel); padding: 12px; margin: 0 0 10px;
+  max-height: min(58vh, 520px); overflow: auto;
+}
+.modelos-topo { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.modelos-topo strong { font-size: var(--t-sm); letter-spacing: -.005em; }
+
+.modelos-busca { display: flex; align-items: center; gap: 8px; color: var(--apagado); }
+.modelos-busca input { flex: 1; }
+
+.modelos-lista { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+
+.modelos-item {
+  display: flex; flex-direction: column; gap: 4px; width: 100%; text-align: left;
+  background: var(--campo); border: 1px solid var(--borda); border-radius: var(--raio);
+  padding: 9px 11px; cursor: pointer; color: var(--texto);
+  transition: border-color .12s ease;
+}
+.modelos-item:hover { border-color: var(--acento); }
+.modelos-item:disabled { opacity: .45; cursor: default; }
+
+.modelos-nome { font-family: var(--mono); font-size: var(--t-sm); font-weight: var(--peso-forte); }
+.modelos-corpo {
+  font-size: var(--t-xs); color: var(--texto-2); line-height: 1.45;
+  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+}
+.modelos-ficha { font-size: var(--t-xs); color: var(--apagado); }
+
+.modelos-escolhido { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; }
+.modelos-escolhido .campo, .modelos-escolhido .btn { align-self: stretch; }
+.modelos-escolhido .btn { justify-content: center; }
+
+.modelos-rotulo {
+  margin: 0; font-size: var(--t-xs); color: var(--apagado);
+  text-transform: uppercase; letter-spacing: .06em;
+}
+.modelos-previa {
+  margin: 0; align-self: stretch; white-space: pre-wrap;
+  background: var(--acento-fraco); border-left: 3px solid var(--acento);
+  border-radius: var(--raio); padding: 10px 12px; line-height: 1.5;
+}
+.modelos-rodape { margin: 0; font-size: var(--t-xs); color: var(--apagado); }
+.modelos-nota { margin: 0; font-size: var(--t-xs); color: var(--apagado); line-height: 1.45; }
+
+/* A lista de atendimento tem tokens próprios, mas a bolinha de mensagem sem
+   resposta é a mesma do resto do painel: quem atende troca de tela o dia
+   inteiro e não deveria reaprender o símbolo em cada uma. */
+.at-item[data-pendente="sim"] .at-nome { font-weight: var(--peso-forte); }
+.at-item[data-pendente="sim"] .at-previa { color: var(--tinta); }
+.at-linha .pendente { align-self: center; }
+
+
+/* ---- Não lidas, no padrão do WhatsApp ----------------------------------
+   Negrito no nome, na prévia e no horário, fundo um tom acima e a bolinha
+   verde com a conta. O verde é o mesmo --ok do resto do painel, que já tem
+   par no tema claro. */
+.at-item[data-naolido="sim"] { background: var(--superficie2); }
+.at-item[data-naolido="sim"] .at-nome { font-weight: 700; color: var(--tinta); }
+.at-item[data-naolido="sim"] .at-previa { color: var(--tinta); font-weight: 600; }
+.at-item[data-naolido="sim"] .at-hora { color: var(--ok); font-weight: 700; }
+.at-item[data-naolido="sim"].ativa { background: var(--marca-suave); }
+
+
+
+/* A busca e o ícone de nova conversa na mesma linha, como no WhatsApp: o botão
+   fica onde a pessoa já está olhando quando procura alguém e não acha. */
+.at-busca-linha {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+.at-busca-linha .busca-pilula { flex: 1; min-width: 0; }
+.at-nova { flex: none; }
+
+.form-nova-conversa {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  min-width: 0;
+}

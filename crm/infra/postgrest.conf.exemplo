@@ -1,0 +1,18 @@
+# /etc/postgrest/crm.conf  (permissão 600, dono postgrest)
+# Copie este modelo e troque os dois valores marcados. Nada aqui vai para o git.
+
+db-uri = "postgres://authenticator:TROCAR_SENHA_DO_AUTHENTICATOR@127.0.0.1:5432/crm"
+db-schemas = "public"
+db-anon-role = "anon"
+db-extra-search-path = "extensions"
+
+# O mesmo segredo que assina a SUPABASE_SECRET_KEY do CRM: está em
+# POSTGREST_JWT_SECRET, no /etc/ousadia-crm.env (gerado por
+# scripts/gerar-ambiente.js). Mínimo 32 caracteres.
+jwt-secret = "TROCAR_SEGREDO_JWT_DO_POSTGREST"
+
+server-host = "127.0.0.1"
+server-port = 3000
+
+# Sem isto o PostgREST demora a ver tabela nova depois de uma migração.
+db-channel-enabled = true
