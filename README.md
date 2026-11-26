@@ -1,8 +1,8 @@
 # ousadiamarketing.com.br
 
 Site da Ousadia Marketing, a Agência Escola de Marketing do Norte do Brasil.
-Next.js 16 (App Router) exportado como **site estático** e publicado na
-Hostinger.
+Next.js 16 (App Router) exportado como **site estático** e publicado numa
+VPS da Hostinger (ver `docs/infraestrutura.md`).
 
 ## Rodar no seu computador
 
@@ -52,14 +52,8 @@ nada de senha.
 
 ## Publicar
 
-```bash
-npm run deploy           # builda e grava out/ como um commit na branch deploy
-git push origin deploy   # manda pro GitHub
-```
+Automático: todo merge na `main` roda `.github/workflows/deploy.yml`, que gera
+o site e envia `out/` para a VPS. Detalhes, acesso e pendências em
+[`docs/infraestrutura.md`](docs/infraestrutura.md).
 
-Depois, no painel da Hostinger: **Implante de GitHub** > branch `deploy` >
-**Implantar**. A branch `main` guarda só o código; `deploy` guarda só o site
-pronto. O `deploy` recusa árvore com alteração não commitada.
-
-`public/.htaccess` vai junto: página 404, cache, redirecionamento de `www` e
-cabeçalhos de segurança.
+Não use mais `npm run deploy` nem a branch `deploy`: eram da hospedagem antiga.
