@@ -8,6 +8,9 @@
 -- ficam todas resolvidas quando o arquivo termina.
 set check_function_bodies = off;
 
+-- Vale nesta sessão; para as próximas, o 00-base.sql grava no banco.
+set search_path = public, extensions;
+
 -- 0. extensoes de que o esquema depende
 -- (um projeto Supabase novo ja traz as duas; estas linhas so garantem)
 create extension if not exists pgcrypto with schema extensions;

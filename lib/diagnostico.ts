@@ -1,3 +1,4 @@
+import { enviarAoCrm } from "@/lib/crm";
 import { CURSOS, SHEET_ENDPOINT_DIAGNOSTICO } from "@/lib/site";
 
 /**
@@ -946,6 +947,7 @@ export function payloadPlanilha(
 export function salvarNaPlanilha(
   payload: ReturnType<typeof payloadPlanilha>,
 ): boolean {
+  enviarAoCrm("diagnostico", payload);
   if (!SHEET_ENDPOINT_DIAGNOSTICO) return false;
   const corpo = JSON.stringify(payload);
 

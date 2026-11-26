@@ -6,54 +6,52 @@
 // remover, e o que a tela precisa mostrar de DNS. Nem rota nem tela conhecem
 // esse detalhe, e o teste de fronteira cobra isso lendo o código delas.
 //
-// Hoje a implementação chama a API da Vercel, que é onde a produção está:
-// adicionar o domínio ao projeto já liga o SSL automático para aquele
-// hostname. O CRM vai migrar para VPS, e lá o Caddy com on-demand TLS
-// emite certificado por domínio sozinho e de graça. Quando isso acontecer,
-// troca-se este arquivo, e só ele: a tabela `pagina_dominios` e a resolução
-// pelo header Host não dependem de onde a aplicação roda.
+// Na VPS quem emite o certificado é o servidor web, sozinho, na primeira
+// visita a um domínio novo (TLS sob demanda). Antes de emitir ele pergunta ao
+// CRM se aquele domínio está cadastrado (ver `servidor.js`, porta interna), e
+// é isso que impede alguém de apontar um domínio qualquer para o nosso IP e
+// arrancar um certificado em nosso nome. Então aqui não existe chamada a
+// fornecedor nenhum:
 //
-// O que cada função promete, independente de quem hospeda:
+//   registrar(dominio)  confere que o domínio não é nosso e devolve o registro
+//                       de DNS que o cliente precisa criar (A para o IP).
+//   estado(dominio)     pergunta ao DNS público se o domínio já aponta para cá.
+//   remover(dominio)    nada a fazer fora do banco: sem linha na tabela, o
+//                       servidor web para de aceitar o domínio.
+//   hospedagemPronta()  se este servidor sabe o próprio IP público.
+//   comoConfigurar()    a frase que a tela mostra quando não sabe.
 //
-//   registrar(dominio)  faz o domínio ser atendido com certificado, e devolve
-//                       os registros de DNS que o cliente precisa criar.
-//   estado(dominio)     diz se já está verificado e bem configurado.
-//   remover(dominio)    para de atender aquele domínio.
-//   hospedagemPronta()  se este servidor tem credencial para fazer isso.
-//   comoConfigurar()    a frase que a tela mostra quando não tem.
-//
-// A credencial de hoje administra a CONTA INTEIRA da Vercel. Ela vive em
-// variável de ambiente, nunca no código e nunca no pacote do painel, e quem
-// chama estas funções é só o handler do operador. Se um dia uma dessas
-// chamadas for exposta a atendente, o estrago não é a landing page: é a conta.
-//
-// Nada aqui chuta registro de DNS. O que a tela mostra para o cliente criar é
-// exatamente o que a hospedagem respondeu, porque apex pede A, subdomínio
-// pede CNAME, e os valores mudam sem aviso.
+// Nada aqui chuta registro de DNS: o valor é o IP_PUBLICO do ambiente, o mesmo
+// que o registro A de crm.ousadiamarketing.com.br usa.
 
-const BASE = "https://api.vercel.com";
-const LIMITE_MS = 10000;
+const LIMITE_MS = 6000;
 
-function credenciais() {
-  const token = process.env.VERCEL_TOKEN;
-  const projeto = process.env.VERCEL_PROJECT_ID;
-  const equipe = process.env.VERCEL_TEAM_ID || null;
-  return { token, projeto, equipe, pronto: Boolean(token && projeto) };
+// A consulta de DNS vai por HTTPS a um resolvedor público, e não pelo
+// resolvedor da máquina: o da máquina guarda cache, e quem acabou de criar o
+// registro quer ver o resultado agora, não daqui a uma hora.
+const RESOLVEDOR = "https://dns.google/resolve";
+
+function ipPublico() {
+  return String(process.env.IP_PUBLICO || "").trim();
 }
 
-/** Este servidor tem credencial para apontar domínio de cliente? */
+// Os nossos próprios endereços nunca viram landing page de cliente.
+function dominiosDaCasa() {
+  const casa = new Set(["ousadiamarketing.com.br", "www.ousadiamarketing.com.br"]);
+  for (const v of [process.env.PAINEL_BASE_URL, process.env.URL_PUBLICA]) {
+    if (v) casa.add(normalizarDominio(v));
+  }
+  return casa;
+}
+
+/** Este servidor sabe o IP que o cliente precisa apontar? */
 export function hospedagemPronta() {
-  return credenciais().pronto;
+  return Boolean(ipPublico());
 }
 
-/**
- * O que falta, em português, para a tela mostrar.
- *
- * Mora aqui, e não na tela, porque o nome das variáveis muda junto com a
- * hospedagem: na VPS não vai faltar token nenhum.
- */
+/** O que falta, em português, para a tela mostrar. */
 export function comoConfigurar() {
-  return "Faltam as variáveis de ambiente VERCEL_TOKEN e VERCEL_PROJECT_ID neste servidor.";
+  return "Falta a variável de ambiente IP_PUBLICO (o IP da VPS) neste servidor.";
 }
 
 /**
@@ -75,90 +73,70 @@ export function dominioValido(dominio) {
   return /^[a-z0-9]([a-z0-9-]*[a-z0-9])?(\.[a-z0-9]([a-z0-9-]*[a-z0-9])?)+$/.test(String(dominio || ""));
 }
 
-async function chamar(caminho, { metodo = "GET", corpo } = {}) {
-  const { token, equipe, pronto } = credenciais();
-  if (!pronto) {
-    const e = new Error("A integração de domínios não está configurada neste servidor.");
-    e.semConfiguracao = true;
-    throw e;
-  }
+function semConfiguracao() {
+  const e = new Error(comoConfigurar());
+  e.semConfiguracao = true;
+  return e;
+}
 
-  const url = new URL(`${BASE}${caminho}`);
-  if (equipe) url.searchParams.set("teamId", equipe);
+function oQueCriar(dominio, ip) {
+  return [{ tipo: "A", nome: dominio, valor: ip, motivo: "aponte o domínio para o servidor da Ousadia" }];
+}
+
+/** Os IPv4 para onde o domínio aponta hoje, segundo o DNS público. */
+async function enderecos(dominio) {
+  const url = new URL(RESOLVEDOR);
+  url.searchParams.set("name", dominio);
+  url.searchParams.set("type", "A");
 
   let resposta;
   try {
     resposta = await fetch(url, {
-      method: metodo,
-      headers: {
-        Authorization: `Bearer ${token}`,
-        ...(corpo ? { "Content-Type": "application/json" } : {}),
-      },
-      body: corpo ? JSON.stringify(corpo) : undefined,
+      headers: { Accept: "application/dns-json" },
       signal: AbortSignal.timeout(LIMITE_MS),
     });
   } catch (e) {
     const fora = e.name === "TimeoutError" || e.name === "AbortError";
-    throw new Error(fora ? "A hospedagem demorou demais para responder." : `Falha de rede com a hospedagem: ${e.message}`);
+    throw new Error(fora ? "O DNS demorou demais para responder." : `Falha de rede ao consultar o DNS: ${e.message}`);
   }
+  if (!resposta.ok) throw new Error(`O DNS respondeu ${resposta.status}.`);
 
-  const dados = await resposta.json().catch(() => null);
-  if (!resposta.ok) {
-    // A mensagem de quem hospeda é melhor que qualquer uma que eu escreva:
-    // "domain already in use by another project" é exatamente o que a pessoa
-    // precisa ler.
-    const erro = new Error(dados?.error?.message || `A hospedagem respondeu ${resposta.status}.`);
-    erro.status = resposta.status;
-    erro.codigo = dados?.error?.code || null;
-    throw erro;
-  }
-  return dados || {};
+  const dados = await resposta.json().catch(() => ({}));
+  // Status 3 é NXDOMAIN: o domínio não existe ainda. Não é erro, é pendente.
+  return (dados.Answer || []).filter((r) => r.type === 1).map((r) => String(r.data).trim());
 }
 
-/** Passa a atender o domínio, com certificado. Devolve o DNS a criar. */
+/** Passa a atender o domínio. Devolve o DNS a criar. */
 export async function registrar(dominio) {
-  const { projeto } = credenciais();
-  const dados = await chamar(`/v10/projects/${encodeURIComponent(projeto)}/domains`, {
-    metodo: "POST",
-    corpo: { name: dominio },
-  });
-  return leitura(dados);
+  const ip = ipPublico();
+  if (!ip) throw semConfiguracao();
+  if (dominiosDaCasa().has(dominio)) {
+    const e = new Error("esse endereço é da própria Ousadia e não pode virar landing page.");
+    e.status = 409;
+    throw e;
+  }
+
+  // Se o DNS falhar agora, o domínio entra como pendente e a pessoa confere
+  // depois: o cadastro não depende de o cliente já ter criado o registro.
+  const apontados = await enderecos(dominio).catch(() => []);
+  return { dominio, verificado: apontados.includes(ip), verificacao: oQueCriar(dominio, ip) };
 }
 
-/** Pergunta de novo se já está verificado e bem configurado. */
+/** Pergunta de novo se já aponta para cá. */
 export async function estado(dominio) {
-  const { projeto } = credenciais();
-  const alvo = `${encodeURIComponent(projeto)}/domains/${encodeURIComponent(dominio)}`;
-  const [registro, config] = await Promise.all([
-    chamar(`/v9/projects/${alvo}`),
-    chamar(`/v9/projects/${alvo}/config`).catch(() => ({})),
-  ]);
-  return { ...leitura(registro), maConfigurado: Boolean(config?.misconfigured) };
-}
-
-/** Para de atender o domínio. 404 da hospedagem não é erro: o fim era tirar. */
-export async function remover(dominio) {
-  const { projeto } = credenciais();
-  await chamar(`/v9/projects/${encodeURIComponent(projeto)}/domains/${encodeURIComponent(dominio)}`, {
-    metodo: "DELETE",
-  });
-  return { ok: true };
-}
-
-// O que a tela precisa, e só isso. A resposta da API de hoje tem dezenas de
-// campos que mudam de versão para versão; guardar tudo em `jsonb` seria
-// guardar o formato de um fornecedor para sempre. Estes quatro campos são os
-// mesmos que o Caddy vai precisar na VPS: tipo, nome, valor, motivo.
-function leitura(dados) {
-  const registros = Array.isArray(dados?.verification) ? dados.verification : [];
+  const ip = ipPublico();
+  if (!ip) throw semConfiguracao();
+  const apontados = await enderecos(dominio);
   return {
-    dominio: dados?.name || null,
-    verificado: Boolean(dados?.verified),
-    verificacao: registros.map((r) => ({
-      tipo: r.type || null,
-      nome: r.domain || null,
-      valor: r.value || null,
-      motivo: r.reason || null,
-    })),
+    dominio,
+    verificado: apontados.includes(ip),
+    // Aponta, mas também para outro lugar: metade das visitas cairia fora.
+    maConfigurado: apontados.includes(ip) && apontados.some((a) => a !== ip),
+    verificacao: oQueCriar(dominio, ip),
   };
+}
+
+/** Para de atender o domínio. Basta sair da tabela, que é o que a rota faz. */
+export async function remover() {
+  return { ok: true };
 }

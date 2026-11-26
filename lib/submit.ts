@@ -1,3 +1,4 @@
+import { enviarAoCrm } from "@/lib/crm";
 import { FORM_ENDPOINT, WHATSAPP_NUMBER } from "@/lib/site";
 
 export type FormPayload = Record<string, string>;
@@ -24,6 +25,7 @@ export async function submitForm(
   labels: Record<string, string>,
 ): Promise<{ whatsappUrl?: string }> {
   const payload = { ...data, origem, utms: getUtms() };
+  enviarAoCrm(origem, data);
 
   if (FORM_ENDPOINT) {
     try {

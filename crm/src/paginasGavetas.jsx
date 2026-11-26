@@ -186,13 +186,11 @@ export function Configuracoes({ pagina, aoSalvar, aoFechar }) {
 // ---------------------------------------------------------------------------
 // Domínios
 //
-// Os registros de DNS mostrados aqui são os que a Vercel devolveu ao adicionar
-// o domínio. Nada é chutado: apex pede A, subdomínio pede CNAME, e os valores
-// mudam sem aviso, então quem dita é a resposta da API.
+// Os registros de DNS mostrados aqui são os que o servidor devolveu ao
+// adicionar o domínio. Nada é chutado na tela: quem dita é a resposta dele.
 //
 // A tela não sabe quem hospeda: `prontos` e `aviso` chegam do servidor, que
-// pergunta ao api/_dominios.js. Quando o CRM sair da Vercel, nada aqui
-// muda.
+// pergunta ao api/_dominios.js. Se a hospedagem mudar, nada aqui muda.
 export function Dominios({ pagina, dominios, prontos, aviso, aoMudar, aoFechar }) {
   const [novo, setNovo] = useState("");
   const [erro, setErro] = useState("");
@@ -286,8 +284,8 @@ export function Dominios({ pagina, dominios, prontos, aviso, aoMudar, aoFechar }
 
               {d.estado !== "ativo" && (d.verificacao || []).length === 0 && (
                 <p className="lp-vazio">
-                  A Vercel não pediu registro nenhum ainda. Aponte o DNS para ela e confira de
-                  novo em alguns minutos.
+                  O servidor não pediu registro nenhum ainda. Confira de novo em alguns
+                  minutos.
                 </p>
               )}
 

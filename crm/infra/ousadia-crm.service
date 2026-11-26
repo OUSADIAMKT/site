@@ -1,0 +1,21 @@
+# /etc/systemd/system/ousadia-crm.service
+[Unit]
+Description=CRM Ousadia (Node)
+After=network.target postgrest.service
+
+[Service]
+User=crm
+WorkingDirectory=/opt/ousadia-crm
+EnvironmentFile=/etc/ousadia-crm.env
+Environment=NODE_ENV=production
+ExecStart=/usr/bin/node servidor.js
+Restart=always
+RestartSec=3
+# O processo só lê: o código é escrito pelo usuário deploy, não pelo crm.
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

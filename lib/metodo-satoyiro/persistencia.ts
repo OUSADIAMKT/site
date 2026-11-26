@@ -1,3 +1,4 @@
+import { enviarAoCrm } from "@/lib/crm";
 import { POLITICA_VERSAO, SHEET_ENDPOINT_SATOYIRO } from "@/lib/site";
 import { calcularNumeroMissao } from "./numerologia";
 import type { LeadAluno, Resultado } from "./tipos";
@@ -47,6 +48,7 @@ export function payloadPlanilha(r: Resultado, lead: LeadAluno) {
 export function salvarNaPlanilha(
   payload: ReturnType<typeof payloadPlanilha>,
 ): boolean {
+  enviarAoCrm("metodo-satoyiro", payload);
   if (!SHEET_ENDPOINT_SATOYIRO) return false;
   const corpo = JSON.stringify(payload);
 

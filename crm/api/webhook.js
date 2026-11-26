@@ -3,7 +3,7 @@
 // POST → mensagem recebida. Responde 200 na hora e processa em segundo plano:
 //        a Meta reenvia o evento se demorarmos, e um turno do agente leva segundos.
 
-import { waitUntil } from "@vercel/functions";
+import { waitUntil } from "./_segundoPlano.js";
 import {
   db, carregarTenant, carregarTenantPorInstagram,
   abrirConversa, lerHistorico, gravarMensagem,

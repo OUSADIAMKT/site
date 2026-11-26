@@ -10,7 +10,7 @@
 //              relatório por código aleatório.
 
 import crypto from "node:crypto";
-import { waitUntil } from "@vercel/functions";
+import { waitUntil } from "./_segundoPlano.js";
 import { db } from "./_db.js";
 import { barrouOperador, sessaoDeOperador } from "./_painel.js";
 import * as meta from "./_meta.js";

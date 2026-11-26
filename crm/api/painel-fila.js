@@ -775,7 +775,7 @@ async function responderComMidia(req, res, { s, sb, conversa }) {
       return res.status(413).json({
         error: `Arquivo de ${(bytes.length / 1048576).toFixed(1)} MB. O limite deste caminho é `
           + `${(LIMITE_UPLOAD / 1048576).toFixed(0)} MB.`,
-        detalhe: "Não é limite da Meta, é o tamanho máximo de uma requisição na Vercel. "
+        detalhe: "Não é limite da Meta, é o tamanho máximo de uma requisição neste servidor. "
           + "Para vídeo grande, mande pelo celular por enquanto.",
       });
     }

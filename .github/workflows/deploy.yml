@@ -13,6 +13,11 @@ name: Deploy
 on:
   push:
     branches: [main]
+    # O CRM tem deploy próprio (deploy-crm.yml). Mudança só nele não
+    # republica o site.
+    paths-ignore:
+      - "crm/**"
+      - ".github/workflows/deploy-crm.yml"
   workflow_dispatch:
 
 # Um deploy por vez; um novo nao interrompe o que ja esta enviando arquivos.

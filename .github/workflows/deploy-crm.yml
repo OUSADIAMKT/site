@@ -1,0 +1,105 @@
+# Publica o CRM (crm/) na VPS quando algo dele entra na `main`.
+#
+# Fluxo: testes -> build do painel -> rsync para /opt/ousadia-crm ->
+# npm ci na VPS -> reinicia o serviço -> confere no ar.
+# Se teste ou build falhar, nada é enviado e o CRM no ar continua intacto.
+#
+# DESLIGADO até a VPS estar pronta (crm/README.md, "Instalar na VPS").
+# Para ligar: Settings > Secrets and variables > Actions > Variables >
+# New repository variable: CRM_DEPLOY_ATIVO = true
+#
+# Usa os mesmos segredos do deploy do site: VPS_HOST, VPS_USER, VPS_SSH_KEY.
+
+name: Deploy CRM
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "crm/**"
+      - ".github/workflows/deploy-crm.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-crm
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+env:
+  VPS_HOST_FINGERPRINT: "SHA256:hRlyYd0YqOgpvt6PdQ94CuiIVnMcUQbkvKUAbjx3RrY"
+  DEST: /opt/ousadia-crm/
+
+jobs:
+  deploy:
+    if: vars.CRM_DEPLOY_ATIVO == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: crm
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: crm/package-lock.json
+
+      - name: Instalar dependencias
+        run: npm ci
+
+      - name: Testes
+        run: npm test
+
+      - name: Build do painel
+        run: npm run build
+
+      - name: Conferir saida do build
+        run: |
+          test -f dist/painel.html || { echo "dist/painel.html nao foi gerado"; exit 1; }
+          test -f dist/relatorio.html || { echo "dist/relatorio.html nao foi gerado"; exit 1; }
+
+      - name: Configurar SSH
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
+        run: |
+          install -d -m 700 ~/.ssh
+          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -t ed25519 "$VPS_HOST" > ~/.ssh/known_hosts 2>/dev/null
+          found=$(ssh-keygen -lf ~/.ssh/known_hosts | awk '{print $2}')
+          if [ "$found" != "$VPS_HOST_FINGERPRINT" ]; then
+            echo "Chave do servidor diferente da esperada: $found"
+            exit 1
+          fi
+
+      - name: Enviar para a VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          rsync -rltz --delete --chmod=D755,F644 \
+            --exclude node_modules/ --exclude test/ --exclude .env --exclude '.env.*' \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            ./ "$VPS_USER@$VPS_HOST:$DEST"
+
+      - name: Instalar e reiniciar na VPS
+        env:
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+        run: |
+          ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes "$VPS_USER@$VPS_HOST" \
+            "cd $DEST && npm ci --omit=dev --no-audit --no-fund && sudo /usr/bin/systemctl restart ousadia-crm"
+
+      - name: Conferir o CRM no ar
+        run: |
+          sleep 5
+          painel=$(curl -s -o /dev/null -w '%{http_code}' https://crm.ousadiamarketing.com.br/)
+          login=$(curl -s -o /dev/null -w '%{http_code}' https://crm.ousadiamarketing.com.br/api/painel-entrar)
+          rota=$(curl -s -o /dev/null -w '%{http_code}' https://crm.ousadiamarketing.com.br/api/painel-clientes)
+          echo "painel $painel, login $login, rota $rota"
+          test "$painel" = "200" && test "$login" = "405" && test "$rota" = "401"

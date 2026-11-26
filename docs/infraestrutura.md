@@ -12,6 +12,7 @@ Estado em 26/11/2026. Sem senhas nem chaves: só endereços e procedimentos.
 | DNS | Registro.br (zona avançada). Domínio `ousadiamarketing.com.br` |
 | E-mail | Hostinger Email (`contato@ousadiamarketing.com.br`). Continua na Hostinger |
 | Comunidade | `comunidade.ousadiamarketing.com.br`, CNAME para a Vercel. Não mexer |
+| CRM | `crm.ousadiamarketing.com.br`, na mesma VPS: Node em `/opt/ousadia-crm` (serviço `ousadia-crm`), Postgres local (banco `crm`) + PostgREST. Código em `crm/` |
 
 O site é **exportação estática** (`output: "export"` em `next.config.ts`): o
 `next build` gera `out/` e não há Node rodando no servidor.
@@ -33,6 +34,24 @@ Segredos do repositório (Settings > Secrets and variables > Actions):
 `VPS_HOST`, `VPS_USER` (`deploy`), `VPS_SSH_KEY` (chave privada do `deploy`).
 O workflow confere a impressão digital da chave do servidor; se a VPS for
 recriada, atualize `VPS_HOST_FINGERPRINT` no workflow.
+
+## CRM
+
+Projeto separado em `crm/` (React + Vite + Node, não é Next). Instalação na
+VPS, passo a passo: `crm/README.md`, seção "Instalar na VPS".
+
+- Deploy próprio: `.github/workflows/deploy-crm.yml`, só quando muda algo em
+  `crm/`. Fica desligado até existir a variável de repositório
+  `CRM_DEPLOY_ATIVO = true`. O deploy do site ignora mudanças em `crm/`.
+- Ambiente e segredos: `/etc/ousadia-crm.env` (gerado por
+  `crm/scripts/gerar-ambiente.js`). A `CHAVE_CIFRA` de lá não pode se perder.
+- Banco: Postgres 16 local, banco `crm`, acessado pelo PostgREST em
+  `127.0.0.1:3000` (o Caddy expõe só em `127.0.0.1:3102/rest/v1`). Backup
+  diário em `/var/backups/crm` (14 dias).
+- Formulários do site mandam cópia do lead para
+  `https://crm.ousadiamarketing.com.br/api/lead` (`lib/crm.ts`), em paralelo
+  com as planilhas.
+- WhatsApp: ainda sem número. Tudo pronto e desligado (ver `crm/README.md`).
 
 ## Acesso à VPS
 
@@ -71,6 +90,10 @@ Caddy ignora esse arquivo. Edite o `/etc/caddy/Caddyfile` na VPS e rode
 - [ ] Remover `scripts/deploy.mjs`, o script `deploy` do `package.json` e a
       branch `deploy` (eram da Hostinger) e `public/.htaccess` (era Apache).
 - [ ] Tirar snapshot da VPS depois do primeiro deploy bem-sucedido.
+- [ ] CRM: criar o registro `A` de `crm` no Registro.br e seguir
+      `crm/README.md` ("Instalar na VPS"). Depois, `CRM_DEPLOY_ATIVO = true`.
+- [ ] CRM: preencher os valores dos produtos e revisar a persona da IA.
+- [ ] CRM: WhatsApp, quando houver número (ver `crm/README.md`).
 - [ ] Migrar o site do Instituto Xingu (projeto separado, em
       `D:\CLAUDE\CLIENTES\instituto-xingu`) para a mesma VPS: outra pasta em
       `/var/www/` e outro bloco no Caddyfile. O e-mail do Xingu foi descartado.

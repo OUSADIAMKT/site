@@ -41,8 +41,8 @@ Object.assign(process.env, {
   SESSION_SECRET: "segredo-local-de-teste",
   SUPABASE_URL: "https://supabase.invalid",
   SUPABASE_SECRET_KEY: "chave-local-de-teste",
-  VERCEL_TOKEN: "token-de-teste",
-  VERCEL_PROJECT_ID: "prj_teste",
+  IP_PUBLICO: "203.0.113.10",
+  PAINEL_BASE_URL: "https://crm.ousadiamarketing.com.br",
 });
 
 const RASCUNHO = {
@@ -70,7 +70,7 @@ function paginaDeExemplo(extra = {}) {
 }
 
 /**
- * Banco e Vercel dublados.
+ * Banco e DNS dublados.
  *
  * O dublê filtra por `eq` e por `in`, que é o que as rotas daqui usam, e
  * guarda tudo que saiu: é olhando `saiu` que o teste confere que o recorte foi
@@ -87,8 +87,9 @@ function mundo(tabelas = {}, { hospedagem } = {}) {
     const corpo = opcoes.body ? JSON.parse(opcoes.body) : null;
     saiu.push({ host: u.host, caminho: u.pathname, busca: u.search, metodo, corpo });
 
-    if (u.host === "api.vercel.com") {
-      if (!hospedagem) throw new Error("o teste não esperava chamada à hospedagem");
+    if (u.host === "dns.google") {
+      // Sem dublê de DNS, o domínio ainda não aponta para lugar nenhum.
+      if (!hospedagem) return Response.json({ Status: 3 });
       return hospedagem(u, metodo, corpo);
     }
 
@@ -409,18 +410,8 @@ test("apelido fora do formato não cria página", async () => {
 // 5. Domínios
 // --------------------------------------------------------------------------
 
-test("adicionar domínio grava os registros de DNS que a hospedagem devolveu", async () => {
-  const m = mundo({ paginas: [paginaDeExemplo()], pagina_dominios: [] }, {
-    hospedagem: (u, metodo) => {
-      assert.equal(metodo, "POST");
-      assert.match(u.pathname, /\/v10\/projects\/prj_teste\/domains$/);
-      return Response.json({
-        name: "cliente-a.com.br",
-        verified: false,
-        verification: [{ type: "TXT", domain: "_vercel.cliente-a.com.br", value: "vc-domain-verify=x", reason: "pending" }],
-      });
-    },
-  });
+test("adicionar domínio grava o registro de DNS que o cliente precisa criar", async () => {
+  const m = mundo({ paginas: [paginaDeExemplo()], pagina_dominios: [] });
 
   const res = await pedir(m, {
     metodo: "POST", token: comoOperador(),
@@ -432,16 +423,17 @@ test("adicionar domínio grava os registros de DNS que a hospedagem devolveu", a
   assert.equal(gravado.dominio, "cliente-a.com.br", "guardado como o Host chega");
   assert.equal(gravado.estado, "pendente");
   assert.deepEqual(gravado.verificacao, [{
-    tipo: "TXT", nome: "_vercel.cliente-a.com.br", valor: "vc-domain-verify=x", motivo: "pending",
+    tipo: "A", nome: "cliente-a.com.br", valor: "203.0.113.10",
+    motivo: "aponte o domínio para o servidor da Ousadia",
   }]);
 });
 
-test("domínio recusado pela hospedagem não entra na nossa tabela", async () => {
+test("domínio que já aponta para o servidor entra ativo", async () => {
   const m = mundo({ paginas: [paginaDeExemplo()], pagina_dominios: [] }, {
-    hospedagem: () => Response.json(
-      { error: { code: "domain_already_in_use", message: "domain already in use by another project" } },
-      { status: 409 },
-    ),
+    hospedagem: (u) => {
+      assert.equal(u.searchParams.get("name"), "cliente-a.com.br");
+      return Response.json({ Status: 0, Answer: [{ name: "cliente-a.com.br.", type: 1, data: "203.0.113.10" }] });
+    },
   });
 
   const res = await pedir(m, {
@@ -449,18 +441,46 @@ test("domínio recusado pela hospedagem não entra na nossa tabela", async () =>
     body: { acao: "dominio-adicionar", id: "pag-a", dominio: "cliente-a.com.br" },
   });
 
-  assert.equal(res.code, 400);
-  assert.match(res.body.error, /already in use/);
-  assert.equal(m.tabelas.pagina_dominios.length, 0,
-    "tabela que promete um domínio que a hospedagem não atende é pior que erro na tela");
+  assert.equal(res.code, 200);
+  assert.equal(m.tabelas.pagina_dominios[0].estado, "ativo");
 });
 
-test("remover domínio que a hospedagem não conseguiu tirar mantém o cadastro", async () => {
+test("endereço da própria Ousadia não vira landing page", async () => {
+  const m = mundo({ paginas: [paginaDeExemplo()], pagina_dominios: [] });
+
+  for (const dominio of ["crm.ousadiamarketing.com.br", "ousadiamarketing.com.br"]) {
+    const res = await pedir(m, {
+      metodo: "POST", token: comoOperador(),
+      body: { acao: "dominio-adicionar", id: "pag-a", dominio },
+    });
+    assert.equal(res.code, 400, dominio);
+  }
+  assert.equal(m.tabelas.pagina_dominios.length, 0);
+});
+
+test("conferir domínio que aponta também para outro lugar marca erro", async () => {
+  const m = mundo({
+    paginas: [paginaDeExemplo()],
+    pagina_dominios: [{ id: "d1", cliente_id: EMPRESA_A, pagina_id: "pag-a", dominio: "cliente-a.com.br", estado: "pendente" }],
+  }, {
+    hospedagem: () => Response.json({ Status: 0, Answer: [
+      { type: 1, data: "203.0.113.10" }, { type: 1, data: "198.51.100.7" },
+    ] }),
+  });
+
+  const res = await pedir(m, {
+    metodo: "POST", token: comoOperador(),
+    body: { acao: "dominio-conferir", id: "pag-a", dominio_id: "d1" },
+  });
+
+  assert.equal(res.code, 200);
+  assert.equal(m.tabelas.pagina_dominios[0].estado, "erro");
+});
+
+test("remover domínio tira o cadastro, e com ele o certificado sob demanda", async () => {
   const m = mundo({
     paginas: [paginaDeExemplo()],
     pagina_dominios: [{ id: "d1", cliente_id: EMPRESA_A, pagina_id: "pag-a", dominio: "cliente-a.com.br" }],
-  }, {
-    hospedagem: () => Response.json({ error: { message: "forbidden" } }, { status: 403 }),
   });
 
   const res = await pedir(m, {
@@ -468,9 +488,8 @@ test("remover domínio que a hospedagem não conseguiu tirar mantém o cadastro"
     body: { acao: "dominio-remover", id: "pag-a", dominio_id: "d1" },
   });
 
-  assert.equal(res.code, 400);
-  assert.equal(m.tabelas.pagina_dominios.length, 1,
-    "domínio apagado daqui e vivo lá serviria uma página que ninguém mais administra");
+  assert.equal(res.code, 200);
+  assert.equal(m.tabelas.pagina_dominios.length, 0);
 });
 
 test("domínio de outra página não é mexido por aqui", async () => {
@@ -491,9 +510,9 @@ test("domínio de outra página não é mexido por aqui", async () => {
 // --------------------------------------------------------------------------
 // 6. A fronteira da hospedagem
 //
-// O CRM vai sair da Vercel e ir para VPS, com Caddy emitindo certificado
-// por domínio. Para isso ser troca de UM arquivo, e não de quinze, só o
-// api/_dominios.js pode saber quem hospeda.
+// O CRM roda na VPS, com o servidor web emitindo certificado por domínio.
+// Para uma troca de hospedagem ser troca de UM arquivo, e não de quinze, só
+// o api/_dominios.js pode saber quem hospeda.
 //
 // Este teste é o que impede a volta: ele lê o código de verdade e cobra que
 // nem rota nem tela tenham endereço de API, nome de variável de credencial ou
@@ -506,8 +525,8 @@ import { readFileSync } from "node:fs";
 const SEGREDOS_DA_HOSPEDAGEM = [
   "api.vercel.com",
   "VERCEL_TOKEN",
-  "VERCEL_PROJECT_ID",
-  "VERCEL_TEAM_ID",
+  "dns.google",
+  "IP_PUBLICO",
 ];
 
 test("só o módulo de domínios sabe quem hospeda", () => {

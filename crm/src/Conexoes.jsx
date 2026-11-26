@@ -118,7 +118,7 @@ export default function Conexoes({ retorno }) {
         {!status.app_configurado ? (
           <div className="aviso atencao">
             O app da Meta ainda não está configurado no servidor. Faltam as variáveis
-            META_REPORT_APP_ID e META_REPORT_APP_SECRET na Vercel. No app, a URI de
+            META_REPORT_APP_ID e META_REPORT_APP_SECRET no arquivo de ambiente do servidor. No app, a URI de
             redirecionamento válida é <code>{status.redirect_uri}</code>.
           </div>
         ) : c.conectado ? (
@@ -240,12 +240,12 @@ export default function Conexoes({ retorno }) {
           <p>
             No Claude, adicione um conector personalizado com o endereço{" "}
             <code>{window.location.origin}/api/mcp/SUA_CHAVE</code>, trocando SUA_CHAVE pelo valor de
-            REPORT_MCP_TOKEN da Vercel. Depois é só perguntar, por exemplo: "como foi a empresa em
+            REPORT_MCP_TOKEN do arquivo de ambiente do servidor. Depois é só perguntar, por exemplo: "como foi a empresa em
             setembro contra agosto?" ou "pausa o conjunto que está com o custo por lead mais alto".
           </p>
         ) : (
           <div className="aviso atencao">
-            Falta a variável REPORT_MCP_TOKEN na Vercel. Sem ela o MCP recusa qualquer chamada.
+            Falta a variável REPORT_MCP_TOKEN no arquivo de ambiente do servidor. Sem ela o MCP recusa qualquer chamada.
           </div>
         )}
       </div>

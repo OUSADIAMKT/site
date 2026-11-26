@@ -4,6 +4,11 @@ import { resolve } from "node:path";
 
 export default defineConfig({
   plugins: [react()],
+  // Em desenvolvimento o painel roda no Vite (npm run dev) e a API no
+  // servidor.js (npm start, outra janela). O Vite repassa /api para ele.
+  server: {
+    proxy: { "/api": "http://127.0.0.1:3100" },
+  },
   build: {
     // O calculo de gzip de cada chunk estoura a memoria do node nesta maquina,
     // no passo [vite:reporter], depois do bundle ja estar pronto. E so o numero

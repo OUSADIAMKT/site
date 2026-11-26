@@ -18,6 +18,7 @@
  * script para mandar e-mail com conteúdo próprio em nome da Juh.
  */
 
+import { enviarAoCrm } from "@/lib/crm";
 import {
   GRUPO_MAPA_UGC,
   POLITICA_VERSAO,
@@ -840,6 +841,7 @@ export function payloadPlanilha(r: Respostas, res: Resultado, lead: Lead) {
  * planilha.
  */
 export function salvarNaPlanilha(payload: ReturnType<typeof payloadPlanilha>): boolean {
+  enviarAoCrm("momento-ugc", payload);
   if (!SHEET_ENDPOINT_MOMENTO_UGC) return false;
   const corpo = JSON.stringify(payload);
 

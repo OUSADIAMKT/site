@@ -1,0 +1,51 @@
+# Blocos do CRM para ACRESCENTAR ao /etc/caddy/Caddyfile da VPS.
+# Os blocos do site (ousadiamarketing.com.br) continuam como estão.
+# Depois de colar: caddy validate --config /etc/caddy/Caddyfile && systemctl reload caddy
+
+# TLS sob demanda para os domínios próprios das landing pages. Antes de
+# emitir um certificado, o Caddy pergunta ao CRM (porta interna, só local) se
+# aquele domínio está cadastrado. Sem esta trava, qualquer um apontaria um
+# domínio para o nosso IP e ganharia certificado em nosso nome.
+# ATENÇÃO: se o Caddyfile já tiver um bloco global { } no topo, junte esta
+# linha a ele em vez de criar um segundo.
+{
+	on_demand_tls {
+		ask http://127.0.0.1:3101/tls
+	}
+}
+
+# O painel do CRM.
+crm.ousadiamarketing.com.br {
+	encode zstd gzip
+
+	header {
+		Strict-Transport-Security "max-age=31536000; includeSubDomains"
+		X-Content-Type-Options "nosniff"
+		Referrer-Policy "strict-origin-when-cross-origin"
+		-Server
+	}
+
+	reverse_proxy 127.0.0.1:3100
+}
+
+# Landing pages em domínio de cliente (ex.: oferta.ousadiamarketing.com.br
+# ou um domínio comprado para uma campanha). Qualquer host que não tenha
+# bloco próprio cai aqui, e o CRM decide pela tabela pagina_dominios.
+https:// {
+	tls {
+		on_demand
+	}
+	encode zstd gzip
+	reverse_proxy 127.0.0.1:3100
+}
+
+# O banco por HTTP, SÓ na máquina. O código do CRM fala com o PostgREST pelo
+# mesmo caminho que falava com o Supabase (/rest/v1/...). Não é alcançável de
+# fora: escuta em 127.0.0.1 e o firewall só abre 22, 80 e 443.
+http://127.0.0.1:3102 {
+	bind 127.0.0.1
+	handle_path /rest/v1/* {
+		reverse_proxy 127.0.0.1:3000
+	}
+	respond 404
+}

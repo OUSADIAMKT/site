@@ -1,7 +1,7 @@
 // Conversas e leads. Serve para você auditar o que a IA respondeu de verdade.
 // É olhando aqui que se descobre o que precisa apertar no contexto.
 
-import { waitUntil } from "@vercel/functions";
+import { waitUntil } from "./_segundoPlano.js";
 import { db, credenciaisDoCanal } from "./_db.js";
 import { r2Ligado, lerDoR2, chaveDoBanco } from "./_r2.js";
 import { arquivarDaMeta, TETO_ARQUIVO_TARDIO } from "./_arquivo.js";
