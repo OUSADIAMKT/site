@@ -12,140 +12,167 @@ import { KeneStrip } from "@/components/ui/graphics/Kene";
 import { MENTORIA_UGC_NO_GOOGLE, SITE, waMentoriaUgc } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: "Mentoria Viver do Digital | Da primeira permuta às marcas que pagam",
+  title: "Mentoria em Turma | Juliana Araújo — Transforme sua história em oportunidades",
   description:
-    "Mentoria em grupo com Juliana Araújo: 8 encontros ao vivo, de 23/nov a 17/dez, pra UGC creators que já deram o primeiro passo e querem fechar as primeiras parcerias pagas. Turma 1 com 20 vagas.",
+    "Mentoria em turma com Juliana Araújo: 6 encontros ao vivo para começar na criação de conteúdo, montar seu portfólio e desenvolver oportunidades com marcas, mesmo sem experiência e sem milhares de seguidores.",
   alternates: { canonical: `${SITE.url}/mentoria-viver-do-digital` },
   ...(MENTORIA_UGC_NO_GOOGLE ? {} : { robots: { index: false, follow: true } }),
 };
 
 /**
- * Página de vendas da mentoria da Juh (R$ 497, Turma 1). Copy verbatim do doc
- * "Copy da Página de Vendas — Mentoria Viver do Digital" (03/10/2026).
- * Segue a identidade de `/mapa-do-ugc` e reaproveita a mídia dele em
- * `public/mapa-do-ugc/` — temporária, até chegarem a foto do cocar e os
- * depoimentos da própria turma do aulão de 7/nov.
- * Toda CTA cai no WhatsApp da Juh: ainda não existe link de checkout.
+ * Página de vendas da Mentoria em Turma da Juh (R$ 697, 6 encontros).
+ * Copy segue o "Comando oficial — site de vendas | Mentoria Juliana Araújo"
+ * (26/11/2026): sem datas, sem parcelamento e sem bônus até a Juh confirmar
+ * (ver PENDENCIAS #21). Toda CTA cai no WhatsApp da Juh — ainda não existe
+ * link de checkout. Reaproveita a mídia de `/mapa-do-ugc` (foto e prints),
+ * já usada no site, até chegarem os materiais próprios desta turma.
  */
 
-const INFO = [
-  "8 encontros ao vivo",
-  "Segundas e quintas, das 19h às 20h30",
-  "De 23/nov a 17/dez",
-  "Apenas 20 vagas",
-];
+const INFO = ["6 encontros ao vivo", "Turma 04 · 12 vagas", "Lista de espera aberta"];
 
 const DORES = [
-  "Arrumou o perfil, montou o portfólio… e as mensagens para as marcas ficaram sem resposta.",
-  "Fechou uma permuta, ficou feliz, mas não sabe como sair do “produto de graça” para o primeiro cachê.",
-  "Não sabe quanto cobrar e tem medo de pedir demais (ou de menos).",
-  "Grava, regrava, apaga. Nunca parece bom o suficiente para mandar.",
-  "Estuda sozinha, com vídeo solto na internet, sem ninguém para dizer se está no caminho certo.",
-  "Mora no interior e sente que as oportunidades estão sempre em outro lugar.",
+  "Trabalha de carteira assinada e sente que o dia não sobra tempo nem coragem pra começar algo novo.",
+  "Grava vídeo no celular por hobby, mas não sabe como isso pode virar trabalho.",
+  "Acha que precisa de milhares de seguidores pra uma marca sequer olhar pro perfil dela.",
+  "Nunca trabalhou com criação de conteúdo e não sabe por onde começar.",
+  "Não tem portfólio — e, sem ele, não sabe o que mostrar pras marcas.",
+  "Mora numa cidade pequena ou numa zona rural e sente que oportunidade é sempre em outro lugar.",
 ];
 
 const PARA_QUEM = [
-  "Você já participou do aulão Mapa do UGC ou já tem perfil e portfólio começados",
-  "Você quer sair da permuta e fechar as primeiras parcerias pagas",
-  "Você aprende melhor com alguém perto, corrigindo e cobrando",
-  "Você pode reservar duas noites por semana, até 17/dez, para aplicar",
-  "Você tem orgulho de onde vem e quer usar isso como diferencial, não como desculpa",
+  "Você trabalha de carteira assinada e quer desenvolver uma nova habilidade",
+  "Você busca uma possibilidade de renda extra",
+  "Você quer aprender a trabalhar com marcas",
+  "Você gosta de gravar vídeos, mas não sabe como transformar isso em trabalho",
+  "Você nunca teve experiência profissional com criação de conteúdo",
+  "Você mora em cidade pequena, zona rural ou grande centro — o lugar onde você está não te limita",
 ];
 
 const NAO_E = [
   "Você procura dinheiro rápido sem colocar a mão na massa",
   "Você não pretende gravar nenhum conteúdo durante a mentoria",
-  "Você quer só assistir aulas, sem trocar e sem receber feedback",
+  "Você quer só assistir aulas, sem participar da turma e sem aplicar os exercícios",
 ];
 
-/** Temas propostos no doc — a Juh ainda valida ordem e conteúdo (PENDENCIAS #21). */
 const ENCONTROS = [
   {
-    data: "Segunda, 23/nov",
-    tema: "Diagnóstico: onde você está e onde quer chegar em dezembro",
-    sai: "Seu plano de 4 semanas",
+    tema: "Mentalidade, mercado e posicionamento",
+    conteudos: [
+      "Mentalidade empreendedora",
+      "Protagonismo e desenvolvimento profissional",
+      "O que é UGC e como funciona o mercado",
+      "Diferença entre UGC Creator e influenciadora",
+      "Oportunidades de trabalho com marcas",
+      "Identificação de habilidades e diferenciais",
+      "Escolha do nicho principal e nichos complementares",
+    ],
+    beneficio: "Compreender o mercado e construir uma direção profissional.",
   },
   {
-    data: "Quinta, 26/nov",
-    tema: "Perfil e portfólio que marca contrata: revisão ao vivo",
-    sai: "Perfil e portfólio ajustados",
+    tema: "Estruturação da vitrine digital",
+    conteudos: [
+      "Organização do Instagram profissional",
+      "Foto de perfil, nome e biografia",
+      "Posicionamento e apresentação pessoal",
+      "Organização do feed e dos destaques",
+      "Identidade visual",
+      "Contato profissional e canais de comunicação",
+      "Como transmitir confiança para as marcas",
+    ],
+    beneficio:
+      "Construir um perfil que apresente profissionalmente suas habilidades.",
   },
   {
-    data: "Segunda, 30/nov",
-    tema: "O UGC que vende: roteiro, gancho e gravação com o celular",
-    sai: "2 vídeos de portfólio gravados",
+    tema: "Produção de conteúdo e vídeos",
+    conteudos: [
+      "Como gravar vídeos usando o celular",
+      "Equipamentos básicos",
+      "Iluminação, enquadramento e áudio",
+      "Storytelling e construção de narrativas",
+      "Ganchos e roteiros",
+      "Técnicas de gravação",
+      "Edição de vídeos",
+      "Pilares de conteúdo",
+      "Vídeos demonstrativos de produtos",
+    ],
+    beneficio: "Desenvolver habilidades para criar vídeos e demonstrar seu trabalho.",
   },
   {
-    data: "Quinta, 3/dez",
-    tema: "Prospecção de verdade: lista de marcas e abordagem que recebe resposta",
-    sai: "20 marcas mapeadas e abordadas",
+    tema: "Construção do portfólio",
+    conteudos: [
+      "O que é um portfólio UGC",
+      "Estrutura de apresentação profissional",
+      "Como apresentar seus nichos",
+      "Seleção e organização de vídeos",
+      "Apresentação pessoal e diferenciais",
+      "Como utilizar o Canva",
+      "Organização de trabalhos e contatos",
+      "Apresentação do portfólio em formato digital",
+    ],
+    beneficio:
+      "Construir uma apresentação profissional para mostrar às marcas o que sabe produzir.",
   },
   {
-    data: "Segunda, 7/dez",
-    tema: "Precificação: como sair da permuta e cobrar o primeiro cachê",
-    sai: "Sua tabela de preços",
+    tema: "Prospecção e abordagem de marcas",
+    conteudos: [
+      "Onde encontrar marcas",
+      "Como mapear oportunidades",
+      "Plataformas de campanhas",
+      "Como identificar marcas alinhadas ao seu nicho",
+      "Abordagem pelo Instagram e e-mail",
+      "Mensagens personalizadas",
+      "Como apresentar o portfólio",
+      "Prospecção e follow-up",
+      "Construção de propostas comerciais",
+    ],
+    beneficio:
+      "Aprender a encontrar oportunidades e iniciar conversas profissionais com marcas.",
   },
   {
-    data: "Quinta, 10/dez",
-    tema: "Negociação, briefing e contrato: o que responder quando a marca chama",
-    sai: "Modelos de proposta e de contrato simples",
-  },
-  {
-    data: "Segunda, 14/dez",
-    tema: "Entrega profissional: prazo, revisão, relacionamento e recompra",
-    sai: "Checklist de entrega",
-  },
-  {
-    data: "Quinta, 17/dez",
-    tema: "Plano para 2027 e celebração das conquistas da turma",
-    sai: "Seu plano dos próximos 90 dias",
+    tema: "Negociação, contratos e profissionalização",
+    conteudos: [
+      "Como precificar serviços",
+      "Permutas e campanhas remuneradas",
+      "Como apresentar propostas e valores",
+      "Negociação com marcas",
+      "Briefing, entregas e prazos",
+      "Direitos de uso de imagem e conteúdo",
+      "Noções básicas de contratos",
+      "Organização profissional",
+      "Planejamento dos próximos passos",
+    ],
+    beneficio:
+      "Compreender como conduzir uma oportunidade comercial e organizar sua atuação profissional.",
   },
 ];
 
-const INCLUSO = [
+const DIFERENCIAIS = [
   {
-    t: "8 encontros ao vivo com a Juh",
-    d: "com análise do seu perfil, dos seus vídeos e das suas mensagens",
-  },
-  { t: "Gravações de todos os encontros", d: "para rever quando quiser" },
-  {
-    t: "Grupo exclusivo da turma no WhatsApp",
-    d: "para tirar dúvidas entre os encontros e trocar oportunidades",
+    t: "Orientação de perto",
+    d: "a Juh acompanha sua evolução ao longo dos 6 encontros, não só assiste você de longe.",
   },
   {
-    t: "Missões semanais",
-    d: "com prazo, para você sair do “vou fazer” para o “fiz”",
+    t: "Prática em cada etapa",
+    d: "exercícios e atividades durante a jornada, pra sair do “vou fazer” pro “fiz”.",
   },
   {
-    t: "Modelos prontos",
-    d: "tabela de preços, proposta comercial, contrato simples e checklist de entrega",
-  },
-];
-
-/** Bônus ainda não confirmados pela Juh (PENDENCIAS #21). */
-const BONUS = [
-  {
-    t: "Lista de marcas que mais contratam UGC no fim do ano",
-    d: "para você prospectar na época certa",
+    t: "Experiência real de mercado",
+    d: "quem ensina é quem atende marcas de verdade, não só estuda o assunto.",
   },
   {
-    t: "Banco de prompts de abordagem e de follow-up",
-    d: "para mandar mensagem sem travar",
-  },
-  {
-    t: "Certificado de conclusão da mentoria",
-    d: "para colocar no seu portfólio",
+    t: "Aprendizado em turma",
+    d: "trocar com outras mulheres no mesmo momento te tira da solidão de aprender sozinha.",
   },
 ];
 
 const PROVAS = [
   { n: "70+", l: "marcas atendidas" },
-  { n: "16 mil", l: "seguidores no Instagram" },
-  { n: "76 mil+", l: "visualizações num único Reels" },
-  { n: "COP30", l: "e Expo Xingu no currículo" },
+  { n: "21 mil", l: "seguidores no Instagram" },
+  { n: "30 mil", l: "seguidores no TikTok" },
+  { n: "1 milhão+", l: "visualizações num único Reels" },
 ];
 
-/** Mesmos prints do aulão (mídia temporária — PENDENCIAS #20 vale aqui também). */
+/** Prints do aulão (mídia já usada em `/mapa-do-ugc` — PENDENCIAS #20 vale aqui também). */
 const PRINTS = [
   {
     src: "depoimento-diy.webp",
@@ -182,40 +209,46 @@ const PRINTS = [
 const DEPOIMENTOS = [
   { id: "3iVry7h2C8U", titulo: "Depoimento em vídeo de aluna da Juh" },
   { id: "ZQgKyvz7UOE", titulo: "Depoimento em vídeo de aluna da Juh" },
+  { id: "t57qogTvwPI", titulo: "Depoimento em vídeo de aluna da Juh" },
+  { id: "N-q6r4jSZNU", titulo: "Depoimento em vídeo de aluna da Juh" },
 ];
 
 const FAQ = [
   {
-    q: "Preciso ter participado do aulão ou comprado o curso?",
-    a: "Não é obrigatório, mas ajuda. Se você está começando do zero, no primeiro encontro a Juh te mostra o que ajustar antes de seguir com a turma.",
+    q: "Preciso ter experiência com criação de conteúdo?",
+    a: "Não. A mentoria foi pensada pra quem está começando do zero — o Encontro 1 é justamente sobre entender o mercado e se posicionar antes de produzir qualquer coisa.",
   },
   {
     q: "Tenho poucos seguidores. A mentoria serve para mim?",
-    a: "Serve. No UGC, a marca contrata o seu vídeo, não o seu alcance. Por isso, perfis pequenos também conseguem fechar parcerias.",
+    a: "Serve. No UGC, a marca contrata o seu vídeo, não o seu alcance. Por isso, perfis pequenos também conseguem desenvolver oportunidades reais.",
   },
   {
     q: "E se eu não puder estar ao vivo em algum encontro?",
-    a: "Todos os encontros ficam gravados, e você pode mandar suas dúvidas e materiais no grupo para serem analisados.",
+    a: "Fale com a Juh pelo WhatsApp pra combinar como acompanhar o conteúdo daquele encontro.",
   },
   {
     q: "Moro no interior, longe das marcas. Faz diferença?",
-    a: "Faz, e a favor. A Juh mora em Altamira e atende marcas nacionais. Seu território é um diferencial que ninguém consegue copiar.",
+    a: "Faz, e a favor. A Juh mora em Altamira e atende marcas nacionais. Seu território pode ser um diferencial, não uma desculpa.",
   },
   {
     q: "Preciso de equipamento profissional?",
-    a: "Não. Celular, luz natural e o que você tem em casa são suficientes para começar.",
-  },
-  {
-    q: "Quanto tempo por semana vou precisar?",
-    a: "As duas noites dos encontros (3 horas no total) e cerca de 2 a 3 horas para cumprir as missões.",
+    a: "Não. Celular, luz natural e o que você já tem em casa são suficientes para começar.",
   },
   {
     q: "A mentoria garante que vou fechar com marcas?",
-    a: "Ninguém pode garantir isso, e desconfie de quem garante. O que a mentoria garante é método, acompanhamento de perto e você fazendo o que precisa ser feito para as marcas te encontrarem.",
+    a: "Ninguém pode garantir isso, e desconfie de quem garante. O que a mentoria oferece é método, orientação de perto e as ferramentas pra você desenvolver suas próprias oportunidades.",
+  },
+  {
+    q: "Quando abre a Turma 04?",
+    a: "Ainda não tem data definida. Entrando na lista de espera pelo WhatsApp, você é avisada em primeira mão quando a Turma 04 abrir, com data, horário e forma de pagamento.",
+  },
+  {
+    q: "Como funciona a lista de espera?",
+    a: "Você manda uma mensagem pra Juh no WhatsApp e entra na fila. Como são só 12 vagas, quem está na lista de espera é chamada primeiro quando a turma abrir.",
   },
   {
     q: "Como recebo o acesso?",
-    a: "Assim que o pagamento for confirmado, você recebe o link do grupo da turma e a agenda dos encontros.",
+    a: "Depois de entrar na lista de espera e confirmar sua vaga com a Juh, você recebe as instruções e a agenda dos encontros.",
   },
 ];
 
@@ -226,7 +259,7 @@ function BotaoVaga({ href, label }: { href: string; label: string }) {
         {label} <ArrowRight size={16} />
       </a>
       <span className="font-mono text-xs text-cinza-ink">
-        Turma 1 · 20 vagas · por ordem de inscrição
+        Lista de espera · Turma 04 · 12 vagas
       </span>
     </div>
   );
@@ -238,9 +271,9 @@ export default function MentoriaViverDoDigitalPage() {
   const cursoJsonLd = {
     "@context": "https://schema.org",
     "@type": "Course",
-    name: "Mentoria Viver do Digital",
+    name: "Mentoria em Turma — Juliana Araújo",
     description:
-      "Mentoria em grupo de UGC com Juliana Araújo: 8 encontros ao vivo sobre portfólio, prospecção, precificação, negociação e entrega profissional para marcas.",
+      "Mentoria em turma de UGC com Juliana Araújo: 6 encontros ao vivo sobre mentalidade e posicionamento, vitrine digital, produção de vídeos, portfólio, prospecção e negociação com marcas.",
     provider: {
       "@type": "Organization",
       name: "Ousadia Marketing",
@@ -249,9 +282,9 @@ export default function MentoriaViverDoDigitalPage() {
     inLanguage: "pt-BR",
     offers: {
       "@type": "Offer",
-      price: "497",
+      price: "697",
       priceCurrency: "BRL",
-      availability: "https://schema.org/LimitedAvailability",
+      availability: "https://schema.org/PreOrder",
     },
   };
 
@@ -263,7 +296,7 @@ export default function MentoriaViverDoDigitalPage() {
       />
       <FaqJsonLd items={FAQ} />
 
-      {/* 1. Topo — mesmo ritmo do PageHero, em duas colunas pra caber a foto */}
+      {/* 1. Hero */}
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 grid-lines opacity-50" aria-hidden />
         <div
@@ -276,25 +309,20 @@ export default function MentoriaViverDoDigitalPage() {
           <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_.85fr]">
             <div>
               <Reveal>
-                <p className="eyebrow mb-5">
-                  Mentoria Viver do Digital · Turma 1 · 20 vagas
-                </p>
+                <p className="eyebrow mb-5">Mentoria em Turma · Juliana Araújo</p>
               </Reveal>
               <Reveal delay={0.05}>
                 <h1 className="font-display text-[clamp(2.1rem,5vw,3.6rem)] leading-[1.04]">
-                  Em 8 encontros comigo, você sai da primeira permuta para{" "}
-                  <span className="text-amarelo">
-                    as primeiras marcas que pagam
-                  </span>
-                  .
+                  Transforme sua história em{" "}
+                  <span className="text-amarelo">oportunidades</span>.
                 </h1>
               </Reveal>
               <Reveal delay={0.1}>
                 <p className="text-body mt-6 max-w-2xl">
-                  A mentoria em grupo da Juh Araújo para meninas que já deram o
-                  primeiro passo como UGC e querem acompanhamento de perto para
-                  transformar criatividade em renda, mesmo começando pequena e
-                  morando longe do eixo Rio–São Paulo.
+                  Aprenda a começar na criação de conteúdo, construir seu
+                  portfólio e desenvolver oportunidades para trabalhar com
+                  marcas — mesmo sem experiência e sem precisar ter milhares
+                  de seguidores.
                 </p>
               </Reveal>
               <Reveal delay={0.12}>
@@ -312,11 +340,11 @@ export default function MentoriaViverDoDigitalPage() {
               <Reveal delay={0.15}>
                 <div className="mt-9">
                   <a href={waHref} className="btn btn-primary">
-                    Quero minha vaga na mentoria <ArrowRight size={16} />
+                    Quero entrar na lista de espera <ArrowRight size={16} />
                   </a>
                   <p className="mt-4 font-mono text-xs text-cinza-ink">
-                    As vagas são confirmadas por ordem de inscrição. Quando
-                    fechar 20, fechou.
+                    Turma 04 · só 12 vagas. Entre na lista e seja avisada
+                    primeiro quando abrir.
                   </p>
                 </div>
               </Reveal>
@@ -336,14 +364,15 @@ export default function MentoriaViverDoDigitalPage() {
         <KeneStrip motif="iso" height={20} className="text-amarelo opacity-70" />
       </section>
 
-      {/* 2. Dor e virada */}
+      {/* 2. Identificação e dor */}
       <section className="relative overflow-hidden bg-ink section-padding">
         <Paddle className="motif motif-soft text-amarelo right-[8%] top-12 hidden w-20 rotate-6 lg:block" />
         <div className="container-site relative">
           <Reveal>
-            <p className="eyebrow mb-4">Se você já começou</p>
+            <p className="eyebrow mb-4">Talvez você se reconheça aqui</p>
             <h2 className="headline-section max-w-2xl">
-              Provavelmente travou em algum destes pontos:
+              Você gosta de gravar vídeo, mas não sabe como transformar isso
+              em trabalho.
             </h2>
           </Reveal>
           <ul className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -361,42 +390,30 @@ export default function MentoriaViverDoDigitalPage() {
             <blockquote className="mx-auto mt-16 max-w-3xl border-l-2 border-amarelo pl-6">
               <div className="text-body space-y-5 text-lg">
                 <p>
-                  Eu sei exatamente como é isso, porque eu comecei assim. Em
-                  Altamira, no Pará, longe de agência, de contato, de evento de
-                  marca. Muita gente achava que creator do Norte servia só de
-                  cenário.
+                  Eu saí de casa aos 17 anos em busca dos meus sonhos.
+                  Trabalhei quatro anos no setor de telefonia, até ser
+                  desligada em 2023.
                 </p>
                 <p>
-                  O que mudou não foi sorte nem número de seguidores. Foi
-                  método, constância e ter alguém olhando o meu trabalho e
-                  dizendo:{" "}
-                  <em>
-                    “ajusta isso aqui, manda pra essa marca, cobra esse valor”
-                  </em>
-                  .
+                  Foi aí que encontrei no marketing digital uma nova
+                  possibilidade profissional. Trabalhei com social media,
+                  atendi diversos clientes, atuei no audiovisual e comecei a
+                  construir minha trajetória como criadora de conteúdo —
+                  sempre daqui, da Amazônia.
                 </p>
                 <p>
-                  Hoje já são mais de 70 marcas atendidas. E eu criei a Mentoria
-                  Viver do Digital para ser, para você,{" "}
+                  Hoje trabalho com marcas nacionais, produzo vídeos e
+                  compartilho esse caminho com mulheres que querem começar no
+                  digital.{" "}
                   <strong className="font-semibold text-foreground">
-                    esse alguém que eu precisei ter
+                    A Mentoria em Turma é esse caminho, com companhia.
                   </strong>
-                  .
                 </p>
               </div>
               <footer className="mt-5 font-mono text-xs text-amarelo">
                 — Juh Araújo
               </footer>
             </blockquote>
-          </Reveal>
-
-          <Reveal delay={0.1}>
-            <p className="headline-section mx-auto mt-16 max-w-2xl text-center text-2xl">
-              O curso te dá o mapa.{" "}
-              <span className="text-amarelo">
-                A mentoria te dá companhia na estrada.
-              </span>
-            </p>
           </Reveal>
         </div>
       </section>
@@ -448,7 +465,7 @@ export default function MentoriaViverDoDigitalPage() {
         </div>
       </section>
 
-      {/* 4. Como funciona */}
+      {/* 4. Oportunidade + como funciona */}
       <section className="relative overflow-hidden bg-roxo section-padding">
         <GrafismoDiamonds
           color="#ffffff"
@@ -458,37 +475,42 @@ export default function MentoriaViverDoDigitalPage() {
           <Reveal>
             <p className="eyebrow mb-4">Como funciona</p>
             <h2 className="headline-section max-w-2xl">
-              8 encontros ao vivo.{" "}
-              <span className="text-amarelo">Uma jornada de 4 semanas.</span>
+              6 encontros ao vivo.{" "}
+              <span className="text-amarelo">Aprendizado em turma.</span>
             </h2>
             <p className="text-body mt-5 max-w-2xl">
-              São dois encontros por semana, às segundas e quintas, das 19h às
-              20h30. Na segunda você aprende e recebe a missão. Na quinta a
-              gente revisa o que você fez, com análise ao vivo de perfis, vídeos
-              e mensagens. Tudo fica gravado para você rever.
+              Encontros ao vivo, com conteúdo prático, orientação da Juh e
+              exercícios pra você aplicar ao longo da jornada — desde a
+              mentalidade e o posicionamento até a negociação com marcas.
             </p>
           </Reveal>
 
-          <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          <ol className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {ENCONTROS.map((e, i) => (
-              <Reveal key={e.data} delay={(i % 4) * 0.06}>
+              <Reveal key={e.tema} delay={(i % 3) * 0.06}>
                 <li className="card-surface flex h-full flex-col p-6">
-                  <div className="flex items-baseline justify-between gap-3">
-                    <span className="font-display text-3xl text-amarelo">
-                      {String(i + 1).padStart(2, "0")}
-                    </span>
-                    <span className="font-mono text-[11px] uppercase tracking-wide text-cinza-ink">
-                      {e.data}
-                    </span>
-                  </div>
+                  <span className="font-display text-3xl text-amarelo">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
                   <h3 className="font-display mt-3 text-base leading-snug">
                     {e.tema}
                   </h3>
+                  <ul className="mt-4 space-y-1.5">
+                    {e.conteudos.slice(0, 4).map((c) => (
+                      <li
+                        key={c}
+                        className="text-body flex gap-2 text-xs leading-relaxed"
+                      >
+                        <span className="mt-1 size-1 shrink-0 rounded-full bg-amarelo" />
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
                   <p className="mt-auto pt-4 text-sm">
                     <span className="font-mono text-[11px] uppercase tracking-wide text-cinza-ink">
-                      Você sai com ·{" "}
+                      Benefício ·{" "}
                     </span>
-                    <span className="text-foreground">{e.sai}</span>
+                    <span className="text-foreground">{e.beneficio}</span>
                   </p>
                 </li>
               </Reveal>
@@ -496,21 +518,14 @@ export default function MentoriaViverDoDigitalPage() {
           </ol>
 
           <Reveal delay={0.1}>
-            <p className="text-body mt-10 max-w-2xl">
-              Os encontros acontecem bem na época em que as marcas mais produzem
-              conteúdo, entre a Black Friday e o Natal.{" "}
-              <strong className="font-semibold text-foreground">
-                Você aprende e aplica no mesmo mês.
-              </strong>
-            </p>
-            <div className="mt-8">
-              <BotaoVaga href={waHref} label="Quero minha vaga na mentoria" />
+            <div className="mt-10">
+              <BotaoVaga href={waHref} label="Quero entrar na lista de espera" />
             </div>
           </Reveal>
         </div>
       </section>
 
-      {/* 5. O que você leva */}
+      {/* 5. Diferenciais */}
       <section className="fold-light relative overflow-hidden">
         <WaveDivider
           className="absolute inset-x-0 top-0 rotate-180"
@@ -518,16 +533,16 @@ export default function MentoriaViverDoDigitalPage() {
         />
         <div className="container-site relative section-padding">
           <Reveal>
-            <p className="eyebrow mb-4">O que você leva</p>
+            <p className="eyebrow mb-4">Diferenciais</p>
             <h2 className="headline-section max-w-2xl">
-              Tudo o que está incluído na sua vaga
+              Por que fazer isso em turma, com a Juh
             </h2>
           </Reveal>
-          <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-            {INCLUSO.map((item, i) => (
+          <ul className="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+            {DIFERENCIAIS.map((item, i) => (
               <Reveal key={item.t} delay={i * 0.05}>
-                <li className="card-surface flex h-full gap-3 p-6">
-                  <Check size={18} className="mt-0.5 shrink-0 text-floresta-deep" />
+                <li className="card-surface flex h-full flex-col gap-3 p-6">
+                  <Check size={18} className="shrink-0 text-floresta-deep" />
                   <p className="text-body text-sm">
                     <strong className="font-semibold text-[#1a0b2e]">
                       {item.t}
@@ -538,31 +553,10 @@ export default function MentoriaViverDoDigitalPage() {
               </Reveal>
             ))}
           </ul>
-
-          <Reveal delay={0.08}>
-            <h3 className="font-display mt-14 text-xl">Bônus</h3>
-          </Reveal>
-          <ul className="mt-5 grid gap-5 sm:grid-cols-3">
-            {BONUS.map((b, i) => (
-              <Reveal key={b.t} delay={i * 0.05}>
-                <li className="card-surface h-full border-dashed p-6">
-                  <span className="font-mono text-[11px] uppercase tracking-wide text-floresta-deep">
-                    Bônus {i + 1}
-                  </span>
-                  <p className="text-body mt-2 text-sm">
-                    <strong className="font-semibold text-[#1a0b2e]">
-                      {b.t}
-                    </strong>
-                    , {b.d}
-                  </p>
-                </li>
-              </Reveal>
-            ))}
-          </ul>
         </div>
       </section>
 
-      {/* 7. Depoimentos — mídia temporária do aulão */}
+      {/* 6. Prova social */}
       <section className="relative overflow-hidden bg-ink section-padding">
         <div className="container-site relative">
           <Reveal>
@@ -572,7 +566,7 @@ export default function MentoriaViverDoDigitalPage() {
             </h2>
           </Reveal>
 
-          <div className="mx-auto mt-10 grid max-w-2xl gap-6 sm:grid-cols-2">
+          <div className="mx-auto mt-10 grid max-w-4xl gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {DEPOIMENTOS.map((d, i) => (
               <Reveal key={d.id} delay={i * 0.08}>
                 <div className="overflow-hidden rounded-2xl border-2 border-amarelo shadow-[0_20px_50px_rgba(0,0,0,.35)]">
@@ -601,15 +595,15 @@ export default function MentoriaViverDoDigitalPage() {
           <Reveal delay={0.12}>
             <p className="mt-8 max-w-3xl font-mono text-xs leading-relaxed text-cinza-ink">
               Os resultados apresentados são individuais e não representam
-              garantia de aprovação, contrato ou renda. O desempenho depende da
-              aplicação, da qualidade do trabalho e das oportunidades
+              garantia de aprovação, contrato ou renda. O desempenho depende
+              da aplicação, da qualidade do trabalho e das oportunidades
               disponíveis.
             </p>
           </Reveal>
         </div>
       </section>
 
-      {/* 6. Quem é a Juh */}
+      {/* 7. Quem é a Juh */}
       <section className="relative overflow-hidden bg-ink-void section-padding">
         <div className="container-site relative">
           <div className="grid items-center gap-12 lg:grid-cols-[.85fr_1.15fr]">
@@ -630,22 +624,26 @@ export default function MentoriaViverDoDigitalPage() {
                 </h2>
                 <div className="text-body mt-6 space-y-4">
                   <p>
-                    Sou Juliana Araújo, tenho 24 anos, sou atriz, creator e
-                    estrategista de conteúdo, e moro em Altamira, no coração da
-                    Amazônia.
+                    Sou Juliana Araújo, creator e estrategista de conteúdo, e
+                    moro em Altamira, no coração da Amazônia. Saí de casa aos
+                    17 anos em busca dos meus sonhos e passei quatro anos
+                    trabalhando no setor de telefonia, até ser desligada em
+                    2023.
                   </p>
                   <p>
-                    Já atendi mais de 70 marcas criando conteúdos que nascem do
-                    meu território, unindo autenticidade, propósito e estética.
-                    Falo de sustentabilidade, bioeconomia e valorização da nossa
-                    terra, porque acredito que quem vive a Amazônia consegue
-                    contar a beleza e a potência dela com verdade.
+                    Foi então que encontrei no marketing digital uma nova
+                    possibilidade profissional: trabalhei com social media,
+                    atendi diversos clientes, atuei no audiovisual e comecei a
+                    construir minha trajetória como criadora de conteúdo. Hoje
+                    trabalho com marcas nacionais, produzo vídeos e
+                    compartilho esse conhecimento com mulheres que querem
+                    começar no mercado digital.
                   </p>
                   <p>
-                    Meu propósito é ajudar outras meninas a descobrirem o
-                    próprio potencial no digital, mostrando que dá para viver de
-                    conteúdo mesmo começando do zero, mesmo sendo pequena, mesmo
-                    longe dos grandes centros.
+                    Minha história representa a possibilidade de construir
+                    oportunidades mesmo quando o ponto de partida parece
+                    limitado — e de mostrar que o lugar onde a gente nasce ou
+                    vive não precisa limitar os nossos sonhos.
                   </p>
                 </div>
               </div>
@@ -675,13 +673,11 @@ export default function MentoriaViverDoDigitalPage() {
           <Reveal>
             <p className="eyebrow mb-4 text-center">Investimento</p>
             <h2 className="headline-section mx-auto max-w-2xl text-center">
-              Quanto custa ter a Juh do seu lado por 4 semanas
+              Quanto custa ter a Juh do seu lado por 6 encontros
             </h2>
             <p className="text-body mx-auto mt-5 max-w-2xl text-center">
-              São 8 encontros ao vivo, com análise do seu trabalho, grupo
-              exclusivo, modelos prontos e gravações. Dividindo, dá menos de R$
-              63 por encontro, menos do que muitas meninas recebem em produtos
-              numa única permuta.
+              São 6 encontros ao vivo, em turma, com orientação da Juh e
+              exercícios práticos a cada etapa.
             </p>
           </Reveal>
 
@@ -694,29 +690,22 @@ export default function MentoriaViverDoDigitalPage() {
                 />
                 <div className="relative">
                   <p className="font-mono text-xs uppercase tracking-wide text-[var(--amarelo)]">
-                    Turma 1 · apenas 20 vagas
+                    Turma 04 · apenas 12 vagas
                   </p>
                   <p className="font-display mt-5 text-6xl leading-none text-[var(--amarelo)]">
-                    R$ 497
+                    R$ 697
                   </p>
-                  <p className="mt-2 text-sm text-white/80">à vista</p>
-                  <p className="mt-4 text-white/90">
-                    ou em até 12x no cartão
-                  </p>
+                  <p className="mt-2 text-sm text-white/80">pelos 6 encontros</p>
                   <ContentSlot
                     className="mt-3 text-left border-white/25! text-white/75!"
-                    label="Valor da parcela em 12x, gerado pela plataforma de pagamento."
+                    label="Data, horário e condições de pagamento — ainda não definidos. Quem entrar na lista de espera é avisada primeiro."
                   />
                   <a
                     href={waHref}
                     className="btn btn-primary mt-7 w-full justify-center"
                   >
-                    Quero minha vaga na mentoria <ArrowRight size={16} />
+                    Quero entrar na lista de espera <ArrowRight size={16} />
                   </a>
-                  <ContentSlot
-                    className="mt-5 text-left border-white/25! text-white/75!"
-                    label="Data-limite das inscrições (sugestão do doc: 20/nov) e contador “Restam x de 20 vagas”."
-                  />
                 </div>
               </div>
             </Reveal>
@@ -724,16 +713,15 @@ export default function MentoriaViverDoDigitalPage() {
               <div className="card-surface flex h-full flex-col p-8">
                 <Users size={36} className="text-floresta-deep" />
                 <h3 className="font-display mt-4 text-xl">
-                  Turma pequena de propósito
+                  Aprendizado em turma, de perto
                 </h3>
                 <p className="text-body mt-3">
-                  São só 20 vagas pra que eu consiga olhar o trabalho de cada
-                  uma de perto, nos encontros e no grupo. Antes de entrar, a
-                  gente conversa pra ver se é o momento certo pra você.
+                  Os encontros acontecem em grupo, com a Juh acompanhando a
+                  evolução de cada participante. São só 12 vagas na Turma 04.
                 </p>
                 <p className="text-body mt-auto pt-6 text-sm">
-                  As inscrições vão até a data-limite ou até as vagas acabarem,
-                  o que acontecer primeiro.
+                  Data e horário ainda não foram definidos. Entrando na lista
+                  de espera, você é avisada em primeira mão.
                 </p>
               </div>
             </Reveal>
@@ -756,25 +744,26 @@ export default function MentoriaViverDoDigitalPage() {
       <CtaFinal
         title={
           <>
-            Dezembro vai passar{" "}
-            <span className="text-amarelo">de qualquer jeito</span>.
+            Sua história pode virar{" "}
+            <span className="text-amarelo">oportunidade</span>.
           </>
         }
         lead={
           <>
-            Você pode chegar em 2027 do mesmo jeito que está hoje, estudando
-            sozinha e esperando o momento certo. Ou pode passar as próximas 4
-            semanas comigo, com método, com uma turma do seu lado e com missões
-            que te fazem sair do lugar.
+            Você pode continuar do mesmo jeito que está hoje, gravando vídeo
+            sem saber como transformar isso em trabalho. Ou pode passar os
+            próximos 6 encontros comigo, em turma, com método e orientação de
+            perto.
             <span className="mt-4 block font-semibold text-foreground">
-              A Amazônia não é cenário. A gente é creator. Vem comigo.
+              O lugar onde você nasceu ou vive não precisa limitar seus
+              sonhos. Vem comigo.
             </span>
           </>
         }
-        ctaLabel="Quero viver do digital"
+        ctaLabel="Quero entrar na lista de espera"
         href={waHref}
         waveColor="var(--ink)"
-        microcopy="Turma 1 · 20 vagas · encontros de 23/nov a 17/dez, segundas e quintas, às 19h"
+        microcopy="Mentoria em Turma · Turma 04 · 12 vagas · lista de espera aberta no WhatsApp"
       />
     </>
   );
