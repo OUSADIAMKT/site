@@ -59,8 +59,14 @@ jobs:
           VPS_SSH_KEY: ${{ secrets.VPS_SSH_KEY }}
         run: |
           install -d -m 700 ~/.ssh
-          printf '%s\n' "$VPS_SSH_KEY" > ~/.ssh/deploy_key
+          # tr -d '\r': defesa para o secret colado com quebra de linha CRLF
+          # (comum ao copiar no Windows), que o OpenSSH do Linux recusa.
+          printf '%s\n' "$VPS_SSH_KEY" | tr -d '\r' > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
+          ssh-keygen -y -f ~/.ssh/deploy_key > /dev/null 2>&1 || {
+            echo "VPS_SSH_KEY invalida: precisa ser a chave PRIVADA inteira (de BEGIN a END), sem senha."
+            exit 1
+          }
           ssh-keyscan -t ed25519 "$VPS_HOST" > ~/.ssh/known_hosts 2>/dev/null
           found=$(ssh-keygen -lf ~/.ssh/known_hosts | awk '{print $2}')
           if [ "$found" != "$VPS_HOST_FINGERPRINT" ]; then
@@ -74,7 +80,7 @@ jobs:
           VPS_USER: ${{ secrets.VPS_USER }}
         run: |
           rsync -rltz --delete --chmod=D755,F644 \
-            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes -o BatchMode=yes" \
             out/ "$VPS_USER@$VPS_HOST:$DEST"
 
       - name: Conferir o site no ar
