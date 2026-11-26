@@ -17,6 +17,8 @@
 import { db } from "./_db.js";
 import { dispararGatilho } from "./_comercial.js";
 import { soltarInativas } from "./_fila.js";
+import { processarVenda } from "./_vendas.js";
+import { processarComunidade } from "./_comunidade.js";
 
 const MINUTO = 60_000;
 const DIA = 24 * 60 * MINUTO;
@@ -193,6 +195,8 @@ export const EXECUTORES = {
   "soltar-inativas": (sb) => soltarTodas(sb),
   "coleta-meta": () => coletaMeta(),
   "limpar-fila": (sb) => limparFila(sb),
+  "processar-venda": (sb, carga) => processarVenda(sb, carga.evento_id),
+  "processar-comunidade": (sb, carga) => processarComunidade(sb, carga.evento_id),
 };
 
 export function registrarExecutor(tipo, fn) {

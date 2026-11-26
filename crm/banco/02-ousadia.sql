@@ -102,3 +102,88 @@ alter table public.crm_produtos add column if not exists herospark_ids text[] no
 -- automática (Alunos). A agência tem funil próprio.
 alter table public.crm_produtos add column if not exists funil_id uuid
   references public.crm_funis(id) on delete set null;
+
+-- ---------------------------------------------------------------------------
+-- 4. Vendas da HeroSpark (versão 1.5)
+--
+-- Todo evento que a HeroSpark manda é guardado inteiro em `bruto`, antes de
+-- qualquer leitura. O formato do webhook não tem documentação pública, então
+-- a leitura (api/_vendas.js) pode precisar de ajuste depois da primeira venda
+-- real; com o bruto guardado, basta reprocessar (scripts/reprocessar-vendas.js)
+-- e nada se perde. O mesmo evento reenviado (mesma transação, mesmo status)
+-- é reconhecido pelo índice único e não conta duas vezes.
+
+create table if not exists public.vendas_eventos (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id uuid not null references public.clientes(id) on delete cascade,
+  fonte text not null default 'herospark',
+  recebido_em timestamptz not null default now(),
+  bruto jsonb not null,
+  estado text not null default 'recebido',
+  status_venda text,
+  id_externo text,
+  produto_externo text,
+  produto_nome text,
+  valor numeric(12,2),
+  email text,
+  telefone text,
+  nome text,
+  produto_id uuid references public.crm_produtos(id) on delete set null,
+  negocio_id uuid references public.crm_negocios(id) on delete set null,
+  erro text,
+  processado_em timestamptz,
+  constraint vendas_eventos_estado_check
+    check (estado in ('recebido', 'processado', 'ignorado', 'erro')),
+  constraint vendas_eventos_status_check
+    check (status_venda is null or status_venda in ('aprovada', 'pendente', 'reembolsada', 'desconhecido'))
+);
+
+create unique index if not exists vendas_eventos_unico
+  on public.vendas_eventos (cliente_id, fonte, id_externo, status_venda)
+  where id_externo is not null and status_venda is not null;
+create index if not exists vendas_eventos_por_estado
+  on public.vendas_eventos (cliente_id, estado, recebido_em desc);
+create index if not exists vendas_eventos_por_negocio
+  on public.vendas_eventos (negocio_id) where negocio_id is not null;
+
+alter table public.vendas_eventos enable row level security;
+
+-- ---------------------------------------------------------------------------
+-- 5. Sinais da comunidade (Creators da Amazônia) (versão 1.5)
+--
+-- O Supabase da comunidade manda Database Webhooks para /api/comunidade. O
+-- evento é guardado inteiro e processado pela fila. `comunidade_membros` é a
+-- memória de quem é quem lá: o webhook de empresa ou de certificado só traz
+-- o `user_id`, e é por aqui que ele vira nome, e-mail e WhatsApp.
+
+create table if not exists public.comunidade_eventos (
+  id uuid primary key default gen_random_uuid(),
+  cliente_id uuid not null references public.clientes(id) on delete cascade,
+  recebido_em timestamptz not null default now(),
+  tabela text,
+  tipo text,
+  bruto jsonb not null,
+  estado text not null default 'recebido',
+  erro text,
+  negocio_id uuid references public.crm_negocios(id) on delete set null,
+  processado_em timestamptz,
+  constraint comunidade_eventos_estado_check
+    check (estado in ('recebido', 'processado', 'ignorado', 'erro'))
+);
+
+create index if not exists comunidade_eventos_por_estado
+  on public.comunidade_eventos (cliente_id, estado, recebido_em desc);
+
+create table if not exists public.comunidade_membros (
+  cliente_id uuid not null references public.clientes(id) on delete cascade,
+  user_id uuid not null,
+  email text,
+  nome text,
+  telefone text,
+  contato_id uuid references public.contatos(id) on delete set null,
+  atualizado_em timestamptz not null default now(),
+  primary key (cliente_id, user_id)
+);
+
+alter table public.comunidade_eventos enable row level security;
+alter table public.comunidade_membros enable row level security;

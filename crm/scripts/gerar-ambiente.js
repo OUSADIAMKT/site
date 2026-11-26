@@ -61,6 +61,8 @@ const v = {
   WA_VERIFY_TOKEN: hex(20),
   CRON_SECRET: hex(32),
   PAINEL_SENHA: senhaLegivel(),
+  VENDAS_CHAVE: hex(24),
+  COMUNIDADE_CHAVE: hex(24),
 };
 
 const texto = `# Ambiente do CRM Ousadia. Gerado em ${new Date().toISOString()}.
@@ -112,6 +114,12 @@ TRANSCRICAO_PROVEDOR=
 OPENAI_API_KEY=
 GROQ_API_KEY=
 
+# --- integrações que chamam o CRM (a chave vai na URL do webhook) ---
+# HeroSpark: https://crm.ousadiamarketing.com.br/api/vendas?fonte=herospark&chave=<VENDAS_CHAVE>
+VENDAS_CHAVE=${v.VENDAS_CHAVE}
+# Comunidade (Creators da Amazônia): ver crm/README.md, seção Comunidade.
+COMUNIDADE_CHAVE=${v.COMUNIDADE_CHAVE}
+
 # --- formulários do site ---
 # Origens que podem mandar lead para /api/lead, separadas por vírgula.
 ORIGENS_DO_SITE=https://ousadiamarketing.com.br,https://www.ousadiamarketing.com.br
@@ -135,8 +143,11 @@ console.log(`
   3. CRON_SECRET, para /etc/cron.d/ousadia-crm:
        ${v.CRON_SECRET}
 
-  4. Preencha IP_PUBLICO no arquivo. ANTHROPIC_API_KEY e as da Meta ficam
+  4. Endereço do webhook da HeroSpark (Configurações > Webhooks):
+       https://crm.ousadiamarketing.com.br/api/vendas?fonte=herospark&chave=${v.VENDAS_CHAVE}
+
+  5. Preencha IP_PUBLICO no arquivo. ANTHROPIC_API_KEY e as da Meta ficam
      vazias até existirem.
 
-  5. Copie o arquivo inteiro para fora da máquina (por causa da CHAVE_CIFRA).
+  6. Copie o arquivo inteiro para fora da máquina (por causa da CHAVE_CIFRA).
 `);
