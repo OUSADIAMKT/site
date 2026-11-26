@@ -197,7 +197,10 @@ chown root:crm /etc/ousadia-crm.env && chmod 640 /etc/ousadia-crm.env
 Ele imprime o **segredo do PostgREST**, a **senha do operador** e o
 **endereço do webhook da HeroSpark**. Depois:
 
-- abra `/etc/ousadia-crm.env` e preencha `IP_PUBLICO=189.24.18.136`;
+- preencha o IP da VPS no arquivo:
+  ```bash
+  sed -i 's/^IP_PUBLICO=$/IP_PUBLICO=189.24.18.136/' /etc/ousadia-crm.env
+  ```
 - guarde a senha do operador no gerenciador de senhas;
 - **copie o arquivo inteiro para fora da máquina** (por causa da `CHAVE_CIFRA`).
 
@@ -208,7 +211,6 @@ sudo -u postgres createdb crm
 for f in 00-base 01-esquema 02-ousadia 03-permissoes 04-semente-ousadia; do
   sudo -u postgres psql -v ON_ERROR_STOP=1 -d crm -f /opt/ousadia-crm/atual/banco/$f.sql || break
 done
-sudo -u postgres psql -c "alter role authenticator password 'UMA_SENHA_FORTE_NOVA'"
 ```
 
 Os cinco arquivos foram testados em Postgres 16 limpo (`test/banco-vps.test.js`
@@ -219,10 +221,16 @@ Ousadia como empresa: funis Alunos e Agência, origens, motivos, produtos
 ### 7. PostgREST
 
 ```bash
+# A senha do authenticator é sorteada aqui e vai direto para o arquivo, e o
+# segredo JWT sai do /etc/ousadia-crm.env: nada disso passa pela tela.
+SENHA=$(openssl rand -hex 24)
+sudo -u postgres psql -c "alter role authenticator password '$SENHA'"
+JWT=$(grep '^POSTGREST_JWT_SECRET=' /etc/ousadia-crm.env | cut -d= -f2)
 install -d -o postgrest -m 750 /etc/postgrest
-cp /opt/ousadia-crm/atual/infra/postgrest.conf.exemplo /etc/postgrest/crm.conf
+sed -e "s/TROCAR_SENHA_DO_AUTHENTICATOR/$SENHA/" -e "s/TROCAR_SEGREDO_JWT_DO_POSTGREST/$JWT/" \
+  /opt/ousadia-crm/atual/infra/postgrest.conf.exemplo > /etc/postgrest/crm.conf
 chown postgrest /etc/postgrest/crm.conf && chmod 600 /etc/postgrest/crm.conf
-nano /etc/postgrest/crm.conf   # trocar a senha do authenticator e o jwt-secret
+unset SENHA JWT
 cp /opt/ousadia-crm/atual/infra/postgrest.service /etc/systemd/system/
 systemctl daemon-reload && systemctl enable --now postgrest
 curl -s http://127.0.0.1:3000/ -o /dev/null -w '%{http_code}\n'   # 200

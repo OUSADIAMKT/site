@@ -9,7 +9,8 @@
 // sabendo o que está fazendo.
 //
 // Imprime na tela só o que precisa ir para outro lugar:
-//   - o segredo do PostgREST (vai em /etc/postgrest/crm.conf, jwt-secret)
+//   (o segredo do PostgREST NÃO é impresso: fica no arquivo, em POSTGREST_JWT_SECRET,
+//    e o passo de instalação do PostgREST lê de lá, sem ninguém copiar à mão)
 //   - a senha do operador do painel (vai para o gerenciador de senhas)
 //   - o endereço do webhook da HeroSpark
 //   - o WA_VERIFY_TOKEN (vai no app da Meta, quando houver número)
@@ -71,6 +72,8 @@ const texto = `# Ambiente do CRM Ousadia. Gerado em ${new Date().toISOString()}.
 # --- banco (PostgREST local, ver crm/README.md) ---
 SUPABASE_URL=${v.SUPABASE_URL}
 SUPABASE_SECRET_KEY=${v.SUPABASE_SECRET_KEY}
+# O segredo que assina a chave acima. Só o PostgREST usa (jwt-secret).
+POSTGREST_JWT_SECRET=${segredoJwt}
 
 # --- segredos desta instalação ---
 SESSION_SECRET=${v.SESSION_SECRET}
@@ -133,21 +136,15 @@ writeFileSync(destino, texto, { mode: 0o600 });
 console.log(`
   Escrito: ${destino} (permissão 600)
 
-  1. Segredo do PostgREST. Vai em /etc/postgrest/crm.conf, na linha jwt-secret:
-       ${segredoJwt}
-
-  2. Senha do operador do painel (entrar com o email vazio). Guarde no
+  1. Senha do operador do painel (entrar com o email vazio). Guarde no
      gerenciador de senhas:
        ${v.PAINEL_SENHA}
 
-  3. (O CRON_SECRET fica só no arquivo: a coleta da Meta roda pela fila
-     de tarefas do próprio CRM.)
-
-  4. Endereço do webhook da HeroSpark (Configurações > Webhooks):
+  2. Endereço do webhook da HeroSpark (Configurações > Webhooks):
        https://crm.ousadiamarketing.com.br/api/vendas?fonte=herospark&chave=${v.VENDAS_CHAVE}
 
-  5. Preencha IP_PUBLICO no arquivo. ANTHROPIC_API_KEY e as da Meta ficam
-     vazias até existirem.
+  3. Os demais segredos ficam só no arquivo. ANTHROPIC_API_KEY e as da Meta
+     ficam vazias até existirem.
 
-  6. Copie o arquivo inteiro para fora da máquina (por causa da CHAVE_CIFRA).
+  4. Copie o arquivo inteiro para fora da máquina (por causa da CHAVE_CIFRA).
 `);
